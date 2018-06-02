@@ -19,16 +19,14 @@ class Shipment extends Model
     use RevisionableTrait, SoftDeletes;
 
     const STATUS = [
-        "RECEIVED" => 1,
-        "OUT_FOR_DELIVERY" => 2,
-        "DELIVERED" => 3,
-        "CANCELLED" => 4,
-        "REJECTED_PAID" => 5,
-        "REJECTED_FREE" => 6,
-        "RETURNED_PAID" => 7,
-        "RETURNED_FREE" => 8,
-        "NOT_AVAILABLE" => 12, // notes must be submitted on status
-        "CUSTOMER_RESCHEDULED" => 13, // notes must be submitted on status
+         "picked_up" => 1,
+         "received" => 2,
+         "attempted_delivery" => 3,
+         "cancelled" => 4,
+         "rejected" => 5,
+         "failed" => 6,
+         "delivered" => 7,
+         "returned" => 8,
     ];
 
     protected $revisionEnabled = true;
@@ -61,7 +59,8 @@ class Shipment extends Model
         'client_paid',
     ];
 
-    public function pickups() {
+    public function pickups()
+    {
         return $this->belongsToMany(Pickup::class);
     }
 
@@ -93,10 +92,9 @@ class Shipment extends Model
     public function scopeUnpaid($query)
     {
         $statuses = [
-           self::STATUS['DELIVERED'],
-           self::STATUS['REJECTED_PAID'],
-           self::STATUS['RETURNED_PAID'],
-           self::STATUS['NOT_AVAILABLE'],
+            self::STATUS['delivered'],
+            self::STATUS['rejected'],
+            self::STATUS['returned'],
         ];
         return $query->whereIn('status', $statuses)->where('client_paid', false);
     }
@@ -104,23 +102,20 @@ class Shipment extends Model
     public function scopePending($query)
     {
         $statuses = [
-            self::STATUS['RECEIVED'],
-            self::STATUS['OUT_FOR_DELIVERY'],
-            self::STATUS['NOT_AVAILABLE'],
-            self::STATUS['CUSTOMER_RESCHEDULED'],
+            self::STATUS['received'],
+            self::STATUS['attempted_delivery'],
         ];
-        return $query->whereIn('status', $statuses)->afterToday();
+        return $query->whereIn('status', $statuses)->upcoming();
     }
 
     public function scopeCourierDashboard($query)
     {
         $todayDate = Carbon::now()->toDateString();
         $statuses = [
-            self::STATUS['RECEIVED'],
-            self::STATUS['DELIVERED'],
-            self::STATUS['CANCELLED'],
-            self::STATUS['RETURNED_PAID'],
-            self::STATUS['RETURNED_FREE'],
+            self::STATUS['received'],
+            self::STATUS['delivered'],
+            self::STATUS['cancelled'],
+            self::STATUS['returned'],
         ];
         return $query->whereIn('status', $statuses)
             ->whereDate('delivery_date', '=', $todayDate);
@@ -129,7 +124,15 @@ class Shipment extends Model
     public function scopeReceived($query)
     {
         $statuses = [
-            self::STATUS['RECEIVED'],
+            self::STATUS['received'],
+        ];
+        return $query->whereIn('status', $statuses);
+    }
+
+    public function scopeDelivered($query)
+    {
+        $statuses = [
+            self::STATUS['delivered'],
         ];
         return $query->whereIn('status', $statuses);
     }

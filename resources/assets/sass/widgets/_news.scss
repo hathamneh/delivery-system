@@ -1,0 +1,20 @@
+.widget-news.panel-content {
+  padding: 0 !important;
+}
+
+.widget-news {
+  .message-item {
+    border-bottom: 1px solid #ECEBEB !important;
+    border: none;
+    display: block;
+    margin: 0;
+    padding: 10px 15px 0;
+  }
+  .pull-left {
+    i {
+      font-size: 24px;
+      display: block;
+      margin-top: 7px;
+    }
+  }
+}

@@ -11,6 +11,12 @@ class Address extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $fillable = [
+        'name',
+        'sameday_price',
+        'scheduled_price',
+    ];
+
     public function zone()
     {
         return $this->belongsTo(Zone::class);

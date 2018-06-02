@@ -1,0 +1,169 @@
+.todo-list {
+  margin: 0;
+  padding: 0;
+  li {
+    background: #f8f8f8;
+    border-left: 2px solid rgba(0, 0, 0, 0.04);
+    list-style: none;
+    margin-bottom: 4px;
+    padding: 10px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    &:hover {
+      background: #F5F5F5;
+      .todo-tags {
+        display: none;
+      }
+      .todo-options {
+        display: inline;
+        position: absolute;
+        right: 14px;
+        top: 10px;
+      }
+    }
+    .editable-buttons {
+      display: inline-block;
+      margin-left: 7px !important;
+      i {
+        font-size: 18px;
+      }
+    }
+    .span-check {
+      height: 22px;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      width: 26px;
+    }
+    .todo-task {
+      border-bottom: 1px dashed rgba(0, 0, 0, 0) !important;
+      font-size: 12px;
+      &:hover {
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.2) !important;
+      }
+    }
+    .due-date {
+      span {
+        border-bottom: 1px dashed rgba(0, 0, 0, 0) !important;
+        font-size: 12px;
+      }
+    }
+    .todo-date {
+      display: block;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-left: 40px;
+      .due-date {
+        float: none;
+      }
+      .completed-date {
+        float: left;
+        margin-right: 20px;
+      }
+    }
+    .done {
+      .todo-date {
+        .due-date {
+          float: right;
+        }
+      }
+    }
+    .todo-options {
+      display: none;
+      font-size: 16px;
+      a {
+        color: #888888;
+      }
+      .todo-delete {
+        &:hover {
+          color: #C75757;
+        }
+      }
+    }
+    .todo-tags {
+      display: inline;
+      font-family: "Open Sans";
+      left: auto;
+      position: absolute;
+      right: 9px;
+      top: 6px;
+    }
+    .editable-container.editable-inline {
+      margin-top: -4px;
+      overflow: visible;
+    }
+    .editable-unsaved {
+      font-weight: normal !important;
+    }
+    .editableform {
+      .btn.btn-sm {
+        margin-right: 0 !important;
+        margin-top: 0px;
+        padding: 7px 12px !important;
+        i {
+          font-size: 12px !important;
+        }
+      }
+    }
+    > span {
+      display: inline-block;
+      height: 24px;
+      line-height: 26px;
+      margin-top: 5px;
+      max-width: 72%;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+    }
+    > span.todo-task {
+      overflow: hidden;
+    }
+  }
+  li.done {
+    opacity: .5;
+    .todo-task {
+      text-decoration: line-through;
+    }
+    .todo-tags {
+      display: inline !important;
+    }
+    .todo-options {
+      display: none !important;
+    }
+  }
+  li.high {
+    border-left: 2px solid #C75757;
+    border-right: none;
+  }
+  li.medium {
+    border-left: 2px solid #FF9122;
+    border-right: none;
+  }
+  li.low {
+    border-left: 2px solid #F3D261;
+    border-right: none;
+  }
+  li.new-task {
+    input[type=checkbox] {
+      + {
+        label {
+          &::before {
+            left: 3px;
+          }
+        }
+      }
+    }
+    input[type="checkbox"].checkbox-square {
+      &:checked {
+        + {
+          label {
+            &::after {
+              left: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

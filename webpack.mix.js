@@ -10,6 +10,18 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+if (!mix.inProduction()) {
+    mix.webpackConfig({
+        devtool: 'source-map'
+    }).sourceMaps()
+}
+/*
+.js('resources/assets/js/app.js', 'public/js/main.bundle.js')
+    .js('resources/assets/js/login.js', 'public/js/login.bundle.js')
+ */
+mix
+    .sass('resources/assets/sass/app.scss', 'public/css/main.bundle.css')
+    .options({
+        processCssUrls: false
+    })
+    .version();

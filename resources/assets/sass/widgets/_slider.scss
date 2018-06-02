@@ -1,0 +1,65 @@
+.widget_slider {
+  padding: 20px 40px;
+  text-align: center;
+  position: relative;
+  p {
+    text-align: center;
+  }
+}
+
+.widget-slider-img {
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  .text {
+    bottom: 0;
+    color: #ffffff;
+    font-size: 16px;
+    position: absolute;
+    right: 12px;
+    z-index: 4;
+  }
+  .slick-dots {
+    bottom: 5px;
+  }
+  .slick-slider {
+    margin-bottom: 0;
+  }
+  .slide {
+    &:before {
+      background-image: url('../images/gradient-big.png');
+      background-repeat: repeat-x;
+      bottom: 0;
+      content: " ";
+      height: 70px;
+      left: 0;
+      position: absolute;
+      right: 0;
+      z-index: 2;
+    }
+    p {
+      font-family: 'Lato', arial;
+      font-weight: 100;
+    }
+  }
+  .text-top {
+    .text {
+      bottom: auto;
+      top: 0;
+    }
+    .slide {
+      &:before {
+        background-image: url('../images/gradient-big.png');
+        bottom: auto;
+        filter: FlipV;
+        height: 30px;
+        top: 0;
+        -ms-filter: "FlipV";
+        -moz-transform: scale(-1);
+        -o-transform: scale(-1);
+        -webkit-transform: scale(-1);
+        transform: scale(-1);
+      }
+    }
+  }
+}

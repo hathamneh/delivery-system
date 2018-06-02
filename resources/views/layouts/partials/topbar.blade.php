@@ -17,12 +17,15 @@
         </div>
         {{--endif;--}}
         <div class="welcome-msg">
-            @lang("topbar.welcome")
+            @lang("topbar.welcome", ["name" => Auth()->user()->username])
         </div>
     </div>
 
     <div class="header-right">
         <ul class="header-menu nav navbar-nav">
+            <li id="nav-search">
+                <a id="search-results" href="#"><i class="icon-magnifier"></i></a>
+            </li>
         {{--if ($auth->getPerm() <= 3):--}}
         @include("layouts.partials.notifications")
         {{--endif;--}}
@@ -58,7 +61,8 @@
                 </a>
             </li>
             <!-- END USER DROPDOWN -->
-            <!-- CHAT BAR ICON -->
+            <li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>
+
         </ul>
     </div>
     <!-- header-right -->

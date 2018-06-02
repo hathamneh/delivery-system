@@ -1,0 +1,28 @@
+.widget-progress-bar {
+  .title {
+    color: rgba(0, 0, 0, 0.6);
+    float: left;
+    font-family: 'Open Sans';
+    font-size: 13px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    opacity: 1;
+    text-transform: none;
+  }
+  .number {
+    color: rgba(0, 0, 0, 0.5);
+    float: right;
+    font-family: 'Open Sans';
+    font-size: 11px;
+    font-size: 13px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    margin-top: 2px;
+    opacity: 1;
+    text-transform: none;
+  }
+  .progress {
+    background: rgba(0, 0, 0, 0.1);
+    height: 6px;
+  }
+}

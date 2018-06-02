@@ -1,0 +1,45 @@
+.panel {
+  &:hover {
+    .control-btn {
+      > a.nevershow {
+        display: none !important;
+      }
+    }
+  }
+  .panel-toggle {
+    font-size: 15px;
+  }
+}
+
+.panel-stat {
+  h3 {
+    color: #121212;
+  }
+}
+
+.sidebar-top.fixed-topbar {
+  .main-content {
+    .page-content {
+      top: 66px;
+    }
+  }
+}
+
+.maximized-panel {
+  .page-content {
+    height: 100%;
+    margin-top: 0;
+    padding: 0 15px 0 15px;
+    .panel {
+      &:not(.maximized) {
+        display: none;
+      }
+    }
+    .header {
+      display: none;
+    }
+    .footer {
+      display: none;
+    }
+  }
+}

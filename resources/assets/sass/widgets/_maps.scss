@@ -1,0 +1,117 @@
+
+.widget-map {
+  height: 440px;
+  overflow: hidden;
+  .col-md-3 {
+    background-color: rgba(32, 34, 38, 0.5);
+    color: #CDCDCD !important;
+    height: 440px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .panel-header {
+    border: none !important;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .panel-content {
+    border: none !important;
+    height: 440px;
+    overflow: hidden;
+  }
+  .amcharts-chart-div {
+    a {
+      display: none !important;
+    }
+  }
+  .ammapObjectList {
+    ul {
+      list-style-type: none;
+      li {
+        &:not(.paginate_button) {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+      }
+    }
+    li {
+      list-style-type: none;
+    }
+  }
+  .listdiv {
+    height: 250px;
+    overflow: hidden;
+  }
+}
+
+.maximized.widget-map {
+  height: 100%;
+  .panel-content {
+    height: 100%;
+  }
+}
+
+.maximized {
+  #map {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.bg-dark {
+  .ammapObjectList {
+    a {
+      color: #D0D0D0;
+      padding: 2px 15px;
+      &:hover {
+        background: rgba(32, 34, 38, 0.5);
+        color: #319DB5;
+      }
+    }
+  }
+}
+
+.map-marker {
+  margin-left: -8px;
+  margin-top: -8px;
+}
+
+.map-marker.map-clickable {
+  cursor: pointer;
+}
+
+.pulse-map {
+  background-color: #716f42;
+  border: 5px solid #f7f14c;
+  height: 20px;
+  position: absolute;
+  width: 20px;
+  z-index: 10;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+
+.dot-map {
+  -moz-animation-iteration-count: infinite;
+  -moz-animation: pulsemap 3s ease-out;
+  -moz-border-radius: 60px;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation: pulsemap 3s ease-out;
+  -webkit-border-radius: 60px;
+  background: transparent;
+  border-radius: 60px;
+  border: 10px solid #fff601;
+  height: 50px;
+  left: -15px;
+  opacity: 0;
+  position: absolute;
+  top: -15px;
+  width: 50px;
+  z-index: 1;
+}

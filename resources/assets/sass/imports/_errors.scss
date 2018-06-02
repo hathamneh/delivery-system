@@ -1,0 +1,71 @@
+.error-page {
+  background: radial-gradient(ellipse at center, #dfe5e9 2%, #dfe5e9 2%, #b2c0ca 100%);
+  background: #dfe5e9;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfe5e9', endColorstr='#b2c0ca', GradientType=1);
+  overflow: hidden;
+  padding: 0;
+  h1 {
+    font-family: 'Open Sans';
+    font-size: 120px;
+    font-weight: 600;
+    height: 132px;
+    min-width: 30px;
+    text-align: center;
+  }
+  a {
+    color: #2B2E33;
+    &:hover {
+      color: #616873;
+      text-decoration: none;
+    }
+  }
+  .footer {
+    bottom: 30px;
+    position: absolute;
+    width: 100%;
+  }
+  .copyright {
+    font-size: 12px;
+    text-align: center;
+  }
+  .btn {
+    padding: 8px 50px;
+  }
+  .col-md-12 {
+    text-align: center !important;
+  }
+  .col-md-6 {
+    text-align: center !important;
+  }
+  p {
+    text-align: center !important;
+  }
+  .btn-group {
+    .btn {
+      padding: 8px 10px;
+    }
+  }
+}
+
+.error-main {
+  color: #2B2E33;
+  margin-top: 20%;
+  text-align: center;
+}
+
+[class="404-txt"] {
+  height: 20px;
+}
+
+[class="500-txt"] {
+  height: 20px;
+}
+
+
+#content-404 {
+  display: none;
+}
+
+#content-500 {
+  display: none;
+}

@@ -20426,6 +20426,10 @@ body.rtl .layout-options .img-sidebar-right {
   padding-right: 260px;
 }
 
+.delete-form {
+  display: none;
+}
+
 .form-fieldset {
   border: 1px solid #ccc;
   padding: 0.5rem;

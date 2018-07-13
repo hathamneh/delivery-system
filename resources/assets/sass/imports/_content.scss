@@ -45,6 +45,7 @@
     .btn, .dropdown-item {
       i + span {
         margin-left: 0.5rem;
+
       }
     }
   }
@@ -990,3 +991,6 @@
   padding-right: 260px;
 }
 
+.delete-form {
+  display: none;
+}

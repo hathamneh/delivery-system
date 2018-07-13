@@ -172,7 +172,9 @@
                 return markup;
             },
             templateResult: function (data) {
-                var markup = '<div class="client-suggestion">' +
+                var markup = data.text;
+                if(data.name && data.trade_name)
+                markup = '<div class="client-suggestion">' +
                     '<b>' + data.name + '</b><br>' +
                     '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
                     '</div>'

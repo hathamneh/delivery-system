@@ -5,17 +5,16 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
-        <i class='fas fa-map-marker-alt'></i> @lang("zone.label")
-        @slot('actions')
-            <div class="ml-auto d-flex px-2 align-items-center">
-                <div class="btn-group" role="group">
-                    <a href="{{ route('zones.create') }}" class="btn btn-secondary"><i
-                                class="fa fa-plus-circle mr-2"></i> @lang('zone.new')</a>
-                </div>
-            </div>
-        @endslot
-    @endcomponent
+    <i class='fas fa-map-marker-alt'></i> @lang("zone.label")
+@endsection
+
+@section('actions')
+    <div class="ml-auto d-flex px-2 align-items-center">
+        <div class="btn-group" role="group">
+            <a href="{{ route('zones.create') }}" class="btn btn-secondary"><i
+                        class="fa fa-plus-circle mr-2"></i> @lang('zone.new')</a>
+        </div>
+    </div>
 @endsection
 
 @section('content')
@@ -28,7 +27,7 @@
                             <div class="d-flex">
                                 <h4 class="font-weight-bold m-0">{{ $zone->name }}</h4>
                                 <div class="ml-auto d-flex">
-                                    <a href="{{ route('zones.edit', ['zone'=>$zone->id]) }}"
+                                    <a href="{{ route('zones.edit', ['zone'=>$zone->id]) }}" data-toggle="tooltip"
                                        class="btn btn-light btn-sm" title="@lang('zone.edit')">
                                         <i class="fa fa-edit"></i></a>
                                     <form action="{{ route('zones.destroy', ['zone' => $zone->id]) }}"
@@ -36,20 +35,23 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-light btn-sm" title="@lang('zone.delete')"
-                                                type="submit"><i class="fa fa-trash"></i></button>
+                                                type="submit" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <small>@lang('zone.standard_weight'): </small><b>{{ $zone->base_weight }}</b>
+                                <small>@lang('zone.standard_weight'):</small>
+                                <b>{{ $zone->base_weight }}</b>
                             </li>
                             <li class="list-group-item">
-                                <small>@lang('zone.charge_per_unit'): </small><b>{{ $zone->charge_per_unit }}</b>
+                                <small>@lang('zone.charge_per_unit'):</small>
+                                <b>{{ $zone->charge_per_unit }}</b>
                             </li>
                             <li class="list-group-item">
-                                <small>@lang('zone.extra_fees_per_unit'): </small><b>{{ $zone->extra_fees_per_unit }}</b>
+                                <small>@lang('zone.extra_fees_per_unit'):</small>
+                                <b>{{ $zone->extra_fees_per_unit }}</b>
                             </li>
                         </ul>
                         @if($zone->addresses->count())

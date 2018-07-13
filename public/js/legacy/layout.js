@@ -15,9 +15,9 @@ $(document).ready(function() {
     }, 100);
     if ($('body').hasClass('sidebar-hover')) sidebarHover();
 
-    $('[data-toggle]').on('click', function(event) {
+    $('[data-toggle-sidebar]').on('click', function(event) {
         event.preventDefault();
-        var toggleLayout = $(this).data('toggle');
+        var toggleLayout = $(this).data('toggle-sidebar');
         if (toggleLayout == 'sidebar-behaviour') toggleSidebar();
         if (toggleLayout == 'submenu') toggleSubmenuHover();
         if (toggleLayout == 'sidebar-collapsed') collapsedSidebar();

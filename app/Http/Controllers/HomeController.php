@@ -29,12 +29,13 @@ class HomeController extends Controller
     {
         $statistics = [
             'pending' => Shipment::pending()->count(),
-            'received' => Shipment::received()->count(),
-            'delivered' => Shipment::delivered()->count(),
+            'received' => Shipment::statusIs('received')->count(),
+            'delivered' => Shipment::statusIs('delivered')->count(),
             'pickups' => Pickup::count(),
             'clients' => Client::count(),
             'couriers' => Courier::count(),
         ];
+
         return view('home')->with(['statistics' => $statistics]);
     }
 }

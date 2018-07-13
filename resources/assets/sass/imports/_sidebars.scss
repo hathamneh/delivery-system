@@ -159,8 +159,8 @@
         position: absolute;
         right: 20px;
         &:before {
-          content: "\f105";
-          display: inline-block;
+          display: block;
+          transform: rotate(0deg);
           -webkit-transition: transform 0.15s linear;
           -moz-transition: transform 0.15s linear;
           -o-transition: transform 0.15s linear;
@@ -168,7 +168,7 @@
           transition: transform 0.15s linear;
         }
         &:not(.fa) {
-          before {
+          :before {
             content: "s";
             display: inline-block;
             float: right;

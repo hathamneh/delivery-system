@@ -77,11 +77,11 @@ body {
             > a {
               .fa.arrow {
                 &:before {
-                  -moz-transform: rotate(90deg);
-                  -ms-transform: rotate(90deg);
-                  -o-transform: rotate(90deg);
-                  -webkit-transform: rotate(90deg);
-                  transform: rotate(90deg);
+                  -moz-transform: rotate(180deg);
+                  -ms-transform: rotate(180deg);
+                  -o-transform: rotate(180deg);
+                  -webkit-transform: rotate(180deg);
+                  transform: rotate(180deg);
                 }
               }
             }
@@ -90,12 +90,11 @@ body {
             > a {
               .fa.arrow.active {
                 &:before {
-                  content: "\f105";
-                  -moz-transform: rotate(90deg);
-                  -ms-transform: rotate(90deg);
-                  -o-transform: rotate(90deg);
-                  -webkit-transform: rotate(90deg);
-                  transform: rotate(90deg);
+                  -moz-transform: rotate(180deg);
+                  -ms-transform: rotate(180deg);
+                  -o-transform: rotate(180deg);
+                  -webkit-transform: rotate(180deg);
+                  transform: rotate(180deg);
                 }
               }
             }
@@ -118,9 +117,7 @@ body {
         .sidebar {
           &:before {
             background-color: inherit;
-            border-color: inherit;
-            border-style: inherit;
-            border-width: inherit;
+            border: inherit;
             bottom: 0;
             content: "";
             display: block;

@@ -4,7 +4,7 @@
     <div class="header-left">
         {{--if ($auth->getPerm() < 4) :--}}
         <div class="topnav">
-            <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
+            <a class="menutoggle" href="#" data-toggle-sidebar="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
             <ul class="nav nav-icons">
                 <li>
                     <a class="dashboard-btn" href="dashboard.php">
@@ -33,20 +33,20 @@
             <li class="dropdown" id="language-header">
                 <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                     <i class="icon-globe"></i>
-                    <span>@lang('base.name')</span>
+                    <span>@lang('common.name')</span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="?lang=ar" data-lang="ar"><img
                                     src="{{ asset('/images/flags/Jordan.png') }}"
                                     alt="flag-arabic">
-                            <span>@lang('base.arabic')</span></a>
+                            <span>@lang('common.arabic')</span></a>
                     </li>
                     <li>
                         <a href="?lang=en" data-lang="en"><img
                                     src="{{ asset('/images/flags/usa.png') }}"
                                     alt="flag-english">
-                            <span>@lang('base.english')</span></a>
+                            <span>@lang('common.english')</span></a>
                     </li>
                 </ul>
             </li>
@@ -56,12 +56,15 @@
             <!-- END MESSAGES DROPDOWN -->
             <!-- BEGIN USER DROPDOWN -->
             <li class="logout-btn">
-                <a href="/logout.php">
-                    <i class="icon-power"></i><span class="hidden visible-lg">@lang("auth.logout")</span>
+                <form action="{{ route('logout') }}" method="post" id="logout-form" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <i class="icon-power"></i><span class="d-none d-md-inline-block">@lang("auth.logout")</span>
                 </a>
             </li>
             <!-- END USER DROPDOWN -->
-            <li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>
+            {{--<li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>--}}
 
         </ul>
     </div>

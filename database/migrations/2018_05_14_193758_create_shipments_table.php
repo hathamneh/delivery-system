@@ -30,12 +30,15 @@ class CreateShipmentsTable extends Migration
             $table->text('external_notes')->nullable();
             $table->tinyInteger('delivery_cost_lodger');
             $table->double('shipment_value');
-            $table->unsignedTinyInteger('status');
             $table->double('price_of_address');
             $table->double('base_weight_of_zone');
             $table->double('charge_per_unit_of_zone');
             $table->double('extra_fees_per_unit_of_zone');
             $table->double('actual_paid_by_consignee')->default(0)->nullable();
+
+            $table->unsignedTinyInteger('status_id');
+            $table->unsignedTinyInteger('sub_status_id')->nullable();
+            $table->text('status_notes')->nullable();
 
             $table->boolean('courier_cashed')->default(false);
             $table->boolean('client_paid')->default(false);

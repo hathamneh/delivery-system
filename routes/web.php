@@ -29,6 +29,13 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('zones', "ZoneController");
     Route::resource('zones/{zone}/address', "AddressController");
+
+    Route::resource('users/roles', "UserTemplatesController");
+    Route::resource('users', "UsersController");
+
+    Route::resource('clients', "ClientsController");
+    Route::resource('couriers', "CouriersController");
+    Route::resource('pickups', "PickupsController");
 });
 
 // Localization

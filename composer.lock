@@ -4,8 +4,134 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afa07f9699be6f047a480d8ebb0e7d38",
+    "content-hash": "724ae821247a83d2be953e508883783f",
     "packages": [
+        {
+            "name": "appstract/laravel-blade-directives",
+            "version": "0.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/appstract/laravel-blade-directives.git",
+                "reference": "0302664c5c2176872bd42312a69218cf342beaa8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/appstract/laravel-blade-directives/zipball/0302664c5c2176872bd42312a69218cf342beaa8",
+                "reference": "0302664c5c2176872bd42312a69218cf342beaa8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Appstract\\BladeDirectives\\BladeDirectivesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Appstract\\BladeDirectives\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gijs Jorissen",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Handy Blade directives",
+            "homepage": "https://github.com/appstract/laravel-blade-directives",
+            "keywords": [
+                "appstract",
+                "laravel-blade-directives"
+            ],
+            "time": "2017-10-09T09:22:20+00:00"
+        },
+        {
+            "name": "appstract/laravel-bootstrap-components",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/appstract/laravel-bootstrap-components.git",
+                "reference": "157ab67461f327fb41f76ae11d868784cb14c8a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/appstract/laravel-bootstrap-components/zipball/157ab67461f327fb41f76ae11d868784cb14c8a5",
+                "reference": "157ab67461f327fb41f76ae11d868784cb14c8a5",
+                "shasum": ""
+            },
+            "require": {
+                "appstract/laravel-blade-directives": "^0.4",
+                "laravel/framework": ">=5.4",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Appstract\\BootstrapComponents\\BootstrapComponentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Appstract\\BootstrapComponents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Olav van Schie",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Bob Krijnen",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Gijs Jorissen",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Teun de Kleijne",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Bootstrap components for Laravel",
+            "homepage": "https://github.com/appstract/laravel-bootstrap-components",
+            "keywords": [
+                "appstract",
+                "laravel-bootstrap-components"
+            ],
+            "time": "2018-01-22T15:13:42+00:00"
+        },
         {
             "name": "davejamesmiller/laravel-breadcrumbs",
             "version": "5.1.0",
@@ -1027,6 +1153,66 @@
                 "random"
             ],
             "time": "2018-04-04T21:24:14+00:00"
+        },
+        {
+            "name": "petercoles/multilingual-country-list",
+            "version": "1.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/petercoles/Multilingual-Country-List.git",
+                "reference": "b91aae334ad9a4a571fa32ee553e37a4682278cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/petercoles/Multilingual-Country-List/zipball/b91aae334ad9a4a571fa32ee553e37a4682278cf",
+                "reference": "b91aae334ad9a4a571fa32ee553e37a4682278cf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PeterColes\\Countries\\CountriesServiceProvider"
+                    ],
+                    "aliases": {
+                        "Countries": "PeterColes\\Countries\\CountriesFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PeterColes\\Countries\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Coles",
+                    "email": "peterdcoles@gmail.com",
+                    "homepage": "http://petercoles.com"
+                }
+            ],
+            "description": "Lookup Objects for ISO 3166 Country Names and Codes",
+            "homepage": "https://github.com/petercoles/multilingualcountry-list",
+            "keywords": [
+                "ISO 3166",
+                "country codes",
+                "country lists",
+                "country lookup",
+                "laravel"
+            ],
+            "time": "2018-01-02T16:35:43+00:00"
         },
         {
             "name": "psr/container",

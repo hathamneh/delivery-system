@@ -19,10 +19,14 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~ladda/css/ladda-themed";
 @import "~daterangepicker/daterangepicker.css";
 @import "~bootstrap-select/sass/bootstrap-select";
+@import "/js/legacy/plugins/datatables/datatables.min.css";
 @import "~noty/src/noty.scss";
 @import "~noty/src/themes/mint.scss";
 @import "~perfect-scrollbar/css/perfect-scrollbar.css";
-
+@import "~bootstrap-slider/src/sass/bootstrap-slider";
+@import "~select2/src/scss/core";
+@import "plugins/select2";
+@import "../kangarooIcons/style.css";
 
 // template style
 @import "main";

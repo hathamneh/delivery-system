@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('suggest/shipments', "Api\SuggestController@shipments");
+Route::get('suggest/clients', "Api\SuggestController@clients");

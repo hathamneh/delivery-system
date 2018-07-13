@@ -4,33 +4,33 @@ var docEl = document.documentElement;
 var $sidebar = $('.sidebar');
 var $mainContent = $('.main-content');
 var $sidebarWidth = $(".sidebar").width();
-var is_RTL = false; 
-if($('body').hasClass('rtl'))  is_RTL = true;
+var is_RTL = false;
+if ($('body').hasClass('rtl')) is_RTL = true;
 
 /* ==========================================================*/
 /* PLUGINS                                                   */
 /* ========================================================= */
 
-(function($) {
-    $.fn.autogrow = function() {
-        return this.each(function() {
+(function ($) {
+    $.fn.autogrow = function () {
+        return this.each(function () {
             var textarea = this;
             $.fn.autogrow.resize(textarea);
-            $(textarea).focus(function() {
-                textarea.interval = setInterval(function() {
+            $(textarea).focus(function () {
+                textarea.interval = setInterval(function () {
                     $.fn.autogrow.resize(textarea);
                 }, 500);
-            }).blur(function() {
+            }).blur(function () {
                 clearInterval(textarea.interval);
             });
         });
     };
-    $.fn.autogrow.resize = function(textarea) {
+    $.fn.autogrow.resize = function (textarea) {
         var lineHeight = parseInt($(textarea).css('line-height'), 10);
         var lines = textarea.value.split('\n');
         var columns = textarea.cols;
         var lineCount = 0;
-        $.each(lines, function() {
+        $.each(lines, function () {
             lineCount += Math.ceil(this.length / columns) || 1;
         });
         var height = lineHeight * (lineCount + 1);
@@ -39,11 +39,11 @@ if($('body').hasClass('rtl'))  is_RTL = true;
 })(jQuery);
 
 /**** Color Picker ****/
-function colorPicker(){
+function colorPicker() {
     if ($('.color-picker').length && $.fn.spectrum) {
         $('.color-picker').each(function () {
             var current_palette = '';
-            if($(this).data('palette')){
+            if ($(this).data('palette')) {
                 current_palette = $(this).data('palette');
             }
             $(this).spectrum({
@@ -60,15 +60,15 @@ function colorPicker(){
 }
 
 // ELEMENTS ANIMATION WHEN APPEAR ON SCREEN
-function appearEffect(){
+function appearEffect() {
     // Element Animation when Visible
     if ($.fn.appear) {
-        setTimeout(function() {
+        setTimeout(function () {
             $('.animated, .countup, progress').appear({
                 force_process: true
             });
         }, 300);
-        setTimeout(function() {
+        setTimeout(function () {
             $('.circular-bar, .dial').appear({
                 force_process: true
             });
@@ -76,28 +76,28 @@ function appearEffect(){
     }
 
 
-    $('.animated').on('appear', function(event, $allAppearedElements) {
+    $('.animated').on('appear', function (event, $allAppearedElements) {
         var element = $(this),
             animation = element.data('animation'),
             animationDelay = element.data('animation-delay');
         if (animationDelay) {
-            setTimeout(function() {
+            setTimeout(function () {
                 element.addClass(animation + ' visible');
             }, animationDelay);
         } else {
             element.addClass(animation + ' visible');
         }
-    }); 
+    });
 }
 
 // PROGRESS BAR & CIRCLE
-function handleProgress(){
+function handleProgress() {
     // PROGRESS BAR ANIMATION
-    $('progress').on('appear', function(event, $allAppearedElements) {
+    $('progress').on('appear', function (event, $allAppearedElements) {
         var progressBar = $(this),
             animationDelay = progressBar.data('animation-delay');
         if (animationDelay) {
-            setTimeout(function() {
+            setTimeout(function () {
                 progressBar.css('width', progressBar.attr('value') + '%');
                 progressBar.parent().find('.progress-value').css('opacity', 1);
             }, animationDelay);
@@ -106,7 +106,7 @@ function handleProgress(){
             progressBar.parent().find('.progress-value').css('opacity', 1);
         }
     });
-    $('.progress.visible').each(function(){
+    $('.progress.visible').each(function () {
         var progressBar = $(this).find('progress');
         progressBar.css('width', progressBar.attr('value') + '%');
         progressBar.parent().find('.progress-value').css('opacity', 1);
@@ -114,7 +114,7 @@ function handleProgress(){
 }
 
 /**** Numeric Stepper ****/
-function numericStepper(){
+function numericStepper() {
     if ($('.numeric-stepper').length && $.fn.TouchSpin) {
         $('.numeric-stepper').each(function () {
             $(this).TouchSpin({
@@ -133,17 +133,17 @@ function numericStepper(){
 }
 
 /**** Sortable Portlets ****/
-function sortablePortlets(){
+function sortablePortlets() {
     if ($('.portlets').length && $.fn.sortable) {
-        $( ".portlets" ).sortable({
+        $(".portlets").sortable({
             connectWith: ".portlets",
             handle: ".panel-header",
-            items:'div.panel',
+            items: 'div.panel',
             placeholder: "panel-placeholder",
             opacity: 0.5,
             dropOnEmpty: true,
             forcePlaceholderSize: true,
-            receive: function(event, ui) {
+            receive: function (event, ui) {
                 $("body").trigger("resize");
             }
         });
@@ -154,25 +154,25 @@ var oldIndex;
 if ($('.sortable').length && $.fn.sortable) {
     $(".sortable").sortable({
         handle: ".panel-header, .card-title",
-        start: function(event, ui) {
+        start: function (event, ui) {
             oldIndex = ui.item.index();
             ui.placeholder.height(ui.item.height() - 20);
         },
-        stop: function(event, ui) {
+        stop: function (event, ui) {
             var newIndex = ui.item.index();
 
-            var movingForward = newIndex > oldIndex;            
+            var movingForward = newIndex > oldIndex;
             var nextIndex = newIndex + (movingForward ? -1 : 1);
 
             var items = $('.sortable > div');
-            
+
             // Find the element to move
             var itemToMove = items.get(nextIndex);
             if (itemToMove) {
-                
+
                 // Find the element at the index where we want to move the itemToMove
                 var newLocation = $(items.get(oldIndex));
-                
+
                 // Decide if it goes before or after
                 if (movingForward) {
                     $(itemToMove).insertBefore(newLocation);
@@ -185,14 +185,14 @@ if ($('.sortable').length && $.fn.sortable) {
 }
 
 /**** Nestable List ****/
-function nestable(){
+function nestable() {
     if ($('.nestable').length && $.fn.nestable) {
         $(".nestable").nestable();
     }
 }
 
- /**** Sortable Table ****/
-function sortableTable(){
+/**** Sortable Table ****/
+function sortableTable() {
     if ($('.sortable_table').length && $.fn.sortable) {
         $(".sortable_table").sortable({
             itemPath: '> tbody',
@@ -203,13 +203,13 @@ function sortableTable(){
 }
 
 /****  Show Tooltip  ****/
-function showTooltip(){
+function showTooltip() {
     if ($('[data-rel="tooltip"]').length && $.fn.tooltip) {
         $('[data-rel="tooltip"]').tooltip();
     }
 }
 
- /****  Show Popover  ****/
+/****  Show Popover  ****/
 function popover() {
     if ($('[rel="popover"]').length && $.fn.popover) {
         $('[rel="popover"]').popover({
@@ -223,7 +223,7 @@ function popover() {
 }
 
 /****  Table progress bar  ****/
-function progressBar(){
+function progressBar() {
     if ($('.progress-bar').length && $.fn.progressbar) {
         $('.progress-bar').progressbar();
     }
@@ -231,35 +231,36 @@ function progressBar(){
 
 /**** IOS Switch  ****/
 function iosSwitch() {
-    if ($('.js-switch').length){ 
-        setTimeout(function(){
+    if ($('.js-switch').length) {
+        setTimeout(function () {
             $('.js-switch').each(function () {
-            var colorOn = '#18A689'; 
-            var colorOff = '#DFDFDF';
-            if($(this).data('color-on')) colorOn = $(this).data('color-on');
-            if($(this).data('color-on')) colorOff = $(this).data('color-off');
-            if(colorOn == 'blue') colorOn = '#56A2D5';
-            if(colorOn == 'red') colorOn = '#C75757';
-            if(colorOn == 'yellow') colorOn = '#F3B228';
-            if(colorOn == 'green') colorOn = '#18A689';
-            if(colorOn == 'purple') colorOn = '#8227f1';
-            if(colorOn == 'dark') colorOn = '#292C35';
-            if(colorOff == 'blue') colorOff = '#56A2D5';
-            if(colorOff == 'red') colorOff = '#C75757';
-            if(colorOff == 'yellow') colorOff = '#F3B228';
-            if(colorOff == 'green') colorOff = '#18A689';
-            if(colorOff == 'purple') colorOff = '#8227f1';
-            if(colorOff == 'dark') colorOff = '#292C35';
-            var switchery = new Switchery(this,{ 
-                color          : colorOn,
-                secondaryColor : colorOff});
+                var colorOn = '#18A689';
+                var colorOff = '#DFDFDF';
+                if ($(this).data('color-on')) colorOn = $(this).data('color-on');
+                if ($(this).data('color-on')) colorOff = $(this).data('color-off');
+                if (colorOn == 'blue') colorOn = '#56A2D5';
+                if (colorOn == 'red') colorOn = '#C75757';
+                if (colorOn == 'yellow') colorOn = '#F3B228';
+                if (colorOn == 'green') colorOn = '#18A689';
+                if (colorOn == 'purple') colorOn = '#8227f1';
+                if (colorOn == 'dark') colorOn = '#292C35';
+                if (colorOff == 'blue') colorOff = '#56A2D5';
+                if (colorOff == 'red') colorOff = '#C75757';
+                if (colorOff == 'yellow') colorOff = '#F3B228';
+                if (colorOff == 'green') colorOff = '#18A689';
+                if (colorOff == 'purple') colorOff = '#8227f1';
+                if (colorOff == 'dark') colorOff = '#292C35';
+                var switchery = new Switchery(this, {
+                    color: colorOn,
+                    secondaryColor: colorOff
+                });
             });
-        },500);
-   }
+        }, 500);
+    }
 }
 
 /* Manage Slider */
-function sliderIOS(){
+function sliderIOS() {
     if ($('.slide-ios').length && $.fn.slider) {
         $('.slide-ios').each(function () {
             $(this).sliderIOS();
@@ -268,7 +269,7 @@ function sliderIOS(){
 }
 
 /* Manage Range Slider */
-function rangeSlider(){
+function rangeSlider() {
     if ($('.range-slider').length && $.fn.ionRangeSlider) {
         $('.range-slider').each(function () {
             $(this).ionRangeSlider({
@@ -289,8 +290,8 @@ function rangeSlider(){
 }
 
 /* Button Loading State */
-function buttonLoader(){
-    if($('.ladda-button').length){
+function buttonLoader() {
+    if ($('.ladda-button').length) {
         Ladda.bind('.ladda-button', {
             timeout: 2000
         });
@@ -309,14 +310,14 @@ function buttonLoader(){
                 }, 100);
             }
         });
-    }  
+    }
 }
 
-function inputSelect(){
+function inputSelect() {
 
     if ($.fn.select2) {
-        setTimeout(function(){
-            $('select:not(.select-picker)').each(function() {
+        setTimeout(function () {
+            $('select.select2').each(function () {
                 $(this).select2({
                     placeholder: $(this).data('placeholder') ? $(this).data('placeholder') : '',
                     allowClear: $(this).data('allowclear') ? $(this).data('allowclear') : false,
@@ -326,12 +327,16 @@ function inputSelect(){
                     containerCssClass: $(this).data('container-class') ? $(this).data('container-class') : ''
                 });
             });
-        },200);
+            $('.select2-tags').select2({
+                tags: true,
+                placeholder: $(this).data('placeholder') ? $(this).data('placeholder') : '',
+            })
+        }, 200);
     }
 }
 
-function inputTags(){
-    $('.select-tags').each(function(){
+function inputTags() {
+    $('.select-tags').each(function () {
         $(this).tagsinput({
             tagClass: 'label label-primary'
 
@@ -341,16 +346,16 @@ function inputTags(){
 }
 
 /****  Tables Responsive  ****/
-function tableResponsive(){
+function tableResponsive() {
     setTimeout(function () {
-       $('.table').each(function () {
+        $('.table').each(function () {
             window_width = $(window).width();
             table_width = $(this).width();
             content_width = $(this).parent().width();
-            if(table_width > content_width) {
+            if (table_width > content_width) {
                 $(this).parent().addClass('force-table-responsive');
             }
-            else{
+            else {
                 $(this).parent().removeClass('force-table-responsive');
             }
         });
@@ -358,7 +363,7 @@ function tableResponsive(){
 }
 
 /****  Tables Dynamic  ****/
-function tableDynamic(){
+function tableDynamic() {
     if ($('.table-dynamic').length && $.fn.dataTable) {
         $('.table-dynamic').each(function () {
             var opt = {};
@@ -366,7 +371,7 @@ function tableDynamic(){
             // Tools: export to Excel, CSV, PDF & Print
             if ($(this).hasClass('table-tools')) {
                 opt.dom = "<'row'<'col-md-6'f><'col-md-6'B>r>t<'row'<'col-md-6'i><'spcol-md-6an6'p>>",
-                opt.buttons = [
+                    opt.buttons = [
                         {
                             extend: 'excelHtml5',
                             title: $(this).data('table-name') || "Your custom name",
@@ -397,53 +402,53 @@ function tableDynamic(){
                 opt.bPaginate = false;
             }
             if ($(this).hasClass('filter-head')) {
-                $('.filter-head thead th').each( function () {
+                $('.filter-head thead th').each(function () {
                     var title = $('.filter-head thead th').eq($(this).index()).text();
-                    $(this).append( '<input type="text" onclick="stopPropagation(event);" class="form-control" placeholder="Filter '+title+'" />' );
+                    $(this).append('<input type="text" onclick="stopPropagation(event);" class="form-control" placeholder="Filter ' + title + '" />');
                 });
                 var table = $('.filter-head').DataTable();
-                $(".filter-head thead input").on( 'keyup change', function () {
-                    table.column( $(this).parent().index()+':visible').search( this.value ).draw();
+                $(".filter-head thead input").on('keyup change', function () {
+                    table.column($(this).parent().index() + ':visible').search(this.value).draw();
                 });
-            } 
+            }
             if ($(this).hasClass('filter-footer')) {
-                $('.filter-footer tfoot th').each( function () {
+                $('.filter-footer tfoot th').each(function () {
                     var title = $('.filter-footer thead th').eq($(this).index()).text();
-                    $(this).html( '<input type="text" class="form-control" placeholder="Filter '+title+'" />' );
+                    $(this).html('<input type="text" class="form-control" placeholder="Filter ' + title + '" />');
                 });
                 var table = $('.filter-footer').DataTable();
-                $(".filter-footer tfoot input").on( 'keyup change', function () {
-                    table.column( $(this).parent().index()+':visible').search( this.value ).draw();
+                $(".filter-footer tfoot input").on('keyup change', function () {
+                    table.column($(this).parent().index() + ':visible').search(this.value).draw();
                 });
-            } 
+            }
             if ($(this).hasClass('filter-select')) {
-                $(this).DataTable( {
+                $(this).DataTable({
                     initComplete: function () {
                         var api = this.api();
-                        api.columns().indexes().flatten().each( function ( i ) {
-                            var column = api.column( i );
+                        api.columns().indexes().flatten().each(function (i) {
+                            var column = api.column(i);
                             var select = $('<select class="form-control" data-placeholder="Select to filter"><option value=""></option></select>')
-                                .appendTo( $(column.footer()).empty() )
-                                .on( 'change', function () {
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
                                     var val = $(this).val();
-             
+
                                     column
-                                        .search( val ? '^'+val+'$' : '', true, false )
+                                        .search(val ? '^' + val + '$' : '', true, false)
                                         .draw();
-                                } );
-             
-                            column.data().unique().sort().each( function ( d, j ) {
-                                select.append( '<option value="'+d+'">'+d+'</option>' )
-                            } );
-                        } );
+                                });
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        });
                     }
-                } );
-            } 
-            if (!$(this).hasClass('filter-head') && !$(this).hasClass('filter-footer') && !$(this).hasClass('filter-select'))  {
+                });
+            }
+            if (!$(this).hasClass('filter-head') && !$(this).hasClass('filter-footer') && !$(this).hasClass('filter-select')) {
                 var oTable = $(this).dataTable(opt);
                 oTable.fnDraw();
             }
-           
+
         });
     }
 }
@@ -452,8 +457,8 @@ function tableDynamic(){
 // Handles custom checkboxes & radios using jQuery iCheck plugin
 function handleiCheck() {
 
-    if (!$().iCheck)  return;
-    $(':checkbox:not(.js-switch, .switch-input, .switch-iphone, .onoffswitch-checkbox, .ios-checkbox, .md-checkbox), :radio:not(.md-radio)').each(function() {
+    if (!$().iCheck) return;
+    $(':checkbox:not(.js-switch, .switch-input, .switch-iphone, .onoffswitch-checkbox, .ios-checkbox, .md-checkbox), :radio:not(.md-radio)').each(function () {
 
         var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
         var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
@@ -474,31 +479,31 @@ function handleiCheck() {
 }
 
 
-/* Time picker */     
-function timepicker(){
+/* Time picker */
+function timepicker() {
     $('.timepicker').each(function () {
         $(this).timepicker({
-            isRTL : $('body').hasClass('rtl') ? true : false,
-            timeFormat: $(this).attr('data-format', 'am-pm') ? 'hh:mm tt'  : 'HH:mm'
+            isRTL: $('body').hasClass('rtl') ? true : false,
+            timeFormat: $(this).attr('data-format', 'am-pm') ? 'hh:mm tt' : 'HH:mm'
         });
     });
 }
-         
- /* Date picker */     
-function datepicker(){
+
+/* Date picker */
+function datepicker() {
     $('.date-picker').each(function () {
-         $(this).datepicker({
+        $(this).datepicker({
             numberOfMonths: 1,
-            isRTL : $('body').hasClass('rtl') ? true : false,
+            isRTL: $('body').hasClass('rtl') ? true : false,
             prevText: '<i class="fa fa-angle-left"></i>',
-            nextText: '<i class="fa fa-angle-right"></i>',         
+            nextText: '<i class="fa fa-angle-right"></i>',
             showButtonPanel: false
         });
     });
 }
 
- /* Date picker */     
-function bDatepicker(){
+/* Date picker */
+function bDatepicker() {
     $('.b-datepicker').each(function () {
         $(this).bootstrapDatepicker({
             startView: $(this).data('view') ? $(this).data('view') : 0, // 0: month view , 1: year view, 2: multiple year view
@@ -517,8 +522,7 @@ function bDatepicker(){
 }
 
 
-
-function multiDatesPicker(){
+function multiDatesPicker() {
     $('.multidatepicker').each(function () {
         $(this).multiDatesPicker({
             dateFormat: 'yy-mm-dd',
@@ -530,82 +534,84 @@ function multiDatesPicker(){
     });
 }
 
-function rating(){
-    $('.rateit').each(function(){  
-        $(this).rateit({ 
+function rating() {
+    $('.rateit').each(function () {
+        $(this).rateit({
             readonly: $(this).data('readonly') ? $(this).data('readonly') : false, // Not editable, for example to show rating that already exist 
             resetable: $(this).data('resetable') ? $(this).data('resetable') : false,
             value: $(this).data('value') ? $(this).data('value') : 0, // Current value of rating
             min: $(this).data('min') ? $(this).data('min') : 1, // Maximum of star
             max: $(this).data('max') ? $(this).data('max') : 5, // Maximum of star
-            step:$(this).data('step') ? $(this).data('step') : 0.1
-        }); 
+            step: $(this).data('step') ? $(this).data('step') : 0.1
+        });
         // Tooltip Option      
-        if($(this).data('tooltip')) {
+        if ($(this).data('tooltip')) {
             var tooltipvalues = ['bad', 'poor', 'ok', 'good', 'super']; // You can change text here 
-            $(this).bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value-1]); });
+            $(this).bind('over', function (event, value) {
+                $(this).attr('title', tooltipvalues[value - 1]);
+            });
         }
         // Confirmation before voting option      
-        if($(this).data('confirmation')) {
+        if ($(this).data('confirmation')) {
             $(this).on('beforerated', function (e, value) {
                 value = value.toFixed(1);
-                if (!confirm('Are you sure you want to rate this item: ' +  value + ' stars?')) {
+                if (!confirm('Are you sure you want to rate this item: ' + value + ' stars?')) {
                     e.preventDefault();
                 }
-                else{
+                else {
                     // We disable rating after voting. If you want to keep it enable, remove this part
                     $(this).rateit('readonly', true);
                 }
             });
         }
         // Disable vote after rating
-        if($(this).data('disable-after')) {
-            $(this).bind('rated', function (event, value) { 
+        if ($(this).data('disable-after')) {
+            $(this).bind('rated', function (event, value) {
                 $(this).rateit('readonly', true);
             });
         }
         // Display rating value as text below
-        if($(this).parent().find('.rating-value')) {
-            $(this).bind('rated', function (event, value) { 
-                if(value) value = value.toFixed(1);
-                $(this).parent().find('.rating-value').text('Your rating: ' + value); 
+        if ($(this).parent().find('.rating-value')) {
+            $(this).bind('rated', function (event, value) {
+                if (value) value = value.toFixed(1);
+                $(this).parent().find('.rating-value').text('Your rating: ' + value);
             });
         }
         // Display hover value as text below     
-        if($(this).parent().find('.hover-value')) {
-            $(this).bind('over', function (event, value) { 
-                if(value) value = value.toFixed(1);
-                $(this).parent().find('.hover-value').text('Hover rating value: ' + value); 
+        if ($(this).parent().find('.hover-value')) {
+            $(this).bind('over', function (event, value) {
+                if (value) value = value.toFixed(1);
+                $(this).parent().find('.hover-value').text('Hover rating value: ' + value);
             });
         }
 
-    }); 
+    });
 }
 
-/* Date & Time picker */     
-function datetimepicker(){
+/* Date & Time picker */
+function datetimepicker() {
     if ($.fn.datetimepicker) {
         $('.datetimepicker').each(function () {
-           $(this).datetimepicker({
+            $(this).datetimepicker({
                 prevText: '<i class="fa fa-angle-left"></i>',
-                nextText: '<i class="fa fa-angle-right"></i>'                   
+                nextText: '<i class="fa fa-angle-right"></i>'
             });
         });
 
-           /* Inline Date & Time picker */   
-       $('.inline_datetimepicker').datetimepicker({
+        /* Inline Date & Time picker */
+        $('.inline_datetimepicker').datetimepicker({
             altFieldTimeOnly: false,
             isRTL: is_RTL
         });
     }
-}   
+}
 
 
 /* Popup Images */
-function magnificPopup(){
+function magnificPopup() {
     if ($('.magnific').length && $.fn.magnificPopup) {
         $('.magnific').magnificPopup({
-            type:'image',
+            type: 'image',
             gallery: {
                 enabled: true
             },
@@ -613,15 +619,15 @@ function magnificPopup(){
             mainClass: 'mfp-fade'
         });
     }
-}  
+}
 
 /****  Summernote Editor  ****/
-function editorSummernote(){
+function editorSummernote() {
     if ($('.summernote').length && $.fn.summernote) {
         $('.summernote').each(function () {
             $(this).summernote({
                 height: 300,
-                airMode : $(this).data('airmode') ? $(this).data('airmode') : false,
+                airMode: $(this).data('airmode') ? $(this).data('airmode') : false,
                 airPopover: [
                     ["style", ["style"]],
                     ['color', ['color']],
@@ -629,7 +635,7 @@ function editorSummernote(){
                     ['para', ['ul', 'paragraph']],
                     ['table', ['table']],
                     ['insert', ['link', 'picture']]
-                  ],
+                ],
                 toolbar: [
                     ["style", ["style"]],
                     ["style", ["bold", "italic", "underline", "clear"]],
@@ -646,7 +652,7 @@ function editorSummernote(){
 }
 
 /****  CKE Editor  ****/
-function editorCKE(){
+function editorCKE() {
     if ($('#cke-editor').length) {
         $('#cke-editor').each(function () {
             CKEDITOR.replace('cke-editor');
@@ -657,12 +663,12 @@ function editorCKE(){
 }
 
 
-function slider(){
+function slider() {
     if ($('.slick').length && $.fn.slick) {
         $('.slick').each(function () {
-            $(this).slick({        
+            $(this).slick({
                 accessibility: true, // Enables tabbing and arrow key navigation
-                adaptiveHeight: false, 
+                adaptiveHeight: false,
                 arrows: $(this).data('arrows') ? $(this).data('arrows') : false, // Enable Next/Prev arrows
                 asNavFor: null,
                 prevArrow: '<button type="button" data-role="none" class="slick-prev">Previous</button>', // prev arrow
@@ -690,14 +696,14 @@ function slider(){
                 rtl: $('body').hasClass('rtl') ? true : false, // Change the slider's direction to become right-to-left
                 slide: '.slide', // Slide element query
                 slidesToShow: $(this).data('num-slides') ? $(this).data('num-slides') : 1, // # of slides to show at a time
-                slidesToScroll:  $(this).data('num-scroll') ? $(this).data('num-scroll') : 1, // # of slides to show at a time,
+                slidesToScroll: $(this).data('num-scroll') ? $(this).data('num-scroll') : 1, // # of slides to show at a time,
                 speed: 500, // Transition speed
                 swipe: true, // Enables touch swipe
                 swipeToSlide: false, // Swipe to slide irrespective of slidesToScroll
                 touchMove: true, // Enables slide moving with touch
                 touchThreshold: 5, // To advance slides, the user must swipe a length of (1/touchThreshold) * the width of the slider.
                 useCSS: true, // Enable/Disable CSS Transitions
-                variableWidth: $(this).data('variable-width')? true : false, // Disables automatic slide width calculation
+                variableWidth: $(this).data('variable-width') ? true : false, // Disables automatic slide width calculation
                 vertical: false, // Vertical slide direction
                 waitForAnimate: true // Ignores requests to advance the slide while animating
             });
@@ -705,35 +711,35 @@ function slider(){
     }
 }
 
-function formWizard(){
+function formWizard() {
 
     if ($('.wizard').length && $.fn.stepFormWizard) {
         var finishText = "Finish";
-        if(wizardFinishText)
+        if (wizardFinishText)
             finishText = wizardFinishText;
         $('.wizard').each(function () {
             $this = $(this);
-            $(this).stepFormWizard({  
+            $(this).stepFormWizard({
                 theme: $(this).data('style') ? $(this).data('style') : "circle",
                 showNav: $(this).data('nav') ? $(this).data('nav') : "top",
                 height: "auto",
                 rtl: $('body').hasClass('rtl') ? true : false,
-                onNext: function(i, wizard) {
-                    if($this.hasClass('wizard-validation')){
+                onNext: function (i, wizard) {
+                    if ($this.hasClass('wizard-validation')) {
                         return $('form', wizard).parsley().validate('block' + i);
-                    }   
+                    }
                 },
-                onFinish: function(i) {
-                    if($this.hasClass('wizard-validation')){
+                onFinish: function (i) {
+                    if ($this.hasClass('wizard-validation')) {
                         return $('form', wizard).parsley().validate();
-                    }  
+                    }
                 },
                 finishBtn: $('<button class="sf-right sf-btn finish-btn" type="button" data-toggle="modal" data-target="#reviewShipmentModal">' + finishText + '</button>')
             });
         });
 
         /* Fix issue only with tabs with Validation on error show */
-        $('#validation .wizard .sf-btn').on('click', function(){
+        $('#validation .wizard .sf-btn').on('click', function () {
             setTimeout(function () {
                 $(window).resize();
                 $(window).trigger('resize');
@@ -743,39 +749,41 @@ function formWizard(){
 }
 
 
-function formValidation(){
-    if($('.form-validation').length && $.fn.validate){
+function formValidation() {
+    if ($('.form-validation').length && $.fn.validate) {
         /* We add an addition rule to show you. Example : 4 + 8. You can other rules if you want */
-        $.validator.methods.operation = function(value, element, param) {
+        $.validator.methods.operation = function (value, element, param) {
             return value == param;
         };
-        $.validator.methods.customemail = function(value, element) {
+        $.validator.methods.customemail = function (value, element) {
             return /^([-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4})+$/.test(value);
         };
-        $('.form-validation').each(function(){
+        $('.form-validation').each(function () {
             var formValidation = $(this).validate({
                 success: "valid",
-                submitHandler: function() { alert("Form is valid! We submit it") },
+                submitHandler: function () {
+                    alert("Form is valid! We submit it")
+                },
                 errorClass: "form-error",
                 validClass: "form-success",
                 errorElement: "div",
                 ignore: [],
-                rules: {       
-                    avatar: {extension:"jpg|png|gif|jpeg|doc|docx|pdf|xls|rar|zip"},
+                rules: {
+                    avatar: {extension: "jpg|png|gif|jpeg|doc|docx|pdf|xls|rar|zip"},
                     password2: {equalTo: '#password'},
                     calcul: {operation: 12},
                     url: {url: true},
                     email: {
-                        required:  {
-                                depends:function(){
-                                    $(this).val($.trim($(this).val()));
-                                    return true;
-                                }   
-                            },
+                        required: {
+                            depends: function () {
+                                $(this).val($.trim($(this).val()));
+                                return true;
+                            }
+                        },
                         customemail: true
                     },
                 },
-                messages:{
+                messages: {
                     name: {required: 'Enter your name'},
                     lastname: {required: 'Enter your last name'},
                     firstname: {required: 'Enter your first name'},
@@ -784,35 +792,35 @@ function formValidation(){
                     mobile: {required: 'Enter your phone number'},
                     avatar: {required: 'You must upload your avatar'},
                     password: {required: 'Write your password'},
-                    password2: {required: 'Write your password',equalTo: '2 passwords must be the same'},
-                    calcul: {required: 'Enter the result of 4 + 8',operation: 'Result is false. Try again!'},
+                    password2: {required: 'Write your password', equalTo: '2 passwords must be the same'},
+                    calcul: {required: 'Enter the result of 4 + 8', operation: 'Result is false. Try again!'},
                     terms: {required: 'You must agree with terms'}
                 },
-                highlight: function(element, errorClass, validClass) {
+                highlight: function (element, errorClass, validClass) {
                     $(element).closest('.form-control').addClass(errorClass).removeClass(validClass);
                 },
-                unhighlight: function(element, errorClass, validClass) {
+                unhighlight: function (element, errorClass, validClass) {
                     $(element).closest('.form-control').removeClass(errorClass).addClass(validClass);
                 },
-                errorPlacement: function(error, element) {
-                   if (element.hasClass("custom-file") || element.hasClass("checkbox-type") || element.hasClass("language")) {
+                errorPlacement: function (error, element) {
+                    if (element.hasClass("custom-file") || element.hasClass("checkbox-type") || element.hasClass("language")) {
                         element.closest('.option-group').after(error);
-                   }
-                   else if (element.is(":radio") || element.is(":checkbox"))  {
+                    }
+                    else if (element.is(":radio") || element.is(":checkbox")) {
                         element.closest('.option-group').after(error);
-                   }
-                   else if (element.parent().hasClass('input-group'))  {
+                    }
+                    else if (element.parent().hasClass('input-group')) {
                         element.parent().after(error);
-                   }
-                   else{
-                       error.insertAfter(element);
-                   }
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
                 },
-                invalidHandler: function(event, validator) {
-                    var errors = validator.numberOfInvalids();         
-                }      
+                invalidHandler: function (event, validator) {
+                    var errors = validator.numberOfInvalids();
+                }
             });
-            $(".form-validation .cancel").click(function() {
+            $(".form-validation .cancel").click(function () {
                 formValidation.resetForm();
             });
         });
@@ -821,10 +829,11 @@ function formValidation(){
 
 /****  Animated Panels  ****/
 function liveTile() {
-     
+
     if ($('.live-tile').length && $.fn.liveTile) {
         $('.live-tile').each(function () {
-            $(this).liveTile("destroy", true); /* To get new size if resize event */
+            $(this).liveTile("destroy", true);
+            /* To get new size if resize event */
             tile_height = $(this).data("height") ? $(this).data("height") : $(this).find('.panel-body').height() + 52;
             $(this).height(tile_height);
             $(this).liveTile({
@@ -843,59 +852,61 @@ function liveTile() {
 function barCharts() {
     if ($('.bar-stats').length) {
         $('.bar-stats').each(function () {
-            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-            var custom_colors =['#C9625F', '#18A689', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#8085e8', '#91e8e1'];
-            var custom_color = custom_colors[Math.floor(Math.random()*custom_colors.length)];
+            var randomScalingFactor = function () {
+                return Math.round(Math.random() * 100)
+            };
+            var custom_colors = ['#C9625F', '#18A689', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#8085e8', '#91e8e1'];
+            var custom_color = custom_colors[Math.floor(Math.random() * custom_colors.length)];
             var barChartData = {
-                labels : ["1","2","3","4","5","6","7","8","9","10","11","12"],
-                datasets : [ {
-                        backgroundColor : custom_color,
-                        borderColor : custom_color,
-                        pointBackgroundColor : "#394248",
-                        pointBorderColor : "#394248",
-                        data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                    }
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                datasets: [{
+                    backgroundColor: custom_color,
+                    borderColor: custom_color,
+                    pointBackgroundColor: "#394248",
+                    pointBorderColor: "#394248",
+                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                }
                 ]
             }
-            var ctx =  $(this).get(0).getContext("2d");
+            var ctx = $(this).get(0).getContext("2d");
             window.myBar = new Chart(ctx).Bar(barChartData, {
-                responsive : true,
+                responsive: true,
                 scaleShowLabels: false,
                 showScale: true,
                 scaleLineColor: "rgba(0,0,0,.1)",
-                scaleShowGridLines : false,
+                scaleShowGridLines: false,
             });
         });
     }
 }
 
-function animateNumber(){
-    $('.countup').each(function(){
-        from     = $(this).data("from") ? $(this).data("from") : 0;
-        to       = $(this).data("to") ? $(this).data("to") : 0;
+function animateNumber() {
+    $('.countup').each(function () {
+        from = $(this).data("from") ? $(this).data("from") : 0;
+        to = $(this).data("to") ? $(this).data("to") : 0;
         duration = $(this).data("duration") ? $(this).data("duration") : 2;
-        delay    = $(this).data("delay") ? $(this).data("delay") : 1000;
+        delay = $(this).data("delay") ? $(this).data("delay") : 1000;
         decimals = $(this).data("decimals") ? $(this).data("decimals") : 0;
         var options = {
-          useEasing : true, 
-          useGrouping : true, 
-          separator : ',', 
-          prefix : $(this).data("prefix") ? $(this).data("  prefix") : '',
-          suffix : $(this).data("suffix") ? $(this).data("suffix") : ''
+            useEasing: true,
+            useGrouping: true,
+            separator: ',',
+            prefix: $(this).data("prefix") ? $(this).data("  prefix") : '',
+            suffix: $(this).data("suffix") ? $(this).data("suffix") : ''
         }
-        var numAnim = new countUp($(this).get(0),from, to, decimals, duration, options);
-        setTimeout(function(){
+        var numAnim = new countUp($(this).get(0), from, to, decimals, duration, options);
+        setTimeout(function () {
             numAnim.start();
-        },delay);
+        }, delay);
     });
 }
 
-function textareaAutosize(){
-    $('textarea.autosize').each(function(){
-        $(this).autosize();   
+function textareaAutosize() {
+    $('textarea.autosize').each(function () {
+        $(this).autosize();
     });
 }
- 
+
 
 /****  Initiation of Main Functions  ****/
 $(document).ready(function () {
@@ -931,7 +942,7 @@ $(document).ready(function () {
     formWizard();
     formValidation();
     barCharts();
-    animateNumber();
+    // animateNumber();
     textareaAutosize();
     appearEffect();
     handleProgress();

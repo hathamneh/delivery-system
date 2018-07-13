@@ -5,16 +5,26 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
-        <i class='fas fa-map-marker-alt'></i> @lang("zone.edit")
-    @endcomponent
+    <i class='fas fa-map-marker-alt'></i> @lang("zone.edit")
 @endsection
 
 
 @section('content')
     <div class="row">
+        @if(session('alert'))
+            <div class="col-md-8 mx-auto">
+                @component('bootstrap::alert', [
+                    'type' => session('alert')->type ?? "primary",
+                    'dismissible' => true,
+                    'animate' => true,
+                   ])
+                    {{ session('alert')->msg }}
+                @endcomponent
+            </div>
+        @endif
         <div class="col-md-8 mx-auto">
-            <form action="{{ route('zones.store') }}" class="create-zone-form" method="post">
+            <form action="{{ route('zones.update', ['zone' => $zone->id]) }}" class="create-zone-form" method="post">
+                {{ method_field('PUT') }}
                 {{ csrf_field() }}
                 <div class="form-row">
                     <div class="form-group col-sm-6">
@@ -82,13 +92,15 @@
                                                           method="post">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
-                                                        <button class="btn btn-link" title="@lang('zone.address.delete')"
+                                                        <button class="btn btn-link"
+                                                                title="@lang('zone.address.delete')"
                                                                 type="submit"><i class="fa fa-trash"></i></button>
                                                     </form>
                                                 </div>
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @php unset($address) @endphp
                                 @else
                                     <tr class="empty-row">
                                         <td colspan="5">
@@ -112,7 +124,7 @@
                 'modalId' => 'createAddressModal',
                 'modalTitle' => 'Add New Address',
                 ])
-        @include('addresses.form', ['zone_id' => $zone->id])
+        @include('addresses.form', ['ajax'=>true])
     @endcomponent
 
 @endsection

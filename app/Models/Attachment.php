@@ -6,13 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
+
+    protected $fillable = [
+        'name',
+        'path',
+        'type',
+        'url',
+    ];
+
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'author_id');
     }
 
-    public function upload()
+    public function courier()
     {
-        // todo
+        return $this->belongsTo(Courier::class, 'author_id');
     }
 }

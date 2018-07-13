@@ -47,7 +47,7 @@ return [
     'statuses' => [
         'picked_up' => "Picked Up",
         'received' => "Received",
-        'attempted_delivery' => "Attempted Delivery",
+        'on_hold' => "On Hold",
         'cancelled' => "Cancelled",
         'rejected' => "Rejected",
         'failed' => "delivery_failed",

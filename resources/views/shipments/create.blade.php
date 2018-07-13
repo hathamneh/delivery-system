@@ -18,19 +18,17 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
         <i class='fa fa-archive'></i> @lang("shipment.new")
-        @slot('actions')
-            <div class="ml-auto d-flex px-2 align-items-center">
-                <div class="btn-group" role="group">
-                    <a href="{{ route('shipments.create', ['type' => 'wizard']) }}" class="btn btn-secondary" aria-pressed="false"><i class="fa fa-magic"></i> Wizard</a>
-                    <a href="#" class="btn btn-secondary active" aria-pressed="true"><i class="fa fa-bars"></i> Normal</a>
-                </div>
-            </div>
-        @endslot
-    @endcomponent
 @endsection
 
+@section('actions')
+    <div class="ml-auto d-flex px-2 align-items-center">
+        <div class="btn-group" role="group">
+            <a href="{{ route('shipments.create', ['type' => 'wizard']) }}" class="btn btn-secondary" aria-pressed="false"><i class="fa fa-magic"></i> Wizard</a>
+            <a href="#" class="btn btn-secondary active" aria-pressed="true"><i class="fa fa-bars"></i> Normal</a>
+        </div>
+    </div>
+@endsection
 
 @section('content')
 

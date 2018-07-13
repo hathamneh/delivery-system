@@ -43,3 +43,93 @@
     }
   }
 }
+
+.form-side-card {
+  border-radius: 0;
+  .card-header {
+    padding: 0.75rem;
+    font-weight: bold;
+  }
+  .card-body {
+    padding: 0.75rem;
+  }
+  .card-footer {
+    padding: 0;
+    display: flex;
+    .btn {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: 0;
+    }
+  }
+}
+
+.extra-form-info {
+  background-color: #eee;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.form-side-actions {
+  display: flex;
+  .btn {
+    flex: 1;
+    margin: 0 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    i[class*='fa-'] {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.card-transparent {
+  background-color: transparent;
+  .card-body {
+    background-color: transparent;
+  }
+}
+
+@include media-breakpoint-down('sm') {
+
+  .scrollable-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    margin-bottom: -1rem;
+    &__wrapper {
+      position: relative;
+      overflow-y: hidden;
+      &:after {
+        content: '';
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f5f5f5+1,f5f5f5+99&0+0,1+100 */
+        background: -moz-linear-gradient(left, rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 0.01) 1%, rgba(245, 245, 245, 0.99) 99%, rgba(245, 245, 245, 1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 0.01) 1%, rgba(245, 245, 245, 0.99) 99%, rgba(245, 245, 245, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 0.01) 1%, rgba(245, 245, 245, 0.99) 99%, rgba(245, 245, 245, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00f5f5f5', endColorstr='#f5f5f5', GradientType=1); /* IE6-9 */
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 100%;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+
+}
+
+.pickup-item {
+  .card-footer {
+    display: flex;
+  }
+}

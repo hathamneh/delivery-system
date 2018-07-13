@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html class="@lang('base.dir')" dir="@lang('base.dir')">
+<html class="@lang('common.dir')" dir="@lang('common.dir')">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -16,7 +16,7 @@
 </head>
 
 <!-- BEGIN BODY -->
-<body class="@lang('base.dir') {{{ isset($sidebarCollapsed) && $sidebarCollapsed ? "sidebar-collapsed" : "" }}} sidebar-condensed color-blue theme-sdtd
+<body class="@lang('common.dir') {{{ isset($sidebarCollapsed) && $sidebarCollapsed ? "sidebar-collapsed" : "" }}} sidebar-condensed color-blue theme-sdtd
     fixed-topbar fixed-sidebar bg-clean dashboard">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -32,7 +32,13 @@
 
         <div class="page-heading">
             @yield('breadcrumbs')
-            @yield('pageTitle')
+            <div class="page-heading__title">
+                <h3>@yield('pageTitle')</h3>
+                <div class="page-heading__actions">
+                    @yield('actions')
+                </div>
+            </div>
+
         </div>
         <!-- BEGIN PAGE CONTENT -->
         <div class="page-content page-thin">
@@ -42,7 +48,7 @@
             <div class="footer">
                 <div class="copyright">
                     <p class="pull-left sm-pull-reset">
-                        <span>@lang("base.footer_copyright")</span>
+                        <span>@lang("common.footer_copyright")</span>
                     </p>
                 </div>
             </div>
@@ -68,14 +74,15 @@
 
 <a href="#" class="scrollup"><i class="fa fa-angle-up"></i></a>
 <script src="{{ route('assets.lang') }}"></script>
+
 <script src="{{ asset("/js/legacy/plugins/jquery/jquery.min.js") }}"></script>
 <script src="{{ asset("/js/legacy/plugins/jquery/jquery-migrate-3.0.0.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/jquery-ui/jquery-ui.min.js") }}"></script>
+{{--<script src="{{ asset("/js/legacy/plugins/jquery-ui/jquery-ui.min.js") }}"></script>--}}
 <script src="{{ asset("/js/legacy/plugins/bootstrap/js/popper.min.js") }}"></script>
 <script src="{{ asset("/js/legacy/plugins/bootstrap/js/bootstrap.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/bootstrap/js/jasny-bootstrap.min.js") }}"></script>
-<!--<script src="{{ asset("/js/legacy/plugins/gsap/main-gsap.min.js") }}"></script>-->
-<script src="{{ asset("/js/legacy/plugins/bootstrap/js/bootstrap-confirmation.js") }}"></script>
+{{--<script src="{{ asset("/js/legacy/plugins/bootstrap/js/jasny-bootstrap.min.js") }}"></script>--}}
+{{--<script src="{{ asset("/js/legacy/plugins/gsap/main-gsap.min.js") }}"></script>--}}
+{{--<script src="{{ asset("/js/legacy/plugins/bootstrap/js/bootstrap-confirmation.js") }}"></script>--}}
 <script src="{{ asset("/js/legacy/plugins/jquery-cookies/jquery.cookies.min.js") }}"></script> <!-- Jquery Cookies, for theme -->
 
 <!-- simulate synchronous behavior when using AJAX -->
@@ -85,7 +92,8 @@
 
 <!-- Show Dropdown on Mouseover -->
 <script src="{{ asset("/js/legacy/plugins/bootstrap-select/bootstrap-select.min.js") }}"></script> <!-- Select Inputs -->
-<script src="{{ asset("/js/legacy/plugins/icheck/new/icheck.min.js") }}"></script> <!-- Checkbox & Radio Inputs  -->
+<script src="{{ asset("/js/plugins/select2/select2.full.min.js") }}"></script> <!-- Select Inputs -->
+{{--<script src="{{ asset("/js/legacy/plugins/icheck/new/icheck.min.js") }}"></script> <!-- Checkbox & Radio Inputs  -->--}}
 
 <script src="{{ asset("/js/legacy/globals/application.js") }}"></script> <!-- Main Application Script -->
 <!-- BEGIN PAGE SCRIPT -->
@@ -94,30 +102,28 @@
 
 
 <!-- Financial Charts Export Tool -->
-<!--<script src="{{ asset("/js/legacy/plugins/countup/countUp.min.js") }}"></script> <!-- Animated Counter Number -->
+{{--<script src="{{ asset("/js/legacy/plugins/countup/countUp.min.js") }}"></script> <!-- Animated Counter Number -->--}}
 <script src="{{ asset("/js/legacy/globals/moment.min.js") }}"></script>
 
 <script src="{{ asset("/js/legacy/globals/daterangepicker.js") }}"></script>
-<!--<script src="{{ asset("/js/legacy/plugins/jquery-validation/jquery.validate.js") }}"></script> <!-- Form Validation -->
-<!--<script src="{{ asset("/js/legacy/plugins/jquery-validation/additional-methods.min.js") }}"></script> <!-- Form Validation Additional Methods - OPTIONAL -->
+{{--<script src="{{ asset("/js/legacy/plugins/jquery-validation/jquery.validate.js") }}"></script> <!-- Form Validation -->--}}
+{{--<script src="{{ asset("/js/legacy/plugins/jquery-validation/additional-methods.min.js") }}"></script> <!-- Form Validation Additional Methods - OPTIONAL -->--}}
 
 
-<!--<script src="{{ asset("/js/legacy/plugins/bootstrap-tags-input/bootstrap-tagsinput.min.js") }}"></script> <!-- Select Inputs -->
-<!--<script src="{{ asset("/js/legacy/plugins/dropzone/dropzone.min.js") }}"></script>  <!-- Upload Image & File in dropzone -->
+{{--<script src="{{ asset("/js/legacy/plugins/bootstrap-tags-input/bootstrap-tagsinput.min.js") }}"></script> <!-- Select Inputs -->--}}
+{{--<script src="{{ asset("/js/legacy/plugins/dropzone/dropzone.min.js") }}"></script>  <!-- Upload Image & File in dropzone -->--}}
 
 <!-- END PAGE SCRIPT -->
-<script src="{{ asset("/js/legacy/plugins/datatables/jquery.dataTables.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
+<script src="{{ asset("/js/legacy/plugins/datatables/datatables.min.js") }}"></script>
 
-<!--<script src="{{ asset("/js/legacy/plugins/bootstrap-slider/bootstrap-slider.js") }}"></script> <!-- Bootstrap Input Slider -->
-<script src="{{ asset("/js/legacy/globals/fontawesome-all.min.js") }}"></script>
+<script src="{{ asset("/js/legacy/bootstrap-slider.min.js") }}"></script> <!-- Bootstrap Input Slider -->
+{{--<script src="{{ asset("/js/legacy/globals/fontawesome-all.min.js") }}"></script>--}}
 
 <script src="{{ asset("/js/legacy/globals/plugins.js") }}"></script>
 <script src="{{ asset("/js/legacy/globals/widgets/notes.js") }}"></script>
 <script src="{{ asset("/js/legacy/globals/search.js") }}"></script>
-<script src="{{ asset("/js/legacy/globals/quickview.js") }}"></script>
 <script src="{{ asset("/js/legacy/layout.js") }}"></script>
-<script src="{{ asset("/js/legacy/globals/custom.js") }}"></script>
+<script src="{{ asset("/js/legacy/globals/custom.js") }}" defer ></script>
 
 
 @yield('beforeBody')

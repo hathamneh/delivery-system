@@ -30,6 +30,6 @@ class CreateClientZonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_zones');
+        Schema::dropIfExists('client_zone');
     }
 }

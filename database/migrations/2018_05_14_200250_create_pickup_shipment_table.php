@@ -14,7 +14,6 @@ class CreatePickupShipmentTable extends Migration
     public function up()
     {
         Schema::create('pickup_shipment', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('pickup_id');
             $table->unsignedInteger('shipment_id');
         });

@@ -321,18 +321,20 @@
       color: #ffffff;
 
       font-size: 23px;
-      text-align: center;
-      height: 48px;
-      margin-top: 0;
-      padding: 13px;
-      width: 48px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
+      &:before {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        margin-top: 0;
+        padding: 13px;
+        width: 48px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      }
     }
     i[class*="icon-"] {
       font-size: 22px;
@@ -580,3 +582,20 @@
 }
 
 @import "maps";
+
+.slider.slider-horizontal {
+  width: 260px;
+  margin: 0 auto;
+  @include media-breakpoint-up('md') {
+    width: 450px;
+  }
+}
+
+.slider.slider-horizontal .slider-tick-label-container {
+  font-size: 0.8rem;
+  .slider-tick-label {
+    padding-top: 0.25rem;
+  }
+}
+
+@import "tables";

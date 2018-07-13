@@ -44,5 +44,8 @@
         "slick-carousel": "^1.8.1",
         "weather-icons": "^1.3.2"
     },
-    "dependencies": {}
+    "dependencies": {
+        "bootstrap-slider": "^10.0.2",
+        "select2": "^4.0.6-rc.1"
+    }
 }

@@ -1,0 +1,12 @@
+.dataTables_wrapper.form-inline {
+  display: block;
+  label {
+    display: inline-block;
+  }
+  .dataTables_filter {
+    text-align: right;
+  }
+  .row {
+    margin: 0;
+  }
+}

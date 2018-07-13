@@ -9,7 +9,7 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
-<body class="{{ __("base.dir") }} sidebar-condensed account separate-inputs" data-page="login">
+<body class="{{ __("common.dir") }} sidebar-condensed account separate-inputs" data-page="login">
 <!-- BEGIN LOGIN BOX -->
 <div class="container" id="login-block">
     <div class="row align-items-center my-sm-0 my-5" style="min-height: 100vh;">
@@ -75,7 +75,7 @@
                                 data-callback="shipmentStatusSubmit"><i class="fa fa-search"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <small style="margin: 5px; font-size: 0.75rem; text-align: center; display: block;width: 100%;">@lang("base.recaptcha_policy_statement")</small>
+                    <small style="margin: 5px; font-size: 0.75rem; text-align: center; display: block;width: 100%;">@lang("common.recaptcha_policy_statement")</small>
 
                     <div class="col-md-12 status-result">
 

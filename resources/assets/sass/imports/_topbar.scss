@@ -16,6 +16,7 @@
     .topnav {
       height: 50px;
       margin: 0;
+      display: flex;
       .menutoggle {
         background: none;
         color: #2b2e33;
@@ -546,7 +547,7 @@
     }
     ul.nav-icons {
       li {
-        padding: 10px 20px;
+        padding: 10px 10px;
         a {
           background: none !important;
           font-size: 19px;
@@ -989,6 +990,7 @@
     }
     .header-menu.navbar-nav {
       flex-direction: row;
+      flex-wrap: nowrap;
       margin: 0;
       .dropdown-menu {
         background-color: #ffffff;

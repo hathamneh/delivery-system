@@ -18,11 +18,10 @@ class CreateCouriersTable extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->tinyInteger('category');
-            $table->text('notes');
-            $table->string('doc1');
-            $table->string('doc2');
+            $table->text('notes')->nullable();
             $table->unsignedInteger('zone_id');
             $table->timestamps();
             $table->softDeletes();

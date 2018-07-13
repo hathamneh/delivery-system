@@ -56,24 +56,37 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param Zone $zone
+     * @param Address $address
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Zone $zone, $address)
     {
-        //
+        $address = $zone->addresses()->findOrFail($address);;
+        return view('addresses.edit', [
+            'zone'    => $zone,
+            'address' => $address
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param Zone $zone
+     * @param $address
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Zone $zone, $address)
     {
-        //
+        $address = $zone->addresses()->findOrFail($address);
+        $address->update($request->toArray());
+        return redirect()->route('zones.edit', ['zone' => $zone->id])->with([
+            'alert' => (object)[
+                'type' => 'success',
+                'msg'  => trans('zone.address.updated')
+            ]
+        ]);
     }
 
     /**

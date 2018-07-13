@@ -5,9 +5,7 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
-        <i class='fas fa-map-marker-alt'></i> @lang("zone.new")
-    @endcomponent
+    <i class='fas fa-map-marker-alt'></i> @lang("zone.new")
 @endsection
 
 

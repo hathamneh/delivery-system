@@ -30,17 +30,16 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
         <i class='fa fa-archive'></i> @lang("shipment.new")
-        @slot('actions')
-            <div class="ml-auto d-flex px-2 align-items-center">
-                <div class="btn-group" role="group">
-                    <a href="#" class="btn btn-secondary active" aria-pressed="true"><i class="fa fa-magic"></i> Wizard</a>
-                    <a href="{{ route('shipments.create', ['type' => 'legacy']) }}" class="btn btn-secondary" aria-pressed="false"><i class="fa fa-bars"></i> Normal</a>
-                </div>
-            </div>
-        @endslot
-    @endcomponent
+@endsection
+
+@section('actions')
+    <div class="ml-auto d-flex px-2 align-items-center">
+        <div class="btn-group" role="group">
+            <a href="#" class="btn btn-secondary active" aria-pressed="true"><i class="fa fa-magic"></i> Wizard</a>
+            <a href="{{ route('shipments.create', ['type' => 'legacy']) }}" class="btn btn-secondary" aria-pressed="false"><i class="fa fa-bars"></i> Normal</a>
+        </div>
+    </div>
 @endsection
 
 @section('content')
@@ -61,15 +60,4 @@
 @section('beforeBody')
     <script src="/js/legacy/plugins/step-form-wizard/plugins/parsley/parsley.min.js"></script> <!-- OPTIONAL, IF YOU NEED VALIDATION -->
     <script src="/js/legacy/plugins/step-form-wizard/js/step-form-wizard.js"></script> <!-- Step Form Validation -->
-    <script>
-        $(document).ready(function () {
-            $("#shipmentClientInfo .card-header input[type='radio']").on('ifChecked', function () {
-                var $this = $(this)
-                var $allInputs = $('#shipmentClientInfo').find('.card-body input')
-                var $myInputs = $this.closest('.card').find('.card-body input')
-                $allInputs.prop('disabled', true)
-                $myInputs.prop('disabled', false)
-            })
-        })
-    </script>
 @endsection

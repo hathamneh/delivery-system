@@ -15,6 +15,11 @@
   & &__title {
     background-color: #e0e0e0;
     color: #222328;
+    display: flex;
+    flex-direction: row;
+    @include media-breakpoint-down('sm') {
+      flex-direction: column;
+    }
     h3 {
       margin: 0;
       padding: 1rem;
@@ -26,8 +31,27 @@
     }
 
   }
+  &__actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 0 0.25rem;
+    @include media-breakpoint-down('sm') {
+      margin: 0.75rem 0.2rem;
+    }
+    > .btn, > .btn-group {
+      margin-right: 0.5rem;
+    }
+    .btn, .dropdown-item {
+      i + span {
+        margin-left: 0.5rem;
+      }
+    }
+  }
 }
-
+.alert ul {
+  margin-left: 1rem;
+}
 .main-content {
   background: #F5F5F5;
   margin-left: 240px;
@@ -851,7 +875,6 @@
   }
 }
 
-
 .page-content.page-thin {
   padding: 25px 25px 75px 25px;
   .row {
@@ -868,7 +891,6 @@
   }
 
 }
-
 
 .page-content[class*='bg-'].panel-header {
   .control-btn {
@@ -967,3 +989,4 @@
 .page-content.frontend-builder {
   padding-right: 260px;
 }
+

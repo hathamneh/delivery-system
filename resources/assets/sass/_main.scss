@@ -4,6 +4,8 @@
 
 @import "imports/content";
 
+@import "imports/forms";
+
 @import "imports/topbar";
 
 @import "imports/sidebars";
@@ -5097,11 +5099,6 @@ i.bg-grey {
   cursor: default !important;
 }
 
-table {
-  td {
-    font-size: 1.2rem;
-  }
-}
 
 .grecaptcha-badge {
   display: none;
@@ -5376,7 +5373,7 @@ table {
       overflow-x: hidden;
     }
     .main-content {
-      margin-left: 240px !important;
+      margin-left: 190px !important;
       overflow: hidden;
     }
     .topbar {
@@ -5402,7 +5399,7 @@ table {
   }
   .sidebar-show.fixed-topbar {
     .topbar {
-      left: 240px !important;
+      left: 190px !important;
       overflow: hidden;
     }
   }

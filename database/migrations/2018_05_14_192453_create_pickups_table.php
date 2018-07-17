@@ -15,6 +15,7 @@ class CreatePickupsTable extends Migration
     {
         Schema::create('pickups', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('identifier');
             $table->unsignedInteger("client_account_number");
             $table->unsignedInteger("courier_id");
             $table->unsignedInteger("expected_packages_number");

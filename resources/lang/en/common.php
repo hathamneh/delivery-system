@@ -14,4 +14,14 @@ return [
 
     'arabic'=> 'العربية',
     'english'=> 'English',
+
+    'lifetime' => "Lifetime",
+    'today' => "Today",
+    'yesterday' => "Yesterday",
+    'last7days' => "Last 7 days",
+    'last30days' => "Last 30 days",
+    'thisMonth' => "This Month",
+    'lastMonth' => "Last Month",
+    'customRange' => "Custom Range",
+    'apply' => "Apply",
 ];

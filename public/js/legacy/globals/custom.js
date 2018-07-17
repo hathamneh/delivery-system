@@ -56,21 +56,21 @@
         if ($("body.rtl").length) {
             dtOpts.language = {
 
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "بحث:",
-                    "sUrl": "",
-                    "oPaginate": {
-                        "sFirst": "الأول",
-                        "sPrevious": "السابق",
-                        "sNext": "التالي",
-                        "sLast": "الأخير"
-                    }
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "بحث:",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "الأول",
+                    "sPrevious": "السابق",
+                    "sNext": "التالي",
+                    "sLast": "الأخير"
+                }
 
             };
         }
@@ -80,7 +80,7 @@
             var $this = $(this);
             var $toggle = $this.find('legend input[type=checkbox], legend input[type=radio]');
             $toggle.on('change', function () {
-                if($(this).prop('checked')) {
+                if ($(this).prop('checked')) {
                     $this.find('input[disabled]').not($(this)).prop('disabled', false);
                     $this.find('.btn.disabled').removeClass('disabled');
                 } else {
@@ -178,6 +178,76 @@
 
         buttonLoader();
 
+        var $clinetAccNum = $("select.select2-accountNumber");
+        $clinetAccNum.each(function() {
+            var $this = $(this);
+            $this.select2({
+                ajax: {
+                    url: '/api/suggest/clients',
+                    dataType: 'json',
+                    processResults: function (data, params) {
+                        var out = {
+                            results: data.data,
+                        };
+                        console.log(out);
+                        return out;
+                    },
+                },
+                placeholder: $this.data('placeholder'),
+                minimumInputLength: 5,
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                templateResult: function (data) {
+                    var markup = data.text;
+                    if (data.name && data.trade_name)
+                        markup = '<div class="client-suggestion">' +
+                            '<b>' + data.name + '</b><br>' +
+                            '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
+                            '</div>'
+                    return markup;
+                }
+            });
+        });
+        $clinetAccNum.on('select2:select', function (e) {
+            var data = e.params.data;
+            console.log(data)
+            if(data.phone_number)
+                $('#phone_number').val(data.phone_number);
+            if(data.address_pickup_text)
+                $('#pickup_address_text').val(data.address_pickup_text);
+            if(data.address_pickup_maps)
+                $('#pickup_address_maps').val(data.address_pickup_maps);
+        });
+
+        var $waybillSelect = $('.select2-waybills');
+        $waybillSelect.select2({
+            tags: true,
+            ajax: {
+                url: '/api/suggest/shipments',
+                processResults: function (data, params) {
+                    console.log(data);
+                    return data;
+                },
+            },
+            placeholder: $waybillSelect.data('placeholder'),
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            templateResult: function (data) {
+                var markup = '<div class="shipment-suggestion">' +
+                    '<b>' + data.text + '</b><br>';
+                if (data.client || data.address || data.delivery_date) {
+                    markup += "<small>";
+                    markup += data.client ? "<span>Client: " + data.client + "</span> | " : "";
+                    markup += data.client ? "<span>Address: " + data.address + "</span> | " : "";
+                    markup += data.client ? "<span>Delivery Date: " + data.delivery_date + "</span>" : "";
+                    markup += "</small>";
+                }
+                markup += '</div>';
+                return markup;
+            }
+        });
 
         $('.dropdown.overflow-fix').on('show.bs.dropdown', function () {
             var $this = $(this);
@@ -278,13 +348,12 @@
         });
 
 
-        $('.custom-file-input').on('change', function() {
+        $('.custom-file-input').on('change', function () {
             let fileInput = $(this)[0];
             let files = fileInput.files;
             let names = [];
 
-            for (let i = 0; i < files.length; i++)
-            {
+            for (let i = 0; i < files.length; i++) {
                 names.push(files[i].name);
             }
             $(this).next('.custom-file-label').addClass("selected").html(names.join(', '));
@@ -325,6 +394,16 @@
             }
     }
 
+    $(document).ready(function () {
+        $("#shipmentClientInfo .custom-radio").on('change', "[name='shipment_client_type']", function () {
+            var $this = $(this);
+            var $allInputs = $('#shipmentClientInfo').find('.card-body input, .card-body select');
+            var $myInputs = $this.closest('.card').find('.card-body input, .card-body select');
+            $allInputs.prop('disabled', true);
+            $myInputs.prop('disabled', false);
+        })
+    })
+
 
     function buttonLoader() {
         if ($('.ladda-button').length) {
@@ -334,7 +413,7 @@
         }
     }
 
-    function getUrlVars() {
+    window.getUrlVars = function() {
         var vars = [], hash;
         if (window.location.href.indexOf('?') > 0) {
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -346,7 +425,7 @@
         return vars;
     }
 
-    function to_qs(obj) {
+    window.to_qs = function(obj) {
         var str = [];
         for (var p in obj)
             if (obj.hasOwnProperty(p)) {
@@ -354,5 +433,4 @@
             }
         return str.join("&");
     }
-})
-();
+})();

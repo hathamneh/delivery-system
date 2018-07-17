@@ -510,3 +510,22 @@ i.bg-purple2::before{background-color:#7c4dff!important;color:#fff!important}
 .bg-pink:not(i){background-color:#f48fb1!important;color:#fff!important}
 i.bg-pink::before{background-color:#f48fb1!important;color:#fff!important}
 .bg-pink.form-control:focus{background-color:#f48fb1!important;color:#fff!important}
+
+body:before {
+  visibility: hidden;
+  opacity: 0;
+  content: '';
+  transition: opacity 0.35s;
+}
+body.lock-screen:before {
+  position: fixed;
+  width: 100%;
+  left:0;
+  height: 100%;
+  top:0;
+  background-color: rgba(100,100,100,0.5);
+  visibility: visible;
+  opacity: 1;
+  z-index: 500;
+  transition: opacity 0.35s;
+}

@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use League\Flysystem\Config;
 use Venturecraft\Revisionable\RevisionableTrait;
 
@@ -64,7 +65,12 @@ class Shipment extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class, 'client_account_number');
+        return $this->belongsTo(Client::class, 'client_id', 'account_number');
+    }
+
+    public function guest()
+    {
+        return $this->belongsTo(Guest::class, 'client_id', 'id');
     }
 
     public function couriers()
@@ -118,4 +124,51 @@ class Shipment extends Model
         $todayDate = Carbon::now()->toDateString();
         return $query->whereDate('delivery_date', '>=', $todayDate);
     }
+
+    /**
+     * @param int $id
+     * @param int $prefix
+     * @param int $digits
+     * @return int
+     */
+    public static function generateWaybill(int $id, int $prefix = 1, int $digits = 9)
+    {
+        $B = 999999 + $id;
+        $C = ($id + $B) * 1000;
+        $D = $id * 2;
+        $number = $C - $D - 1000000000;
+        $add = intval($prefix . "" . str_pad("", $digits, "0"));
+        $prefixed = intval($number + $add);
+        return $prefixed;
+    }
+
+    /**
+     * @param int $start
+     * @param int $count
+     * @param int $prefix
+     * @param int $digits
+     * @return array
+     */
+    public static function generateWaybillRange(int $start, int $count, int $prefix = 1, int $digits = 9)
+    {
+        $end = $start + $count;
+        $arr = [];
+        for ($i = $start; $i < $end; $i++)
+            $arr[] = self::generateWaybill($i, $prefix, $digits);
+        return $arr;
+    }
+
+    public static function generateNextWaybill()
+    {
+        $id = self::nextShipmentId();
+        logger($id);
+        return self::generateWaybill($id);
+    }
+
+    public static function nextShipmentId()
+    {
+        $statement = DB::select("SHOW TABLE STATUS LIKE 'shipments'");
+        return $statement[0]->Auto_increment;
+    }
+
 }

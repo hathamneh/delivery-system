@@ -9,7 +9,6 @@ Breadcrumbs::for('shipments', function ($trail) {
     $trail->parent('home');
     $trail->push(trans('shipment.label'), route('shipments.index'));
 });
-
 Breadcrumbs::for('shipments.create', function ($trail) {
     $trail->parent('shipments');
     $trail->push(trans('shipment.new'), route('shipments.create'));
@@ -89,4 +88,8 @@ Breadcrumbs::for('pickups', function ($trail) {
 Breadcrumbs::for('pickups.create', function ($trail) {
     $trail->parent('pickups');
     $trail->push(trans('pickup.create'), route('pickups.create'));
+});
+Breadcrumbs::for('pickups.edit', function ($trail, $pid) {
+    $trail->parent('pickups');
+    $trail->push(trans('pickup.edit'), route('pickups.edit', ['pickup' => $pid]));
 });

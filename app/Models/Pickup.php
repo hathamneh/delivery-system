@@ -12,6 +12,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Carbon available_time_end
  * @property string available_time
  * @property integer expected_packages_number
+ * @property integer actual_packages_number
  * @property double pickup_fees
  * @property string pickup_from
  * @property string pickup_address_text
@@ -20,6 +21,9 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string notes_external
  * @property string status
  * @property string phone_number
+ * @property Client client
+ * @property Courier courier
+ * @property string identifier
  */
 class Pickup extends Model
 {
@@ -35,6 +39,12 @@ class Pickup extends Model
     protected $fillable = [
         'status',
     ];
+
+    protected $dispatchesEvents = [
+        'saving' => Events\PickupSaving::class,
+    ];
+    protected $availableDateTimeFormat = 'd-m-Y g:i A';
+    protected $availableTimeFormat = 'g:i A';
 
     public function shipments()
     {
@@ -73,9 +83,30 @@ class Pickup extends Model
         $this->available_time_end = Carbon::createFromTimeString($dates[1]);
     }
 
-    public function getAvailableTimeAttribute()
+    public function getAvailableDateTimeAttribute()
     {
-        return $this->available_time_start->toDateString() . " - " . $this->available_time_end->toDateString();
+        return Carbon::createFromTimeString($this->attributes['available_time_start'])->format($this->availableDateTimeFormat).
+            " - " . Carbon::createFromTimeString($this->attributes['available_time_end'])->format($this->availableDateTimeFormat);
+    }
+
+    public function getAvailableTimeStartAttribute()
+    {
+        return Carbon::createFromTimeString($this->attributes['available_time_start'])->format($this->availableTimeFormat);
+    }
+
+    public function getAvailableTimeEndAttribute()
+    {
+        return Carbon::createFromTimeString($this->attributes['available_time_end'])->format($this->availableTimeFormat);
+    }
+
+    public function getAvailableDateStartAttribute()
+    {
+        return Carbon::createFromTimeString($this->attributes['available_time_start'])->toFormattedDateString();
+    }
+
+    public function getAvailableDateEndAttribute()
+    {
+        return Carbon::createFromTimeString($this->attributes['available_time_end'])->toFormattedDateString();
     }
 
     public function statusContext($context = null)
@@ -101,5 +132,26 @@ class Pickup extends Model
                     default: return "";
                 }
         }
+    }
+
+    public function generateIdentifier($length = 6)
+    {
+        while (true) {
+            $characters = '0123456789AEFHIOKLQRVXZ'; /* 85K POSSIBLE COMBINATIONS ONLY  !! */
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            if (!self::findWithIdentifier($randomString)) {
+                $this->identifier = $randomString;
+                return;
+            }
+        }
+    }
+
+    public static function findWithIdentifier($identifier)
+    {
+        return static::where('identifier', $identifier)->first() ?? false;
     }
 }

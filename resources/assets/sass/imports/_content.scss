@@ -36,11 +36,15 @@
     align-items: center;
     margin-left: auto;
     padding: 0 0.25rem;
+    flex-wrap: wrap-reverse;
     @include media-breakpoint-down('sm') {
-      margin: 0.75rem 0.2rem;
+      margin: 0.75rem 0.2rem 0;
     }
     > .btn, > .btn-group {
       margin-right: 0.5rem;
+      @include media-breakpoint-down('sm') {
+        margin-bottom: 0.75rem;
+      }
     }
     .btn, .dropdown-item {
       i + span {

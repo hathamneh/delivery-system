@@ -18,7 +18,7 @@
 @endsection
 
 @section('pageTitle')
-        <i class='fa fa-archive'></i> @lang("shipment.new")
+    <i class='fa fa-archive'></i> @lang("shipment.new")
 @endsection
 
 @section('actions')
@@ -34,39 +34,30 @@
 
     <div class="legacy-new-shipment">
         <div class="container px-0 px-sm-3">
-            <form role="form" action="{{ route('shipments.store') }}" method="post">
-                {{ csrf_field() }}
-                @include('shipments.wizard.clientInfo')
-                @include('shipments.wizard.details')
-                @include('shipments.wizard.delivery')
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <form role="form" action="{{ route('shipments.store') }}" method="post">
+                        {{ csrf_field() }}
+                        @include('shipments.wizard.clientInfo')
+                        @include('shipments.wizard.details')
+                        @include('shipments.wizard.delivery')
 
-                @include("shipments.review")
-                <div class="d-flex mt-4">
-                    <div class="ml-auto text-right">
-                        <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#reviewShipmentModal">
-                            @lang('shipment.review')
-                        </button>
-                        <p class="form-text text-muted">
-                            @lang('shipment.reviewNote')
-                        </p>
-                    </div>
+                        @include("shipments.review")
+                        <div class="d-flex mt-4">
+                            <div class="ml-auto text-right">
+                                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#reviewShipmentModal">
+                                    @lang('shipment.review')
+                                </button>
+                                <p class="form-text text-muted">
+                                    @lang('shipment.reviewNote')
+                                </p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
 
-@endsection
-
-@section('beforeBody')
-    <script>
-        $(document).ready(function () {
-            $("#shipmentClientInfo .card-header input[type='radio']").on('ifChecked', function () {
-                var $this = $(this)
-                var $allInputs = $('#shipmentClientInfo').find('.card-body input')
-                var $myInputs = $this.closest('.card').find('.card-body input')
-                $allInputs.prop('disabled', true)
-                $myInputs.prop('disabled', false)
-            })
-        })
-    </script>
 @endsection

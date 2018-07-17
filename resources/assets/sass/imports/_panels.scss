@@ -124,12 +124,9 @@
         right: 0;
       }
     }
+    .nav-link {
+      white-space: nowrap;
+    }
   }
 
-}
-
-.pickup-item {
-  .card-footer {
-    display: flex;
-  }
 }

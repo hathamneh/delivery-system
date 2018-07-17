@@ -13,7 +13,7 @@
                     <div class="form-group col-sm-6">
                         <label for="waybill">@lang('shipment.waybill') *</label>
                         <input type="number" name="waybill" id="waybill" class="form-control" data-bind="waybill"
-                               required placeholder="@lang('shipment.waybill')">
+                               required placeholder="@lang('shipment.waybill')" value="{{ old('waybill') ?? $suggestedWaybill }}">
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="deliveryDate">@lang('shipment.deliveryDate') *</label>
@@ -35,8 +35,8 @@
                         <label for="status">@lang('shipment.status') *</label>
                         <select name="status" id="status" class="form-control selectpicker" data-live-search="true">
                             <option value="" disabled selected>@lang('__select__')</option>
-                            @foreach(\App\Shipment::STATUS as $status_num => $status_string)
-                                <option value="{{ $status_num }}">@lang("shipment.statuses.".$status_string)</option>
+                            @foreach($statuses as $status)
+                                <option value="{{ $status->id }}">@lang("shipment.statuses.".$status->name)</option>
                             @endforeach
                         </select>
                     </div>

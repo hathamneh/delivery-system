@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Courier;
 use App\Pickup;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PickupsController extends Controller
@@ -14,15 +15,21 @@ class PickupsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pickups = (object)[
-            'all' => Pickup::all(),
-            'pending' => Pickup::pending()->get(),
-            'completed' => Pickup::completed()->get(),
-            'declined' => Pickup::declined()->get(),
-        ];
-        return view('pickups.index', compact('pickups'));
+        $pickups = Pickup::latest('available_time_start');
+        if($request->has('start') && $request->has('end')) {
+            $startDate = Carbon::createFromTimestamp($request->get('start'))->toDateString();
+            $endDate = Carbon::createFromTimestamp($request->get('end'))->toDateString();
+            $pickups->whereBetween('available_time_start', [$startDate, $endDate])->whereBetween('available_time_end', [$startDate, $endDate], 'or');
+        } else {
+            $startDate = $endDate = false;
+        }
+        return view('pickups.index')->with([
+            'pickups' => $pickups->get(),
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+        ]);
     }
 
     /**
@@ -85,7 +92,11 @@ class PickupsController extends Controller
      */
     public function edit(Pickup $pickup)
     {
-        //
+        $couriers = Courier::all();
+        return view('pickups.edit')->with([
+            'pickup' => $pickup,
+            'couriers' => $couriers
+        ]);
     }
 
     /**

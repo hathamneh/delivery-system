@@ -15,7 +15,8 @@ class CreateShipmentsTable extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('client_account_number');
+            $table->boolean('is_guest')->default(false);
+            $table->unsignedInteger('client_id');
             $table->string('waybill');
             $table->dateTime('delivery_date');
             $table->unsignedInteger('courier_id');

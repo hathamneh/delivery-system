@@ -50,14 +50,16 @@
                                     class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
                 </ul>
             </li>
-            <li class="nav-parent ">
+            <li class="nav-parent{{ request()->is('pickups*') ? ' active' : '' }}">
                 <a href="{{ route('pickups.index') }}"><i
                             class="fas fa-shopping-bag"></i><span>@lang('pickup.label')</span><span
                             class="fa fa-angle-down arrow"></span></a>
                 <ul class="children collapse">
-                    <li class=""><a href="{{ route('pickups.index') }}"><i
+                    <li class="{{ (\Request::route()->getName() == 'pickups.index') ? 'active' : '' }}"><a
+                                href="{{ route('pickups.index') }}"><i
                                     class="fas fa-shopping-bag"></i>@lang('pickup.all')</a></li>
-                    <li class=""><a href="{{ route('pickups.index', ['filter'=>'today']) }}"><i
+                    <li class="{{ request()->is('pickups?start='.time().'&end='.time()) ? ' active' : '' }}"><a
+                                href="{{ route('pickups.index', ['start' => time(), 'end' => time()]) }}"><i
                                     class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a></li>
                     <li class=""><a href="{{ route('pickups.create') }}"><i
                                     class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>

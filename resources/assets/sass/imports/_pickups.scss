@@ -1,0 +1,132 @@
+
+.pickups-list {
+  margin-bottom: 300px;
+}
+
+.pickup-item {
+  box-shadow: 0 0 0 #000;
+  transition: box-shadow 0.5s;
+  margin-bottom: 1rem;
+  .card {
+    overflow: hidden;
+  }
+  .card-body {
+    transition: padding 0.35s;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 1rem;
+  }
+  a {
+    color: inherit;
+    text-decoration: underline;
+    &:hover {
+      color: $gray-800;
+      text-decoration: none;
+    }
+  }
+  h3 {
+    margin: 0 0 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    a {
+      text-decoration: none;
+    }
+  }
+  .pickup-actions {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    padding: 0.25rem;
+    visibility: hidden;
+    opacity: 0;
+
+    transition: all 0.5s;
+  }
+  @include media-breakpoint-up('sm') {
+    &:hover {
+      .pickup-actions {
+        right: 0;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &.item-expanded {
+    .card {
+      z-index: 501;
+      box-shadow: 0 0 20px #999;
+    }
+    .card-body {
+      padding-top: 2.5rem;
+    }
+    .pickup-actions {
+      right: 0;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  kbd {
+    vertical-align: top;
+  }
+}
+
+a.pickup-toggle-details {
+  text-decoration: none;
+  font-size: 0.75rem;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+  }
+  i {
+    transition: all 0.35s;
+    font-size: 1rem;
+    transform: rotateX(180deg);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &.collapsed i {
+    transform: rotateX(0deg);
+  }
+}
+
+.pickup-pills {
+  .nav-link {
+    color: $gray-600;
+    i {
+      vertical-align: middle;
+      + span {
+
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}
+
+.pickup-meta {
+  margin: 1rem -1.25rem 0;
+  font-size: .75rem;
+  .list-group-item {
+    padding: 0.5rem 1.25rem;
+  }
+  .meta-label {
+    color: $text-muted;
+    i {
+      vertical-align: middle;
+      margin-right: 0.25rem;
+    }
+    + span {
+      margin-left: 0.5rem;
+    }
+    + div {
+      margin-top: 0.5rem;
+    }
+  }
+  .meta-value {
+    font-weight: bold;
+  }
+  span {
+    display: inline-block;
+  }
+}

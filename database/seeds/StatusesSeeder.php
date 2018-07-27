@@ -15,20 +15,31 @@ class StatusesSeeder extends Seeder
         \App\Status::create([
             'name'              => "picked_up",
             'description'       => "Shipment Picked Up",
+            'group'             => "processing",
             'unpaid'            => false,
             'pending'           => false,
             'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'        => "received",
-            'description' => "Received at operation facility",
+            'name'              => "received",
+            'description'       => "Received at operation facility",
+            'group'             => "processing",
+            'unpaid'            => false,
+            'pending'           => true,
+            'courier_dashboard' => true,
+        ]);
+        \App\Status::create([
+            'name'              => "out_for_delivery",
+            'description'       => "Shipment on its way to consignee",
+            'group'             => "in_transit",
             'unpaid'            => false,
             'pending'           => true,
             'courier_dashboard' => true,
         ]);
         $status = \App\Status::create([
-            'name'        => "on_hold",
-            'description' => "Attempted to deliver shipment",
+            'name'              => "on_hold",
+            'description'       => "Attempted to deliver shipment",
+            'group'             => "in_transit",
             'unpaid'            => false,
             'pending'           => true,
             'courier_dashboard' => false,
@@ -59,6 +70,7 @@ class StatusesSeeder extends Seeder
         \App\Status::create([
             'name'              => "cancelled",
             'description'       => "Shipment has been cancelled",
+            'group'             => "in_transit",
             'suggested_reasons' => [
                 "Requested by sender",
                 "Consignee is not expecting the shipment",
@@ -70,6 +82,7 @@ class StatusesSeeder extends Seeder
         ]);
         \App\Status::create([
             'name'              => "rejected",
+            'group'             => "in_transit",
             'description'       => "Shipment has been rejected",
             'suggested_reasons' => [
                 "Incorrect / missing item",
@@ -84,6 +97,7 @@ class StatusesSeeder extends Seeder
         ]);
         \App\Status::create([
             'name'              => "failed",
+            'group'             => "in_transit",
             'description'       => "Delivery Failed",
             'suggested_reasons' => [
                 "Bad weather conditions",
@@ -94,15 +108,17 @@ class StatusesSeeder extends Seeder
             'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'        => "delivered",
-            'description' => "Shipment has delivered to consignee successfully",
+            'name'              => "delivered",
+            'group'             => "delivered",
+            'description'       => "Shipment has delivered to consignee successfully",
             'unpaid'            => true,
             'pending'           => false,
             'courier_dashboard' => true,
         ]);
         \App\Status::create([
-            'name'        => "returned",
-            'description' => "Consignee has returned the shipment to sender",
+            'name'              => "returned",
+            'group'             => "in_transit",
+            'description'       => "Consignee has returned the shipment to sender",
             'unpaid'            => true,
             'pending'           => false,
             'courier_dashboard' => true,

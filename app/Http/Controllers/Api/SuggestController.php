@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Client;
 use App\Http\Resources\ClientSuggestCollection;
+use App\Status;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -52,5 +53,14 @@ class SuggestController extends Controller
         if(!is_null($client))
             return ClientSuggestCollection::collection($client);
         return [];
+    }
+
+    public function statuses(Status $status)
+    {
+        $sub = $status->subStatuses()->get();
+        return [
+            'subStatuses' => $sub,
+            'suggestions' => $status->suggested_reasons
+        ];
     }
 }

@@ -50,6 +50,7 @@ return [
         'fixed_value' => 'Fixed Value',
         'percentage_value' => 'Percentage Value',
         'value' => 'Value to charge per shipment',
-    ]
-
+    ],
+    "go_to_dashboard" => "Go to :client Dashboard",
+    "address" => "Client Address"
 ];

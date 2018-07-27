@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->string('group');
             $table->string('suggested_reasons')->nullable();
             $table->boolean('unpaid');
             $table->boolean('pending');

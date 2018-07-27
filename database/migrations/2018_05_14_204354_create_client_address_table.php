@@ -14,7 +14,7 @@ class CreateClientAddressTable extends Migration
     public function up()
     {
         Schema::create('client_address', function (Blueprint $table) {
-            $table->unsignedInteger('client_id');
+            $table->unsignedInteger('client_account_number');
             $table->unsignedInteger('address_id');
             $table->double('sameday_price')->nullable();
             $table->double('scheduled_price')->nullable();

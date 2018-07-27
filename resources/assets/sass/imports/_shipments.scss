@@ -1,0 +1,230 @@
+.shipment-status {
+  padding: 0.25rem 0 1rem;
+  text-align: center;
+  margin: auto;
+  max-width: 350px;
+  display: flex;
+
+  span {
+    padding: 0.25rem 0.5rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+  }
+
+}
+
+.shipment-lifecycle {
+  max-width: 310px;
+  margin: 2rem auto 0;
+
+  .steps-circles {
+    position: relative;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATYAAAAyCAYAAAGhXcedAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5OEQwQ0ZFQTE4MjA2ODExODA4MzlBRUVDN0M2OEVDRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQzU5MjRGMEZEMjgxMUU0OTY2Q0EwM0FBRjlERkUxQiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQzU5MjRFRkZEMjgxMUU0OTY2Q0EwM0FBRjlERkUxQiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUVGMzQ1QTc0MDIwNjgxMTgyMkFCQUVGODlCQkU4MUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OThEMENGRUExODIwNjgxMTgwODM5QUVFQzdDNjhFQ0UiLz4gPC9yZGY6RGVzY3Jp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) center center no-repeat;
+    background-size: contain;
+  }
+  .step-wrapper {
+    width: 50px;
+    height: 50px;
+    padding: 0.25rem;
+    position: relative;
+    .step {
+      display: none;
+      padding: 0.2rem;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      i {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        font-family: kangarooIcons;
+        font-size: 1rem;
+        font-style: normal;
+        color: #fff;
+        border: 1px dashed #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      &.processing i:before {
+        content: '\ea5e';
+      }
+      &.in_transit i:before {
+        content: '\eb30';
+      }
+      &.delivered i:before {
+        content: '\e9d6';
+      }
+    }
+  }
+  .steps-labels {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.7rem -12px;
+  }
+}
+
+.status-processing {
+  .shipment-status span {
+    background-color: $warning;
+    color: #fff;
+    margin-right: auto;
+  }
+  .step-wrapper {
+    .step.processing {
+      background-color: $brand;
+      display: block;
+    }
+  }
+  .step-label.processing {
+    color: $brand;
+  }
+}
+
+.status-in_transit {
+  .shipment-status span {
+    background-color: $warning;
+    color: #fff;
+    margin: auto;
+  }
+  .step-wrapper {
+    .step.processing, .step.in_transit {
+      background-color: $brand;
+      display: block;
+    }
+    .step.processing i {
+      border-style: solid;
+      &:before {
+        content: '\e9d5';
+      }
+    }
+  }
+  .step-label.processing, .step-label.in_transit {
+    color: $brand;
+  }
+}
+
+.status-delivered {
+  .shipment-status span {
+    background-color: $success;
+    color: #fff;
+    margin-left: auto;
+  }
+  .step-wrapper {
+    .step {
+      background-color: $brand;
+      display: block;
+    }
+    .step.processing, .step.in_transit {
+      i {
+        border-style: solid;
+        &:before {
+          content: '\e9d5';
+        }
+      }
+    }
+  }
+  .step-label {
+    color: $brand;
+  }
+}
+
+.status-description {
+  text-align: center;
+  padding: 1rem;
+  background-color: #eee;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 10px rgba(150,150,150,0.2);
+  max-width: 350px;
+  margin: auto;
+}
+
+.shipment-details {
+  padding-top: 1.5rem;
+  legend, .step-title, .step-title + p {
+    display: none;
+  }
+}
+
+.shipment-cost {
+  display: flex;
+  font-size: 0.8rem;
+  align-items: baseline;
+  &.summery-border{
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 4px double #ccc;
+  }
+  &.summery-bold {
+    font-weight: bold;
+    font-size: 1.4rem;
+    .shipment-cost__value {
+      font-size: 1.6rem;
+    }
+  }
+  .dots {
+    border-bottom: 2px dotted #ccc;
+    flex: 1;
+    margin: 0 0.5rem;
+  }
+  &__value {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &__currency {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-weight: lighter;
+  }
+}
+.shipment-history {
+  max-height: 400px;
+  overflow-y: auto;
+  .list-group-item {
+    &:first-child {
+      border-radius: 0 $border-radius $border-radius 0;
+      margin-bottom: 0;
+    }
+    &:last-child {
+      border-radius: $border-radius 0 0 $border-radius;
+      margin-bottom: -1px;
+    }
+  }
+}
+
+.shipment-actions-fieldset {
+  padding: 0.5rem 1rem 1rem;
+  border: 1px solid #ced4da;
+  legend {
+    display: inline-block;
+    width: auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 0.75rem;
+  }
+}
+
+.suggestions {
+  &-item {
+    margin-top: 0.5rem;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid;
+    color: #555;
+    border-radius: 50px;
+    margin-right: 0.25rem;
+    &:hover {
+      background-color: #888;
+      color: #fff;
+    }
+  }
+}
+
+.shipment-client_name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+}

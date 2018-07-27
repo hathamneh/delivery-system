@@ -13,6 +13,11 @@ Breadcrumbs::for('shipments.create', function ($trail) {
     $trail->parent('shipments');
     $trail->push(trans('shipment.new'), route('shipments.create'));
 });
+Breadcrumbs::for('shipments.show', function ($trail, $shipment) {
+    $trail->parent('shipments');
+    $trail->push(trans('shipment.single') . ": " . $shipment->waybill,
+        route('shipments.show', ['shipment' => $shipment->id]));
+});
 
 
 Breadcrumbs::for('zones', function ($trail) {

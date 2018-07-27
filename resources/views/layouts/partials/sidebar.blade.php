@@ -65,43 +65,34 @@
                                     class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
                 </ul>
             </li>
-            <li class="nav-parent ">
-                <a href="/pickups.php"><i
-                            class="fas fa-file"></i><span>@lang('note.label')</span><span
+            <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*') ? ' active' : '' }}">
+                <a href="#"><i
+                            class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
                             class="fa fa-angle-down arrow"></span></a>
                 <ul class="children collapse">
                     <li class=""><a href="/notes.php"><i
-                                    class="fas fa-file"></i>@lang('note.public_notes')</a></li>
-                    <li class=""><a href="/PrivateNotes.php"><i
-                                    class="fas fa-lock"></i>@lang('note.private_notes')</a></li>
-
+                                    class="fas fa-file"></i>@lang('note.label')</a></li>
+                    <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a href="{{ route('zones.index') }}"><i
+                                    class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
+                    <li class=""><a href="/services.php"><i
+                                    class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
                 </ul>
             </li>
 
             <?php /*if ($auth->getPerm() === 1) : */?>
-            <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a href="{{ route('zones.index') }}"><i
-                            class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
-            <li class=""><a href="/services.php"><i
-                            class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
-            <li class="nav-parent{{ request()->is('users*') ? ' active' : '' }}">
-                <a href="{{ route('users.index') }}"><i
-                            class="fas fa-users"></i><span>@lang('user.label')</span><span
-                            class="fa fa-angle-down arrow"></span></a>
-                <ul class="children collapse">
-                    <li class="{{ (\Request::route()->getName() == 'users.index') ? ' active' : '' }}"><a
-                                href="{{ route('users.index') }}"> <i
-                                    class="fas fa-users"></i> @lang('user.all')</a></li>
 
-                    <li class=""><a href="{{ route('roles.index') }}">
-                            <i class="far fa-user-secret"></i> @lang('user.roles.label')</a></li>
 
-                </ul>
-            </li>
-            <li class="nav-parent ">
+            <li class="nav-parent{{ request()->is('users*', 'settings*', 'mail*') ? ' active' : '' }}">
                 <a href="/settings.php"><i
                             class="fas fa-wrench"></i><span>@lang('sidebar.manage')</span><span
                             class="fa fa-angle-down arrow"></span></a>
                 <ul class="children collapse">
+                    <li class="{{ request()->is('users*') ? ' active' : '' }}"><a
+                                href="{{ route('users.index') }}"> <i
+                                    class="fas fa-users"></i> @lang('sidebar.users_roles')</a></li>
+
+                    <li class=""><a href="{{ route('roles.index') }}">
+                            <i class="far fa-user-secret"></i> @lang('user.roles.label')</a></li>
                     <li class=""><a href="/settings.php"> <i
                                     class="fas fa-cogs"></i> @lang('sidebar.settings')</a></li>
 

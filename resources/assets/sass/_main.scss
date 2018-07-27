@@ -1,25 +1,17 @@
 @import "imports/basic";
-
 @import "rtl";
-
 @import "imports/content";
-
 @import "imports/forms";
-
 @import "imports/topbar";
-
+@import "imports/tables";
 @import "imports/sidebars";
 @import "imports/panels";
-
 @import "widgets/all";
-
 @import "imports/errors";
-
 @import "imports/account";
-
 @import "imports/quickview";
-
 @import "imports/pickups";
+@import "imports/shipments";
 
 .boxed-layout {
   position: relative;
@@ -6569,10 +6561,11 @@ i.bg-grey {
 
 @media screen and (max-width: 991px) {
   .main-content {
+
     .page-content {
       background: #F1F2F3;
       overflow: hidden;
-      padding: 20px;
+      padding: 20px 0;
       > .header {
         h2 {
           font-size: 20px;
@@ -7802,3 +7795,6 @@ body {
   }
 }
 
+[data-href] {
+  cursor: pointer;
+}

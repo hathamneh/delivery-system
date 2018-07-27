@@ -8,6 +8,8 @@ return [
     "home" => "Home",
     "footer_copyright" => "Copyright © 2018 Kangaroo Delivery System. All rights reserved.",
     'cancel' => "Cancel",
+    'save' => "Save",
+    'save_changes' => "Save Changes",
     'for' => "for",
     'select' => '-- Select --',
     'new' => 'New',
@@ -24,4 +26,6 @@ return [
     'lastMonth' => "Last Month",
     'customRange' => "Custom Range",
     'apply' => "Apply",
+
+    'jod' => "JOD",
 ];

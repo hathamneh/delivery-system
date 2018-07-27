@@ -14,7 +14,7 @@ class CreateClientZonesTable extends Migration
     public function up()
     {
         Schema::create('client_zone', function (Blueprint $table) {
-            $table->unsignedInteger('client_id');
+            $table->unsignedInteger('client_account_number');
             $table->unsignedInteger('zone_id');
             $table->double('base_weight')->nullable();
             $table->double('charge_per_unit')->nullable();

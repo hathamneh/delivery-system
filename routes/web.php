@@ -25,7 +25,11 @@ Route::middleware('auth')->group(function() {
     Route::get('shipments/create/{type?}', "ShipmentController@create")
         ->name('shipments.create')
         ->where('type', 'wizard|legacy');
-    Route::resource('shipments', "ShipmentController")->except(['create']);
+    Route::get('shipments/{shipment}/{tab?}', "ShipmentController@show")
+        ->name('shipments.show')
+        ->where('tab', 'summery|details|actions|status');
+    Route::resource('shipments', "ShipmentController")->except(['create', 'show']);
+    Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');
 
     Route::resource('zones', "ZoneController");
     Route::resource('zones/{zone}/address', "AddressController");

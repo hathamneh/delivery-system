@@ -53,5 +53,7 @@ return [
         'failed' => "delivery_failed",
         'delivered' => "Delivered",
         'returned' => "Returned",
-    ]
+    ],
+    'internal_notes' => "Notes for Courier",
+    'external_notes' => "Notes from Courier",
 ];

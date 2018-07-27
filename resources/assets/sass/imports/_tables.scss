@@ -1,0 +1,10 @@
+.force-table-responsive {
+  @extend .table-responsive;
+}
+
+.shipments-table table {
+  font-size: 0.75rem;
+  thead {
+    font-size: 0.65rem;
+  }
+}

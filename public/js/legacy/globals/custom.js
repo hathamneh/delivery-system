@@ -147,7 +147,6 @@
                 locale: {
                     format: "DD-MM-YYYY"
                 },
-                startDate: moment(),
                 minDate: moment(),
 
             });
@@ -179,7 +178,7 @@
         buttonLoader();
 
         var $clinetAccNum = $("select.select2-accountNumber");
-        $clinetAccNum.each(function() {
+        $clinetAccNum.each(function () {
             var $this = $(this);
             $this.select2({
                 ajax: {
@@ -212,11 +211,11 @@
         $clinetAccNum.on('select2:select', function (e) {
             var data = e.params.data;
             console.log(data)
-            if(data.phone_number)
+            if (data.phone_number)
                 $('#phone_number').val(data.phone_number);
-            if(data.address_pickup_text)
+            if (data.address_pickup_text)
                 $('#pickup_address_text').val(data.address_pickup_text);
-            if(data.address_pickup_maps)
+            if (data.address_pickup_maps)
                 $('#pickup_address_maps').val(data.address_pickup_maps);
         });
 
@@ -342,7 +341,6 @@
         $(document).on('click', '[data-delete]', function (e) {
             e.preventDefault();
             var id = $(this).data('delete');
-            console.log(id);
             var $form = $('[data-id=' + id + ']').find('.delete-form');
             $form.submit();
         });
@@ -395,12 +393,20 @@
     }
 
     $(document).ready(function () {
-        $("#shipmentClientInfo .custom-radio").on('change', "[name='shipment_client_type']", function () {
+        var $clientType = $("#shipmentClientInfo .custom-radio");
+        $clientType.on('change', "[name='shipment_client[type]']", function () {
             var $this = $(this);
             var $allInputs = $('#shipmentClientInfo').find('.card-body input, .card-body select');
             var $myInputs = $this.closest('.card').find('.card-body input, .card-body select');
             $allInputs.prop('disabled', true);
             $myInputs.prop('disabled', false);
+        });
+
+
+        $('[data-href]').on('click', function () {
+            var href = $(this).data('href');
+            if (typeof href === "string")
+                window.location.href = href;
         })
     })
 
@@ -413,7 +419,7 @@
         }
     }
 
-    window.getUrlVars = function() {
+    window.getUrlVars = function () {
         var vars = [], hash;
         if (window.location.href.indexOf('?') > 0) {
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -425,7 +431,7 @@
         return vars;
     }
 
-    window.to_qs = function(obj) {
+    window.to_qs = function (obj) {
         var str = [];
         for (var p in obj)
             if (obj.hasOwnProperty(p)) {

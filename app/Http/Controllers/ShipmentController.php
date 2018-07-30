@@ -104,7 +104,7 @@ class ShipmentController extends Controller
         $shipment->push();
         // TODO: Attach Extra Services
 
-        return view('shipments.show', ['shipment' => $shipment]);
+        return redirect()->route('shipments.show', ['shipment' => $shipment]);
     }
 
     /**

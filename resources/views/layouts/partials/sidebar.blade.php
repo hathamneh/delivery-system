@@ -19,6 +19,9 @@
                     <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
                                 href="{{ route('shipments.index') }}"><i
                                     class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
+                    <li class="{{ (\Request::route()->getName() =='shipments.returned') ? 'active' : '' }}"><a
+                                href="{{ route('shipments.returned') }}"><i
+                                    class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>
                     <li class="{{ (\Request::route()->getName() == 'shipments.create') ? 'active' : '' }}"><a
                                 href="{{ route('shipments.create') }}"><i
                                     class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
@@ -70,7 +73,7 @@
                             class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
                             class="fa fa-angle-down arrow"></span></a>
                 <ul class="children collapse">
-                    <li class=""><a href="/notes.php"><i
+                    <li class="{{ request()->is('notes*') ? 'active' : '' }}"><a href="{{ route('notes.index')  }}"><i
                                     class="fas fa-file"></i>@lang('note.label')</a></li>
                     <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a href="{{ route('zones.index') }}"><i
                                     class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
@@ -91,8 +94,6 @@
                                 href="{{ route('users.index') }}"> <i
                                     class="fas fa-users"></i> @lang('sidebar.users_roles')</a></li>
 
-                    <li class=""><a href="{{ route('roles.index') }}">
-                            <i class="far fa-user-secret"></i> @lang('user.roles.label')</a></li>
                     <li class=""><a href="/settings.php"> <i
                                     class="fas fa-cogs"></i> @lang('sidebar.settings')</a></li>
 

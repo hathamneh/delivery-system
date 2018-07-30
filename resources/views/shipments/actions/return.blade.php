@@ -9,17 +9,18 @@
                     class="fa-reply"></i> @lang('shipment.make_returned')</button>
     </div>
 </fieldset>
-@component('bootstrap::modal',[
-                        'id' => 'returnShipment-'.$shipment->id
-                    ])
-    @slot('title')
-        @lang('shipment.make_returned')?
-    @endslot
-    <p>@lang('shipment.return_notice')</p>
+<form action="{{ route("shipments.return", ['shipment' => $shipment]) }}" method="post" class="return-form">
+    {{ csrf_field() }}
+    {{ method_field('PUT') }}
+    @component('bootstrap::modal',[
+                            'id' => 'returnShipment-'.$shipment->id
+                        ])
+        @slot('title')
+            @lang('shipment.make_returned')?
+        @endslot
+        <p>@lang('shipment.return_notice')</p>
 
-    <form action="{{ route("shipments.return", ['shipment' => $shipment]) }}" method="post" class="return-form">
-        {{ csrf_field() }}
-        {{ method_field('PUT') }}
+
 
         <div class="form-group">
             <label for="original_status">@lang('shipment.change_original_status')</label>
@@ -44,14 +45,21 @@
                 @endif
             </div>
         </div>
+        <div class="form-group">
+            <label for="deliveryDate">@lang('shipment.returnedDeliveryDate') *</label>
+            <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
+                   required placeholder="@lang('shipment.returnedDeliveryDate')" data-bind="delivery_date"
+                   data-drp-drops="up"
+                   value="{{ isset($shipment) ? $shipment->delivery_date->format("d-m-Y") : old("delivery_date") }}">
+        </div>
 
-    </form>
-    @slot('footer')
-        <button class="btn btn-outline-secondary"
-                data-dismiss="modal">@lang('common.cancel')</button>
-        <button class="btn btn-warning ml-auto" type="button"
-                data-return="{{ $shipment->id }}"><i
-                    class="fa fa-reply"></i> @lang('shipment.make_returned')
-        </button>
-    @endslot
-@endcomponent
+
+        @slot('footer')
+            <button class="btn btn-outline-secondary"
+                    data-dismiss="modal">@lang('common.cancel')</button>
+            <button class="btn btn-warning ml-auto" type="submit"><i
+                        class="fa fa-reply"></i> @lang('shipment.make_returned')
+            </button>
+        @endslot
+    @endcomponent
+</form>

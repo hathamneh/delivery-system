@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Courier;
 use App\Pickup;
+use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class PickupsController extends Controller
     public function index(Request $request)
     {
         $pickups = Pickup::latest('available_time_start');
-        if($request->has('start') && $request->has('end')) {
+        if ($request->has('start') && $request->has('end')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'))->toDateString();
             $endDate = Carbon::createFromTimestamp($request->get('end'))->toDateString();
             $pickups->whereBetween('available_time_start', [$startDate, $endDate])->whereBetween('available_time_end', [$startDate, $endDate], 'or');
@@ -26,9 +27,9 @@ class PickupsController extends Controller
             $startDate = $endDate = false;
         }
         return view('pickups.index')->with([
-            'pickups' => $pickups->get(),
+            'pickups'   => $pickups->get(),
             'startDate' => $startDate,
-            'endDate' => $endDate,
+            'endDate'   => $endDate,
         ]);
     }
 
@@ -66,9 +67,13 @@ class PickupsController extends Controller
         $pickup->pickup_address_maps = $request->get('pickup_address_maps');
         $pickup->notes_internal = $request->get('pickup_address_maps');
 
-        // todo : Attach shipments
-
         $pickup->save();
+
+        $waybills = $request->get('waybills', []);
+        if (count($waybills))
+            foreach ($waybills as $waybill) {
+                $pickup->shipments()->attach(Shipment::waybill($waybill)->first());
+            }
 
         return redirect()->route('pickups.index');
     }
@@ -94,7 +99,7 @@ class PickupsController extends Controller
     {
         $couriers = Courier::all();
         return view('pickups.edit')->with([
-            'pickup' => $pickup,
+            'pickup'   => $pickup,
             'couriers' => $couriers
         ]);
     }

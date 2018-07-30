@@ -141,15 +141,18 @@
             endDate.on("dp.change", function (e) {
                 startDate.data("DateTimePicker").maxDate(e.date);
             });
-            $('.datetimepicker').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                locale: {
-                    format: "DD-MM-YYYY"
-                },
-                minDate: moment(),
-
-            });
+            $('.datetimepicker').each(function () {
+                drops = $(this).data('drp-drops') || "down"
+                $(this).daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    locale: {
+                        format: "DD-MM-YYYY"
+                    },
+                    minDate: moment(),
+                    drops: drops
+                });
+            })
         });
 
         var modal_action = $(".modal input[name='action']").val();
@@ -162,9 +165,7 @@
                 var $toedit = $current_modal.attr("id");
                 var formData = $(this).serialize();
                 formData += "&toedit=" + $toedit;
-                console.log(formData);
                 $.post(ajax_url, formData, function (res) {
-                    console.log(res);
                     var data = JSON.parse(res);
                     $modal.modal('hide');
 
@@ -188,7 +189,6 @@
                         var out = {
                             results: data.data,
                         };
-                        console.log(out);
                         return out;
                     },
                 },
@@ -210,7 +210,6 @@
         });
         $clinetAccNum.on('select2:select', function (e) {
             var data = e.params.data;
-            console.log(data)
             if (data.phone_number)
                 $('#phone_number').val(data.phone_number);
             if (data.address_pickup_text)
@@ -225,8 +224,10 @@
             ajax: {
                 url: '/api/suggest/shipments',
                 processResults: function (data, params) {
-                    console.log(data);
-                    return data;
+                    var out = {
+                        results: data.data,
+                    };
+                    return out;
                 },
             },
             placeholder: $waybillSelect.data('placeholder'),
@@ -296,7 +297,6 @@
                 // Add a reference to each bindable element in viewData.
                 bindableEls.each(function () {
                     updateViewData($(this), $(this).val());
-                    console.log($(this).val())
                 });
 
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Http\Requests\StoreClientRequest;
+use App\Shipment;
 use App\User;
 use App\Zone;
 use Illuminate\Http\Request;
@@ -79,12 +80,27 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param Client $client
+     * @param string $tab
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client, $tab = "statistics")
     {
-        //
+        $data = [
+            'client' => $client,
+            'tab'      => $tab,
+        ];
+
+        if($tab == "shipments")
+            $data['shipments'] = $client->shipments()->filtered();
+        elseif($tab == "pickups") {
+            $data['pickups'] = $client->pickups()->get();
+            $data['startDate'] = $data['endDate'] = false;
+        }elseif($tab == "edit") {
+            $data['countries'] = \Countries::lookup();
+            $data['zones'] = Zone::all();
+        }
+        return view('clients.show', $data);
     }
 
     /**

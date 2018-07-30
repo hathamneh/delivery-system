@@ -1,0 +1,48 @@
+.overview-cards {
+  &-item {
+    .card-header {
+      border-bottom: none;
+      background-color: $white;
+      padding-bottom: 0;
+      .card-title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+    .card-body {
+      padding-top: 0.25rem;
+    }
+    .current-value {
+      font-size: 3rem;
+      font-weight: bold;
+      .currency {
+        font-weight: 100;
+        font-size: 1rem;
+      }
+    }
+  }
+  .overview-meta {
+    display: flex;
+    align-items: flex-end;
+    .currency {
+      font-size: 0.5rem;
+    }
+    .percentage-value {
+      font-weight: bold;
+      i {
+        margin-right: 0.5rem;
+      }
+      &.up i {
+        color: $success;
+      }
+      &.down i {
+        color: $danger;
+      }
+    }
+    .previous-value {
+      color: $text-muted;
+      margin-left: 0.6rem;
+    }
+  }
+}

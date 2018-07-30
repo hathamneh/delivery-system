@@ -98,3 +98,14 @@ Breadcrumbs::for('pickups.edit', function ($trail, $pid) {
     $trail->parent('pickups');
     $trail->push(trans('pickup.edit'), route('pickups.edit', ['pickup' => $pid]));
 });
+
+
+Breadcrumbs::for('settings', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('settings.label'), route('settings.index'));
+});
+
+Breadcrumbs::for('notes', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('note.label'), route('notes.index'));
+});

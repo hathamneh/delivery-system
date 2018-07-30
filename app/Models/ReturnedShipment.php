@@ -26,33 +26,41 @@ class ReturnedShipment extends Shipment
         });
     }
 
-    public static function createFrom(Shipment $returned)
+    public static function createFrom(Shipment $returned, $overrides = [])
     {
-        $data = [
-            'waybill',
-            'delivery_date',
-            'address_sub_text',
-            'address_maps_link',
-            'consignee_name',
-            'phone_number',
-            'package_weight',
-            'service_type',
-            'internal_notes',
-            'external_notes',
-            'delivery_cost_lodger',
-            'shipment_value',
-            'status_notes',
-            'price_of_address',
-            'base_weight_of_zone',
-            'charge_per_unit_of_zone',
-            'extra_fees_per_unit_of_zone',
-            'actual_paid_by_consignee',
-            'courier_cashed',
-            'client_paid',
-        ];
         $shipment = new static;
         $shipment->waybill = $shipment->generateNextWaybill();
-        $shipment->delivery_date = $returned->delivery_date;
-        $shipment->address_sub_text = $returned->client->address_pickup_text;
+        $shipment->address()->associate($returned->address);
+        $shipment->client()->associate($returned->client);
+        $shipment->courier()->associate($returned->courier);
+        $shipment->status()->associate(Status::name('returned'));
+
+        $shipment->delivery_date = $overrides['delivery_date'] ?? $returned->delivery_date;
+
+        $shipment->address_sub_text = $overrides['address_sub_text'] ?? $returned->client->address_pickup_text;
+        $shipment->address_maps_link = $overrides['address_maps_link'] ?? $returned->client->address_pickup_maps;
+        $shipment->consignee_name = $overrides['consignee_name'] ??  $returned->client->name;
+        $shipment->phone_number = $overrides['phone_number'] ?? $returned->client->phone_number;
+
+        $shipment->package_weight = $overrides['package_weight'] ?? $returned->package_weight;
+        $shipment->service_type = $overrides['service_type'] ?? "nextday";
+
+        $shipment->internal_notes = $overrides['internal_notes'] ?? "[ORIGINAL SHIPMENT NOTES]<br>".$returned->internal_notes."<br>[END ORIGINAL NOTES]";
+        $shipment->delivery_cost_lodger = $overrides['delivery_cost_lodger'] ?? $returned->delivery_cost_lodger;
+        $shipment->status_notes = $overrides['status_notes'] ?? $returned->status_notes;
+
+        $shipment->shipment_value = $overrides['shipment_value'] ?? $returned->shipment_value;
+        $shipment->gatherPriceInformation();
+
+        $shipment->returnedFrom()->associate($returned);
+
+        $shipment->push();
+
+        return $shipment;
+    }
+
+    public function returnedFrom()
+    {
+        return $this->belongsTo(Shipment::class, "returned_from", "shipment_id");
     }
 }

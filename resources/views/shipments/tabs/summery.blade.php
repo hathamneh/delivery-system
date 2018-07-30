@@ -78,8 +78,14 @@
             <div class="card mt-4  mx-2">
                 <div class="card-header d-flex align-items-center">
                     <h3 class="m-0">@lang('shipment.client_info')</h3>
-                    <a href="{{ route('clients.show', ['client' => $shipment->client]) }}" class="btn btn-sm btn-secondary ml-auto">
-                        <i class="fa-arrow-circle-right"></i> @lang('client.go_to_dashboard', ['client' => $shipment->client->trade_name])</a>
+                    @if(!($shipment instanceof \App\GuestShipment))
+                        <a href="{{ route('clients.show', ['client' => $shipment->client]) }}"
+                           class="btn btn-sm btn-secondary ml-auto">
+                            <i class="fa-arrow-circle-right"></i> @lang('client.go_to_dashboard', ['client' => $shipment->client->trade_name])
+                        </a>
+                    @else
+                        <div class="badge badge-warning ml-auto">Guest Client</div>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="shipment-client_name">

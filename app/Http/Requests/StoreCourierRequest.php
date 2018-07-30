@@ -28,7 +28,7 @@ class StoreCourierRequest extends FormRequest
         return [
             'name'                 => 'required',
             'phone_number'         => [new PhoneNumber()],
-            'email'                => 'nullable|email|unique',
+            'email'                => 'nullable|email|unique:couriers',
             'zone_id'              => 'required|exists:zones,id',
             'category'             => [
                 'required',

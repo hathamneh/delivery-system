@@ -39,7 +39,7 @@ class CouriersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCourierRequest $request)
@@ -61,7 +61,7 @@ class CouriersController extends Controller
         return redirect()->route('couriers.index')->with([
             'alert' => (object)[
                 'type' => 'success',
-                'msg' => trans('courier.created')
+                'msg'  => trans('courier.created')
             ]
         ]);
     }
@@ -69,7 +69,7 @@ class CouriersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Courier  $courier
+     * @param  \App\Courier $courier
      * @return \Illuminate\Http\Response
      */
     public function show(Courier $courier)
@@ -80,19 +80,23 @@ class CouriersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Courier  $courier
+     * @param  \App\Courier $courier
      * @return \Illuminate\Http\Response
      */
     public function edit(Courier $courier)
     {
-        //
+        $zones = Zone::all();
+        return view('couriers.edit', [
+            'courier' => $courier,
+            'zones'   => $zones
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Courier  $courier
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Courier $courier
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Courier $courier)
@@ -103,21 +107,21 @@ class CouriersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Courier  $courier
+     * @param  \App\Courier $courier
      * @return \Illuminate\Http\Response
      */
     public function destroy(Courier $courier)
     {
         $alert = $alert = (object)[
             'type' => 'success',
-            'msg' => trans('courier.deleted')
+            'msg'  => trans('courier.deleted')
         ];
         try {
             $courier->delete();
         } catch (\Exception $e) {
             $alert = (object)[
                 'type' => 'danger',
-                'msg' => trans('courier.failed')
+                'msg'  => trans('courier.failed')
             ];
         }
         return redirect()->route('couriers.index')->with([

@@ -17,6 +17,7 @@ class CreateNotesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->text('text');
+            $table->boolean('private')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

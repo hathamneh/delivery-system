@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('couriers.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('couriers.update', ['courier' => $courier]) }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         @include('couriers.form')
     </form>

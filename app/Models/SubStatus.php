@@ -15,4 +15,10 @@ class SubStatus extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+
+    public function identifiableName()
+    {
+        return trans("shipment.statuses." . $this->name);
+    }
 }

@@ -26911,6 +26911,80 @@ a.pickup-toggle-details.collapsed i {
   margin-bottom: 1.2rem;
 }
 
+.overview-cards-item .card-header {
+  border-bottom: none;
+  background-color: #fff;
+  padding-bottom: 0;
+}
+
+.overview-cards-item .card-header .card-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.overview-cards-item .card-body {
+  padding-top: 0.25rem;
+}
+
+.overview-cards-item .current-value {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.overview-cards-item .current-value .currency {
+  font-weight: 100;
+  font-size: 1rem;
+}
+
+.overview-cards .overview-meta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.overview-cards .overview-meta .currency {
+  font-size: 0.5rem;
+}
+
+.overview-cards .overview-meta .percentage-value {
+  font-weight: bold;
+}
+
+.overview-cards .overview-meta .percentage-value i {
+  margin-right: 0.5rem;
+}
+
+.overview-cards .overview-meta .percentage-value.up i {
+  color: #28a745;
+}
+
+.overview-cards .overview-meta .percentage-value.down i {
+  color: #dc3545;
+}
+
+.overview-cards .overview-meta .previous-value {
+  color: #6c757d;
+  margin-left: 0.6rem;
+}
+
+.zone-card {
+  margin-bottom: 1rem;
+}
+
+.zone-addresses-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.zone-addresses-list .list-group-item {
+  padding: 0.25rem 0.75rem;
+  min-height: 2.5rem;
+}
+
 .boxed-layout {
   position: relative;
   width: 1170px;

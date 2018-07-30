@@ -39,6 +39,11 @@ class Status extends Model
         return $this->hasMany(Shipment::class);
     }
 
+    public function scopeName($query, $name)
+    {
+        return $query->where('name', $name)->first();
+    }
+
     public function identifiableName()
     {
         return trans("shipment.statuses." . $this->name);

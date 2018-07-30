@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function() {
+    Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
     Route::get('shipments/create/{type?}', "ShipmentController@create")
         ->name('shipments.create')
         ->where('type', 'wizard|legacy');
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function() {
         ->name('shipments.show')
         ->where('tab', 'summery|details|actions|status');
     Route::resource('shipments', "ShipmentController")->except(['create', 'show']);
+
     Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');
 
     Route::resource('zones', "ZoneController");
@@ -37,9 +39,15 @@ Route::middleware('auth')->group(function() {
     Route::resource('users/roles', "UserTemplatesController");
     Route::resource('users', "UsersController");
 
-    Route::resource('clients', "ClientsController");
+    Route::get('clients/create', "ClientsController@create")->name('clients.create');
+    Route::get('clients/{client}/{tab?}', "ClientsController@show")
+        ->name('clients.show');
+    Route::resource('clients', "ClientsController")->except(['show', 'create']);
+
     Route::resource('couriers', "CouriersController");
     Route::resource('pickups', "PickupsController");
+    Route::resource('settings', "SettingsController");
+    Route::resource('notes', "NotesController");
 });
 
 // Localization

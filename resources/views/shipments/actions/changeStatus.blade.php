@@ -19,7 +19,7 @@
                 <label for="sub_status">@lang('shipment.sub_status')</label>
                 <select name="sub_status" id="sub_status" class="selectpicker form-control">
                     @foreach($subStatuses as $subStatus)
-                        <option value="{{ $subStatus->id }}" {{ $shipment->sub_status_id == $subStatus->id ? "selected" : "" }}>{{ $subStatus->name }}</option>
+                        <option value="{{ $subStatus->id }}" {{ $shipment->sub_status_id == $subStatus->id ? "selected" : "" }}>@lang('shipment.statuses.'.$subStatus->name)</option>
                     @endforeach
                 </select>
             </div>

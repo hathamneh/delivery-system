@@ -39,6 +39,8 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double actual_paid_by_consignee
  * @property string internal_notes
  * @property string status_notes
+ * @property int id
+ * @property string type
  */
 class Shipment extends Model
 {
@@ -100,12 +102,7 @@ class Shipment extends Model
             $instance->type = "normal";
         });
 
-        static::addGlobalScope('type', function (Builder $builder) {
-            $builder->whereIn('type', ['normal', 'guest']);
-        });
-
     }
-
 
     public function status()
     {
@@ -142,6 +139,27 @@ class Shipment extends Model
         return $this->belongsToMany(Service::class, 'service_shipment', 'service_id', 'shipment_id')->withPivot('price');
     }
 
+    public function returnedIn()
+    {
+        return $this->hasOne(ReturnedShipment::class, "returned_from", "shipment_id");
+    }
+
+    public function scopeType(Builder $query, array $type)
+    {
+        return $query->whereIn('type', $type);
+    }
+
+    public function scopeFiltered(Builder $builder)
+    {
+        $results = $builder->get();
+        for ($i = 0; $i < $results->count(); $i++) {
+            if($results[$i]->type == "guest") {
+                $results[$i] = GuestShipment::find($results[$i]->id);
+            }
+        }
+        return $results;
+    }
+
     public function scopeUnpaid($query)
     {
         $statuses = Status::where('unpaid', true)->pluck('id');
@@ -164,14 +182,19 @@ class Shipment extends Model
 
     public function scopeStatusIs($query, $status)
     {
-        $statuse_id = Status::where('name', $status)->value('id');
-        return $query->where('status_id', $statuse_id);
+        $status_id = Status::where('name', $status)->value('id');
+        return $query->where('status_id', $status_id);
     }
 
     public function scopeUpcoming($query)
     {
         $todayDate = Carbon::now()->toDateString();
         return $query->whereDate('delivery_date', '>=', $todayDate);
+    }
+
+    public function scopeWaybill($query, $waybill)
+    {
+        return $query->where("waybill", $waybill);
     }
 
 

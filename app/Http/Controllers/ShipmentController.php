@@ -21,9 +21,24 @@ class ShipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $shipments = Shipment::all();
+        $type = $request->get('type', 'normal,guest');
+        $types = explode(",",$type);
+        $shipments = Shipment::type($types)->filtered();
+        return view('shipments.index', [
+            'shipments' => $shipments,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function returned()
+    {
+        $shipments = ReturnedShipment::all();
         return view('shipments.index', [
             'shipments' => $shipments,
         ]);
@@ -89,7 +104,7 @@ class ShipmentController extends Controller
         $shipment->push();
         // TODO: Attach Extra Services
 
-        return $shipment;
+        return view('shipments.show', ['shipment' => $shipment]);
     }
 
     /**
@@ -99,8 +114,9 @@ class ShipmentController extends Controller
      * @param string $tab
      * @return \Illuminate\Http\Response
      */
-    public function show(Shipment $shipment, $tab = "summery")
+    public function show(Shipment $shipment, $tab = "status")
     {
+        $shipment = $shipment->type == "guest" ? GuestShipment::find($shipment->id) : $shipment;
         $data = [
             'shipment' => $shipment->load('status'),
             'tab'      => $tab,
@@ -177,7 +193,16 @@ class ShipmentController extends Controller
 
     public function makeReturn(Request $request, Shipment $shipment)
     {
-        return (new ReturnedShipment)->generateNextWaybill();
+        $status = Status::findOrFail($request->get('original_status'));
+        $shipment->status()->associate($status);
+        $shipment->update([
+            'status_notes' => $request->get('status_notes'),
+        ]);
+        $new = ReturnedShipment::createFrom($shipment, [
+            'delivery_date' => Carbon::createFromFormat("d-m-Y h:i A", $request->get('delivery_date') . " 12:00 AM")
+        ]);
+
+        return redirect()->route('shipments.show', ['shipment'=>$new]);
     }
 
     /**
@@ -186,9 +211,14 @@ class ShipmentController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Shipment $shipment)
     {
-        //
+        try {
+            $shipment->delete();
+        } catch (\Exception $e) {
+            error_log("Cannot delete shipment of id ". $shipment->id);
+        }
+        return redirect()->route('shipments.index');
     }
 
     protected function addShipmentDetails(Shipment &$shipment, Request $request)

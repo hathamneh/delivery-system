@@ -52,5 +52,7 @@ return [
         'value' => 'Value to charge per shipment',
     ],
     "go_to_dashboard" => "Go to :client Dashboard",
-    "address" => "Client Address"
+    "address" => "Client Address",
+    'statistics' => "Statistics",
+    'shipment' => "Shipment",
 ];

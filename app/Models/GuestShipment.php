@@ -5,9 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property double total_price
- */
 class GuestShipment extends Shipment
 {
     protected $table = "shipments";
@@ -42,11 +39,6 @@ class GuestShipment extends Shipment
             'city'         => $clientData['city'],
         ]);
         $this->client()->associate($guest);
-    }
-
-    public function getDeliveryCostAttribute()
-    {
-        return $this->total_price + $this->services_cost;
     }
 
 }

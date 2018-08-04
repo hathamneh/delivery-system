@@ -7,6 +7,7 @@ use App\Courier;
 use App\GuestShipment;
 use App\Http\Requests\StoreShipmentRequest;
 use App\ReturnedShipment;
+use App\Service;
 use App\Shipment;
 use App\Status;
 use App\SubStatus;
@@ -24,7 +25,7 @@ class ShipmentController extends Controller
     public function index(Request $request)
     {
         $type = $request->get('type', 'normal,guest');
-        $types = explode(",",$type);
+        $types = explode(",", $type);
         $shipments = Shipment::type($types)->filtered();
         return view('shipments.index', [
             'shipments' => $shipments,
@@ -56,11 +57,13 @@ class ShipmentController extends Controller
         $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
         $couriers = Courier::all();
         $addresses = Address::all();
+        $services = Service::all();
         $data = [
             'statuses'         => $statuses,
             'suggestedWaybill' => $suggestedWaybill,
             'couriers'         => $couriers,
             'addresses'        => $addresses,
+            'services'         => $services,
         ];
         switch ($type) {
             case "legacy":
@@ -101,8 +104,15 @@ class ShipmentController extends Controller
         $this->addDeliveryDetails($shipment, $request);
         // Money calculations
         $shipment->gatherPriceInformation();
+
+        if ($request->get('custom_price', false)) {
+            $shipment->total_price = $request->get('total_price');
+        }
+
         $shipment->push();
-        // TODO: Attach Extra Services
+
+        $services_ids = $request->get('services', []);
+        $shipment->attachServices($services_ids);
 
         return redirect()->route('shipments.show', ['shipment' => $shipment]);
     }
@@ -140,12 +150,14 @@ class ShipmentController extends Controller
         $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
         $couriers = Courier::all();
         $addresses = Address::all();
+        $services = Service::all();
         return view('shipments.show', [
             'shipment'  => $shipment,
             'tab'       => 'edit',
             'statuses'  => $statuses,
             'couriers'  => $couriers,
             'addresses' => $addresses,
+            'services'  => $services,
         ]);
     }
 
@@ -163,6 +175,10 @@ class ShipmentController extends Controller
         switch ($tab) {
             case "details":
                 $this->addShipmentDetails($shipment, $request);
+                if ($request->has('services')) {
+                    $shipment->attachServices($request->get('services'));
+
+                }
                 $shipment->save();
                 return redirect()->route("shipments.edit", ['shipment' => $shipment]);
                 break;
@@ -202,7 +218,7 @@ class ShipmentController extends Controller
             'delivery_date' => Carbon::createFromFormat("d-m-Y h:i A", $request->get('delivery_date') . " 12:00 AM")
         ]);
 
-        return redirect()->route('shipments.show', ['shipment'=>$new]);
+        return redirect()->route('shipments.show', ['shipment' => $new]);
     }
 
     /**
@@ -216,7 +232,7 @@ class ShipmentController extends Controller
         try {
             $shipment->delete();
         } catch (\Exception $e) {
-            error_log("Cannot delete shipment of id ". $shipment->id);
+            error_log("Cannot delete shipment of id " . $shipment->id);
         }
         return redirect()->route('shipments.index');
     }

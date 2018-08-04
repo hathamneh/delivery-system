@@ -91,7 +91,13 @@
                             console.log("ddd");
                     }
                 }
-            })
+            });
+            $('#custom_price').on('change', function () {
+                if($(this).is(':checked'))
+                    $('#total_price').prop('disabled', false);
+                else
+                    $('#total_price').prop('disabled', true);
+            });
         });
     </script>
 @endsection

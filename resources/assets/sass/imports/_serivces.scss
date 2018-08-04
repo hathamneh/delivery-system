@@ -1,0 +1,34 @@
+.service {
+  &-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+
+  &-price {
+    margin-left: auto;
+    font-size: 1.5rem;
+    color: #888;
+    font-weight: bold;
+    text-align: center;
+    .currency {
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+  }
+  &-card {
+    .card-body, .card-footer {
+      padding: 0.75rem;
+    }
+  }
+
+  &-links {
+    display: flex;
+  }
+
+  &-shipments {
+    margin-right: auto;
+  }
+}

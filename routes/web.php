@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('pickups', "PickupsController");
     Route::resource('settings', "SettingsController");
     Route::resource('notes', "NotesController");
+    Route::resource('services', "ServicesController");
 });
 
 // Localization
@@ -71,3 +72,10 @@ Route::get('/js/lang.js', function () {
     echo('window.trans = function(text){return window.i18n[text];}');
     exit();
 })->name('assets.lang');
+//test Routes
+Route::group(['middleware'=> 'web'],function(){
+  Route::resource('test','\App\Http\Controllers\TestController');
+  Route::post('test/{id}/update','\App\Http\Controllers\TestController@update');
+  Route::get('test/{id}/delete','\App\Http\Controllers\TestController@destroy');
+  Route::get('test/{id}/deleteMsg','\App\Http\Controllers\TestController@DeleteMsg');
+});

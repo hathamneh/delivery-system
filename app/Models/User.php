@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->template->authorizeRoles($roles, $accessLevel);
     }
 
+    public function isAdmin()
+    {
+        return $this->template->name == "admin";
+    }
+
 
     public function client()
     {

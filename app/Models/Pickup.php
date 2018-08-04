@@ -38,6 +38,20 @@ class Pickup extends Model
 
     protected $fillable = [
         'status',
+        'available_time_start',
+        'available_time_end',
+        'available_time',
+        'expected_packages_number',
+        'actual_packages_number',
+        'pickup_fees',
+        'pickup_from',
+        'pickup_address_text',
+        'pickup_address_maps',
+        'notes_internal',
+        'notes_external',
+        'status',
+        'phone_number',
+        'identifier',
     ];
 
     protected $dispatchesEvents = [
@@ -85,7 +99,7 @@ class Pickup extends Model
 
     public function getAvailableDateTimeAttribute()
     {
-        return Carbon::createFromTimeString($this->attributes['available_time_start'])->format($this->availableDateTimeFormat).
+        return Carbon::createFromTimeString($this->attributes['available_time_start'])->format($this->availableDateTimeFormat) .
             " - " . Carbon::createFromTimeString($this->attributes['available_time_end'])->format($this->availableDateTimeFormat);
     }
 
@@ -114,22 +128,31 @@ class Pickup extends Model
 
         switch ($this->status) {
             case "completed":
-                switch($context) {
-                    case 'card': return "border-success";
-                    case 'text': return '<small class="text-success"><i class="fa-check-circle2"></i> <span>'.trans('pickup.completed').'</span></small>';
-                    default: return "success";
+                switch ($context) {
+                    case 'card':
+                        return "border-success";
+                    case 'text':
+                        return '<small class="text-success"><i class="fa-check-circle2"></i> <span>' . trans('pickup.completed') . '</span></small>';
+                    default:
+                        return "success";
                 }
             case "declined":
-                switch($context) {
-                    case 'card': return "border-danger";
-                    case 'text': return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>'.trans('pickup.declined').'</span></small>';
-                    default: return "danger";
+                switch ($context) {
+                    case 'card':
+                        return "border-danger";
+                    case 'text':
+                        return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>' . trans('pickup.declined') . '</span></small>';
+                    default:
+                        return "danger";
                 }
             default:
-                switch($context) {
-                    case 'card': return "";
-                    case 'text': return '<small><i class="fa-clock"></i> <span>'.trans('pickup.pending').'</span></small>';
-                    default: return "";
+                switch ($context) {
+                    case 'card':
+                        return "";
+                    case 'text':
+                        return '<small><i class="fa-clock"></i> <span>' . trans('pickup.pending') . '</span></small>';
+                    default:
+                        return "";
                 }
         }
     }
@@ -154,4 +177,6 @@ class Pickup extends Model
     {
         return static::where('identifier', $identifier)->first() ?? false;
     }
+
+
 }

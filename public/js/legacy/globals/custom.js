@@ -210,12 +210,12 @@
         });
         $clinetAccNum.on('select2:select', function (e) {
             var data = e.params.data;
-            if (data.phone_number)
+            /*if (data.phone_number)
                 $('#phone_number').val(data.phone_number);
             if (data.address_pickup_text)
                 $('#pickup_address_text').val(data.address_pickup_text);
             if (data.address_pickup_maps)
-                $('#pickup_address_maps').val(data.address_pickup_maps);
+                $('#pickup_address_maps').val(data.address_pickup_maps);*/
         });
 
         var $waybillSelect = $('.select2-waybills');
@@ -271,7 +271,7 @@
 
         viewData = {};
 
-        $(function () {
+        (function () {
             // Update the viewData object with the current field keys and values.
             function updateViewData(key, value) {
                 viewData[key] = value;
@@ -280,23 +280,27 @@
             // Register all bindable elements
             function detectBindableElements() {
                 var bindableEls;
-
                 bindableEls = $('[data-bind]');
+
+                function refresh($this) {
+                    var value;
+                    if($this.is('[type="checkbox"], [type="radio"]'))
+                        value = $('[for="'+$this.attr('id')+'"]').text();
+                    else if($this.is('select'))
+                        value = $this.find("option:selected").text();
+                    else
+                        value = $this.val();
+                    updateViewData($this.data('bind'), value);
+                    $(document).trigger('updateDisplay');
+                }
+
+                bindableEls.each(function () {
+                    refresh($(this));
+                });
 
                 // Add event handlers to update viewData and trigger callback event.
                 bindableEls.on('change', function () {
-                    var $this;
-
-                    $this = $(this);
-
-                    updateViewData($this.data('bind'), $this.val());
-
-                    $(document).trigger('updateDisplay');
-                });
-
-                // Add a reference to each bindable element in viewData.
-                bindableEls.each(function () {
-                    updateViewData($(this), $(this).val());
+                    refresh($(this));
                 });
 
             }
@@ -305,7 +309,7 @@
             $(document).on('updateBindableElements', detectBindableElements);
 
             detectBindableElements();
-        });
+        })();
 
         $(function () {
             // An example of how the viewData can be used by other functions.

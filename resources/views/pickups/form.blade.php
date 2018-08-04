@@ -1,3 +1,5 @@
+@php /** @var \App\Pickup $pickup */ @endphp
+
 <div class="form-row">
 
     <div class="form-group col-sm-12">
@@ -5,7 +7,8 @@
         @component('clients.search-client-input', [
             'name' => "client_account_number",
             'value' => $pickup->client->account_number ?? old('client_account_number'),
-            'placeholder' => trans('pickup.client_account_number')
+            'placeholder' => trans('pickup.client_account_number'),
+            'disabled' => isset($pickup) ? true : false
         ]) @endcomponent
     </div>
 
@@ -14,8 +17,8 @@
         <div>
             <select name="waybills[]" id="waybills" class="select2-waybills form-control"
                     multiple="multiple" data-tags="true" data-placeholder="@lang('pickup.waybills')">
-                @if(isset($pickup) && !is_null(optional($pickup->waybills)->count()))
-                    @foreach($pickup->waybills as $shipment)
+                @if(isset($pickup) && $pickup->shipments->count()))
+                    @foreach($pickup->shipments as $shipment)
                         <?php /** @var \App\Shipment $shipment */ ?>
                         <option value="{{ $shipment->waybill }}" selected>{{ $shipment->waybill }}</option>
                     @endforeach
@@ -32,7 +35,7 @@
 
     <div class="form-group col-sm-12">
         <label for="available_time">@lang('pickup.available_time')</label>
-        <input type="text" name="available_time" id="available_time" value="{{ isset($pickup) && $pickup->available_date_time ?? old('available_time') }}"
+        <input type="text" name="available_time" id="available_time" value="{{ isset($pickup) ? $pickup->available_date_time : old('available_time') }}"
                class="form-control datetime-rangepicker">
     </div>
 
@@ -46,8 +49,8 @@
                 data-live-search="true" required>
             <option {{ old('courier_id') ?: 'selected' }} disabled>@lang('common.select')</option>
             @foreach($couriers as $courier)
-                <option {{ old('courier_id', -1) == $courier->id ?'selected' : '' }} value="{{ $courier->id }}"
-                        data-subtext="{{ $courier->user->username }}">{{ $courier->name}}</option>
+                <option {{ (isset($pickup) && $pickup->courier_id == $courier->id) || (old('courier_id', -1) == $courier->id) ?'selected' : '' }} value="{{ $courier->id }}"
+                        data-subtext="{{ $courier->zone->name }}">{{ $courier->name}}</option>
             @endforeach
         </select>
     </div>
@@ -56,13 +59,13 @@
         <label for="expected_packages_number">@lang('pickup.expected_packages_number')</label>
         <input type="number" class="form-control" name="expected_packages_number"
                id="expected_packages_number" placeholder="@lang('pickup.expected_packages_number')"
-               required>
+               required value="{{ $pickup->expected_packages_number ?? old('expected_packages_number') }}">
     </div>
 
     <div class="form-group col-sm-6">
         <label for="pickup_fees">@lang('pickup.pickup_fees')</label>
         <input type="number" class="form-control" name="pickup_fees" step="0.1"
-               id="pickup_fees" placeholder="@lang('pickup.pickup_fees')">
+               id="pickup_fees" placeholder="@lang('pickup.pickup_fees')" value="{{ $pickup->pickup_fees ?? old('pickup_fees') }}">
     </div>
 
 
@@ -74,8 +77,8 @@
                         <label for="pickup_from">@lang('pickup.pickup_from')</label>
                         <div>
                             <div class="custom-control custom-radio mt-2 pb-2">
-                                <input type="radio" id="pickup_from_client" name="pickup_from"
-                                       class="custom-control-input" value="client">
+                                <input type="radio" id="pickup_from_client" name="pickup_from" class="custom-control-input"
+                                       value="client" {{ (isset($pickup) && $pickup->pickup_from == 'customer') || old('pickup_from') == 'customer' ? "" : "checked" }}>
                                 <label class="custom-control-label" for="pickup_from_client">
                                     @lang('pickup.from_client')
                                     <br>
@@ -83,8 +86,8 @@
                                 </label>
                             </div>
                             <div class="custom-control custom-radio mt-2 pt-2 mb-2 mb-sm-0">
-                                <input type="radio" id="pickup_from_customer" name="pickup_from"
-                                       value="customer" class="custom-control-input">
+                                <input type="radio" id="pickup_from_customer" name="pickup_from" class="custom-control-input"
+                                       value="customer" {{ (isset($pickup) && $pickup->pickup_from == 'customer') || old('pickup_from') == 'customer' ? "checked" : "" }}>
                                 <label class="custom-control-label" for="pickup_from_customer">
                                     @lang('pickup.from_customer')
                                     <br>
@@ -101,7 +104,7 @@
                                 <label for="phone_number" class="d-none">@lang('pickup.phone')</label>
                                 <input type="text" name="phone_number" id="phone_number"
                                        class="form-control" title="@lang('pickup.phone')" data-toggle="tooltip"
-                                       value="{{ old('phone_number') }}" data-placement="left"
+                                       value="{{ $pickup->phone_number ?? old('phone_number') }}" data-placement="left"
                                        placeholder="@lang('pickup.phone')">
                             </div>
                             <div class="col-sm-12 form-group">
@@ -109,7 +112,7 @@
                                        class="d-none">@lang('pickup.address_text')</label>
                                 <input type="text" name="pickup_address.text" id="pickup_address_text"
                                        class="form-control" title="@lang('pickup.address_text')" data-toggle="tooltip"
-                                       value="{{ old('pickup_address.text') }}" data-placement="left"
+                                       value="{{ $pickup->pickup_address_text ?? old('pickup_address.text') }}" data-placement="left"
                                        placeholder="@lang('pickup.address_text')">
                             </div>
                             <div class="col-sm-12">
@@ -117,7 +120,7 @@
                                        class="d-none">@lang('pickup.address_maps')</label>
                                 <input type="text" name="pickup_address.maps" id="pickup_address_maps"
                                        class="form-control" title="@lang('pickup.address_maps')" data-toggle="tooltip"
-                                       value="{{ old('pickup_address.maps') }}" data-placement="left"
+                                       value="{{ $pickup->pickup_address_maps ?? old('pickup_address.maps') }}" data-placement="left"
                                        placeholder="@lang('pickup.address_maps')">
                             </div>
                         </div>
@@ -131,7 +134,7 @@
     <div class="col-sm-12 form-group">
         <label for="notes_internal">@lang('pickup.notes')</label>
         <textarea name="notes.internal" id="notes_internal" class="form-control"
-                  placeholder="@lang('pickup.notes')">{{ old('notes.internal') }}</textarea>
+                  placeholder="@lang('pickup.notes')">{{ $pickup->notes_internal ?? old('notes.internal') }}</textarea>
     </div>
 
     <div class="col-sm-12">

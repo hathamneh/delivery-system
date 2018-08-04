@@ -37,10 +37,11 @@ return [
     "client_account_number" => "Client Account Number",
     "external_client"       => "Not-registered Client",
     'client'                => [
-        'name'    => "Client Name",
-        'phone'   => "Client Phone Number",
-        'country' => "Client Country",
-        'city'    => "Client City",
+        'type' => "Type",
+        'name'    => "Name",
+        'phone'   => "Phone Number",
+        'country' => "Country",
+        'city'    => "City",
     ],
     'waybill'               => "Waybill number",
     'delivery_date'         => "Delivery Date",
@@ -91,4 +92,7 @@ return [
     "delete_notice" => "When you delete the shipment all its data will be deleted and you will never be able to get them back.<br><b class='text-danger'>Please be certain!</b>",
     "change_original_status" => "What happened with this shipment?",
     "returnedDeliveryDate" => "When the returned shipment will be delivered?",
+
+    'shipments' => '{0} No shipments assigned|{1} One shipment assigned|[2,*] :value shipments assigned',
+
 ];

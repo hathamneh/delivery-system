@@ -26911,6 +26911,40 @@ a.pickup-toggle-details.collapsed i {
   margin-bottom: 1.2rem;
 }
 
+.bootstrap-select .dropdown-menu li.selected a {
+  background-color: #e5e8ec;
+}
+
+.review-tab .card-body {
+  padding: 0.5rem 0;
+}
+
+.review-tab .table {
+  margin: 0;
+}
+
+.review-tab .table td, .review-tab .table th {
+  padding: 0.25rem 1rem;
+  width: 50%;
+}
+
+.legacy-new-shipment legend {
+  display: none;
+}
+
+.legacy-new-shipment .step-title {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.legacy-new-shipment .review-tab .step-title {
+  display: none;
+}
+
+.custom-control-label[for="custom_price"] {
+  margin-bottom: 0.5rem;
+}
+
 .overview-cards-item .card-header {
   border-bottom: none;
   background-color: #fff;
@@ -26983,6 +27017,41 @@ a.pickup-toggle-details.collapsed i {
 .zone-addresses-list .list-group-item {
   padding: 0.25rem 0.75rem;
   min-height: 2.5rem;
+}
+
+.service-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+
+.service-price {
+  margin-left: auto;
+  font-size: 1.5rem;
+  color: #888;
+  font-weight: bold;
+  text-align: center;
+}
+
+.service-price .currency {
+  font-size: 0.7rem;
+  color: #aaa;
+}
+
+.service-card .card-body, .service-card .card-footer {
+  padding: 0.75rem;
+}
+
+.service-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.service-shipments {
+  margin-right: auto;
 }
 
 .boxed-layout {

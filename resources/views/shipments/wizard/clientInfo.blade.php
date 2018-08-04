@@ -7,7 +7,7 @@
                 <div class="card-header" id="existingClient">
                     <h5 class="mb-0">
                         <div class="custom-control custom-radio mt-2 pb-2">
-                            <input type="radio" id="existingClientRadio" name="shipment_client[type]"
+                            <input type="radio" id="existingClientRadio" name="shipment_client[type]" data-bind="shipment_client[type]"
                                    class="custom-control-input" value="client" {{ old("shipment_client.type") == "guest" ?: "checked" }}>
                             <label class="custom-control-label" for="existingClientRadio">
                                 @lang('shipment.existing_client')
@@ -32,7 +32,7 @@
                 <div class="card-header">
                     <h5 class="mb-0">
                         <div class="custom-control custom-radio mt-2 pb-2">
-                            <input type="radio" id="externalClientRadio" name="shipment_client[type]"
+                            <input type="radio" id="externalClientRadio" name="shipment_client[type]"  data-bind="shipment_client[type]"
                                    class="custom-control-input" value="guest" {{ old("shipment_client.type") == "guest" ? "checked" : "" }}>
                             <label class="custom-control-label" for="externalClientRadio">
                                 @lang('shipment.external_client')
@@ -45,25 +45,25 @@
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label for="clientName">@lang('shipment.client.name') *</label>
-                            <input type="text" name="shipment_client[name]" id="clientName"
+                            <input type="text" name="shipment_client[name]" id="clientName" data-bind="shipment_client[name]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.name") }}"
                                    required placeholder="@lang('shipment.client.name')">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="clientPhone">@lang('shipment.client.phone')</label>
-                            <input type="text" name="shipment_client[phone_number]" id="clientPhone"
+                            <input type="text" name="shipment_client[phone_number]" id="clientPhone" data-bind="shipment_client[phone_number]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.phone_number") }}"
                                    placeholder="@lang('shipment.client.phone')">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="clientCountry">@lang('shipment.client.country')</label>
-                            <input type="text" name="shipment_client[country]" id="clientCountry"
+                            <input type="text" name="shipment_client[country]" id="clientCountry" data-bind="shipment_client[country]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.country") }}"
                                    placeholder="@lang('shipment.client.country')">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="clientCity">@lang('shipment.client.city')</label>
-                            <input type="text" name="shipment_client[city]" id="clientCity"
+                            <input type="text" name="shipment_client[city]" id="clientCity" data-bind="shipment_client[city]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.city") }}"
                                    placeholder="@lang('shipment.client.city')">
                         </div>

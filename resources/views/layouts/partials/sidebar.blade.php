@@ -77,7 +77,7 @@
                                     class="fas fa-file"></i>@lang('note.label')</a></li>
                     <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a href="{{ route('zones.index') }}"><i
                                     class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
-                    <li class=""><a href="/services.php"><i
+                    <li class="{{ request()->is('services*') }}"><a href="{{ route('services.index') }}"><i
                                     class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
                 </ul>
             </li>

@@ -56,17 +56,8 @@ class PickupsController extends Controller
     {
         $pickup = new Pickup;
         $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
-        $pickup->available_time = $request->get('available_time');
         $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
-        $pickup->expected_packages_number = $request->get('expected_packages_number');
-        $pickup->pickup_fees = $request->get('pickup_fees', 0);
-        $pickup->phone_number = $request->get('phone_number', 0);
-
-        $pickup->pickup_from = $request->get('pickup_from');
-        $pickup->pickup_address_text = $request->get('pickup_address_text');
-        $pickup->pickup_address_maps = $request->get('pickup_address_maps');
-        $pickup->notes_internal = $request->get('pickup_address_maps');
-
+        $pickup->fill($request->toArray());
         $pickup->save();
 
         $waybills = $request->get('waybills', []);
@@ -98,6 +89,7 @@ class PickupsController extends Controller
     public function edit(Pickup $pickup)
     {
         $couriers = Courier::all();
+        $pickup->load('shipments');
         return view('pickups.edit')->with([
             'pickup'   => $pickup,
             'couriers' => $couriers
@@ -113,7 +105,11 @@ class PickupsController extends Controller
      */
     public function update(Request $request, Pickup $pickup)
     {
-        //
+        $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
+        $pickup->fill($request->toArray());
+        $pickup->save();
+
+        return redirect()->route('pickups.index');
     }
 
     /**

@@ -109,3 +109,16 @@ Breadcrumbs::for('notes', function ($trail) {
     $trail->parent('home');
     $trail->push(trans('note.label'), route('notes.index'));
 });
+
+Breadcrumbs::for('services', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('service.label'), route('services.index'));
+});
+Breadcrumbs::for('services.create', function ($trail) {
+    $trail->parent('services');
+    $trail->push(trans('service.create'), route('services.create'));
+});
+Breadcrumbs::for('services.edit', function ($trail, $service) {
+    $trail->parent('services');
+    $trail->push(trans('service.edit'), route('services.edit', [$service]));
+});

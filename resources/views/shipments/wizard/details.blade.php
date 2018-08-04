@@ -66,6 +66,7 @@
                         </div>
                         <input type="number" min="0" step="0.1" placeholder="@lang('shipment.total_price')" name="total_price" id="total_price"
                                value="{{ old('total_price') }}" class="form-control" {{ old('custom_price') == "true" ? "" : "disabled" }}>
+                        <small class="form-text text-muted">@lang('shipment.custom_price_help')</small>
                     </div>
                 </div>
             </div>

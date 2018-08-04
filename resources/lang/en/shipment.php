@@ -95,4 +95,7 @@ return [
 
     'shipments' => '{0} No shipments assigned|{1} One shipment assigned|[2,*] :value shipments assigned',
 
+    'total_price' => "Total Delivery Price",
+    'custom_price' => "Override delivery cost",
+    'custom_price_help' => "Use this value for delivery cost instead of computing it selected address",
 ];

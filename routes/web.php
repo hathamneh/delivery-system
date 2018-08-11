@@ -66,9 +66,9 @@ Route::get('/js/lang.js', function () {
 
     foreach ($files as $file) {
         $name = basename($file, '.php');
-        $arr = require $file;
-        $arr = array_walk($arr, "parseItems");
-        $strings += $arr;
+        $strings[$name] = require $file;
+//        $arr = array_walk($arr, "parseItems");
+//        $strings += $arr;
     }
 
     //return $strings;

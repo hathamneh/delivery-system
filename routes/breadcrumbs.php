@@ -122,3 +122,14 @@ Breadcrumbs::for('services.edit', function ($trail, $service) {
     $trail->parent('services');
     $trail->push(trans('service.edit'), route('services.edit', [$service]));
 });
+
+
+Breadcrumbs::for('reports', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('reports.label'), route('reports.index'));
+});
+
+Breadcrumbs::for('accounting', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('accounting.label'), route('accounting.index'));
+});

@@ -20,4 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('suggest/shipments', "Api\SuggestController@shipments");
 Route::get('suggest/clients', "Api\SuggestController@clients");
+Route::get('suggest/couriers', "Api\SuggestController@couriers");
 Route::get('suggest/status/{status}', "Api\SuggestController@statuses");
+
+// reports
+//Route::middleware('auth:api')->group(function(){
+    Route::get('reports/make', "ReportingController@makeReport")->name('api.reports.make');
+//});

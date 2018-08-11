@@ -28,4 +28,8 @@ return [
     'apply' => "Apply",
 
     'jod' => "JOD",
+
+    'actions' => "Actions",
+    "selectAll" => "Select All",
+
 ];

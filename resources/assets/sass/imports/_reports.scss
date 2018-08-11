@@ -1,0 +1,142 @@
+.reporting-heading {
+  position: sticky;
+  top: -90px;
+  transition: top 0.5s;
+  z-index: 88;
+}
+
+.reports {
+  &-actions {
+    display: none;
+    background-color: #efdbb7;
+    margin-bottom: 0.25rem;
+    .actions-content {
+      display: flex;
+      align-items: center;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    .selection-indicator {
+      margin-right: 0.5rem;
+    }
+  }
+  &-filters {
+    display: flex;
+    .form-group.row {
+      flex: 1;
+      margin-right: 0.5rem;
+      align-items: center;
+      label {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &-container {
+    margin-top: 1rem;
+  }
+  &-table {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
+    .custom-checkbox label {
+      display: block;
+    }
+    thead th, tbody td {
+      vertical-align: middle;
+    }
+    thead {
+      background-color: $primary;
+      color: #fff;
+      .sorting, .sorting_asc, .sorting_desc, .sorting_asc_disabled, .sorting_desc_disabled {
+        &:before, &:after {
+          bottom: 50% !important;
+          transform: translateY(50%);
+        }
+      }
+    }
+    tbody {
+      background-color: #fff;
+      tr {
+        &:first-child td {
+          border-top: none;
+        }
+        td {
+          border-top: 1px solid #efefef !important;
+        }
+        &.selected {
+          background-color: #ffeabc !important;
+          color: #000 !important;
+          td {
+            border-top-color: #e8cf97 !important;
+          }
+        }
+        &.even {
+          background-color: rgba(150, 150, 150, 0.05);
+          &.selected {
+            background-color: #f5e1b6 !important;
+          }
+        }
+      }
+    }
+    .status-column {
+      background-color: rgba(0, 56, 120, 0.07);
+    }
+    &.table-hover tbody tr {
+      &:hover {
+        background-color: rgba(0, 56, 82, 0.1);
+        .custom-control-input:not(:checked) ~ .custom-control-label:before {
+          background-color: #fff;
+        }
+      }
+      &.selected {
+        &:hover {
+          background-color: rgba(#ffeabc, 0.6);
+        }
+        .custom-control-input:checked ~ .custom-control-label:before {
+          background-color: darken(#ffeabc, 25);
+        }
+      }
+    }
+  }
+}
+
+.dt-top {
+  label {
+    margin-bottom: 0;
+  }
+}
+
+.dt-buttons {
+  float: none !important;
+}
+
+.dataTables_processing {
+  box-shadow: 0 0 120px #0b4e5d;
+}
+
+.card-paper.card {
+  border-radius: 0;
+  box-shadow: 3px 3px 4px rgba(150, 150, 150, 0.25);
+  margin: auto;
+}
+
+.invoice {
+  &-logo img {
+    height: 85px;
+  }
+  table {
+    width: 100%;
+  }
+  &-top-meta {
+    text-align: right;
+  }
+  &-table {
+    td, th {
+      padding: 0.4rem 0.35rem;
+    }
+    th {
+      background-color: #f4f6f7;
+    }
+  }
+}

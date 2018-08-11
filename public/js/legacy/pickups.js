@@ -41,35 +41,5 @@ $(document).ready(function () {
 
 $(function () {
 
-    var $range = $('#reportrange');
 
-    if ($range.length) {
-        window.drpOptions.lifetimeRange = true;
-        window.drpOptions.opens = "left";
-
-        function cb(start, end) {
-            var label = $range.find('span');
-            if (window.drpOptions.isLifetime)
-                label.html(window.lifetimeRangeLabel);
-            else
-                label.html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-
-        $range.daterangepicker(window.drpOptions, cb);
-        $range.on('apply.daterangepicker', function (ev, picker) {
-            var qs = window.getUrlVars();
-            qs.start = picker.startDate.unix();
-            qs.end = picker.endDate.unix();
-            window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
-        });
-        $range.on('lifetime.daterangepicker', function (ev, picker) {
-            var qs = window.getUrlVars();
-            if (qs.start) delete qs.start;
-            if (qs.end) delete qs.end;
-            window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");
-        });
-
-        cb(window.drpOptions.startDate, window.drpOptions.endDate);
-
-    }
 });

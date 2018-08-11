@@ -23,7 +23,8 @@ class ClientsController extends Controller
 
         $clients = Client::all();
         return view('clients.index', [
-            'clients' => $clients
+            'clients' => $clients,
+            'pageTitle' => trans('client.label')
         ]);
     }
 
@@ -43,7 +44,8 @@ class ClientsController extends Controller
         return view('clients.create')->with([
             'countries'           => $countries,
             'zones'               => $zones,
-            'next_account_number' => Client::nextAccountNumber()
+            'next_account_number' => Client::nextAccountNumber(),
+            'pageTitle' => trans('client.create')
         ]);
     }
 
@@ -89,6 +91,7 @@ class ClientsController extends Controller
         $data = [
             'client' => $client,
             'tab'      => $tab,
+            'pageTitle' => $client->trade_name
         ];
 
         if($tab == "shipments")

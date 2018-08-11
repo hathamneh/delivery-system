@@ -29,6 +29,7 @@ class ShipmentController extends Controller
         $shipments = Shipment::type($types)->filtered();
         return view('shipments.index', [
             'shipments' => $shipments,
+            'pageTitle' => trans('shipment.label')
         ]);
     }
 
@@ -42,6 +43,7 @@ class ShipmentController extends Controller
         $shipments = ReturnedShipment::all();
         return view('shipments.index', [
             'shipments' => $shipments,
+            'pageTitle' => trans('shipment.returned')
         ]);
     }
 
@@ -64,6 +66,7 @@ class ShipmentController extends Controller
             'couriers'         => $couriers,
             'addresses'        => $addresses,
             'services'         => $services,
+            'pageTitle'        => trans('shipment.new')
         ];
         switch ($type) {
             case "legacy":
@@ -128,8 +131,9 @@ class ShipmentController extends Controller
     {
         $shipment = $shipment->type == "guest" ? GuestShipment::find($shipment->id) : $shipment;
         $data = [
-            'shipment' => $shipment->load('status'),
-            'tab'      => $tab,
+            'shipment'  => $shipment->load('status'),
+            'tab'       => $tab,
+            'pageTitle' => trans('shipment.info')
         ];
         if ($tab == "actions") {
             $data['statuses'] = Status::all();
@@ -158,6 +162,7 @@ class ShipmentController extends Controller
             'couriers'  => $couriers,
             'addresses' => $addresses,
             'services'  => $services,
+            'pageTitle' => trans('shipment.edit')
         ]);
     }
 
@@ -244,8 +249,6 @@ class ShipmentController extends Controller
             $shipment->delivery_date = $newDeliveryDate;
         $shipment->package_weight = $request->get('package_weight');
         $shipment->shipment_value = $request->get('shipment_value');
-
-        // services stuff
     }
 
     protected function addDeliveryDetails(Shipment &$shipment, Request $request)

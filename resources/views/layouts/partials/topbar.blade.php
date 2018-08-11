@@ -7,7 +7,7 @@
             <a class="menutoggle" href="#" data-toggle-sidebar="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
             <ul class="nav nav-icons">
                 <li>
-                    <a class="dashboard-btn" href="dashboard.php">
+                    <a class="dashboard-btn" href="{{ route('home') }}">
                         <span class="fa fa-home"></span>
                     </a>
                 </li>

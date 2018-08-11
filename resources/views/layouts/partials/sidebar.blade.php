@@ -68,6 +68,19 @@
                                     class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
                 </ul>
             </li>
+
+            <li class="nav-parent{{ request()->is('reports*', 'accounting*') ? ' active' : '' }}">
+                <a href="#"><i
+                            class="fa-chart-bar"></i><span>@lang('sidebar.reporting')</span><span
+                            class="fa fa-angle-down arrow"></span></a>
+                <ul class="children collapse">
+                    <li class="{{ request()->is('reports*') ? 'active' : '' }}"><a href="{{ route('reports.index') }}"><i
+                                    class="fa-reports"></i> @lang('reports.label')</a></li>
+                    <li class="{{ request()->is('accounting*') ? 'active' : '' }}"><a href="{{ route('accounting.index') }}"><i
+                                    class="fa-money-bill-alt2"></i> @lang('accounting.label')</a></li>
+                </ul>
+            </li>
+
             <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*') ? ' active' : '' }}">
                 <a href="#"><i
                             class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
@@ -82,29 +95,30 @@
                 </ul>
             </li>
 
-            <?php /*if ($auth->getPerm() === 1) : */?>
+            @if(auth()->user()->isAdmin())
 
 
-            <li class="nav-parent{{ request()->is('users*', 'settings*', 'mail*') ? ' active' : '' }}">
-                <a href="/settings.php"><i
-                            class="fas fa-wrench"></i><span>@lang('sidebar.manage')</span><span
-                            class="fa fa-angle-down arrow"></span></a>
-                <ul class="children collapse">
-                    <li class="{{ request()->is('users*') ? ' active' : '' }}"><a
-                                href="{{ route('users.index') }}"> <i
-                                    class="fas fa-users"></i> @lang('sidebar.users_roles')</a></li>
+                <li class="nav-parent{{ request()->is('users*', 'settings*', 'mail*') ? ' active' : '' }}">
+                    <a href="/settings.php"><i
+                                class="fas fa-wrench"></i><span>@lang('sidebar.manage')</span><span
+                                class="fa fa-angle-down arrow"></span></a>
+                    <ul class="children collapse">
+                        <li class="{{ request()->is('users*') ? ' active' : '' }}"><a
+                                    href="{{ route('users.index') }}"> <i
+                                        class="fas fa-users"></i> @lang('sidebar.users_roles')</a></li>
 
-                    <li class=""><a href="/settings.php"> <i
-                                    class="fas fa-cogs"></i> @lang('sidebar.settings')</a></li>
+                        <li class="{{ request()->is('settings*') ? 'active' : '' }}"><a
+                                    href="{{ route('settings.index') }}"> <i
+                                        class="fas fa-cogs"></i> @lang('sidebar.settings')</a></li>
 
-                    <li class=""><a href="/mailing_settings.php">
-                            <i class="far fa-envelope"></i> @lang('mailing.label')</a></li>
+                        <li class=""><a href="/mailing_settings.php">
+                                <i class="far fa-envelope"></i> @lang('mailing.label')</a></li>
 
-                    <li class=""><a href="/logs.php"> <i
-                                    class="fas fa-history"></i> @lang('sidebar.logs')</a></li>
-                </ul>
-            </li>
-            <?php /*endif;*/ ?>
+                        <li class=""><a href="/logs.php"> <i
+                                        class="fas fa-history"></i> @lang('sidebar.logs')</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
 
 
@@ -114,10 +128,10 @@
                data-original-title="Fullscreen">
                 <i class="icon-size-fullscreen"></i></a>
 
-            <a class="pull-left btn-effect" href="/logout.php" data-modal="modal-1" data-rel="tooltip"
-               {{ trans('common.dir') === "rtl" ? 'style="float: left !important;"' : 'style="float: right !important;"' }}
-               data-placement="top" data-original-title="@lang("auth.logout")">
-                <i class="icon-power"></i></a>
+            <a href="#" class="pull-left btn-effect" data-toggle="modal"
+               data-target="#logoutModal"
+                    {{ trans('common.dir') === "rtl" ? 'style="float: left !important;"' : 'style="float: right !important;"' }}>
+                <span data-toggle="tooltip" title="@lang("auth.logout")"><i class="icon-power"></i></span></a>
         </div>
     </div>
 </div>

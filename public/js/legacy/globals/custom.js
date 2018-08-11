@@ -4,54 +4,134 @@
 
     $(document).ready(function () {
 
-        var print_btn = $("#print-data");
-        if (print_btn.length) {
-            print_btn.on('click', function (e) {
-                e.preventDefault();
-                var active = $(".tab-pane.active");
-                if (active.length)
-                    printData(active.find('.printArea')[0]);
-                else
-                    printData($('.printArea')[0]);
+        datatablesSetup()
+        if ($('.table-selectable').length)
+            selectableTable.init();
+        fieldSetToggle();
+        dateTimePicker();
+        reportRangePicker();
+        ajaxSelect2();
+        buttonLoader();
+        bindElements();
+        showPasswordBtn();
+        customFileInput();
+        changeShipmentClientType();
+        customLinks()
+        printing();
+
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(window).scroll(function () {
+        sticko();
+    });
+
+
+    function buttonLoader() {
+        if ($('.ladda-button').length) {
+            Ladda.bind('.ladda-button', {
+                timeout: 2000
             });
         }
+    }
 
-        function printData(divToPrint) {
-            divToPrint.classList.add("table-print");
-
-            var dir = "ltr";
-            if ($("body.rtl").length)
-                dir = "rtl";
-
-            newWin = window.open();
-            newWin.document.write('<html><head>' +
-                '<link href="/assets/global/css/style.css" rel="stylesheet">' +
-                '</head><body class="' + dir + '"><div class="container">');
-            newWin.document.write(divToPrint.outerHTML);
-            newWin.document.write('</div></body>');
-
-            $(newWin).ready(function (ev) {
-                setTimeout(function () {
-                    newWin.print();
-                    newWin.close();
-                }, 500);
+    let selectableTable = {
+        $selectableTable: null,
+        selected: [],
+        $selAll: null,
+        init: function () {
+            this.$selectableTable = $('.table-selectable');
+            this.$selAll = this.$selectableTable.find("#selectAll");
+            this.controller();
+        },
+        controller: function () {
+            this.$selectableTable.on('click', 'tbody tr', selectableTable.on.rowSelect)
+            this.$selectableTable.on('change', 'tbody .custom-checkbox .custom-control-input', function () {
+                selectableTable.on.checkboxChanged(this);
+                selectableTable.checkSelected()
             });
-
-            // }, 500);
-        }
-
-        if ($(".notification-element").length) {
-            $(".notification-element").each(function () {
-                showNoty("top", ".page-content", $(this).html(), "topbar");
+            this.$selAll.on('change', selectableTable.on.selectAll);
+            this.extra();
+        },
+        extra: function () {
+            $('.dataTables_wrapper .page-link').on("click", function () {
+                selectableTable.checkSelected();
             });
+        },
+        on: {
+            rowSelect: function (e) {
+                if ($(e.target).is('.custom-checkbox, .custom-checkbox *')) return;
+                var checkbox = $(this).find('.custom-checkbox .custom-control-input');
+                var oldVal = checkbox.prop('checked')
+                checkbox.prop('checked', !oldVal).trigger('change');
+            },
+            checkboxChanged: function (_this) {
+                var $this = _this ? $(_this) : $(this)
+                var $row = $this.closest('tr');
+                if ($this.is(":checked")) {
+                    $row.addClass('selected');
+                    selectableTable.selected.push($row.data('id'));
+                } else {
+                    $row.removeClass('selected');
+                    var position = selectableTable.selected.indexOf($row.data('id'));
+                    if (position !== -1)
+                        selectableTable.selected.splice(position, 1);
+                }
+            },
+            selectAll: function () {
+                var $this = $(this)
+                console.log($this.is(":checked"));
+                var $checkBoxes = selectableTable.$selectableTable.find('tbody .custom-checkbox .custom-control-input');
+                if ($this.is(":checked")) {
+                    $checkBoxes.prop('checked', true);
+                } else {
+                    $checkBoxes.prop('checked', false);
+                }
+                $checkBoxes.each(function () {
+                    selectableTable.on.checkboxChanged(this);
+                });
+                selectableTable.checkSelected();
+            }
+        },
+        checkSelected: function () {
+            var $selected = $('.table-selectable tbody tr.selected');
+            var $notSelected = $('.table-selectable tbody tr:not(.selected)');
+            var $actions = $(".reports-actions");
+            if ($selected.length) {
+                $('.selection-indicator').text($selected.length + " Selected");
+                $actions.find('input[name=shipments]').val(selectableTable.selected.join(','));
+                $(".page-heading").addClass('sticky');
+                if ($notSelected.length) {
+                    selectableTable.$selAll.prop('indeterminate', true);
+                } else {
+                    selectableTable.$selAll.prop('checked', true);
+                    selectableTable.$selAll.prop('indeterminate', false);
+                }
+                $actions.slideDown();
+            } else {
+                $(".page-heading").removeClass('sticky');
+                selectableTable.$selAll.prop('selected', false);
+                $actions.slideUp();
+            }
+        },
+        clearSelected: function () {
+            $('.table-selectable tr.selected').removeClass('selected');
+            selectableTable.selected = [];
+            var $actions = $(".reports-actions");
+            $actions.find('input[name=shipments]').val("");
+            $actions.slideUp();
         }
-        $('.console_error').each(function () {
-            console.error($(this).text());
-        });
+    }
 
+    function datatablesSetup() {
         var dtOpts = {
-            pageLength: 50,
-            stateSave: true
+            pageLength: 25,
+            "lengthMenu": [[10, 25, 50, 75], [10, 25, 50, 75]],
+            stateSave: true,
+            "columnDefs": [{
+                "targets": [-1],
+                "orderable": false
+            }],
         };
         if ($("body.rtl").length) {
             dtOpts.language = {
@@ -74,198 +154,160 @@
 
             };
         }
-        var oTable = $('.dataTable').DataTable(dtOpts);
-
-        $('.fieldset-toggle').each(function () {
+        $('.dataTable').each(function () {
             var $this = $(this);
-            var $toggle = $this.find('legend input[type=checkbox], legend input[type=radio]');
-            $toggle.on('change', function () {
-                if ($(this).prop('checked')) {
-                    $this.find('input[disabled]').not($(this)).prop('disabled', false);
-                    $this.find('.btn.disabled').removeClass('disabled');
-                } else {
-                    $this.find('input').not($(this)).prop('disabled', true);
-                    $this.find('.btn').addClass('disabled');
+            if ($this.data('ajax')) {
+                var url = $this.data('ajax');
+                dtOpts = {
+                    ...dtOpts, ...{
+                        "processing": true,
+                        "serverSide": true,
+                        "deferRender": true,
+                        "ajax": {
+                            url: url
+                        },
+                        createdRow: function (row, data, dataIndex) {
+                            $(row).data('id', data.id);
+                            $(row).attr('data-id', data.id);
+                        },
+                        "columnDefs": [{
+                            "targets": [0, -1, -2],
+                            "orderable": false
+                        }],
+                        columns: [
+                            {
+                                data: null,
+                                render: function (data, type, row) {
+                                    return '<div class="custom-control custom-checkbox" title="Select">\n' +
+                                        '                        <input type="checkbox" class="custom-control-input" id="select-' + data.id + '">\n' +
+                                        '                        <label class="custom-control-label" for="select-' + data.id + '"></label>\n' +
+                                        '                    </div>';
+                                }
+                            },
+                            {data: "client_account_number"},
+                            {
+                                data: "status",
+                                render: {
+                                    _: "display",
+                                    sort: "value",
+                                }
+                            },
+                            {data: "waybill"},
+                            {data: "courier"},
+                            {
+                                data: "delivery_date",
+                                render: {
+                                    _: "display",
+                                    sort: "value"
+                                }
+                            },
+                            {data: "address"},
+                            {data: "phone_number"},
+                            {data: "delivery_cost"},
+                            {data: "shipment_value"},
+                            {data: "actual_paid_by_consignee"},
+                            {
+                                data: "courier_cashed",
+                                render: function (data, type, row) {
+                                    return data ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>'
+                                }
+                            },
+                            {
+                                data: "client_paid",
+                                render: function (data, type, row) {
+                                    return data ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>'
+                                }
+                            }
+                        ]
+                    }
                 }
-            });
+
+            }
+
+            if ($this.hasClass('reports-table')) {
+                dtOpts.dom = "<'row align-items-center dt-top'<'col-auto'l><'col'B><'col-auto'f>>rtip";
+                dtOpts.buttons = [
+                    'print', 'excel', 'colvis'
+                ];
+            }
+
+            $this.on('preXhr.dt', function (e, settings, data) {
+                data.client = $('select[name=client]').val()
+                data.courier = $('select[name=courier]').val()
+            }).on('xhr.dt', function () {
+                selectableTable.clearSelected();
+            }).DataTable(dtOpts);
         })
+    }
 
-        // $('.select2-tags').select2({
-        //     tags: true
-        // });
+    var stickoLock = false;
 
+    function sticko() {
+        var $element = $('.custom-sticky-top');
+        var topbarHeight = $('.topbar').outerHeight() || 0;
+        var topPos = $('.page-heading').outerHeight() || 0;
+        var originalWidth = $element.width();
+        var start = window.innerWidth >= 786;
+        if (start)
+            if (!stickoLock && window.scrollY >= $element.offset().top - topbarHeight - 15) {
 
-        $(function () {
-            var startDate = $('#available_time_start');
-            var endDate = $('#available_time_end');
-            var icons = {
-                next: 'glyphicon glyphicon-chevron-right',
-                previous: 'glyphicon glyphicon-chevron-left'
-            };
-            if ($("body.rtl").length)
-                icons = {
-                    next: 'glyphicon glyphicon-chevron-left',
-                    previous: 'glyphicon glyphicon-chevron-right'
-                };
-            $('.date-rangepicker').daterangepicker({
-                showDropdowns: true,
-                minDate: moment([2018]),
-                locale: {
-                    format: "DD-MM-YYYY hh:mm A"
-                }
-            }, function (start, end, label) {
-                var years = moment().diff(start, 'years');
-            });
-            $('.datetime-rangepicker').daterangepicker({
-                showDropdowns: true,
-                timePicker: true,
-                minDate: moment([2018]),
-                locale: {
-                    format: "DD-MM-YYYY hh:mm A"
-                }
-            }, function (start, end, label) {
-                var years = moment().diff(start, 'years');
-            });
-            // endDate.daterangepicker({
-            //     singleDatePicker: true,
-            //     showDropdowns: true,
-            //     minYear: 2018,
-            //     maxYear: parseInt(moment().format('YYYY'), 10),
-            //     locale: {
-            //         format: "DD-MM-YYYY hh:mm A"
-            //     }
-            // });
-            startDate.on("dp.change", function (e) {
-                endDate.data("DateTimePicker").minDate(e.date);
-            });
-            endDate.on("dp.change", function (e) {
-                startDate.data("DateTimePicker").maxDate(e.date);
-            });
-            $('.datetimepicker').each(function () {
-                drops = $(this).data('drp-drops') || "down"
-                $(this).daterangepicker({
-                    singleDatePicker: true,
-                    showDropdowns: true,
-                    locale: {
-                        format: "DD-MM-YYYY"
-                    },
-                    minDate: moment(),
-                    drops: drops
+                $element.css({
+                    top: topbarHeight + 15,
+                    position: 'fixed',
+                    width: originalWidth
                 });
-            })
-        });
+                stickoLock = true;
 
-        var modal_action = $(".modal input[name='action']").val();
-        if (modal_action === "update") {
-            var $modal = $(".modal");
-            $modal.modal('show');
-            $modal.find('form').submit(function (e) {
-                e.preventDefault();
-                var $current_modal = $(this).closest(".modal");
-                var $toedit = $current_modal.attr("id");
-                var formData = $(this).serialize();
-                formData += "&toedit=" + $toedit;
-                $.post(ajax_url, formData, function (res) {
-                    var data = JSON.parse(res);
-                    $modal.modal('hide');
+            } else if (stickoLock && window.scrollY < topPos + 15) {
 
-                    var html = '<div class="alert alert-success fade in media"><p><i class="fa fa-check"></i> ' + data.msg + '</p></div>';
-
-                    showNoty("top", ".page-content", html, "topbar");
+                stickoLock = false
+                $element.css({
+                    top: 'auto',
+                    position: 'static',
+                    width: 'auto',
                 });
-            });
-        }
 
-        buttonLoader();
+            }
+    }
 
-        var $clinetAccNum = $("select.select2-accountNumber");
-        $clinetAccNum.each(function () {
-            var $this = $(this);
-            $this.select2({
-                ajax: {
-                    url: '/api/suggest/clients',
-                    dataType: 'json',
-                    processResults: function (data, params) {
-                        var out = {
-                            results: data.data,
-                        };
-                        return out;
-                    },
-                },
-                placeholder: $this.data('placeholder'),
-                minimumInputLength: 5,
-                escapeMarkup: function (markup) {
-                    return markup;
-                },
-                templateResult: function (data) {
-                    var markup = data.text;
-                    if (data.name && data.trade_name)
-                        markup = '<div class="client-suggestion">' +
-                            '<b>' + data.name + '</b><br>' +
-                            '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
-                            '</div>'
-                    return markup;
-                }
-            });
-        });
-        $clinetAccNum.on('select2:select', function (e) {
-            var data = e.params.data;
-            /*if (data.phone_number)
-                $('#phone_number').val(data.phone_number);
-            if (data.address_pickup_text)
-                $('#pickup_address_text').val(data.address_pickup_text);
-            if (data.address_pickup_maps)
-                $('#pickup_address_maps').val(data.address_pickup_maps);*/
-        });
-
-        var $waybillSelect = $('.select2-waybills');
-        $waybillSelect.select2({
-            tags: true,
-            ajax: {
-                url: '/api/suggest/shipments',
-                processResults: function (data, params) {
-                    var out = {
-                        results: data.data,
-                    };
-                    return out;
-                },
-            },
-            placeholder: $waybillSelect.data('placeholder'),
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            templateResult: function (data) {
-                var markup = '<div class="shipment-suggestion">' +
-                    '<b>' + data.text + '</b><br>';
-                if (data.client || data.address || data.delivery_date) {
-                    markup += "<small>";
-                    markup += data.client ? "<span>Client: " + data.client + "</span> | " : "";
-                    markup += data.client ? "<span>Address: " + data.address + "</span> | " : "";
-                    markup += data.client ? "<span>Delivery Date: " + data.delivery_date + "</span>" : "";
-                    markup += "</small>";
-                }
-                markup += '</div>';
-                return markup;
+    function showPasswordBtn() {
+        $(document).on('click', '.show-password', function () {
+            var $input = $(this).closest('.input-group').find('input');
+            if ($input.attr('type') === "password") {
+                $input.attr('type', 'text');
+                $(this).find('i').addClass('fa-eye-slash2');
+            } else {
+                $input.attr('type', 'password');
+                $(this).find('i').removeClass('fa-eye-slash2');
             }
         });
+    }
 
-        $('.dropdown.overflow-fix').on('show.bs.dropdown', function () {
+    function changeShipmentClientType() {
+        var $clientType = $("#shipmentClientInfo .custom-radio");
+        $clientType.on('change', "[name='shipment_client[type]']", function () {
             var $this = $(this);
-            var id = $this.closest('tr').data('id');
-            $('body').append($this.css({
-                position: 'absolute',
-                left: $($this).offset().left,
-                top: $($this).offset().top,
-                "z-index": 999
-            }).data('id', id).detach());
+            var $allInputs = $('#shipmentClientInfo').find('.card-body input, .card-body select');
+            var $myInputs = $this.closest('.card').find('.card-body input, .card-body select');
+            $allInputs.prop('disabled', true);
+            $myInputs.prop('disabled', false);
         });
-        //add BT DD hide event
-        $('.dropdown.overflow-fix').on('hidden.bs.dropdown', function () {
-            var $this = $(this);
-            var id = $this.data('id');
-            $('tr[data-id="' + id + '"] .dropdown-original').append($this.removeAttr('style').detach());
-        });
+    }
 
+    function customFileInput() {
+        $('.custom-file-input').on('change', function () {
+            let fileInput = $(this)[0];
+            let files = fileInput.files;
+            let names = [];
+
+            for (let i = 0; i < files.length; i++) {
+                names.push(files[i].name);
+            }
+            $(this).next('.custom-file-label').addClass("selected").html(names.join(', '));
+        });
+    }
+
+    function bindElements() {
         // Declare a global object to store view data.
         var viewData;
 
@@ -284,9 +326,9 @@
 
                 function refresh($this) {
                     var value;
-                    if($this.is('[type="checkbox"], [type="radio"]'))
-                        value = $('[for="'+$this.attr('id')+'"]').text();
-                    else if($this.is('select'))
+                    if ($this.is('[type="checkbox"], [type="radio"]'))
+                        value = $('[for="' + $this.attr('id') + '"]').text();
+                    else if ($this.is('select'))
                         value = $this.find("option:selected").text();
                     else
                         value = $this.val();
@@ -326,121 +368,400 @@
             // Run updateDisplay on the callback.
             $(document).on('updateDisplay', updateDisplay);
         });
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-
-        $(document).on('click', '.show-password', function () {
-            var $input = $(this).closest('.input-group').find('input');
-            if ($input.attr('type') === "password") {
-                $input.attr('type', 'text');
-                $(this).find('i').addClass('fa-eye-slash2');
-            } else {
-                $input.attr('type', 'password');
-                $(this).find('i').removeClass('fa-eye-slash2');
-            }
-        });
-
-        $(document).on('click', '[data-delete]', function (e) {
-            e.preventDefault();
-            var id = $(this).data('delete');
-            var $form = $('[data-id=' + id + ']').find('.delete-form');
-            $form.submit();
-        });
-
-
-        $('.custom-file-input').on('change', function () {
-            let fileInput = $(this)[0];
-            let files = fileInput.files;
-            let names = [];
-
-            for (let i = 0; i < files.length; i++) {
-                names.push(files[i].name);
-            }
-            $(this).next('.custom-file-label').addClass("selected").html(names.join(', '));
-        });
-    });
-
-    $(window).scroll(function () {
-
-        sticko();
-    });
-    var stickoLock = false;
-
-    function sticko() {
-        var $element = $('.custom-sticky-top');
-        var topbarHeight = $('.topbar').outerHeight() || 0;
-        var topPos = $('.page-heading').outerHeight() || 0;
-        var originalWidth = $element.width();
-        var start = window.innerWidth >= 786;
-        if (start)
-            if (!stickoLock && window.scrollY >= $element.offset().top - topbarHeight - 15) {
-
-                $element.css({
-                    top: topbarHeight + 15,
-                    position: 'fixed',
-                    width: originalWidth
-                });
-                stickoLock = true;
-
-            } else if (stickoLock && window.scrollY < topPos + 15) {
-
-                stickoLock = false
-                $element.css({
-                    top: 'auto',
-                    position: 'static',
-                    width: 'auto',
-                });
-
-            }
     }
 
-    $(document).ready(function () {
-        var $clientType = $("#shipmentClientInfo .custom-radio");
-        $clientType.on('change', "[name='shipment_client[type]']", function () {
-            var $this = $(this);
-            var $allInputs = $('#shipmentClientInfo').find('.card-body input, .card-body select');
-            var $myInputs = $this.closest('.card').find('.card-body input, .card-body select');
-            $allInputs.prop('disabled', true);
-            $myInputs.prop('disabled', false);
-        });
-
-
+    function customLinks() {
         $('[data-href]').on('click', function () {
             var href = $(this).data('href');
             if (typeof href === "string")
                 window.location.href = href;
         })
-    })
+    }
+
+    function ajaxSelect2() {
+        clientSelect();
+        couriersSelect();
+        waybillSelect()
+
+        function clientSelect() {
+            var $clinetAccNum = $("select.select2-accountNumber");
+            $clinetAccNum.each(function () {
+                var $this = $(this);
+                $this.select2({
+                    ajax: {
+                        url: '/api/suggest/clients',
+                        dataType: 'json',
+                        processResults: function (data, params) {
+                            var out = {
+                                results: data.data,
+                            };
+                            return out;
+                        },
+                    },
+                    allowClear: true,
+                    placeholder: $this.data('placeholder'),
+                    minimumInputLength: 5,
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    },
+                    templateResult: function (data) {
+                        var markup = data.text;
+                        if (data.name && data.trade_name)
+                            markup = '<div class="client-suggestion">' +
+                                '<b>' + data.name + '</b><br>' +
+                                '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
+                                '</div>'
+                        return markup;
+                    },
+                    templateSelection: function (data) {
+                        if (!data.name) return data.text;
+                        return data.text + "<small class='text-muted mx-2'>(" + data.name + ")</small>";
+                    }
+                });
+            });
+            $clinetAccNum.on('select2:select', function (e) {
+                var data = e.params.data;
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    reportsDT.DataTable().ajax.reload();
+                    let urlVars = getUrlVars();
+                    urlVars.client = data.text;
+                    window.history.pushState({}, window.title, "?" + to_qs(urlVars))
+                }
+            });
+            $clinetAccNum.on('select2:unselect', function (e) {
+                var data = e.params.data;
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    reportsDT.DataTable().ajax.reload();
+                    let urlVars = getUrlVars();
+                    if (urlVars.client)
+                        delete urlVars.client;
+                    window.history.pushState({}, window.title, "?" + to_qs(urlVars))
+                }
+            });
+        }
+
+        function couriersSelect() {
 
 
-    function buttonLoader() {
-        if ($('.ladda-button').length) {
-            Ladda.bind('.ladda-button', {
-                timeout: 2000
+            var $courierSelect = $("select.select2-courier");
+            $courierSelect.each(function () {
+                var $this = $(this);
+                $this.select2({
+                    ajax: {
+                        url: '/api/suggest/couriers',
+                        dataType: 'json',
+                        processResults: function (data, params) {
+                            var out = {
+                                results: data.data,
+                            };
+                            return out;
+                        },
+                    },
+                    allowClear: true,
+                    placeholder: $this.data('placeholder'),
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    },
+                    templateResult: couriersTemplate,
+                    templateSelection: couriersTemplate
+                });
+
+                function couriersTemplate(data) {
+                    var markup = '<b>' + data.text + '</b>';
+                    if (data.zone)
+                        markup += '<small class="text-muted mx-1">(' + data.zone + ')</small>';
+                    return markup;
+                }
+            });
+            $courierSelect.on('select2:select', function (e) {
+                var data = e.params.data;
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    reportsDT.DataTable().ajax.reload();
+                    let urlVars = getUrlVars();
+                    urlVars.courier = data.id;
+                    window.history.pushState({}, window.title, "?" + to_qs(urlVars))
+                }
+            });
+            $courierSelect.on('select2:unselect', function (e) {
+                var data = e.params.data;
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    reportsDT.DataTable().ajax.reload();
+                    let urlVars = getUrlVars();
+                    if (urlVars.courier)
+                        delete urlVars.courier;
+                    window.history.pushState({}, window.title, "?" + to_qs(urlVars))
+                }
+            });
+        }
+
+        function waybillSelect() {
+
+            var $waybillSelect = $('.select2-waybills');
+            $waybillSelect.select2({
+                tags: true,
+                ajax: {
+                    url: '/api/suggest/shipments',
+                    processResults: function (data, params) {
+                        var out = {
+                            results: data.data,
+                        };
+                        return out;
+                    },
+                },
+                placeholder: $waybillSelect.data('placeholder'),
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                templateResult: function (data) {
+                    var markup = '<div class="shipment-suggestion">' +
+                        '<b>' + data.text + '</b><br>';
+                    if (data.client || data.address || data.delivery_date) {
+                        markup += "<small>";
+                        markup += data.client ? "<span>Client: " + data.client + "</span> | " : "";
+                        markup += data.client ? "<span>Address: " + data.address + "</span> | " : "";
+                        markup += data.client ? "<span>Delivery Date: " + data.delivery_date + "</span>" : "";
+                        markup += "</small>";
+                    }
+                    markup += '</div>';
+                    return markup;
+                }
             });
         }
     }
 
-    window.getUrlVars = function () {
-        var vars = [], hash;
-        if (window.location.href.indexOf('?') > 0) {
-            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-            for (var i = 0; i < hashes.length; i++) {
-                hash = hashes[i].split('=');
-                vars[hash[0]] = hash[1];
+    function dateTimePicker() {
+        var startDate = $('#available_time_start');
+        var endDate = $('#available_time_end');
+        var icons = {
+            next: 'glyphicon glyphicon-chevron-right',
+            previous: 'glyphicon glyphicon-chevron-left'
+        };
+        if ($("body.rtl").length)
+            icons = {
+                next: 'glyphicon glyphicon-chevron-left',
+                previous: 'glyphicon glyphicon-chevron-right'
+            };
+        $('.date-rangepicker').daterangepicker({
+            showDropdowns: true,
+            minDate: moment([2018]),
+            locale: {
+                format: "DD-MM-YYYY hh:mm A"
             }
-        }
-        return vars;
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+        $('.datetime-rangepicker').daterangepicker({
+            showDropdowns: true,
+            timePicker: true,
+            minDate: moment([2018]),
+            locale: {
+                format: "DD-MM-YYYY hh:mm A"
+            }
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+        // endDate.daterangepicker({
+        //     singleDatePicker: true,
+        //     showDropdowns: true,
+        //     minYear: 2018,
+        //     maxYear: parseInt(moment().format('YYYY'), 10),
+        //     locale: {
+        //         format: "DD-MM-YYYY hh:mm A"
+        //     }
+        // });
+        startDate.on("dp.change", function (e) {
+            endDate.data("DateTimePicker").minDate(e.date);
+        });
+        endDate.on("dp.change", function (e) {
+            startDate.data("DateTimePicker").maxDate(e.date);
+        });
+        $('.datetimepicker').each(function () {
+            drops = $(this).data('drp-drops') || "down"
+            $(this).daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: "DD-MM-YYYY"
+                },
+                minDate: moment(),
+                drops: drops
+            });
+        })
     }
 
-    window.to_qs = function (obj) {
-        var str = [];
-        for (var p in obj)
-            if (obj.hasOwnProperty(p)) {
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    function reportRangePicker() {
+        var $range = $('#reportrange');
+
+        var pickerRanges = {};
+        var key = window.trans('common.today');
+        console.log(key);
+        pickerRanges = {[key]: [moment(), moment()]};
+        // ranges[trans('common.yesterday')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+        // ranges[trans('common.last30days')] = [moment().subtract(29, 'days'), moment()];
+        // ranges[trans('common.thisMonth')] = [moment().startOf('month'), moment().endOf('month')];
+        // ranges[trans('common.lastMonth')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+        console.log(pickerRanges);
+
+        var drpOptions = {
+            ranges: pickerRanges,
+            lifetimeRangeLabel: trans('common.lifetime'),
+            locale: {
+                "format": "MM/DD/YYYY",
+                "separator": " - ",
+                "applyLabel": trans('common.apply'),
+                "cancelLabel": trans('common.cancel'),
+                "fromLabel": trans('common.from'),
+                "toLabel": trans('common.to'),
+                "customRangeLabel": trans('common.customRange'),
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay": 1
             }
-        return str.join("&");
+        };
+
+        window.lifetimeRangeLabel = trans('common.lifetime');
+        var qs = window.getUrlVars();
+        var startDate = qs.start || false;
+        var endDate = qs.end || false;
+        drpOptions.isLifetime = !(startDate && endDate);
+
+        if (!drpOptions.isLifetime) {
+            drpOptions.startDate = moment(startDate);
+            drpOptions.endDate = moment(endDate);
+        }
+
+
+        if ($range.length) {
+            drpOptions.lifetimeRange = true;
+            drpOptions.opens = "left";
+
+            function cb(start, end) {
+                var label = $range.find('span');
+                if (drpOptions.isLifetime)
+                    label.html(window.lifetimeRangeLabel);
+                else
+                    label.html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            // init date time range picker
+            $range.daterangepicker(drpOptions, cb);
+
+            $range.on('apply.daterangepicker', function (ev, picker) {
+                var qs = window.getUrlVars();
+                qs.start = picker.startDate.unix();
+                qs.end = picker.endDate.unix();
+                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+            });
+            $range.on('lifetime.daterangepicker', function (ev, picker) {
+                var qs = window.getUrlVars();
+                if (qs.start) delete qs.start;
+                if (qs.end) delete qs.end;
+                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");
+            });
+
+            cb(drpOptions.startDate, drpOptions.endDate);
+
+        }
+    }
+
+    function fieldSetToggle() {
+        $('.fieldset-toggle').each(function () {
+            var $this = $(this);
+            var $toggle = $this.find('legend input[type=checkbox], legend input[type=radio]');
+            $toggle.on('change', function () {
+                if ($(this).prop('checked')) {
+                    $this.find('input[disabled]').not($(this)).prop('disabled', false);
+                    $this.find('.btn.disabled').removeClass('disabled');
+                } else {
+                    $this.find('input').not($(this)).prop('disabled', true);
+                    $this.find('.btn').addClass('disabled');
+                }
+            });
+        })
+    }
+
+    function printing() {
+        var print_btn = $("#print-data");
+        if (print_btn.length) {
+            print_btn.on('click', function (e) {
+                e.preventDefault();
+                var active = $(".tab-pane.active");
+                if (active.length)
+                    printData(active.find('.printArea')[0]);
+                else
+                    printData($('.printArea')[0]);
+            });
+        }
+
+        function printData(divToPrint) {
+            divToPrint.classList.add("table-print");
+
+            var dir = "ltr";
+            if ($("body.rtl").length)
+                dir = "rtl";
+
+            newWin = window.open();
+            newWin.document.write('<html><head>' +
+                '<link href="/assets/global/css/style.css" rel="stylesheet">' +
+                '</head><body class="' + dir + '"><div class="container">');
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.write('</div></body>');
+
+            $(newWin).ready(function (ev) {
+                setTimeout(function () {
+                    newWin.print();
+                    newWin.close();
+                }, 500);
+            });
+
+            // }, 500);
+        }
     }
 })();
+
+window.getUrlVars = function () {
+    var vars = [], hash;
+    if (window.location.href.indexOf('?') > 0) {
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars[hash[0]] = hash[1];
+        }
+    }
+    return vars;
+}
+
+window.to_qs = function (obj) {
+    var str = [];
+    for (var p in obj)
+        if (obj.hasOwnProperty(p) && p !== "" && obj[p]) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    return str.join("&");
+}

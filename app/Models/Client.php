@@ -3,6 +3,8 @@
 namespace App;
 
 
+use App\Interfaces\Accountable;
+use App\Traits\ClientAccounting;
 use App\Traits\HasAttachmentsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,9 +50,10 @@ use Symfony\Component\HttpFoundation\FileBag;
  * @property object|array bank
  * @property object|array urls
  */
-class Client extends Model
+class Client extends Model implements Accountable
 {
     use SoftDeletes, HasAttachmentsTrait;
+    use ClientAccounting;
 
     protected $dates = ['deleted_at'];
 

@@ -19,7 +19,7 @@ if (!mix.inProduction()) {
 .js('resources/assets/js/app.js', 'public/js/main.bundle.js')
     .js('resources/assets/js/login.js', 'public/js/login.bundle.js')
  */
-mix.disableNotifications();
+//mix.disableNotifications();
 mix
     .sass('resources/assets/sass/app.scss', 'public/css/main.bundle.css')
     .options({

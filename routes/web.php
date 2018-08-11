@@ -49,6 +49,11 @@ Route::middleware('auth')->group(function() {
     Route::resource('settings', "SettingsController");
     Route::resource('notes', "NotesController");
     Route::resource('services', "ServicesController");
+
+    Route::get('reports', "ReportingController@index")->name('reports.index');
+    Route::put('reports', "ReportingController@update")->name('reports.update');
+
+    Route::get('accounting', "AccountingController@index")->name('accounting.index');
 });
 
 // Localization
@@ -61,7 +66,9 @@ Route::get('/js/lang.js', function () {
 
     foreach ($files as $file) {
         $name = basename($file, '.php');
-        $strings[$name] = require $file;
+        $arr = require $file;
+        $arr = array_walk($arr, "parseItems");
+        $strings += $arr;
     }
 
     //return $strings;
@@ -69,7 +76,7 @@ Route::get('/js/lang.js', function () {
 
     header('Content-Type: text/javascript');
     echo('window.i18n = ' . json_encode($strings) . ';');
-    echo('window.trans = function(text){return window.i18n[text];}');
+    echo('window.trans = function(text){return window.i18n[text] || text;}');
     exit();
 })->name('assets.lang');
 //test Routes
@@ -79,3 +86,9 @@ Route::group(['middleware'=> 'web'],function(){
   Route::get('test/{id}/delete','\App\Http\Controllers\TestController@destroy');
   Route::get('test/{id}/deleteMsg','\App\Http\Controllers\TestController@DeleteMsg');
 });
+
+
+function parseItems($key, $value) {
+
+    array_walk($test_array, function(&$a, $b) { $a = "$b loves $a"; });
+}

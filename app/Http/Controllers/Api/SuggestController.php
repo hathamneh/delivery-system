@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Client;
+use App\Courier;
 use App\Http\Resources\ClientSuggestCollection;
+use App\Http\Resources\CourierSuggestResource;
 use App\Http\Resources\ShipmentSuggestCollection;
 use App\Http\Resources\StatusSuggestCollection;
 use App\Shipment;
@@ -17,7 +19,7 @@ class SuggestController extends Controller
     {
         $term = (int)$request->get('term');
         $shipments = Shipment::waybill($term)->get();
-        if(!is_null($shipments))
+        if (!is_null($shipments))
             return ShipmentSuggestCollection::collection($shipments);
         return [];
     }
@@ -25,10 +27,22 @@ class SuggestController extends Controller
     public function clients(Request $request)
     {
         $term = (int)$request->get('term');
-        $client = Client::where('account_number',$term)->get();
-        if(!is_null($client))
+        $client = Client::where('account_number', $term)->get();
+        if (!is_null($client))
             return ClientSuggestCollection::collection($client);
         return [];
+    }
+
+    public function couriers(Request $request)
+    {
+        $term = $request->get('term', false);
+        if($term) {
+            $couriers = Courier::where('name', "like", "%" . $term . "%")->get();
+            if (!is_null($couriers))
+                return CourierSuggestResource::collection($couriers);
+            return [];
+        }
+        return CourierSuggestResource::collection(Courier::all());
     }
 
     public function statuses(Status $status)

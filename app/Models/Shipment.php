@@ -266,4 +266,18 @@ class Shipment extends Model
         logger($syncData);
         return $this->services()->sync($syncData);
     }
+
+    public function scopeSearch(Builder $query, string $term)
+    {
+        $statuses = Status::where("name", "like", "%$term%")->pluck('id');
+        $couriers = Courier::where("name", "like", "%$term%")->pluck('id');
+        $addresses = Address::where("name", "like", "%$term%")->pluck('id');
+        return $query->whereIn("status_id", $statuses)
+            ->orWhere("waybill", "like", "%$term%")
+            ->whereIn("courier_id", $couriers, "or")
+            ->whereIn("address_id", $addresses, "or")
+            ->orWhere("phone_number", "like", "%$term%")
+            ->orWhere("shipment_value", "like", "%$term%")
+            ->orWhere("actual_paid_by_consignee", "like", "%$term%");
+    }
 }

@@ -305,7 +305,7 @@ function collapsedSidebar() {
 
 function createCollapsedSidebar() {
     $body.addClass('sidebar-collapsed');
-    $('.sidebar').css('width', '').resizable().resizable('destroy');
+    $('.sidebar').css('width', '');
     $('.nav-sidebar ul').attr('style', '');
     $(this).addClass('menu-collapsed');
     destroySideScroll();

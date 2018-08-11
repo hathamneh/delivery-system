@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kangarooIcons';
-  src:  url('fonts/kangarooIcons.eot?d7p87k');
-  src:  url('fonts/kangarooIcons.eot?d7p87k#iefix') format('embedded-opentype'),
-    url('fonts/kangarooIcons.ttf?d7p87k') format('truetype'),
-    url('fonts/kangarooIcons.woff?d7p87k') format('woff'),
-    url('fonts/kangarooIcons.svg?d7p87k#kangarooIcons') format('svg');
+  src:  url('fonts/kangarooIcons.eot?9apdnb');
+  src:  url('fonts/kangarooIcons.eot?9apdnb#iefix') format('embedded-opentype'),
+    url('fonts/kangarooIcons.ttf?9apdnb') format('truetype'),
+    url('fonts/kangarooIcons.woff?9apdnb') format('woff'),
+    url('fonts/kangarooIcons.svg?9apdnb#kangarooIcons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -2816,4 +2816,7 @@
 }
 .fa-shipment:before {
   content: "\eca2";
+}
+.fa-reports:before {
+  content: "\eca3";
 }

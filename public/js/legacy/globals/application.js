@@ -376,7 +376,14 @@ function createSideScroll() {
 
 /* Destroy sidebar custom scroll */
 function destroySideScroll() {
-    $('.sidebar-inner').mCustomScrollbar("destroy");
+    var $innerSidebar = $('.sidebar-inner');
+    $innerSidebar.mCustomScrollbar("destroy");
+    $innerSidebar.removeClass();
+    $innerSidebar.addClass('sidebar-inner');
+    $innerSidebar.prepend($innerSidebar.find('.nav-sidebar'));
+    $innerSidebar.find('.mCustomScrollBox').remove();
+    $innerSidebar.find('.nav-sidebar .active .children').removeAttr('style');
+
 }
 
 /* Toggle submenu open */

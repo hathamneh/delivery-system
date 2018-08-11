@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-shipment'></i> @lang("shipment.label")
+    <i class='fa-shipment'></i> {{ $pageTitle }}
 @endsection
 
 @section('content')

@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> @lang("client.label")
+    <i class='fa-user-tie'></i> {{ $pageTitle }}
 @endsection
 
 @section('content')

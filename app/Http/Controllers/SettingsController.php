@@ -11,9 +11,12 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('settings.index');
+        $tab = $request->get('tab', "general");
+        return view('settings.index')->with([
+            'tab' => $tab
+        ]);
     }
 
     /**

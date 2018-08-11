@@ -9,10 +9,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import "~malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
-@import "~animate.css/animate.min.css";
 $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~simple-line-icons/scss/simple-line-icons";
-@import "~slick-carousel/slick/slick";
+//@import "~slick-carousel/slick/slick";
 @import "/js/legacy/plugins/icheck/new/flat/_all.css";
 @import "~octicons/index";
 @import "~weather-icons/css/weather-icons.min.css";
@@ -20,10 +19,8 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~daterangepicker/daterangepicker.css";
 @import "~bootstrap-select/sass/bootstrap-select";
 @import "/js/legacy/plugins/datatables/datatables.min.css";
-@import "~noty/src/noty.scss";
-@import "~noty/src/themes/mint.scss";
-@import "~perfect-scrollbar/css/perfect-scrollbar.css";
-@import "~bootstrap-slider/src/sass/bootstrap-slider";
+//@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+//@import "~bootstrap-slider/src/sass/bootstrap-slider";
 @import "~select2/src/scss/core";
 @import "plugins/select2";
 @import "../kangarooIcons/style.css";

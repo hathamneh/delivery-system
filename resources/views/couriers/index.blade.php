@@ -48,38 +48,43 @@
                         <td>{{ $courier->zone->name}}</td>
                         <td>{{ $courier->address}}</td>
                         <td>
-                            <div class="d-flex">
+                            <div class="btn-group">
+                                <a href="{{ route('reports.index', ['courier'=>$courier->id]) }}"
+                                   data-toggle="tooltip"
+                                   class="btn btn-light btn-sm" title="@lang('reports.label')">
+                                    <i class="fa-reports"></i></a>
                                 <a href="{{ route('couriers.edit', ['courier'=>$courier->id]) }}"
                                    data-toggle="tooltip"
                                    class="btn btn-light btn-sm" title="@lang('courier.edit')">
                                     <i class="fa fa-edit"></i></a>
-                                <form class="delete-form"
-                                      action="{{ route('couriers.destroy', ['courier' => $courier->id]) }}"
-                                      method="post">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                </form>
-                                @component('bootstrap::modal',[
-                                    'id' => 'deleteCourier-'.$courier->id
-                                ])
-                                    @slot('title')
-                                        Delete this Courier?
-                                    @endslot
-                                    This is irreversible, all his information will be deleted permanently!
-                                    @slot('footer')
-                                        <button class="btn btn-outline-secondary"
-                                                data-dismiss="modal">@lang('common.cancel')</button>
-                                        <button class="btn btn-danger ml-auto" type="button"
-                                                data-delete="{{ $courier->id }}"><i
-                                                    class="fa fa-trash"></i> @lang('courier.delete')
-                                        </button>
-                                    @endslot
-                                @endcomponent
-                                <span data-toggle="modal" data-target="#deleteCourier-{{ $courier->id }}">
-                                <button class="btn btn-light btn-sm" title="@lang('courier.delete')" type="button"
-                                        data-toggle="tooltip"><i class="fa fa-trash"></i></button>
-                            </span>
+                                <button class="btn btn-light btn-sm" type="button"
+                                        data-toggle="modal" data-target="#deleteCourier-{{ $courier->id }}">
+                                    <span data-toggle="tooltip" title="@lang('courier.delete')" class="d-block"><i
+                                                class="fa fa-trash"></i></span>
+                                </button>
                             </div>
+                            <form class="delete-form"
+                                  action="{{ route('couriers.destroy', ['courier' => $courier->id]) }}"
+                                  method="post">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+                            @component('bootstrap::modal',[
+                                'id' => 'deleteCourier-'.$courier->id
+                            ])
+                                @slot('title')
+                                    Delete this Courier?
+                                @endslot
+                                This is irreversible, all his information will be deleted permanently!
+                                @slot('footer')
+                                    <button class="btn btn-outline-secondary"
+                                            data-dismiss="modal">@lang('common.cancel')</button>
+                                    <button class="btn btn-danger ml-auto" type="button"
+                                            data-delete="{{ $courier->id }}"><i
+                                                class="fa fa-trash"></i> @lang('courier.delete')
+                                    </button>
+                                @endslot
+                            @endcomponent
                         </td>
                     </tr>
                 @endforeach

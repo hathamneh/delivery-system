@@ -7,6 +7,7 @@ use App\Courier;
 use App\Http\Resources\ReportCollection;
 use App\Shipment;
 use App\Status;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -113,6 +114,8 @@ class ReportingController extends Controller
         $search = $request->get('search', false);
         $courier = $request->get('courier', false);
         $length = $request->get("length", 15);
+        $from = $request->get('from', false);
+        $until = $request->get('until', false);
 
         $query = Shipment::query();
         if ($client)
@@ -123,6 +126,11 @@ class ReportingController extends Controller
         if (isset($search['value']) && !empty($search['value'])) {
             $query->search($search['value']);
         }
+
+        if($from)
+            $query->whereDate("delivery_date", ">=", new Carbon($from), "or");
+        if($until)
+            $query->whereDate("delivery_date", "<=", new Carbon($from), "or");
 
         if ($order) {
             $orderOnCollectin = [];

@@ -77,8 +77,6 @@
 @endsection
 
 @section('beforeBody')
-    <script src="{{ asset('/js/legacy/plugins/step-form-wizard/plugins/parsley/parsley.min.js') }}"></script> <!-- OPTIONAL, IF YOU NEED VALIDATION -->
-    <script src="{{ asset('/js/legacy/plugins/step-form-wizard/js/step-form-wizard.js') }}"></script> <!-- Step Form Validation -->
     <script>
         $(document).ready(function () {
             $(".shipment-form").stepFormWizard({

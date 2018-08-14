@@ -1,5 +1,21 @@
 let mix = require('laravel-mix');
 
+mix.webpackConfig({
+    module: {
+        loaders: [
+            {
+                test: /jquery-mousewheel/, loader: "imports?define=>false&this=>window",
+                include: [/node_modules\/jquery-mousewheel/]
+            },
+            {
+                test: /malihu-custom-scrollbar-plugin/, loader: "imports?define=>false&this=>window",
+                include: [/node_modules\/malihu-custom-scrollbar-plugin/]
+            }
+        ]
+    }
+
+})
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -20,7 +36,7 @@ if (!mix.inProduction()) {
     .js('resources/assets/js/login.js', 'public/js/login.bundle.js')
  */
 //mix.disableNotifications();
-mix
+mix.js('resources/assets/js/app.js', 'public/js/main.bundle.js')
     .sass('resources/assets/sass/app.scss', 'public/css/main.bundle.css')
     .options({
         processCssUrls: false

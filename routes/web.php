@@ -56,29 +56,6 @@ Route::middleware('auth')->group(function() {
     Route::get('accounting', "AccountingController@index")->name('accounting.index');
 });
 
-// Localization
-Route::get('/js/lang.js', function () {
-    //$strings = Cache::rememberForever('lang.js', function () {
-    $lang = config('app.locale');
-
-    $files = glob(resource_path('lang/' . $lang . '/*.php'));
-    $strings = [];
-
-    foreach ($files as $file) {
-        $name = basename($file, '.php');
-        $strings[$name] = require $file;
-//        $arr = array_walk($arr, "parseItems");
-//        $strings += $arr;
-    }
-
-    //return $strings;
-    //});
-
-    header('Content-Type: text/javascript');
-    echo('window.i18n = ' . json_encode($strings) . ';');
-    echo('window.trans = function(text){return window.i18n[text] || text;}');
-    exit();
-})->name('assets.lang');
 //test Routes
 Route::group(['middleware'=> 'web'],function(){
   Route::resource('test','\App\Http\Controllers\TestController');

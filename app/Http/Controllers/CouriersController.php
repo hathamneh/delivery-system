@@ -19,7 +19,8 @@ class CouriersController extends Controller
     {
         $couriers = Courier::all();
         return view('couriers.index')->with([
-            'couriers' => $couriers
+            'couriers' => $couriers,
+            'pageTitle' => trans('courier.label')
         ]);
     }
 
@@ -32,7 +33,8 @@ class CouriersController extends Controller
     {
         $zones = Zone::all();
         return view('couriers.create')->with([
-            'zones' => $zones
+            'zones' => $zones,
+            'pageTitle' => trans('courier.create')
         ]);
     }
 
@@ -88,7 +90,8 @@ class CouriersController extends Controller
         $zones = Zone::all();
         return view('couriers.edit', [
             'courier' => $courier,
-            'zones'   => $zones
+            'zones'   => $zones,
+            'pageTitle' => trans('courier.edit')
         ]);
     }
 

@@ -29,8 +29,15 @@
                         <label for="package_weight">@lang('shipment.package_weight')</label>
                         <input type="number" name="package_weight" id="package_weight" class="form-control"
                                data-bind="package_weight"
-                               placeholder="@lang('shipment.package_weight')" step="0.01" max="30"
-                               value="{{ isset($shipment) ? $shipment->package_weight : old("package_weight") }}">
+                               placeholder="@lang('shipment.package_weight')" step="0.01" max="{{ Setting::get('max_weight') }}"
+                               value="{{ $shipment->package_weight ?? old("package_weight") }}">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="pieces">@lang('shipment.pieces')</label>
+                        <input type="number" name="pieces" id="pieces" class="form-control"
+                               data-bind="pieces"
+                               placeholder="@lang('shipment.pieces')"
+                               value="{{ $shipment->package_weight ?? old("pieces") ?? 1 }}">
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="shipment_value">@lang('shipment.shipment_value')</label>

@@ -1,14 +1,11 @@
-
 // Fonts
 @import url("http://fonts.googleapis.com/css?family=Lato:300,400,700,900|Open+Sans:400,300,600,700|Cairo");
-
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import "~malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
+
 $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~simple-line-icons/scss/simple-line-icons";
 //@import "~slick-carousel/slick/slick";
@@ -24,8 +21,9 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~summernote/src/less/summernote-bs4";
 @import "~jquery.rateit/scripts/rateit.css";
 @import "~select2/src/scss/core";
-@import "plugins/select2";
+@import "~@ttskch/select2-bootstrap4-theme/src/layout";
 @import "../kangarooIcons/style.css";
+@import "~paper-css/paper.css";
 
 // template style
 @import "main";
@@ -39,4 +37,29 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 .bootstrap-select .dropdown-toggle.btn-default {
   background-color: #FFF;
   border: 1px solid #ECEDEE;
+}
+
+.select2-container--bootstrap4 {
+  background-color: #fff;
+  &.select2-container--disabled {
+    background-color: #e9ecef;
+    .select2-selection {
+      cursor: default;
+    }
+    &.select2-container--focus {
+      .select2-selection {
+        border-color: #ced4da;
+        box-shadow: none;
+      }
+    }
+  }
+  .select2-dropdown {
+    margin-top: -3px;
+  }
+}
+
+.print-layout {
+  .main-content {
+    margin: 0;
+  }
 }

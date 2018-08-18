@@ -7,7 +7,7 @@ return [
     'new'     => 'New Shipment',
     'edit'    => 'Edit Shipment',
     'updated' => "{0} Nothing updated|{1} <i class='fa-check-circle2'></i> One shipment updated successfully.|[2,*] <i class='fa-check-circle2'></i> :value shipments updated successfully.",
-    'info' => "Shipment Info",
+    'info'    => "Shipment Info",
 
     'track_shipment'        => "Track Your Shipment",
     "enter_identifier"      => "Please Enter Shipment Waybill Number",
@@ -100,8 +100,8 @@ return [
 
     'total_price'       => "Total Delivery Price",
     'custom_price'      => "Override delivery cost",
-    'custom_price_help' => "Use this value for delivery cost instead of computing it selected address",
-
-    'courier_cashed' => "Courier Cashed",
-    'client_paid'    => "Client Paid",
+    'custom_price_help' => "Use this value for delivery cost instead of computing it.",
+    'pieces'            => 'Number of Pieces',
+    'courier_cashed'    => "Courier Cashed",
+    'client_paid'       => "Client Paid",
 ];

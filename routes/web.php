@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function() {
     Route::put('reports', "ReportingController@update")->name('reports.update');
 
     Route::get('accounting', "AccountingController@index")->name('accounting.index');
+    Route::post('accounting/invoice', "AccountingController@store")->name('accounting.store');
+    Route::get('accounting/invoice/{invoice}', "AccountingController@show")->name('accounting.invoice');
+    Route::get('accounting/goto', "AccountingController@goto")->name('accounting.goto');
 });
 
 //test Routes

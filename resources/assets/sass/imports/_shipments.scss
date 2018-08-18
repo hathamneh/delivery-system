@@ -174,11 +174,13 @@
     font-size: 1rem;
     font-weight: bold;
   }
-  &__currency {
-    display: inline-block;
-    margin-right: 0.5rem;
-    font-weight: lighter;
-  }
+}
+
+.currency {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-weight: lighter;
+  font-size: 0.85em;
 }
 
 .shipment-history {

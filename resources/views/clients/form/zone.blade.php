@@ -5,7 +5,7 @@
                 required>
             <option value="" disabled {{ old('zone_id') ?: 'selected' }}>@lang('common.select')</option>
             @foreach($zones as $zone)
-                <option {{ old('zone_id') && old('zone_id') == $c_code ? 'selected' : "" }} value="{{ $zone->id }}">{{ $zone->name }}</option>
+                <option {{ old('zone_id') && old('zone_id') == $zone->id ? 'selected' : "" }} value="{{ $zone->id }}">{{ $zone->name }}</option>
             @endforeach
         </select>
     </div>

@@ -9,9 +9,19 @@
 namespace App\Interfaces;
 
 
+use App\Invoice;
+
 interface Accountable
 {
-    public function dueTo();
+    /**
+     * @param Invoice $invoice
+     * @return float
+     */
+    public function dueFrom(Invoice $invoice) : float ;
 
-    public function dueFor();
+    /**
+     * @param Invoice $invoice
+     * @return float
+     */
+    public function dueFor(Invoice $invoice) : float ;
 }

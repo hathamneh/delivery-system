@@ -9,7 +9,8 @@
   &-actions {
     display: none;
     background-color: #efdbb7;
-    margin-bottom: 0.25rem;
+    margin: 0 0.5rem;
+    padding: 0 1rem;
     .actions-content {
       display: flex;
       align-items: center;
@@ -121,6 +122,8 @@
   margin: auto;
 }
 
+$border-light: #dee2e6;
+$border-dark: #9aa3a7;
 .invoice {
   &-logo img {
     height: 85px;
@@ -131,12 +134,94 @@
   &-top-meta {
     text-align: right;
   }
+  &__company-details {
+    padding: 1rem;
+  }
   &-table {
+    margin-top: 1rem;
+    border-color: $border-dark !important;
+    width: 100%;
     td, th {
       padding: 0.4rem 0.35rem;
+      vertical-align: middle;
+      font-size: 0.8rem;
+      border-color: $border-dark !important;
     }
     th {
       background-color: #f4f6f7;
+    }
+    td.light-bg {
+      background-color: #f8fafb;
+    }
+  }
+  ul.operational-details {
+    list-style: none;
+    display: inline-block;
+    li {
+      display: inline-block;
+      padding: 0.25rem;
+      margin-right: 0.2rem;
+      background-color: #fff;
+      border: 1px solid $border-light;
+    }
+  }
+
+  &__summery {
+    &-table {
+      td, th {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        border:none;
+      }
+      tbody {
+        td, th {
+          border-bottom: 1px solid $border-light;
+        }
+      }
+      td {
+        text-align: right;
+        font-weight: bold;
+      }
+      tfoot tr {
+        background-color: #f4f6f7;
+        td {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+
+  &__statement {
+    &-table {
+      width: 50%;
+      padding: 0.75rem 0;
+      table {
+        border: 1px solid $border-dark;
+        padding: 0.75rem;
+        height: 100%;
+      }
+      tr {
+        td, th {
+          border-bottom: 1px solid $border-light;
+        }
+        td {
+          border-right: 1px solid $border-dark;
+        }
+        th {
+          border-left: 1px solid $border-dark;
+        }
+        &:last-child {
+          td, th {
+            border-bottom: none;
+          }
+        }
+      }
+      td, th {
+        padding: 0.25rem 0.5rem;
+      }
+      th {
+        width: 35%;
+      }
     }
   }
 }

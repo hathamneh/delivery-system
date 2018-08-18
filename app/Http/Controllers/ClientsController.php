@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\ClientChargedFor;
 use App\Http\Requests\StoreClientRequest;
 use App\Shipment;
+use App\Status;
 use App\User;
 use App\Zone;
 use Illuminate\Http\Request;
@@ -23,7 +25,7 @@ class ClientsController extends Controller
 
         $clients = Client::all();
         return view('clients.index', [
-            'clients' => $clients,
+            'clients'   => $clients,
             'pageTitle' => trans('client.label')
         ]);
     }
@@ -45,7 +47,7 @@ class ClientsController extends Controller
             'countries'           => $countries,
             'zones'               => $zones,
             'next_account_number' => Client::nextAccountNumber(),
-            'pageTitle' => trans('client.create')
+            'pageTitle'           => trans('client.create')
         ]);
     }
 
@@ -72,7 +74,8 @@ class ClientsController extends Controller
         $client->bank = $request->get('bank', []);
         $client->urls = $request->get('urls', []);
 
-        $client->save();
+        $client->push();
+        $this->chargeFor($client, $request);
         $client->createUser();
         $client->uploadAttachments($request->file('client_files'));
 
@@ -89,17 +92,17 @@ class ClientsController extends Controller
     public function show(Client $client, $tab = "statistics")
     {
         $data = [
-            'client' => $client,
-            'tab'      => $tab,
+            'client'    => $client,
+            'tab'       => $tab,
             'pageTitle' => $client->trade_name
         ];
 
-        if($tab == "shipments")
+        if ($tab == "shipments")
             $data['shipments'] = $client->shipments()->filtered();
-        elseif($tab == "pickups") {
+        elseif ($tab == "pickups") {
             $data['pickups'] = $client->pickups()->get();
             $data['startDate'] = $data['endDate'] = false;
-        }elseif($tab == "edit") {
+        } elseif ($tab == "edit") {
             $data['countries'] = \Countries::lookup();
             $data['zones'] = Zone::all();
         }
@@ -145,5 +148,23 @@ class ClientsController extends Controller
 
         }
         return redirect()->route('clients.index');
+    }
+
+    private function chargeFor(Client $client, Request $request)
+    {
+        if (is_array($chargedForItems = $request->get('chargedFor'))) {
+            foreach ($chargedForItems as $statusName => $item) {
+                if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
+                $status = Status::name($statusName)->first();
+                if(is_null($status)) continue;
+                $chargedFor = new ClientChargedFor;
+                $chargedFor->status()->associate($status);
+                $chargedFor->enabled = $item['enabled'] == "on";
+                $chargedFor->type = $item['type'];
+                $chargedFor->value = $item['value'];
+                $chargedFor->client()->associate($client);
+                $chargedFor->save();
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -24,6 +25,8 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Client client
  * @property Courier courier
  * @property string identifier
+ * @mixin Builder
+ * @method static self unpaid()
  */
 class Pickup extends Model
 {
@@ -178,5 +181,8 @@ class Pickup extends Model
         return static::where('identifier', $identifier)->first() ?? false;
     }
 
-
+    public function scopeUnpaid(Builder $query)
+    {
+        return $query->where('is_fees_paid', false);
+    }
 }

@@ -3,10 +3,17 @@
 <fieldset class="shipment-actions-fieldset mt-4">
     <legend><i class="fa-reply"></i> @lang('shipment.return')</legend>
     <div>
-        <p>@lang('shipment.return_notice')</p>
-        <button type="button" class="btn btn-warning" data-toggle="modal"
-                data-target="#returnShipment-{{ $shipment->id }}"><i
-                    class="fa-reply"></i> @lang('shipment.make_returned')</button>
+        @if($shipment->isEditable())
+            <p>@lang('shipment.return_notice')</p>
+            <button type="button" class="btn btn-warning" data-toggle="modal"
+                    data-target="#returnShipment-{{ $shipment->id }}"><i
+                        class="fa-reply"></i> @lang('shipment.make_returned')</button>
+        @else
+            <div class="alert alert-light">
+                <i class="fa-exclamation-triangle"></i>
+                The shipment cannot be returned after it is delivered.
+            </div>
+        @endif
     </div>
 </fieldset>
 <form action="{{ route("shipments.return", ['shipment' => $shipment]) }}" method="post" class="return-form">

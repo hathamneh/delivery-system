@@ -11,7 +11,10 @@ use Illuminate\Support\Collection;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
- * @property mixed package_weight
+ * @property int id
+ * @property string type
+ * @property float package_weight
+ * @property integer pieces
  * @property mixed base_weight_of_zone
  * @property mixed charge_per_unit_of_zone
  * @property mixed extra_fees_per_unit_of_zone
@@ -36,12 +39,17 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double extra_fees
  * @property double services_cost
  * @property double delivery_cost
+ * @property double base_charge
  * @property double actual_paid_by_consignee
  * @property string internal_notes
  * @property string status_notes
- * @property int id
- * @property string type
- * @property double total_price
+ * @property double total_price)
+ * @property mixed client_paid
+ * @method static self statusIn(array $statuses)
+ * @method static self statusIs(string $status)
+ * @method static self lodger(string $lodger)
+ * @method static self unpaid()
+ * @mixin Builder
  */
 class Shipment extends Model
 {
@@ -66,6 +74,7 @@ class Shipment extends Model
         'consignee_name',
         'phone_number',
         'package_weight',
+        'pieces',
         'service_type',
         'internal_notes',
         'external_notes',
@@ -150,6 +159,11 @@ class Shipment extends Model
         return $query->whereIn('type', $type);
     }
 
+    public function scopeLodger(Builder $query, $lodger)
+    {
+        return $query->where('delivery_cost_lodger', $lodger);
+    }
+
     public function scopeFiltered(Builder $builder)
     {
         $results = $builder->get();
@@ -163,8 +177,8 @@ class Shipment extends Model
 
     public function scopeUnpaid($query)
     {
-        $statuses = Status::where('unpaid', true)->pluck('id');
-        return $query->whereIn('status_id', $statuses)->where('client_paid', false);
+        //$statuses = Status::where('unpaid', true)->pluck('id');
+        return $query->where('client_paid', false);
     }
 
     public function scopePending($query)
@@ -187,13 +201,19 @@ class Shipment extends Model
         return $query->where('status_id', $status_id);
     }
 
-    public function scopeUpcoming($query)
+    public function scopeStatusIn(Builder $query, array $statuses)
+    {
+        $status_ids = Status::whereIn('name', $statuses)->pluck('id');
+        return $query->whereIn('status_id', $status_ids);
+    }
+
+    public function scopeUpcoming(Builder $query)
     {
         $todayDate = Carbon::now()->toDateString();
         return $query->whereDate('delivery_date', '>=', $todayDate);
     }
 
-    public function scopeWaybill($query, $waybill)
+    public function scopeWaybill(Builder $query, $waybill)
     {
         return $query->where("waybill", $waybill);
     }
@@ -242,10 +262,15 @@ class Shipment extends Model
         return $services_cost;
     }
 
+    public function getBaseChargeAttribute()
+    {
+        if (!is_null($this->total_price)) return $this->total_price;
+        return $this->price_of_address;
+    }
+
     public function getDeliveryCostAttribute()
     {
         if (!is_null($this->total_price)) return $this->total_price;
-
         return $this->price_of_address + $this->extra_fees + $this->services_cost;
     }
 
@@ -279,5 +304,21 @@ class Shipment extends Model
             ->orWhere("phone_number", "like", "%$term%")
             ->orWhere("shipment_value", "like", "%$term%")
             ->orWhere("actual_paid_by_consignee", "like", "%$term%");
+    }
+
+    public function isPriceOverridden()
+    {
+        return $this->total_price !== null;
+    }
+
+    public function isEditable()
+    {
+        return !$this->status()->whereIn('name', ['delivered', 'returned'])->exists();
+    }
+
+    public function toggleClientPaid()
+    {
+        $this->client_paid = !$this->client_paid;
+        return $this;
     }
 }

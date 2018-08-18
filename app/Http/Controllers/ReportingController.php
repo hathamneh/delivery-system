@@ -62,6 +62,7 @@ class ReportingController extends Controller
                 $result = $this->bulkCourierCashed($shipments);
                 break;
         }
+        dd($action, $result);
         if (!$result) throw new \BadMethodCallException("Action is invalid");
         return back()->with([
             'alert' => (object)[
@@ -96,8 +97,12 @@ class ReportingController extends Controller
 
     public function bulkClientPaid(array $shipments)
     {
-        $shipmentsTable = (new Shipment)->getTable();
-        return DB::table($shipmentsTable)->whereIn('id', $shipments)->update(array('client_paid' => true));
+        $shipments = Shipment::whereIn('id', $shipments)->get();
+        foreach ($shipments as $shipment) {
+            /** @var Shipment $shipment */
+            $shipment->toggleClientPaid()->save();
+        }
+        return count($shipments);
     }
 
     public function bulkCourierCashed(array $shipments)

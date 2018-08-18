@@ -55,6 +55,10 @@
                                 <td><span data-update="package_weight"></span></td>
                             </tr>
                             <tr>
+                                <th>@lang('shipment.pieces')</th>
+                                <td><span data-update="pieces"></span></td>
+                            </tr>
+                            <tr>
                                 <th>@lang('shipment.shipment_value')</th>
                                 <td><span data-update="shipment_value"></span></td>
                             </tr>

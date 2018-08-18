@@ -2,19 +2,15 @@ let mix = require('laravel-mix');
 
 mix.webpackConfig({
     module: {
-        loaders: [
+        rules: [
             {
-                test: /jquery-mousewheel/, loader: "imports?define=>false&this=>window",
-                include: [/node_modules\/jquery-mousewheel/]
-            },
-            {
-                test: /malihu-custom-scrollbar-plugin/, loader: "imports?define=>false&this=>window",
-                include: [/node_modules\/malihu-custom-scrollbar-plugin/]
+                // Matches all PHP or JSON files in `resources/lang` directory.
+                test: /resources[\\\/]lang.+\.(php|json)$/,
+                loader: 'laravel-localization-loader',
             }
         ]
     }
-
-})
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -38,6 +34,7 @@ if (!mix.inProduction()) {
 //mix.disableNotifications();
 mix.js('resources/assets/js/app.js', 'public/js/main.bundle.js')
     .sass('resources/assets/sass/app.scss', 'public/css/main.bundle.css')
+    .sass('resources/assets/sass/print.scss', 'public/css/print.css')
     .options({
         processCssUrls: false
     })

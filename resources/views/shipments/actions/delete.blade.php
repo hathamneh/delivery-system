@@ -7,10 +7,17 @@
 <fieldset class="shipment-actions-fieldset mt-4">
     <legend><i class="fa-trash"></i> @lang('shipment.delete')</legend>
     <div>
-        <p>@lang('shipment.delete_notice')</p>
-        <button type="button" class="btn btn-danger" data-toggle="modal"
-                data-target="#deleteShipment-{{ $shipment->id }}"><i
-                    class="fa-trash"></i> @lang('shipment.delete')</button>
+        @if($shipment->isEditable())
+            <p>@lang('shipment.delete_notice')</p>
+            <button type="button" class="btn btn-danger" data-toggle="modal"
+                    data-target="#deleteShipment-{{ $shipment->id }}"><i
+                        class="fa-trash"></i> @lang('shipment.delete')</button>
+        @else
+            <div class="alert alert-light">
+                <i class="fa-exclamation-triangle"></i>
+                The shipment cannot be deleted after it is delivered.
+            </div>
+        @endif
     </div>
 </fieldset>
 @component('bootstrap::modal',[

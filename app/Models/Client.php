@@ -92,6 +92,7 @@ class Client extends Model implements Accountable
             'city'    => $this->address_city,
             'sub'     => $this->address_sub,
             'maps'    => $this->address_maps,
+            'full'    => $this->address_sub . "\n\r" . $this->address_country . ", " . $this->address_city
         ];
     }
 
@@ -110,6 +111,7 @@ class Client extends Model implements Accountable
             'account_number' => $this->bank_account_number,
             'holder_name'    => $this->bank_holder_name,
             'iban'           => $this->bank_iban,
+            'full'           => $this->name . ', ' . $this->bank_account_number
         ];
     }
 
@@ -157,7 +159,7 @@ class Client extends Model implements Accountable
         if (!is_null($this->user)) return $this->user;
 
         $user_template = UserTemplate::where('name', 'client')->first();
-        if(is_null($user_template)) UserTemplate::default()->first();
+        if (is_null($user_template)) UserTemplate::default()->first();
 
         $user = new User;
         $user->username = $this->trade_name;
@@ -182,10 +184,10 @@ class Client extends Model implements Accountable
 
     public function pickups()
     {
-        return $this->hasMany(Pickup::class, 'client_account_number','account_number');
+        return $this->hasMany(Pickup::class, 'client_account_number', 'account_number');
     }
 
-    public function charged_for()
+    public function chargedFor()
     {
         return $this->hasMany(ClientChargedFor::class);
     }
@@ -209,6 +211,17 @@ class Client extends Model implements Accountable
     public function customAddresses()
     {
         return $this->belongsToMany(Address::class)->withPivot('sameday_price', 'scheduled_price');
+    }
+
+    /**
+     * @param string $statusName
+     * @return bool
+     */
+    public function isChargedFor(string $statusName) : bool
+    {
+        $status = Status::name($statusName)->first();
+        $cf = $this->chargedFor()->where('status_id', $status->id)->first();
+        return !is_null($cf) && $cf->enabled;
     }
 
     public function resetAlert()

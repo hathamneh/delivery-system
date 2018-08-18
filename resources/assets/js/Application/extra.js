@@ -17,6 +17,7 @@
     let stickoLock = false;
     function sticko() {
         var $element = $('.custom-sticky-top');
+        if(!$element.length) return;
         var topbarHeight = $('.topbar').outerHeight() || 0;
         var topPos = $('.page-heading').outerHeight() || 0;
         var originalWidth = $element.width();

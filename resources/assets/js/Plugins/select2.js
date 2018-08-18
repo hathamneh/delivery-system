@@ -6,6 +6,7 @@ function inputSelect() {
         setTimeout(function () {
             $('select.select2').each(function () {
                 $(this).select2({
+                    theme: 'bootstrap4',
                     placeholder: $(this).data('placeholder') ? $(this).data('placeholder') : '',
                     allowClear: $(this).data('allowclear') ? $(this).data('allowclear') : false,
                     minimumInputLength: $(this).data('minimumInputLength') ? $(this).data('minimumInputLength') : -1,
@@ -32,6 +33,7 @@ function ajaxSelect2() {
         $clinetAccNum.each(function () {
             var $this = $(this);
             $this.select2({
+                theme: 'bootstrap4',
                 ajax: {
                     url: '/api/suggest/clients',
                     dataType: 'json',
@@ -93,6 +95,7 @@ function ajaxSelect2() {
         $courierSelect.each(function () {
             var $this = $(this);
             $this.select2({
+                theme: 'bootstrap4',
                 ajax: {
                     url: '/api/suggest/couriers',
                     dataType: 'json',
@@ -113,7 +116,7 @@ function ajaxSelect2() {
             });
 
             function couriersTemplate(data) {
-                var markup = '<b>' + data.text + '</b>';
+                var markup = data.text;
                 if (data.zone)
                     markup += '<small class="text-muted mx-1">(' + data.zone + ')</small>';
                 return markup;
@@ -146,6 +149,8 @@ function ajaxSelect2() {
 
         var $waybillSelect = $('.select2-waybills');
         $waybillSelect.select2({
+            theme: 'bootstrap4',
+            minimumInputLength: 9,
             tags: true,
             ajax: {
                 url: '/api/suggest/shipments',

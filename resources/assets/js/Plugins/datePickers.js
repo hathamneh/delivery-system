@@ -1,34 +1,47 @@
 let moment = require('moment')
+import Lang from 'lang.js';
+import messages from '../lang';
+
 require('daterangepicker')
+
+const lang = new Lang({messages});
+
+let pickerRanges = {};
+pickerRanges[lang.get('common.today')] = [moment().startOf("day"), moment().endOf('day')];
+pickerRanges[lang.get('common.yesterday')] = [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')];
+pickerRanges[lang.get('common.last7days')] = [moment().subtract(7, 'days'), moment().subtract(1, 'days')];
+pickerRanges[lang.get('common.thisWeek')] = [moment().startOf('week'), moment().endOf('week')];
+pickerRanges[lang.get('common.last30days')] = [moment().subtract(29, 'days'), moment()];
+pickerRanges[lang.get('common.thisMonth')] = [moment().startOf('month'), moment().endOf('month')];
+pickerRanges[lang.get('common.lastMonth')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
 
 function dateTimePicker() {
     var startDate = $('#available_time_start');
     var endDate = $('#available_time_end');
-    var icons = {
-        next: 'glyphicon glyphicon-chevron-right',
-        previous: 'glyphicon glyphicon-chevron-left'
-    };
-    if ($("body.rtl").length)
-        icons = {
-            next: 'glyphicon glyphicon-chevron-left',
-            previous: 'glyphicon glyphicon-chevron-right'
-        };
-    $('.date-rangepicker').daterangepicker({
-        showDropdowns: true,
-        minDate: moment([2018]),
-        locale: {
-            format: "DD-MM-YYYY hh:mm A"
-        }
-    }, function (start, end, label) {
-        var years = moment().diff(start, 'years');
+    $('.date-rangepicker').each(function () {
+        var ranges = $(this).data("ranges") ? pickerRanges : false;
+        $(this).daterangepicker({
+            showDropdowns: true,
+            minDate: moment([2018]),
+            locale: {
+                format: "MMM D, YYYY"
+            },
+            ranges: ranges
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
     });
-    $('.datetime-rangepicker').daterangepicker({
-        showDropdowns: true,
-        timePicker: true,
-        minDate: moment([2018]),
-        locale: {
-            format: "DD-MM-YYYY hh:mm A"
-        }
+    $('.datetime-rangepicker').each(function () {
+        var ranges = $(this).data("ranges") ? pickerRanges : false;
+        $(this).daterangepicker({
+            showDropdowns: true,
+            timePicker: true,
+            minDate: moment([2018]),
+            locale: {
+                format: "MMM D, YYYY hh:mm A"
+            },
+            ranges: ranges
+        });
     });
     startDate.on("dp.change", function (e) {
         endDate.data("DateTimePicker").minDate(e.date);
@@ -37,12 +50,12 @@ function dateTimePicker() {
         startDate.data("DateTimePicker").maxDate(e.date);
     });
     $('.datetimepicker').each(function () {
-        drops = $(this).data('drp-drops') || "down"
+        let drops = $(this).data('drp-drops') || "down"
         $(this).daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
             locale: {
-                format: "DD-MM-YYYY"
+                format: "MMM D, YYYY"
             },
             minDate: moment(),
             drops: drops
@@ -53,24 +66,17 @@ function dateTimePicker() {
 function reportRangePicker() {
     var $range = $('#reportrange');
 
-    var pickerRanges = {};
-    pickerRanges[Lang.get('common.today')] = [moment().startOf("day"), moment().endOf('day')];
-    pickerRanges[Lang.get('common.yesterday')] = [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')];
-    pickerRanges[Lang.get('common.last30days')] = [moment().subtract(29, 'days'), moment()];
-    pickerRanges[Lang.get('common.thisMonth')] = [moment().startOf('month'), moment().endOf('month')];
-    pickerRanges[Lang.get('common.lastMonth')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-
     var drpOptions = {
         ranges: pickerRanges,
-        lifetimeRangeLabel: Lang.get('common.lifetime'),
+        lifetimeRangeLabel: lang.get('common.lifetime'),
         locale: {
-            "format": "MM/DD/YYYY",
+            "format": "MMM D, YYYY",
             "separator": " - ",
-            "applyLabel": Lang.get('common.apply'),
-            "cancelLabel": Lang.get('common.cancel'),
-            "fromLabel": Lang.get('common.from'),
-            "toLabel": Lang.get('common.to'),
-            "customRangeLabel": Lang.get('common.customRange'),
+            "applyLabel": lang.get('common.apply'),
+            "cancelLabel": lang.get('common.cancel'),
+            "fromLabel": lang.get('common.from'),
+            "toLabel": lang.get('common.to'),
+            "customRangeLabel": lang.get('common.customRange'),
             "weekLabel": "W",
             "daysOfWeek": [
                 "Su",
@@ -99,7 +105,7 @@ function reportRangePicker() {
         }
     };
 
-    window.lifetimeRangeLabel = Lang.get('common.lifetime');
+    window.lifetimeRangeLabel = lang.get('common.lifetime');
     var qs = window.getUrlVars();
     var startDate = qs.start || false;
     var endDate = qs.end || false;
@@ -114,14 +120,6 @@ function reportRangePicker() {
         drpOptions.lifetimeRange = true;
         drpOptions.opens = "left";
 
-        function cb(start, end) {
-            var label = $range.find('span');
-            if (drpOptions.isLifetime)
-                label.html(window.lifetimeRangeLabel);
-            else
-                label.html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-
         // init date time range picker
         $range.daterangepicker(drpOptions, cb);
 
@@ -132,15 +130,24 @@ function reportRangePicker() {
             window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
         });
         $range.on('lifetime.daterangepicker', function (ev, picker) {
+
             var qs = window.getUrlVars();
             if (qs.start) delete qs.start;
             if (qs.end) delete qs.end;
             window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");
         });
 
-        cb(drpOptions.startDate, drpOptions.endDate);
+        cb($range, drpOptions);
 
     }
+}
+
+function cb($range, drpOptions) {
+    var label = $range.find('span');
+    if (drpOptions.isLifetime)
+        label.html(window.lifetimeRangeLabel);
+    else
+        label.html(drpOptions.startDate.format('MMM D, YYYY') + ' - ' + drpOptions.endDate.format('MMM D, YYYY'));
 }
 
 dateTimePicker()

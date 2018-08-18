@@ -11,11 +11,10 @@
 
 @section('content')
     <nav class="nav inner-nav">
-        <a href="{{ route('settings.index', ['tab'=>'general']) }}"
-           class="{{ $tab != "general" ?: "active" }}"><i class="fa-info-circle"></i> @lang('settings.general.label')</a>
+        <a href="{{ route('settings.index', ['tab'=>'company']) }}"
+           class="{{ $tab != "company" ?: "active" }}"><i class="fa-info-circle"></i> @lang('settings.company.label')</a>
     </nav>
     <div class="container-fluid">
-        @includeWhen($tab=='general', 'settings.tabs.general')
-
+        @includeWhen($tab=='company', 'settings.tabs.company')
     </div>
 @endsection

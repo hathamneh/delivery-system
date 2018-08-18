@@ -14,6 +14,8 @@ return [
     'select' => '-- Select --',
     'new' => 'New',
 
+    'back' => "Back",
+
     'arabic'=> 'العربية',
     'english'=> 'English',
 
@@ -21,6 +23,7 @@ return [
     'today' => "Today",
     'yesterday' => "Yesterday",
     'last7days' => "Last 7 days",
+    'thisWeek' => "This Week",
     'last30days' => "Last 30 days",
     'thisMonth' => "This Month",
     'lastMonth' => "Last Month",

@@ -248,6 +248,7 @@ class ShipmentController extends Controller
         if ($newDeliveryDate != $shipment->delivery_date)
             $shipment->delivery_date = $newDeliveryDate;
         $shipment->package_weight = $request->get('package_weight');
+        $shipment->pieces = $request->get('pieces');
         $shipment->shipment_value = $request->get('shipment_value');
     }
 

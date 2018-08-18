@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Builder;
 
 /**
  * Class Status
@@ -11,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string description
  * @property SubStatus sub_statuses
  * @property array suggested_reasons
+ * @property integer id
+ * @method static Status name(string $name)
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Status extends Model
 {
@@ -41,11 +45,12 @@ class Status extends Model
 
     public function scopeName($query, $name)
     {
-        return $query->where('name', $name)->first();
+        return $query->where('name', $name);
     }
 
     public function identifiableName()
     {
         return trans("shipment.statuses." . $this->name);
     }
+
 }

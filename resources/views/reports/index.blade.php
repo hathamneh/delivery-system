@@ -9,7 +9,7 @@
 @endsection
 
 @section('actions')
-    <div class="container-fluid reports-actions">
+    <div class="reports-actions">
         <form class="actions-content" action="{{ route('reports.update') }}" method="post">
             {{ csrf_field() }}
             {{ method_field('put') }}
@@ -28,10 +28,19 @@
                         @endforeach
                     </div>
                 </div>
-                <button name="clientPaid" type="submit" class="btn btn-sm btn-success"
-                        value="true">@lang('shipment.client_paid')</button>
-                <button name="courierCashed" type="submit" class="btn btn-sm btn-light"
-                        value="true">@lang('shipment.courier_cashed')</button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulkActionsDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @lang('shipment.bulk_actions')
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
+                        <button name="clientPaid" type="submit" class="dropdown-item"
+                                value="true">@lang('shipment.toggle_client_paid')</button>
+                        <div class="dropdown-divider"></div>
+                        <button name="courierCashed" type="submit" class="dropdown-item"
+                                value="true">@lang('shipment.toggle_courier_cashed')</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

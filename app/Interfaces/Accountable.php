@@ -10,18 +10,19 @@ namespace App\Interfaces;
 
 
 use App\Invoice;
+use Carbon\Carbon;
 
 interface Accountable
 {
     /**
-     * @param Invoice $invoice
+     * @param Invoice|array $input
      * @return float
      */
-    public function dueFrom(Invoice $invoice) : float ;
+    public function dueFrom($input): float;
 
     /**
-     * @param Invoice $invoice
+     * @param Invoice|array $input
      * @return float
      */
-    public function dueFor(Invoice $invoice) : float ;
+    public function dueFor($input): float;
 }

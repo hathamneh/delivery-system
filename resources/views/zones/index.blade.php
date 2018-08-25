@@ -22,68 +22,77 @@
         <div class="row">
             @if($zones->count())
                 @foreach($zones as $zone)
-                    <div class="col-md-4">
-                        <div class="card zone-card">
-                            <div class="card-header">
-                                <div class="d-flex">
-                                    <h4 class="font-weight-bold m-0">{{ $zone->name }}</h4>
-                                    <div class="ml-auto d-flex">
-                                        <a href="{{ route('zones.edit', ['zone'=>$zone->id]) }}" data-toggle="tooltip"
-                                           class="btn btn-light btn-sm" title="@lang('zone.edit')">
-                                            <i class="fa fa-edit"></i></a>
-                                        <form action="{{ route('zones.destroy', ['zone' => $zone->id]) }}"
-                                              method="post">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button class="btn btn-light btn-sm" title="@lang('zone.delete')"
-                                                    type="submit" data-toggle="tooltip"><i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                    <div class="col-md-12 zone-column border-secondary">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="zone-card mb-md-0 mb-1">
+                                    <h4 class="font-weight-bold text-center">{{ $zone->name }}</h4>
+                                    <div class="zone-info">
+                                        <div>
+                                            <b>{{ $zone->base_weight }}</b>
+                                            <small>@lang('zone.standard_weight')</small>
+                                        </div>
+                                        <div>
+                                            <b>{{ $zone->charge_per_unit }}</b>
+                                            <small>@lang('zone.charge_per_unit')</small>
+                                        </div>
+                                        <div>
+                                            <b>{{ $zone->extra_fees_per_unit }}</b>
+                                            <small>@lang('zone.extra_fees_per_unit')</small>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <small>@lang('zone.standard_weight'):</small>
-                                    <b>{{ $zone->base_weight }}</b>
-                                </li>
-                                <li class="list-group-item">
-                                    <small>@lang('zone.charge_per_unit'):</small>
-                                    <b>{{ $zone->charge_per_unit }}</b>
-                                </li>
-                                <li class="list-group-item">
-                                    <small>@lang('zone.extra_fees_per_unit'):</small>
-                                    <b>{{ $zone->extra_fees_per_unit }}</b>
-                                </li>
-                            </ul>
-                            @if($zone->addresses->count())
-                                <div class="card-footer btn" data-toggle="collapse"
-                                     href="#zoneAddresses_{{ $zone->id }}"
-                                     role="button"
-                                     aria-expanded="false" aria-controls="zoneAddresses_{{ $zone->id }}">
-                                    @lang('zone.addresses') <i class="fa fa-angle-down ml-2"></i>
+                            <div class="col-md-6">
+                                @if($zone->addresses->count())
+                                    <div class="card zone-addresses-list"
+                                         aria-expanded="false" aria-controls="zoneAddresses_{{ $zone->id }}">
+                                        <div class="card-header"><b>{{ $zone->name }}</b> @lang('zone.addresses2')</div>
+                                        <ul class="list-group list-group-flush"
+                                            id="zoneAddresses_{{ $zone->id }}">
+                                            @foreach($zone->addresses as $address)
+                                                <li class="list-group-item address-group-item">
+                                                    <div>{{ $address->name }}</div>
+                                                    <div class="actions">
+                                                        <a class="btn btn-link btn-sm"
+                                                           href="{{ route('address.edit', ['zone' => $zone->id,'address' => $address->id]) }}"
+                                                           title="@lang('zone.address.edit')"><i class="fa fa-edit"></i></a>
+                                                        <button class="btn btn-link btn-sm"
+                                                                title="@lang('zone.address.delete')"
+                                                                type="button"
+                                                                onclick="$('deleteAddress-{{ $address->id }}').submit()">
+                                                            <i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                    <form action="{{ route('address.destroy', ['zone' => $zone->id, 'address' => $address->id]) }}"
+                                                          method="post" id="deleteAddress-{{ $address->id }}">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                    </form>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-md-2 ml-auto">
+                                <div class="d-flex flex-md-column align-items-center justify-content-center h-100 mt-1">
+                                    <a href="{{ route('zones.edit', ['zone'=>$zone->id]) }}"
+                                       class="btn btn-light mb-md-1 mr-md-0 mr-1" title="@lang('zone.edit')">
+                                        <i class="fa fa-edit"></i> @lang('zone.edit')</a>
+                                    <button class="btn btn-light" title="@lang('zone.delete')"
+                                            onclick="$('deleteZone-{{ $zone->id }}').submit()"
+                                            type="button"><i
+                                                class="fa fa-trash"></i> @lang('zone.delete')
+                                    </button>
                                 </div>
-                                <ul class="collapse list-group zone-addresses-list list-group-flush" id="zoneAddresses_{{ $zone->id }}">
-                                    @foreach($zone->addresses as $address)
-                                        <li class="list-group-item address-group-item">
-                                            <span class="my-1">{{ $address->name }}</span>
-                                            <div class="actions">
-                                                <a class="btn btn-link btn-sm"
-                                                   href="{{ route('address.edit', ['zone' => $zone->id,'address' => $address->id]) }}"
-                                                   title="@lang('zone.address.edit')"><i class="fa fa-edit"></i></a>
-                                                <form action="{{ route('address.destroy', ['zone' => $zone->id, 'address' => $address->id]) }}"
-                                                      method="post">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button class="btn btn-link btn-sm"
-                                                            title="@lang('zone.address.delete')"
-                                                            type="submit"><i class="fa fa-trash"></i></button>
-                                                </form>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
+                                <form action="{{ route('zones.destroy', ['zone' => $zone->id]) }}"
+                                      method="post" id="deleteZone-{{ $zone->id }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @endforeach

@@ -42609,16 +42609,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 /***/ }),
 
-/***/ "./node_modules/daterangepicker/daterangepicker.js":
+/***/ "./node_modules/daterangepicker-custom/daterangepicker.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-* @version: 3.0.3
-* @author: Dan Grossman http://www.dangrossman.info/
-* @copyright: Copyright (c) 2012-2018 Dan Grossman. All rights reserved.
-* @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
-* @website: http://www.daterangepicker.com/
-*/
+ * @version: 3.0.3
+ * @author: Dan Grossman http://www.dangrossman.info/
+ * @copyright: Copyright (c) 2012-2018 Dan Grossman. All rights reserved.
+ * @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
+ * @website: http://www.daterangepicker.com/
+ */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 (function (root, factory) {
     if (true) {
@@ -42642,8 +42642,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         // Browser globals
         root.daterangepicker = factory(root.moment, root.jQuery);
     }
-}(this, function(moment, $) {
-    var DateRangePicker = function(element, options, cb) {
+}(this, function (moment, $) {
+    var DateRangePicker = function (element, options, cb) {
 
         //default settings for options
         this.parentEl = 'body';
@@ -42668,6 +42668,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         this.linkedCalendars = true;
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
+        this.lifetimeRange = false;
+        this.lifetimeRangeLabel = false;
+        this.isLifetime = false;
+
         this.ranges = {};
 
         this.opens = 'right';
@@ -42695,7 +42699,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             firstDay: moment.localeData().firstDayOfWeek()
         };
 
-        this.callback = function() { };
+        this.callback = function () {
+        };
 
         //some state information
         this.isShowing = false;
@@ -42713,22 +42718,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         //html template for the picker UI
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template =
-            '<div class="daterangepicker">' +
+                '<div class="daterangepicker">' +
                 '<div class="ranges"></div>' +
                 '<div class="drp-calendar left">' +
-                    '<div class="calendar-table"></div>' +
-                    '<div class="calendar-time"></div>' +
+                '<div class="calendar-table"></div>' +
+                '<div class="calendar-time"></div>' +
                 '</div>' +
                 '<div class="drp-calendar right">' +
-                    '<div class="calendar-table"></div>' +
-                    '<div class="calendar-time"></div>' +
+                '<div class="calendar-table"></div>' +
+                '<div class="calendar-time"></div>' +
                 '</div>' +
                 '<div class="drp-buttons">' +
-                    '<span class="drp-selected"></span>' +
-                    '<button class="cancelBtn" type="button"></button>' +
-                    '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                '<span class="drp-selected"></span>' +
+                '<button class="cancelBtn" type="button"></button>' +
+                '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
                 '</div>' +
-            '</div>';
+                '</div>';
 
         this.parentEl = (options.parentEl && $(options.parentEl).length) ? $(options.parentEl) : $(this.parentEl);
         this.container = $(options.template).appendTo(this.parentEl);
@@ -42752,21 +42757,21 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 this.locale.daysOfWeek = options.locale.daysOfWeek.slice();
 
             if (typeof options.locale.monthNames === 'object')
-              this.locale.monthNames = options.locale.monthNames.slice();
+                this.locale.monthNames = options.locale.monthNames.slice();
 
             if (typeof options.locale.firstDay === 'number')
-              this.locale.firstDay = options.locale.firstDay;
+                this.locale.firstDay = options.locale.firstDay;
 
             if (typeof options.locale.applyLabel === 'string')
-              this.locale.applyLabel = options.locale.applyLabel;
+                this.locale.applyLabel = options.locale.applyLabel;
 
             if (typeof options.locale.cancelLabel === 'string')
-              this.locale.cancelLabel = options.locale.cancelLabel;
+                this.locale.cancelLabel = options.locale.cancelLabel;
 
             if (typeof options.locale.weekLabel === 'string')
-              this.locale.weekLabel = options.locale.weekLabel;
+                this.locale.weekLabel = options.locale.weekLabel;
 
-            if (typeof options.locale.customRangeLabel === 'string'){
+            if (typeof options.locale.customRangeLabel === 'string') {
                 //Support unicode chars in the custom range name.
                 var elem = document.createElement('textarea');
                 elem.innerHTML = options.locale.customRangeLabel;
@@ -42892,6 +42897,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
 
+        if (typeof options.lifetimeRange === 'boolean')
+            this.lifetimeRange = options.lifetimeRange;
+
+        if (typeof options.lifetimeRangeLabel === 'string')
+            this.lifetimeRangeLabel = options.lifetimeRangeLabel;
+
+        if (typeof options.isLifetime === 'boolean')
+            this.isLifetime = options.isLifetime;
+
+
         // update day names order to firstDay
         if (this.locale.firstDay != 0) {
             var iterator = this.locale.firstDay;
@@ -42952,7 +42967,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 // If the end of the range is before the minimum or the start of the range is
                 // after the maximum, don't display this range option at all.
                 if ((this.minDate && end.isBefore(this.minDate, this.timepicker ? 'minute' : 'day'))
-                  || (maxDate && start.isAfter(maxDate, this.timepicker ? 'minute' : 'day')))
+                    || (maxDate && start.isAfter(maxDate, this.timepicker ? 'minute' : 'day')))
                     continue;
 
                 //Support unicode chars in the range names.
@@ -42964,6 +42979,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
 
             var list = '<ul>';
+            if (this.lifetimeRange) {
+                list += '<li data-range-key="lifetime">' + (this.lifetimeRangeLabel || "Lifetime") + '</li>';
+            }
             for (range in this.ranges) {
                 list += '<li data-range-key="' + range + '">' + range + '</li>';
             }
@@ -43064,7 +43082,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         constructor: DateRangePicker,
 
-        setStartDate: function(startDate) {
+        setStartDate: function (startDate) {
             if (typeof startDate === 'string')
                 this.startDate = moment(startDate, this.locale.format);
 
@@ -43095,7 +43113,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateMonthsInView();
         },
 
-        setEndDate: function(endDate) {
+        setEndDate: function (endDate) {
             if (typeof endDate === 'string')
                 this.endDate = moment(endDate, this.locale.format);
 
@@ -43103,7 +43121,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 this.endDate = moment(endDate);
 
             if (!this.timePicker)
-                this.endDate = this.endDate.add(1,'d').startOf('day').subtract(1,'second');
+                this.endDate = this.endDate.add(1, 'd').startOf('day').subtract(1, 'second');
 
             if (this.timePicker && this.timePickerIncrement)
                 this.endDate.minute(Math.round(this.endDate.minute() / this.timePickerIncrement) * this.timePickerIncrement);
@@ -43127,15 +43145,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateMonthsInView();
         },
 
-        isInvalidDate: function() {
+        isInvalidDate: function () {
             return false;
         },
 
-        isCustomDate: function() {
+        isCustomDate: function () {
             return false;
         },
 
-        updateView: function() {
+        updateView: function () {
             if (this.timePicker) {
                 this.renderTimePicker('left');
                 this.renderTimePicker('right');
@@ -43152,7 +43170,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateFormInputs();
         },
 
-        updateMonthsInView: function() {
+        updateMonthsInView: function () {
             if (this.endDate) {
 
                 //if both dates are visible already, do nothing
@@ -43160,7 +43178,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     (this.startDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.startDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
                     &&
                     (this.endDate.format('YYYY-MM') == this.leftCalendar.month.format('YYYY-MM') || this.endDate.format('YYYY-MM') == this.rightCalendar.month.format('YYYY-MM'))
-                    ) {
+                ) {
                     return;
                 }
 
@@ -43178,12 +43196,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 }
             }
             if (this.maxDate && this.linkedCalendars && !this.singleDatePicker && this.rightCalendar.month > this.maxDate) {
-              this.rightCalendar.month = this.maxDate.clone().date(2);
-              this.leftCalendar.month = this.maxDate.clone().date(2).subtract(1, 'month');
+                this.rightCalendar.month = this.maxDate.clone().date(2);
+                this.leftCalendar.month = this.maxDate.clone().date(2).subtract(1, 'month');
             }
         },
 
-        updateCalendars: function() {
+        updateCalendars: function () {
 
             if (this.timePicker) {
                 var hour, minute, second;
@@ -43224,7 +43242,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.calculateChosenLabel();
         },
 
-        renderCalendar: function(side) {
+        renderCalendar: function (side) {
 
             //
             // Build the matrix of dates that will populate the calendar
@@ -43296,7 +43314,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             var minDate = side == 'left' ? this.minDate : this.startDate;
             var maxDate = this.maxDate;
             var selected = side == 'left' ? this.startDate : this.endDate;
-            var arrow = this.locale.direction == 'ltr' ? {left: 'chevron-left', right: 'chevron-right'} : {left: 'chevron-right', right: 'chevron-left'};
+            var arrow = this.locale.direction == 'ltr' ? {
+                left: 'chevron-left',
+                right: 'chevron-right'
+            } : {left: 'chevron-right', right: 'chevron-left'};
 
             var html = '<table class="table-condensed">';
             html += '<thead>';
@@ -43361,7 +43382,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             if (this.showWeekNumbers || this.showISOWeekNumbers)
                 html += '<th class="week">' + this.locale.weekLabel + '</th>';
 
-            $.each(this.locale.daysOfWeek, function(index, dayOfWeek) {
+            $.each(this.locale.daysOfWeek, function (index, dayOfWeek) {
                 html += '<th>' + dayOfWeek + '</th>';
             });
 
@@ -43458,7 +43479,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         },
 
-        renderTimePicker: function(side) {
+        renderTimePicker: function (side) {
 
             // Don't bother updating the time picker if it's currently disabled
             // because an end date hasn't been clicked yet
@@ -43619,7 +43640,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         },
 
-        updateFormInputs: function() {
+        updateFormInputs: function () {
 
             if (this.singleDatePicker || (this.endDate && (this.startDate.isBefore(this.endDate) || this.startDate.isSame(this.endDate)))) {
                 this.container.find('button.applyBtn').removeAttr('disabled');
@@ -43629,8 +43650,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         },
 
-        move: function() {
-            var parentOffset = { top: 0, left: 0 },
+        move: function () {
+            var parentOffset = {top: 0, left: 0},
                 containerTop;
             var parentRightEdge = $(window).width();
             if (!this.parentEl.is('body')) {
@@ -43663,7 +43684,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 this.container.css({
                     top: containerTop,
                     left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
-                            - this.container.outerWidth() / 2,
+                        - this.container.outerWidth() / 2,
                     right: 'auto'
                 });
                 if (this.container.offset().left < 0) {
@@ -43687,24 +43708,28 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
         },
 
-        show: function(e) {
+        show: function (e) {
             if (this.isShowing) return;
 
             // Create a click proxy that is private to this instance of datepicker, for unbinding
-            this._outsideClickProxy = $.proxy(function(e) { this.outsideClick(e); }, this);
+            this._outsideClickProxy = $.proxy(function (e) {
+                this.outsideClick(e);
+            }, this);
 
             // Bind global datepicker mousedown for hiding and
             $(document)
-              .on('mousedown.daterangepicker', this._outsideClickProxy)
-              // also support mobile devices
-              .on('touchend.daterangepicker', this._outsideClickProxy)
-              // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
-              .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
-              // and also close when focus changes to outside the picker (eg. tabbing between controls)
-              .on('focusin.daterangepicker', this._outsideClickProxy);
+                .on('mousedown.daterangepicker', this._outsideClickProxy)
+                // also support mobile devices
+                .on('touchend.daterangepicker', this._outsideClickProxy)
+                // also explicitly play nice with Bootstrap dropdowns, which stopPropagation when clicking them
+                .on('click.daterangepicker', '[data-toggle=dropdown]', this._outsideClickProxy)
+                // and also close when focus changes to outside the picker (eg. tabbing between controls)
+                .on('focusin.daterangepicker', this._outsideClickProxy);
 
             // Reposition the picker if the window is resized while it's open
-            $(window).on('resize.daterangepicker', $.proxy(function(e) { this.move(e); }, this));
+            $(window).on('resize.daterangepicker', $.proxy(function (e) {
+                this.move(e);
+            }, this));
 
             this.oldStartDate = this.startDate.clone();
             this.oldEndDate = this.endDate.clone();
@@ -43717,7 +43742,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.isShowing = true;
         },
 
-        hide: function(e) {
+        hide: function (e) {
             if (!this.isShowing) return;
 
             //incomplete date selection, revert to last values
@@ -43740,7 +43765,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.isShowing = false;
         },
 
-        toggle: function(e) {
+        toggle: function (e) {
             if (this.isShowing) {
                 this.hide();
             } else {
@@ -43748,7 +43773,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
         },
 
-        outsideClick: function(e) {
+        outsideClick: function (e) {
             var target = $(e.target);
             // if the page is clicked anywhere except within the daterangerpicker/button
             // itself then call this.hide()
@@ -43758,27 +43783,29 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 target.closest(this.element).length ||
                 target.closest(this.container).length ||
                 target.closest('.calendar-table').length
-                ) return;
+            ) return;
             this.hide();
             this.element.trigger('outsideClick.daterangepicker', this);
         },
 
-        showCalendars: function() {
+        showCalendars: function () {
             this.container.addClass('show-calendar');
             this.move();
             this.element.trigger('showCalendar.daterangepicker', this);
         },
 
-        hideCalendars: function() {
+        hideCalendars: function () {
             this.container.removeClass('show-calendar');
             this.element.trigger('hideCalendar.daterangepicker', this);
         },
 
-        clickRange: function(e) {
+        clickRange: function (e) {
             var label = e.target.getAttribute('data-range-key');
             this.chosenLabel = label;
             if (label == this.locale.customRangeLabel) {
                 this.showCalendars();
+            } else if (label === 'lifetime') {
+                this.element.trigger('lifetime.daterangepicker', this);
             } else {
                 var dates = this.ranges[label];
                 this.startDate = dates[0];
@@ -43795,7 +43822,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
         },
 
-        clickPrev: function(e) {
+        clickPrev: function (e) {
             var cal = $(e.target).parents('.drp-calendar');
             if (cal.hasClass('left')) {
                 this.leftCalendar.month.subtract(1, 'month');
@@ -43807,7 +43834,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateCalendars();
         },
 
-        clickNext: function(e) {
+        clickNext: function (e) {
             var cal = $(e.target).parents('.drp-calendar');
             if (cal.hasClass('left')) {
                 this.leftCalendar.month.add(1, 'month');
@@ -43819,7 +43846,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateCalendars();
         },
 
-        hoverDate: function(e) {
+        hoverDate: function (e) {
 
             //ignore dates that can't be selected
             if (!$(e.target).hasClass('available')) return;
@@ -43835,7 +43862,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             var rightCalendar = this.rightCalendar;
             var startDate = this.startDate;
             if (!this.endDate) {
-                this.container.find('.drp-calendar tbody td').each(function(index, el) {
+                this.container.find('.drp-calendar tbody td').each(function (index, el) {
 
                     //skip week numbers, only look at dates
                     if ($(el).hasClass('week')) return;
@@ -43857,7 +43884,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         },
 
-        clickDate: function(e) {
+        clickDate: function (e) {
 
             if (!$(e.target).hasClass('available')) return;
 
@@ -43912,8 +43939,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 }
                 this.setEndDate(date.clone());
                 if (this.autoApply) {
-                  this.calculateChosenLabel();
-                  this.clickApply();
+                    this.calculateChosenLabel();
+                    this.clickApply();
                 }
             }
 
@@ -43932,52 +43959,56 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         calculateChosenLabel: function () {
             var customRange = true;
-            var i = 0;
-            for (var range in this.ranges) {
-              if (this.timePicker) {
-                    var format = this.timePickerSeconds ? "YYYY-MM-DD hh:mm:ss" : "YYYY-MM-DD hh:mm";
-                    //ignore times when comparing dates if time picker seconds is not enabled
-                    if (this.startDate.format(format) == this.ranges[range][0].format(format) && this.endDate.format(format) == this.ranges[range][1].format(format)) {
-                        customRange = false;
-                        this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').attr('data-range-key');
-                        break;
+            if(this.isLifetime && this.lifetimeRange) {
+                this.chosenLabel = this.container.find('.ranges li:eq(0)').addClass('active').attr('data-range-key');
+            } else {
+                var i = this.lifetimeRange ? 1 : 0;
+                for (var range in this.ranges) {
+                    if (this.timePicker) {
+                        var format = this.timePickerSeconds ? "YYYY-MM-DD hh:mm:ss" : "YYYY-MM-DD hh:mm";
+                        //ignore times when comparing dates if time picker seconds is not enabled
+                        if (this.startDate.format(format) == this.ranges[range][0].format(format) && this.endDate.format(format) == this.ranges[range][1].format(format)) {
+                            customRange = false;
+                            this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').attr('data-range-key');
+                            break;
+                        }
+                    } else {
+                        //ignore times when comparing dates if time picker is not enabled
+                        if (this.startDate.format('YYYY-MM-DD') == this.ranges[range][0].format('YYYY-MM-DD') && this.endDate.format('YYYY-MM-DD') == this.ranges[range][1].format('YYYY-MM-DD')) {
+                            customRange = false;
+                            this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').attr('data-range-key');
+                            break;
+                        }
                     }
-                } else {
-                    //ignore times when comparing dates if time picker is not enabled
-                    if (this.startDate.format('YYYY-MM-DD') == this.ranges[range][0].format('YYYY-MM-DD') && this.endDate.format('YYYY-MM-DD') == this.ranges[range][1].format('YYYY-MM-DD')) {
-                        customRange = false;
-                        this.chosenLabel = this.container.find('.ranges li:eq(' + i + ')').addClass('active').attr('data-range-key');
-                        break;
+                    i++;
+                }
+                if (customRange) {
+                    if (this.showCustomRangeLabel) {
+                        this.chosenLabel = this.container.find('.ranges li:last').addClass('active').attr('data-range-key');
+                    } else {
+                        this.chosenLabel = null;
                     }
+                    this.showCalendars();
                 }
-                i++;
-            }
-            if (customRange) {
-                if (this.showCustomRangeLabel) {
-                    this.chosenLabel = this.container.find('.ranges li:last').addClass('active').attr('data-range-key');
-                } else {
-                    this.chosenLabel = null;
-                }
-                this.showCalendars();
             }
         },
 
-        clickApply: function(e) {
+        clickApply: function (e) {
             this.hide();
             this.element.trigger('apply.daterangepicker', this);
         },
 
-        clickCancel: function(e) {
+        clickCancel: function (e) {
             this.startDate = this.oldStartDate;
             this.endDate = this.oldEndDate;
             this.hide();
             this.element.trigger('cancel.daterangepicker', this);
         },
 
-        monthOrYearChanged: function(e) {
+        monthOrYearChanged: function (e) {
             var isLeft = $(e.target).closest('.drp-calendar').hasClass('left'),
                 leftOrRight = isLeft ? 'left' : 'right',
-                cal = this.container.find('.drp-calendar.'+leftOrRight);
+                cal = this.container.find('.drp-calendar.' + leftOrRight);
 
             // Month must be Number for new moment versions
             var month = parseInt(cal.find('.monthselect').val(), 10);
@@ -44016,7 +44047,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateCalendars();
         },
 
-        timeChanged: function(e) {
+        timeChanged: function (e) {
 
             var cal = $(e.target).closest('.drp-calendar'),
                 isLeft = cal.hasClass('left');
@@ -44064,7 +44095,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
         },
 
-        elementChanged: function() {
+        elementChanged: function () {
             if (!this.element.is('input')) return;
             if (!this.element.val().length) return;
 
@@ -44089,7 +44120,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             this.updateView();
         },
 
-        keydown: function(e) {
+        keydown: function (e) {
             //hide on tab or enter
             if ((e.keyCode === 9) || (e.keyCode === 13)) {
                 this.hide();
@@ -44104,7 +44135,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
         },
 
-        updateElement: function() {
+        updateElement: function () {
             if (this.element.is('input') && this.autoUpdateInput) {
                 var newValue = this.startDate.format(this.locale.format);
                 if (!this.singleDatePicker) {
@@ -44116,7 +44147,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             }
         },
 
-        remove: function() {
+        remove: function () {
             this.container.remove();
             this.element.off('.daterangepicker');
             this.element.removeData();
@@ -44124,9 +44155,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
     };
 
-    $.fn.daterangepicker = function(options, callback) {
+    $.fn.daterangepicker = function (options, callback) {
         var implementOptions = $.extend(true, {}, $.fn.daterangepicker.defaultOptions, options);
-        this.each(function() {
+        this.each(function () {
             var el = $(this);
             if (el.data('daterangepicker'))
                 el.data('daterangepicker').remove();
@@ -107405,7 +107436,7 @@ var moment = __webpack_require__("./node_modules/moment/moment.js");
 
 
 
-__webpack_require__("./node_modules/daterangepicker/daterangepicker.js");
+__webpack_require__("./node_modules/daterangepicker-custom/daterangepicker.js");
 
 var lang = new __WEBPACK_IMPORTED_MODULE_0_lang_js___default.a({ messages: __WEBPACK_IMPORTED_MODULE_1__lang__["a" /* default */] });
 
@@ -107418,118 +107449,126 @@ pickerRanges[lang.get('common.last30days')] = [moment().subtract(29, 'days'), mo
 pickerRanges[lang.get('common.thisMonth')] = [moment().startOf('month'), moment().endOf('month')];
 pickerRanges[lang.get('common.lastMonth')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
 
-function dateTimePicker() {
-    var startDate = $('#available_time_start');
-    var endDate = $('#available_time_end');
-    $('.date-rangepicker').each(function () {
-        var ranges = $(this).data("ranges") ? pickerRanges : false;
-        $(this).daterangepicker({
-            showDropdowns: true,
-            minDate: moment([2018]),
-            locale: {
-                format: "MMM D, YYYY"
-            },
-            ranges: ranges
-        }, function (start, end, label) {
-            var years = moment().diff(start, 'years');
-        });
-    });
-    $('.datetime-rangepicker').each(function () {
-        var ranges = $(this).data("ranges") ? pickerRanges : false;
-        $(this).daterangepicker({
-            showDropdowns: true,
-            timePicker: true,
-            minDate: moment([2018]),
-            locale: {
-                format: "MMM D, YYYY hh:mm A"
-            },
-            ranges: ranges
-        });
-    });
-    startDate.on("dp.change", function (e) {
-        endDate.data("DateTimePicker").minDate(e.date);
-    });
-    endDate.on("dp.change", function (e) {
-        startDate.data("DateTimePicker").maxDate(e.date);
-    });
-    $('.datetimepicker').each(function () {
-        var drops = $(this).data('drp-drops') || "down";
-        $(this).daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-                format: "MMM D, YYYY"
-            },
-            minDate: moment(),
-            drops: drops
-        });
-    });
-}
+var dateRangeLocale = {
+    "format": "MMM D, YYYY",
+    "separator": " - ",
+    "applyLabel": lang.get('common.apply'),
+    "cancelLabel": lang.get('common.cancel'),
+    "fromLabel": lang.get('common.from'),
+    "toLabel": lang.get('common.to'),
+    "customRangeLabel": lang.get('common.customRange'),
+    "weekLabel": "W",
+    "daysOfWeek": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    "monthNames": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "firstDay": 1
+};
 
-function reportRangePicker() {
+(function () {
+    dateTimePicker();
+
+    function dateTimePicker() {
+        var startDate = $('#available_time_start');
+        var endDate = $('#available_time_end');
+        $('.date-rangepicker').each(function () {
+            var ranges = $(this).data("ranges") ? pickerRanges : false;
+            $(this).daterangepicker({
+                showDropdowns: true,
+                minDate: moment([2018]),
+                locale: {
+                    format: "MMM D, YYYY"
+                },
+                ranges: ranges
+            }, function (start, end, label) {
+                var years = moment().diff(start, 'years');
+            });
+        });
+        $('.datetime-rangepicker').each(function () {
+            var ranges = $(this).data("ranges") ? pickerRanges : false;
+            $(this).daterangepicker({
+                showDropdowns: true,
+                timePicker: true,
+                minDate: moment([2018]),
+                locale: {
+                    format: "MMM D, YYYY hh:mm A"
+                },
+                ranges: ranges
+            });
+        });
+        startDate.on("dp.change", function (e) {
+            endDate.data("DateTimePicker").minDate(e.date);
+        });
+        endDate.on("dp.change", function (e) {
+            startDate.data("DateTimePicker").maxDate(e.date);
+        });
+        $('.datetimepicker').each(function () {
+            var drops = $(this).data('drp-drops') || "down";
+            $(this).daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: "MMM D, YYYY"
+                },
+                minDate: moment(),
+                drops: drops
+            });
+        });
+    }
+})();
+
+// date range picker for reports
+(function () {
+
     var $range = $('#reportrange');
-
     var drpOptions = {
         ranges: pickerRanges,
         lifetimeRangeLabel: lang.get('common.lifetime'),
-        locale: {
-            "format": "MMM D, YYYY",
-            "separator": " - ",
-            "applyLabel": lang.get('common.apply'),
-            "cancelLabel": lang.get('common.cancel'),
-            "fromLabel": lang.get('common.from'),
-            "toLabel": lang.get('common.to'),
-            "customRangeLabel": lang.get('common.customRange'),
-            "weekLabel": "W",
-            "daysOfWeek": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-            "monthNames": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            "firstDay": 1
-        }
+        locale: dateRangeLocale
     };
+    reportRangePicker();
 
-    window.lifetimeRangeLabel = lang.get('common.lifetime');
-    var qs = window.getUrlVars();
-    var startDate = qs.start || false;
-    var endDate = qs.end || false;
-    drpOptions.isLifetime = !(startDate && endDate);
+    function reportRangePicker() {
 
-    if (!drpOptions.isLifetime) {
-        drpOptions.startDate = moment.unix(startDate);
-        drpOptions.endDate = moment.unix(endDate);
+        window.lifetimeRangeLabel = lang.get('common.lifetime');
+        var qs = window.getUrlVars();
+        var startDate = qs.start || $range.data('start-date') || false;
+        var endDate = qs.end || $range.data('end-date') || false;
+        drpOptions.isLifetime = !(startDate && endDate);
+
+        if (!drpOptions.isLifetime) {
+            drpOptions.startDate = moment.unix(startDate);
+            drpOptions.endDate = moment.unix(endDate);
+        }
+
+        if ($range.length) {
+            drpOptions.lifetimeRange = $range.data('lifetime-range') === "true";
+            drpOptions.opens = "left";
+
+            // init date time range picker
+            $range.daterangepicker(drpOptions, callback);
+
+            $range.on('apply.daterangepicker', function (ev, picker) {
+                var qs = window.getUrlVars();
+                qs.start = picker.startDate.unix();
+                qs.end = picker.endDate.unix();
+                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+            });
+            $range.on('lifetime.daterangepicker', function (ev, picker) {
+
+                var qs = window.getUrlVars();
+                if (qs.start) delete qs.start;
+                if (qs.end) delete qs.end;
+                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");
+            });
+
+            callback(drpOptions.startDate, drpOptions.endDate);
+        }
     }
 
-    if ($range.length) {
-        drpOptions.lifetimeRange = true;
-        drpOptions.opens = "left";
-
-        // init date time range picker
-        $range.daterangepicker(drpOptions, cb);
-
-        $range.on('apply.daterangepicker', function (ev, picker) {
-            var qs = window.getUrlVars();
-            qs.start = picker.startDate.unix();
-            qs.end = picker.endDate.unix();
-            window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
-        });
-        $range.on('lifetime.daterangepicker', function (ev, picker) {
-
-            var qs = window.getUrlVars();
-            if (qs.start) delete qs.start;
-            if (qs.end) delete qs.end;
-            window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");
-        });
-
-        cb($range, drpOptions);
+    function callback(start, end) {
+        var label = $range.find('span');
+        if (drpOptions.isLifetime) label.html(window.lifetimeRangeLabel);else label.html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
     }
-}
-
-function cb($range, drpOptions) {
-    var label = $range.find('span');
-    if (drpOptions.isLifetime) label.html(window.lifetimeRangeLabel);else label.html(drpOptions.startDate.format('MMM D, YYYY') + ' - ' + drpOptions.endDate.format('MMM D, YYYY'));
-}
-
-dateTimePicker();
-reportRangePicker();
+})();
 
 /***/ }),
 
@@ -108937,7 +108976,7 @@ module.exports = [];
 /***/ "./resources/lang/en/common.php":
 /***/ (function(module, exports) {
 
-module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All"};
+module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All","percentage":"Percentage"};
 
 /***/ }),
 

@@ -42,7 +42,7 @@ class StoreClientRequest extends FormRequest
                 'required',
                 Rule::in([1, 2]),
             ],
-            'client_files.*.file'        => 'file|max:50000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx'
+            'client_files.*.file'        => 'file|max:5000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx'
         ];
     }
 

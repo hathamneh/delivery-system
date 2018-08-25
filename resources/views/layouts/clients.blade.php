@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('actions')
+    @yield('actionsFirst')
     <a href="{{ route('clients.index') }}" class="btn btn-light">
         <i class="fa-user-tie"></i> @lang('client.label')
     </a>

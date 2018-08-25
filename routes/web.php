@@ -40,9 +40,12 @@ Route::middleware('auth')->group(function() {
     Route::resource('users', "UsersController");
 
     Route::get('clients/create', "ClientsController@create")->name('clients.create');
+    Route::get('clients/{client}/edit/{section?}', "ClientsController@edit")->name('clients.edit');
     Route::get('clients/{client}/{tab?}', "ClientsController@show")
         ->name('clients.show');
-    Route::resource('clients', "ClientsController")->except(['show', 'create']);
+    Route::resource('clients', "ClientsController")->except(['show', 'create', 'edit']);
+
+    Route::delete('attachment/{attachment}', "AttachmentController@destroy")->name('attachment.destroy');
 
     Route::resource('couriers', "CouriersController");
     Route::resource('pickups', "PickupsController");

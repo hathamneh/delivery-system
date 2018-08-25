@@ -12,9 +12,11 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            @include('addresses.form')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                @include('addresses.form')
+            </div>
         </div>
     </div>
 @endsection

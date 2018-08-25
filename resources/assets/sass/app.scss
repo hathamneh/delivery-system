@@ -8,8 +8,8 @@
 
 $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~simple-line-icons/scss/simple-line-icons";
+@import "./plugins/step-form-wizard";
 //@import "~slick-carousel/slick/slick";
-@import "/js/legacy/plugins/icheck/new/flat/_all.css";
 @import "~octicons/index";
 @import "~weather-icons/css/weather-icons.min.css";
 @import "~ladda/css/ladda-themed";
@@ -24,6 +24,7 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @import "~@ttskch/select2-bootstrap4-theme/src/layout";
 @import "../kangarooIcons/style.css";
 @import "~paper-css/paper.css";
+
 
 // template style
 @import "main";

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @property UserTemplate template
@@ -72,6 +73,22 @@ class User extends Authenticatable
         return $this->hasMany(Note::class);
     }
 
+    /**
+     * @param string $newPass
+     * @return bool
+     */
+    public function changePassword(string $newPass)
+    {
+        return $this->fill([
+            'password' => Hash::make($newPass)
+        ])->save();
+    }
+
+    /**
+     * Generate random password for user
+     * @param int $len
+     * @return string
+     */
     public static function generatePassword($len = 6)
     {
 

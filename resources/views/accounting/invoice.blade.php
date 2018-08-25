@@ -176,11 +176,13 @@
                             <tbody>
                             <tr>
                                 <th>@lang('accounting.client_due_for')</th>
-                                <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->due_for) }}</td>
+                                <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->due_for) }}
+                                </td>
                             </tr>
                             <tr>
                                 <th>@lang('accounting.client_due_from')</th>
-                                <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->due_from) }}</td>
+                                <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->due_from) }}
+                                </td>
                             </tr>
                             <tr>
                                 <th>@lang('accounting.terms_applied')</th>
@@ -188,7 +190,9 @@
                             </tr>
                             <tr>
                                 <th>@lang('accounting.pickups_fees')</th>
-                                <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->pickup_fees) }}</td>
+                                <td>
+                                    <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->pickup_fees) }}
+                                </td>
                             </tr>
                             </tbody>
                             <tfoot>

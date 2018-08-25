@@ -27,7 +27,6 @@
   padding-right: 0 !important;
 }
 
-
 #map {
   .amcharts-chart-div {
     svg {
@@ -67,7 +66,6 @@
   stroke-linecap: round;
 }
 
-
 .note-editor {
   .btn.btn-transparent {
     margin-left: 0;
@@ -96,7 +94,6 @@
     width: 32px !important;
   }
 }
-
 
 .media-body {
   p {
@@ -133,10 +130,6 @@
   font-family: 'Open Sans', verdana, arial;
   font-size: 6rem;
 }
-
-
-
-
 
 .layouts {
   .toggle-layout {
@@ -4681,35 +4674,9 @@ blockquote {
 }
 
 .table {
-  > tbody {
-    > tr {
-      > td {
-        border-top: none;
-      }
-      > th {
-        border-top: none;
-      }
-    }
-  }
-  > tfoot {
-    > tr {
-      > td {
-        border-top: none;
-      }
-      > th {
-        border-top: none;
-      }
-    }
-  }
-  > thead {
-    > tr {
-      > td {
-        border-top: none;
-      }
-      > th {
-        border-top: none;
-      }
-    }
+  td {
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
   }
   th.highlighted {
     background-color: rgba(215, 230, 234, 0.6) !important;
@@ -5072,7 +5039,6 @@ i.bg-grey {
   pointer-events: none !important;
   cursor: default !important;
 }
-
 
 .grecaptcha-badge {
   display: none;
@@ -5805,24 +5771,25 @@ i.bg-grey {
 }
 
 @media screen and (max-width: 800px) {
-.widget-cash-in-hand {
-  .row {
-    .cash {
-      width: 33.3333%;
-      &:nth-child(3) {
-        border-right: none;
-      }
-      .number {
-        font-size: 14px;
-      }
-      .txt {
-        font-size: 11px;
+  .widget-cash-in-hand {
+    .row {
+      .cash {
+        width: 33.3333%;
+        &:nth-child(3) {
+          border-right: none;
+        }
+        .number {
+          font-size: 14px;
+        }
+        .txt {
+          font-size: 11px;
+        }
       }
     }
   }
-}
 
 }
+
 @media (max-width: 1505px) {
   .btn.btn-home {
     display: none;
@@ -6601,6 +6568,7 @@ body {
     }
   }
 }
+
 .sidebar-condensed {
   &:not(.sidebar-collapsed) {
     &:not(.fixed-topbar) {
@@ -6614,8 +6582,8 @@ body {
     .sidebar {
       .sidebar-inner {
         .nav-sidebar {
-          >li {
-            >a {
+          > li {
+            > a {
               span.badge {
                 display: inline-block;
                 float: none !important;
@@ -6629,8 +6597,8 @@ body {
   .sidebar {
     .sidebar-inner {
       .nav-sidebar {
-        >li {
-          >a {
+        > li {
+          > a {
             text-align: center;
           }
         }
@@ -6638,11 +6606,12 @@ body {
     }
   }
 }
+
 .sidebar-mailbox.sidebar {
   .sidebar-inner {
     .nav-sidebar {
-      >li.active {
-        >a {
+      > li.active {
+        > a {
           span.badge {
             position: absolute;
             right: 55px;
@@ -6656,6 +6625,7 @@ body {
     margin-bottom: 10px;
   }
 }
+
 .sidebar {
   .sidebar-inner {
     .nav-sidebar {
@@ -6675,6 +6645,7 @@ body {
     }
   }
 }
+
 .sidebar-collapsed {
   .topbar {
     .header-left {
@@ -6686,6 +6657,7 @@ body {
     }
   }
 }
+
 .rtl {
   .sidebar-collapsed {
     .topbar {
@@ -6735,6 +6707,7 @@ body {
     }
   }
 }
+
 .rtl.boxed {
   .sidebar {
     right: auto;
@@ -6748,6 +6721,7 @@ body {
     }
   }
 }
+
 .rtl.account {
   #lockscreen-block {
     .input-group {
@@ -6774,6 +6748,7 @@ body {
     }
   }
 }
+
 .rtl.error-page {
   span {
     text-align: center;
@@ -6785,6 +6760,7 @@ body {
     text-align: center;
   }
 }
+
 .boxed.fixed-topbar {
   .main-content {
     .page-content {
@@ -6799,16 +6775,19 @@ body {
     }
   }
 }
+
 .sidebar-hover {
   .main-content {
     margin-right: 0 !important;
   }
 }
+
 .boxed.fixed-topbar.sidebar-show {
-  >section {
+  > section {
     overflow: hidden;
   }
 }
+
 .topnav {
   .logopanel2 {
     padding-bottom: 3px !important;
@@ -6824,6 +6803,7 @@ body {
     }
   }
 }
+
 .add-address-button {
   i {
     -webkit-transition: all 0.2s;
@@ -6833,6 +6813,7 @@ body {
     transition: all 0.2s;
   }
 }
+
 .add-address-button.rotate {
   i {
     -webkit-transform: rotate(45deg);
@@ -6842,9 +6823,11 @@ body {
     transform: rotate(45deg);
   }
 }
+
 .add-address-form {
   display: none;
 }
+
 @media (min-width: 1600px) {
   .dashboard.boxed {
     .col-clock {
@@ -6866,6 +6849,7 @@ body {
     }
   }
 }
+
 @media only screen and (min-width: 1170px) {
   #timeline {
     .timeline-block {
@@ -6889,6 +6873,7 @@ body {
     }
   }
 }
+
 @media screen and (max-width: 1024px) {
   .rtl {
     .sidebar-condensed {
@@ -6906,6 +6891,7 @@ body {
     }
   }
 }
+
 @media (min-width: 1024px) {
   .boxed.sidebar-collapsed {
     .sidebar {
@@ -6913,11 +6899,12 @@ body {
     }
   }
   .boxed.fixed-topbar.sidebar-show {
-    >section {
+    > section {
       overflow: visible;
     }
   }
 }
+
 @media (max-width: 1024px) {
   .main-content {
     .page-content.page-calendar {
@@ -6927,13 +6914,12 @@ body {
   }
 }
 
-
 .append-icon {
   position: relative;
   input {
     padding-right: 36px;
   }
-  i,.svg-inline--fa {
+  i, .svg-inline--fa {
     position: absolute;
     right: 0;
     top: 0;
@@ -6961,20 +6947,9 @@ body {
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255, 255, 255, 0.75);
   [data-fa-i2svg] {
     font-size: 1.5rem;
-  }
-}
-
-.address-group-item {
-  display: flex;
-  .actions {
-    display: none;
-    margin-left: auto;
-  }
-  &:hover .actions {
-    display: flex;
   }
 }
 

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('htmlHead')
-    <link href="/js/legacy/plugins/step-form-wizard/css/step-form-wizard.min.css" rel="stylesheet">
     <style>
         .sf-sky .sf-wizard > form {
             padding: 0;
+            border: none;
         }
 
         .sf-step > fieldset {

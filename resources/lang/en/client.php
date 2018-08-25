@@ -53,6 +53,23 @@ return [
     ],
     "go_to_dashboard" => "Go to :client Dashboard",
     "address" => "Client Address",
+
+    // tabs
     'statistics' => "Statistics",
+    'shipments' => 'Shipments',
+    'pickups' => 'Pickups',
+    'zones' => 'Zones',
+    'edit' => "Edit",
+    'properties' => "Properties",
+
+    'personal' => "Personal",
+    'accounting' => "Accounting",
+    'attachments' => "Attachments",
+
     'shipment' => "Shipment",
+
+    'statusesPercentage' => 'Status %',
+
+    'upload' => 'Upload',
+    'upload_file' => 'Add Attachment',
 ];

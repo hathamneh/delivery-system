@@ -5,15 +5,14 @@ namespace App;
 
 use App\Interfaces\Accountable;
 use App\Traits\ClientAccounting;
+use App\Traits\ClientStatistics;
 use App\Traits\HasAttachmentsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\FileBag;
 
 /**
  * @property int account_number
@@ -45,15 +44,17 @@ use Symfony\Component\HttpFoundation\FileBag;
  * @property mixed url_instagram
  * @property mixed url_website
  * @property mixed url_facebook
- * @property object|array address
- * @property object|array pickup_address
- * @property object|array bank
- * @property object|array urls
+ * @property object address
+ * @property object pickup_address
+ * @property object bank
+ * @property object urls
+ *
+ * @property Collection attachments
  */
 class Client extends Model implements Accountable
 {
     use SoftDeletes, HasAttachmentsTrait;
-    use ClientAccounting;
+    use ClientAccounting, ClientStatistics;
 
     protected $dates = ['deleted_at'];
 
@@ -126,31 +127,34 @@ class Client extends Model implements Accountable
 
     public function setAddressAttribute($val)
     {
-        $this->address_country = $val['country'] ?? $this->address_country;
-        $this->address_city = $val['city'] ?? $this->address_city;
-        $this->address_sub = $val['sub'] ?? $this->address_sub;
-        $this->address_maps = $val['maps'] ?? $this->address_maps;
+        $this->address_country = isset($val['country']) ? $val['country'] : $this->address_country;
+        $this->address_city = isset($val['city']) ? $val['city'] : $this->address_city;
+        $this->address_sub = isset($val['sub']) ? $val['sub'] : $this->address_sub;
+        $this->address_maps = isset($val['maps']) ? $val['maps'] : $this->address_maps;
     }
 
     public function setPickupAddressAttribute($val)
     {
-        $this->address_pickup_text = $val['text'] ?? $this->address_pickup_text;
-        $this->address_pickup_maps = $val['maps'] ?? $this->address_pickup_maps;
+        $this->address_pickup_text = isset($val['text']) ? $val['text'] : $this->address_pickup_text;
+        $this->address_pickup_maps = isset($val['maps']) ? $val['maps'] : $this->address_pickup_maps;
     }
 
     public function setBankAttribute($val)
     {
-        $this->bank_name = $val['name'] ?? $this->bank_name;
-        $this->bank_account_number = $val['account_number'] ?? $this->bank_account_number;
-        $this->bank_holder_name = $val['holder_name'] ?? $this->bank_holder_name;
-        $this->bank_iban = $val['iban'] ?? $this->bank_iban;
+        $this->bank_name = isset($val['name']) ? $val['name'] : $this->bank_name;
+        $this->bank_account_number = isset($val['account_number']) ? $val['account_number'] : $this->bank_account_number;
+        $this->bank_holder_name = isset($val['holder_name']) ? $val['holder_name'] : $this->bank_holder_name;
+        $this->bank_iban = isset($val['iban']) ? $val['iban'] : $this->bank_iban;
     }
 
     public function setUrlsAttribute($val)
     {
-        $this->url_website = $val['website'] ?? $this->url_website;
-        $this->url_facebook = $val['facebook'] ?? $this->url_facebook;
-        $this->url_instagram = $val['instagram'] ?? $this->url_instagram;
+        if (array_key_exists('website', $val))
+            $this->url_website = $val['website'];
+        if (array_key_exists('facebook', $val))
+            $this->url_facebook = $val['facebook'];
+        if (array_key_exists('instagram', $val))
+            $this->url_instagram = $val['instagram'];
     }
 
 
@@ -193,6 +197,9 @@ class Client extends Model implements Accountable
     }
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function shipments()
     {
         return $this->hasMany(Shipment::class, 'client_account_number', 'account_number');
@@ -217,10 +224,9 @@ class Client extends Model implements Accountable
      * @param string $statusName
      * @return bool
      */
-    public function isChargedFor(string $statusName) : bool
+    public function isChargedFor(string $statusName): bool
     {
-        $status = Status::name($statusName)->first();
-        $cf = $this->chargedFor()->where('status_id', $status->id)->first();
+        $cf = $this->chargedFor()->byStatus($statusName)->first();
         return !is_null($cf) && $cf->enabled;
     }
 
@@ -262,16 +268,26 @@ class Client extends Model implements Accountable
         return Config::get('constants.color.black');
     }
 
+    /**
+     * Change Client password
+     * @param string $newPass
+     * @return bool
+     */
     public function changePassword(string $newPass)
     {
-        $this->user->fill([
-            'password' => Hash::make($newPass)
-        ])->save();
-        $this->fill([
-            'password' => $newPass
-        ])->save();
+        // change associated user's password first
+        if ($this->user->changePassword($newPass))
+            // then change the client's password
+            return $this->fill([
+                'password' => $newPass
+            ])->save();
+        return false;
     }
 
+    /**
+     * Get next client account number
+     * @return integer
+     */
     public static function nextAccountNumber()
     {
         $statement = DB::select("SHOW TABLE STATUS LIKE 'clients'");

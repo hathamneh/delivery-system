@@ -24,5 +24,5 @@
 
 @section('beforeBody')
     <script src="{{ asset('js/plugins/mixitup.min.js') }}"></script>
-    <script src="{{ asset('js/legacy/pickups.js') }}"></script>
+    <script src="{{ asset('js/pickups.js') }}"></script>
 @endsection

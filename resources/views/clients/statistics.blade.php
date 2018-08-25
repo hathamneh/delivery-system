@@ -1,15 +1,26 @@
+@if(isset($alert) && $alert)
+
+    @component('bootstrap::alert', [
+        'type' => $alert->type ?? "primary",
+        'dismissible' => true,
+        'animate' => true,
+       ])
+        {{ $alert->msg }}
+    @endcomponent
+
+@endif
+
 <div class="row overview-cards">
     <div class="col-md-3">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('shipment.label')</h3>
-                <small class="text-muted ml-auto">This Month</small>
             </div>
             <div class="card-body">
-                <div class="current-value">32</div>
+                <div class="current-value">{{ $statistics->shipments['current'] }}</div>
                 <div class="overview-meta">
-                    <div class="percentage-value up"><i class="fa-arrow-up"></i> 1.33%</div>
-                    <small class="previous-value">(Last Month: 24)</small>
+                    <div class="percentage-value {{ $statistics->shipments['state'] }}"><i class="fa-arrow-{{ $statistics->shipments['state'] }}"></i> {{ $statistics->shipments['ratio'] }}%</div>
+                    <small class="previous-value">(Previous period: {{ $statistics->shipments['previous'] }})</small>
                 </div>
             </div>
 
@@ -19,13 +30,12 @@
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('pickup.label')</h3>
-                <small class="text-muted ml-auto">This Month</small>
             </div>
             <div class="card-body">
-                <div class="current-value">8</div>
+                <div class="current-value">{{ $statistics->pickups['current'] }}</div>
                 <div class="overview-meta">
-                    <div class="percentage-value down"><i class="fa-arrow-down"></i> 1.5%</div>
-                    <small class="previous-value">(Last Month: 12)</small>
+                    <div class="percentage-value {{ $statistics->pickups['state'] }}"><i class="fa-arrow-{{ $statistics->pickups['state'] }}"></i> {{ $statistics->pickups['ratio'] }}%</div>
+                    <small class="previous-value">(Previous period: {{ $statistics->pickups['previous'] }})</small>
                 </div>
             </div>
 
@@ -35,13 +45,12 @@
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('accounting.due_for')</h3>
-                <small class="text-muted ml-auto">This Month</small>
             </div>
             <div class="card-body">
-                <div class="current-value">143<span class="currency">JOD</span></div>
+                <div class="current-value">{{ fnumber($statistics->dueFor['current']) }}<span class="currency">JOD</span></div>
                 <div class="overview-meta">
-                    <div class="percentage-value up"><i class="fa-arrow-down"></i> 1.58%</div>
-                    <small class="previous-value">(Last Month: 90<span class="currency">JOD</span>)</small>
+                    <div class="percentage-value {{ $statistics->dueFor['state'] }}"><i class="fa-arrow-{{ $statistics->dueFor['state'] }}"></i> {{ $statistics->dueFor['ratio'] }}%</div>
+                    <small class="previous-value">(Previous period: <span class="currency">JOD</span>{{ $statistics->dueFor['previous'] }})</small>
                 </div>
             </div>
 
@@ -51,16 +60,24 @@
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('accounting.due_from')</h3>
-                <small class="text-muted ml-auto">This Month</small>
             </div>
             <div class="card-body">
-                <div class="current-value">88<span class="currency">JOD</span></div>
+                <div class="current-value">{{ fnumber($statistics->dueFrom['current']) }}<span class="currency">JOD</span></div>
                 <div class="overview-meta">
-                    <div class="percentage-value up"><i class="fa-arrow-down"></i> 3.52%</div>
-                    <small class="previous-value">(Last Month: 25<span class="currency">JOD</span>)</small>
+                    <div class="percentage-value {{ $statistics->dueFrom['state'] }}"><i class="fa-arrow-{{ $statistics->dueFrom['state'] }}"></i> {{ $statistics->dueFrom['ratio'] }}%</div>
+                    <small class="previous-value">(Previous period: <span class="currency">JOD</span>{{ $statistics->dueFrom['previous'] }})</small>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+<div class="container mt-3 p-xs-0">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h3>Shipment Statuses</h3>
+            <canvas id="myChart" width="900" height="400"></canvas>
+        </div>
+    </div>
+</div>
+

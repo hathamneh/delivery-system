@@ -36,6 +36,7 @@ class HomeController extends Controller
             'pending' => Shipment::pending()->count(),
             'received' => Shipment::statusIs('received')->count(),
             'delivered' => Shipment::statusIs('delivered')->count(),
+            'returned' => Shipment::statusIs('returned')->count(),
             'pickups' => Pickup::count(),
             'clients' => Client::count(),
             'couriers' => Courier::count(),

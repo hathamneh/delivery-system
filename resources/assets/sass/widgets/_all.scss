@@ -254,8 +254,7 @@
 }
 
 .widget-infobox {
-  float: left;
-  margin-top: -8px;
+
   .infobox {
     background: #ffffff;
     float: left;
@@ -282,6 +281,9 @@
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -363,11 +365,12 @@
 .quick-link {
   float: left;
   padding: 5px 15px;
-  width: 115px;
+  width: 85px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   margin: 0 15px;
+  text-align: center;
   &:hover {
     background: #F7F7F7;
     cursor: pointer;
@@ -378,18 +381,18 @@
   .icon {
     margin: auto;
     text-align: center;
-    width: 95px;
+    width: 65px;
     i {
       color: #ffffff;
-      font-size: 50px;
+      font-size: 30px;
       padding-right: 0 !important;
       text-align: center;
       float: none !important;
       &::before {
-        height: 95px;
+        height: 65px;
         margin-top: 0;
         padding: 23px;
-        width: 95px;
+        width: 65px;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         border-radius: 50%;
@@ -407,6 +410,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
+    margin-bottom: 0;
   }
 }
 

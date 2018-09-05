@@ -26319,11 +26319,6 @@ body.rtl .layout-options .img-sidebar-right {
   background-color: #000;
 }
 
-.widget-infobox {
-  float: left;
-  margin-top: -8px;
-}
-
 .widget-infobox .infobox {
   background: #ffffff;
   float: left;
@@ -26353,6 +26348,15 @@ body.rtl .layout-options .img-sidebar-right {
   padding: 13px;
   width: 48px;
   border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .widget-infobox .right {
@@ -26449,9 +26453,10 @@ body.rtl .layout-options .img-sidebar-right {
 .quick-link {
   float: left;
   padding: 5px 15px;
-  width: 115px;
+  width: 85px;
   border-radius: 5px;
   margin: 0 15px;
+  text-align: center;
 }
 
 .quick-link:hover {
@@ -26466,22 +26471,22 @@ body.rtl .layout-options .img-sidebar-right {
 .quick-link .icon {
   margin: auto;
   text-align: center;
-  width: 95px;
+  width: 65px;
 }
 
 .quick-link .icon i {
   color: #ffffff;
-  font-size: 50px;
+  font-size: 30px;
   padding-right: 0 !important;
   text-align: center;
   float: none !important;
 }
 
 .quick-link .icon i::before {
-  height: 95px;
+  height: 65px;
   margin-top: 0;
   padding: 23px;
-  width: 95px;
+  width: 65px;
   border-radius: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -26502,6 +26507,8 @@ body.rtl .layout-options .img-sidebar-right {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
+  margin-bottom: 0;
 }
 
 .widget-member {

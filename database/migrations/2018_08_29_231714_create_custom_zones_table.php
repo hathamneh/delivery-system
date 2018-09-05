@@ -17,10 +17,12 @@ class CreateCustomZonesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('client_account_number');
             $table->unsignedInteger('zone_id');
+            $table->string('name');
             $table->double('base_weight')->nullable();
             $table->double('charge_per_unit')->nullable();
             $table->double('extra_fees_per_unit')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

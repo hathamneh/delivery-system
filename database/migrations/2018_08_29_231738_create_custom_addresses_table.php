@@ -17,10 +17,12 @@ class CreateCustomAddressesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('client_account_number');
             $table->unsignedInteger('custom_zone_id');
-            $table->unsignedInteger('address_id');
+            $table->unsignedInteger('address_id')->nullable();
+            $table->string('name');
             $table->double('sameday_price')->nullable();
             $table->double('scheduled_price')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

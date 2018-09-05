@@ -107685,6 +107685,12 @@ __webpack_require__("./node_modules/bootstrap-select/dist/js/bootstrap-select.js
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    $(document).ready(function () {
+        $('#custom_price').on('change', function () {
+            if ($(this).is(':checked')) $('#total_price').prop('disabled', false);else $('#total_price').prop('disabled', true);
+        });
+    });
 })(jQuery);
 
 /***/ }),
@@ -107976,7 +107982,7 @@ module.exports = selectableTable = {
         this.controller();
     },
     controller: function controller() {
-        this.$selectableTable.on('click', 'tbody tr', selectableTable.on.rowSelect);
+        this.$selectableTable.on('click', 'tbody tr :not(.btn)', selectableTable.on.rowSelect);
         this.$selectableTable.on('change', 'tbody .custom-checkbox .custom-control-input', function () {
             selectableTable.on.checkboxChanged(this);
             selectableTable.checkSelected();
@@ -108026,21 +108032,40 @@ module.exports = selectableTable = {
         var $selected = $('.table-selectable tbody tr.selected');
         var $notSelected = $('.table-selectable tbody tr:not(.selected)');
         var $actions = $(".reports-actions");
-        if ($selected.length) {
-            $('.selection-indicator').text($selected.length + " Selected");
-            $actions.find('input[name=shipments]').val(selectableTable.selected.join(','));
-            $(".page-heading").addClass('sticky');
-            if ($notSelected.length) {
-                selectableTable.$selAll.prop('indeterminate', true);
+        if ($actions.length) {
+            if ($selected.length) {
+                $('.selection-indicator').text($selected.length + " Selected");
+                $actions.find('input[name=shipments]').val(selectableTable.selected.join(','));
+                $(".page-heading").addClass('sticky');
+                if ($notSelected.length) {
+                    selectableTable.$selAll.prop('indeterminate', true);
+                } else {
+                    selectableTable.$selAll.prop('checked', true);
+                    selectableTable.$selAll.prop('indeterminate', false);
+                }
+                $actions.slideDown();
             } else {
-                selectableTable.$selAll.prop('checked', true);
-                selectableTable.$selAll.prop('indeterminate', false);
+                $(".page-heading").removeClass('sticky');
+                selectableTable.$selAll.prop('selected', false);
+                $actions.slideUp();
             }
-            $actions.slideDown();
-        } else {
-            $(".page-heading").removeClass('sticky');
-            selectableTable.$selAll.prop('selected', false);
-            $actions.slideUp();
+        }
+        var $clientsAddresses = $(".custom-addresses-actions");
+        if ($clientsAddresses.length) {
+            if ($selected.length) {
+                var selected = [];
+                $selected.each(function () {
+                    var val = $(this).find('input[type=checkbox]').val();
+                    if ($(this).is('.modified, .new')) selected.push(val + ":customize");else {
+                        selected.push(val + ":new");
+                    }
+                });
+                $clientsAddresses.find('input[name=addresses]').val(selected.join(','));
+                $('.selection-action').prop('disabled', false);
+                if ($selected.not('.modified, .new').length) $('.selection-action-delete').prop('disabled', true);
+            } else {
+                $('.selection-action').prop('disabled', true);
+            }
         }
     },
     clearSelected: function clearSelected() {

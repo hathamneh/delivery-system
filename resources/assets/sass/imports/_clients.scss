@@ -46,3 +46,31 @@
     }
   }
 }
+
+.customZones {
+  &-list {
+    .list-group-item {
+      border-radius: 0 !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+    }
+  }
+}
+
+.selectedZone-nav.nav-tabs {
+  .nav-link.active, .nav-item.show .nav-link {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+  }
+}
+
+.customAddresses-table {
+  .custom-control-label {
+    margin-bottom: 0.75rem;
+  }
+  .modified {
+    background-color: #f9f8ec;
+  }
+  .new {
+    background-color: #f4fbf2;
+  }
+}

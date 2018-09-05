@@ -20,8 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::middleware('auth')->group(function() {
+Route::get('tracking', "TrackController@show")->name('tracking.show');
+Route::middleware('auth')->group(function () {
     Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
     Route::get('shipments/create/{type?}', "ShipmentController@create")
         ->name('shipments.create')
@@ -41,9 +41,24 @@ Route::middleware('auth')->group(function() {
 
     Route::get('clients/create', "ClientsController@create")->name('clients.create');
     Route::get('clients/{client}/edit/{section?}', "ClientsController@edit")->name('clients.edit');
-    Route::get('clients/{client}/{tab?}', "ClientsController@show")
-        ->name('clients.show');
     Route::resource('clients', "ClientsController")->except(['show', 'create', 'edit']);
+
+    Route::post('clients/{client}/zones', "ClientZonesController@store")->name('clients.zones.store');
+    Route::get('clients/{client}/zones', "ClientZonesController@index")->name('clients.zones.index');
+    Route::get('clients/{client}/zones/{zone}', "ClientZonesController@show")->name('clients.zones.show');
+    Route::put('clients/{client}/zones/{zone}', "ClientZonesController@update")->name('clients.zones.update');
+    Route::delete('clients/{client}/zones/{zone}', "ClientZonesController@destroy")->name('clients.zones.destroy');
+
+    Route::put('clients/{client}/addresses/{address}', "CustomAddressesController@update")->name('clients.addresses.update');
+    Route::post('clients/{client}/addresses', "CustomAddressesController@store")->name('clients.addresses.store');
+    Route::post('clients/{client}/addresses/bulk', "CustomAddressesController@bulk")->name('clients.addresses.bulk');
+    Route::get('clients/{client}/zones/{zone}/addresses', "CustomAddressesController@index")->name('clients.addresses.index');
+    Route::delete('clients/{client}/addresses', "CustomAddressesController@bulkDestroy")->name('clients.addresses.bulkDestroy');
+    Route::delete('clients/{client}/addresses/{address}', "CustomAddressesController@destroy")->name('clients.addresses.destroy');
+
+    Route::get('clients/{client}/{tab?}', "ClientsController@show")
+        ->name('clients.show')
+        ->where('tab', 'statistics|shipments|pickups');
 
     Route::delete('attachment/{attachment}', "AttachmentController@destroy")->name('attachment.destroy');
 
@@ -62,16 +77,11 @@ Route::middleware('auth')->group(function() {
     Route::get('accounting/goto', "AccountingController@goto")->name('accounting.goto');
 });
 
-//test Routes
-Route::group(['middleware'=> 'web'],function(){
-  Route::resource('test','\App\Http\Controllers\TestController');
-  Route::post('test/{id}/update','\App\Http\Controllers\TestController@update');
-  Route::get('test/{id}/delete','\App\Http\Controllers\TestController@destroy');
-  Route::get('test/{id}/deleteMsg','\App\Http\Controllers\TestController@DeleteMsg');
-});
 
+function parseItems($key, $value)
+{
 
-function parseItems($key, $value) {
-
-    array_walk($test_array, function(&$a, $b) { $a = "$b loves $a"; });
+    array_walk($test_array, function (&$a, $b) {
+        $a = "$b loves $a";
+    });
 }

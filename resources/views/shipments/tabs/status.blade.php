@@ -47,7 +47,7 @@
                                 from <span class="badge badge-secondary">{{ $history->oldValue() }}</span> to <span
                                         class="badge badge-secondary">{{ $history->newValue() }}</span>
                                 <br>
-                                <small class="text-muted">{{ $history->userResponsible() != null && auth()->user()->isAdmin() ? "By ". $history->userResponsible()->username . " at" : "At" }} {{ $history->created_at }}</small>
+                                <small class="text-muted">{{ $history->userResponsible() != null && (Auth::check() && Auth::user()->isAdmin()) ? "By ". $history->userResponsible()->username . " at" : "At" }} {{ $history->created_at }}</small>
                             </li>
                         @endif
                     @endforeach

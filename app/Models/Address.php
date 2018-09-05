@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Presenters\Address\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -28,40 +29,29 @@ class Address extends Model
         return $this->belongsTo(Zone::class);
     }
 
-    public function customizedClients()
-    {
-        return $this
-            ->belongsToMany(Client::class, 'client_address', 'address_id', 'client_account_number')
-            ->withPivot('sameday_price', 'scheduled_price');
-    }
-
     public function shipments()
     {
         return $this->hasMany(Shipment::class);
     }
 
     /**
-     * @param int $accountNumber
+     * @param Client|Guest $client
      * @return mixed
      */
-    public function sameDayPriceFor(int $accountNumber)
+    public function customFor($client)
     {
-        $client = $this->customizedClients()->find($accountNumber);
-        return !is_null($client) ? $client->pivot->sameday_price : $this->sameday_price;
-    }
-
-    /**
-     * @param int $accountNumber
-     * @return mixed
-     */
-    public function scheduledPriceFor(int $accountNumber)
-    {
-        $client = $this->customizedClients()->find($accountNumber);
-        return !is_null($client) ? $client->pivot->scheduled_price : $this->scheduled_price;
+        if ($client instanceof $client)
+            return CustomAddress::where('address_id', $this->id)->where('client_account_number', $client->account_number)->first();
+        return null;
     }
 
     public function identifiableName()
     {
         return $this->name;
+    }
+
+    public function getUrlAttribute()
+    {
+        return new UrlPresenter($this);
     }
 }

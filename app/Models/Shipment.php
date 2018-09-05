@@ -55,17 +55,38 @@ class Shipment extends Model
 {
     use RevisionableTrait, SoftDeletes, GenerateWaybills;
 
+    /**
+     * @var int
+     */
     protected $waybill_digits = 8;
+    /**
+     * @var string
+     */
     protected $waybill_prefix = "3";
 
+    /**
+     * @var bool
+     */
     protected $revisionEnabled = true;
+    /**
+     * @var bool
+     */
     protected $revisionCreationsEnabled = true;
+    /**
+     * @var array
+     */
     protected $revisionFormattedFields = [
         'delivery_date' => "datetime:d-m-Y"
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['deleted_at', 'delivery_date'];
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'waybill',
         'delivery_date',
@@ -90,6 +111,10 @@ class Shipment extends Model
         'client_paid',
     ];
 
+    /**
+     * @param array $columns
+     * @return \Illuminate\Database\Eloquent\Collection|Model[]
+     */
     public static function all($columns = ['*'])
     {
         $results = parent::all($columns);
@@ -114,56 +139,103 @@ class Shipment extends Model
 
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function status()
     {
         return $this->belongsTo(Status::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function subStatus()
     {
         return $this->belongsTo(SubStatus::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function pickups()
     {
         return $this->belongsToMany(Pickup::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_account_number', 'account_number');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function courier()
     {
         return $this->belongsTo(Courier::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function address()
     {
         return $this->belongsTo(Address::class);
     }
 
+    public function getAddressAttribute()
+    {
+        $address = $this->address()->first();
+        $custom = $address->customFor($this->client);
+        if(!is_null($custom))
+            return $custom;
+        return $address;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function services()
     {
         return $this->belongsToMany(Service::class, 'service_shipment', 'shipment_id', 'service_id')->withPivot('price');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function returnedIn()
     {
         return $this->hasOne(ReturnedShipment::class, "returned_from", "shipment_id");
     }
 
+    /**
+     * @param Builder $query
+     * @param array $type
+     * @return Builder
+     */
     public function scopeType(Builder $query, array $type)
     {
         return $query->whereIn('type', $type);
     }
 
+    /**
+     * @param Builder $query
+     * @param $lodger
+     * @return Builder
+     */
     public function scopeLodger(Builder $query, $lodger)
     {
         return $query->where('delivery_cost_lodger', $lodger);
     }
 
+    /**
+     * @param Builder $builder
+     * @return Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function scopeFiltered(Builder $builder)
     {
         $results = $builder->get();
@@ -175,18 +247,30 @@ class Shipment extends Model
         return $results;
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeUnpaid($query)
     {
         //$statuses = Status::where('unpaid', true)->pluck('id');
         return $query->where('client_paid', false);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopePending($query)
     {
         $statuses = Status::where('pending', true)->pluck('id');
         return $query->whereIn('status_id', $statuses)->upcoming();
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeCourierDashboard($query)
     {
         $todayDate = Carbon::now()->toDateString();
@@ -195,24 +279,43 @@ class Shipment extends Model
             ->whereDate('delivery_date', '=', $todayDate);
     }
 
+    /**
+     * @param $query
+     * @param $status
+     * @return mixed
+     */
     public function scopeStatusIs($query, $status)
     {
         $status_id = Status::where('name', $status)->value('id');
         return $query->where('status_id', $status_id);
     }
 
+    /**
+     * @param Builder $query
+     * @param array $statuses
+     * @return Builder
+     */
     public function scopeStatusIn(Builder $query, array $statuses)
     {
         $status_ids = Status::whereIn('name', $statuses)->pluck('id');
         return $query->whereIn('status_id', $status_ids);
     }
 
+    /**
+     * @param Builder $query
+     * @return Builder|\Illuminate\Database\Query\Builder
+     */
     public function scopeUpcoming(Builder $query)
     {
         $todayDate = Carbon::now()->toDateString();
         return $query->whereDate('delivery_date', '>=', $todayDate);
     }
 
+    /**
+     * @param Builder $query
+     * @param $waybill
+     * @return Builder
+     */
     public function scopeWaybill(Builder $query, $waybill)
     {
         return $query->where("waybill", $waybill);
@@ -229,20 +332,25 @@ class Shipment extends Model
     }
 
 
+    /**
+     *
+     */
     public function gatherPriceInformation()
     {
-        $accountNumber = $this->client->account_number ?? 0;
         if ($this->service_type == "sameday")
-            $this->price_of_address = $this->address->sameDayPriceFor($accountNumber);
+            $this->price_of_address = $this->address->sameday_price;
         else
-            $this->price_of_address = $this->address->scheduledPriceFor($accountNumber);
+            $this->price_of_address = $this->address->scheduled_price;
 
         $zone = $this->address->zone;
-        $this->base_weight_of_zone = $zone->extraFeesPerUnitFor($accountNumber);
-        $this->charge_per_unit_of_zone = $zone->chargePerUnitFor($accountNumber);
-        $this->extra_fees_per_unit_of_zone = $zone->extraFeesPerUnitFor($accountNumber);
+        $this->base_weight_of_zone = $zone->base_weight;
+        $this->charge_per_unit_of_zone = $zone->charge_per_unit;
+        $this->extra_fees_per_unit_of_zone = $zone->extra_fees_per_unit;
     }
 
+    /**
+     * @return float|int
+     */
     public function getExtraFeesAttribute()
     {
         if ($this->package_weight > $this->base_weight_of_zone) {
@@ -253,6 +361,9 @@ class Shipment extends Model
         return 0;
     }
 
+    /**
+     * @return int
+     */
     public function getServicesCostAttribute()
     {
         $services_cost = 0;
@@ -262,24 +373,37 @@ class Shipment extends Model
         return $services_cost;
     }
 
+    /**
+     * @return float
+     */
     public function getBaseChargeAttribute()
     {
         if (!is_null($this->total_price)) return $this->total_price;
         return $this->price_of_address;
     }
 
+    /**
+     * @return float
+     */
     public function getDeliveryCostAttribute()
     {
         if (!is_null($this->total_price)) return $this->total_price;
         return $this->price_of_address + $this->extra_fees + $this->services_cost;
     }
 
+    /**
+     * @return float|mixed
+     */
     public function getTotalAttribute()
     {
         return $this->delivery_cost + $this->shipment_value;
     }
 
 
+    /**
+     * @param $services
+     * @return array
+     */
     public function attachServices($services)
     {
         $syncData = [];
@@ -292,6 +416,11 @@ class Shipment extends Model
         return $this->services()->sync($syncData);
     }
 
+    /**
+     * @param Builder $query
+     * @param string $term
+     * @return Builder
+     */
     public function scopeSearch(Builder $query, string $term)
     {
         $statuses = Status::where("name", "like", "%$term%")->pluck('id');
@@ -306,16 +435,25 @@ class Shipment extends Model
             ->orWhere("actual_paid_by_consignee", "like", "%$term%");
     }
 
+    /**
+     * @return bool
+     */
     public function isPriceOverridden()
     {
         return $this->total_price !== null;
     }
 
+    /**
+     * @return bool
+     */
     public function isEditable()
     {
         return !$this->status()->whereIn('name', ['delivered', 'returned'])->exists();
     }
 
+    /**
+     * @return $this
+     */
     public function toggleClientPaid()
     {
         $this->client_paid = !$this->client_paid;

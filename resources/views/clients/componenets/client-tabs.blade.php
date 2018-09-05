@@ -8,6 +8,9 @@
     <a href="{{ route('clients.show', ['client'=>$client, 'tab'=>'pickups']) }}"
        class="{{ $tab != "pickups" ?: "active" }}"><i class="fa-shopping-bag"></i> @lang('client.pickups')</a>
 
+    <a href="{{ route('clients.zones.index', ['client'=>$client]) }}"
+       class="{{ $tab != "zones" ?: "active" }}"><i class="fa-map-marker-alt"></i> @lang('client.zones')</a>
+
     <a href="{{ route('clients.edit', ['client'=>$client]) }}"
        class="{{ $tab != "edit" ?: "active" }}"><i class="fa-cogs"></i> @lang('client.properties')</a>
 </nav>

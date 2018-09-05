@@ -8,6 +8,7 @@ use App\Pickup;
 use App\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Spatie\Browsershot\Browsershot;
 
 class HomeController extends Controller
 {
@@ -32,6 +33,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        Browsershot::url('http://kangaroo-v2.test')->save('myImage.pdf');
         $statistics = [
             'pending' => Shipment::pending()->count(),
             'received' => Shipment::statusIs('received')->count(),

@@ -29,7 +29,8 @@ class ShipmentController extends Controller
         $shipments = Shipment::type($types)->filtered();
         return view('shipments.index', [
             'shipments' => $shipments,
-            'pageTitle' => trans('shipment.label')
+            'pageTitle' => trans('shipment.label'),
+            'sidebarCollapsed' => true
         ]);
     }
 

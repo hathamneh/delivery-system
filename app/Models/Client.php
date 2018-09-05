@@ -212,12 +212,12 @@ class Client extends Model implements Accountable
 
     public function customZones()
     {
-        return $this->belongsToMany(Zone::class)->withPivot('base_weight', 'charge_per_unit', 'extra_fees_per_unit');
+        return $this->hasMany(CustomZone::class);
     }
 
     public function customAddresses()
     {
-        return $this->belongsToMany(Address::class)->withPivot('sameday_price', 'scheduled_price');
+        return $this->hasMany(CustomAddress::class);
     }
 
     /**

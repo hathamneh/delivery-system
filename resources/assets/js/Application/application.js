@@ -1,6 +1,6 @@
 require("./toggleFullScreen")
 require("./preloader")
-require( "./sidebarMenu")
+require("./sidebarMenu")
 require('./scrollTop')
 require('./detectIE')
 require('./printing')

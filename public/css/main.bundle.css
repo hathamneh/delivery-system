@@ -26063,6 +26063,30 @@ body.rtl .layout-options .img-sidebar-right {
   margin-top: 7px;
 }
 
+.accordion .card-header {
+  position: relative;
+  cursor: pointer;
+}
+
+.accordion .card-header:after {
+  content: '\E985';
+  font-family: kangarooIcons;
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.accordion .card-header.collapsed:after {
+  content: '\E982';
+  font-family: kangarooIcons;
+}
+
+.add-custom-zone-btn[aria-expanded="true"] {
+  display: none;
+}
+
 .panel-content.widget-full {
   overflow: hidden;
   padding: 0 !important;
@@ -27944,6 +27968,28 @@ a.pickup-toggle-details.collapsed i {
   margin-left: 0.6rem;
 }
 
+.customZones-list .list-group-item {
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+.selectedZone-nav.nav-tabs .nav-link.active, .selectedZone-nav.nav-tabs .nav-item.show .nav-link {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.customAddresses-table .custom-control-label {
+  margin-bottom: 0.75rem;
+}
+
+.customAddresses-table .modified {
+  background-color: #f9f8ec;
+}
+
+.customAddresses-table .new {
+  background-color: #f4fbf2;
+}
+
 .zone-card {
   height: 150px;
   padding: 0 0.35rem 1rem;
@@ -27992,6 +28038,9 @@ a.pickup-toggle-details.collapsed i {
 
 .zone-addresses-list {
   max-height: 150px;
+  border-radius: 0;
+  border-top: none;
+  border-bottom: none;
 }
 
 .zone-addresses-list .card-header {
@@ -28035,8 +28084,8 @@ a.pickup-toggle-details.collapsed i {
 }
 
 .zone-column {
-  padding: 0.5rem !important;
-  margin: 0.5rem 0;
+  padding: 0;
+  margin: 0.5rem 0 1.2rem;
   border: 1px solid;
   border-radius: 0.25rem;
 }

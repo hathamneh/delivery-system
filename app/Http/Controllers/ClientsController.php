@@ -100,6 +100,10 @@ class ClientsController extends Controller
                 $data['pickups'] = $client->pickups()->get();
                 $data['startDate'] = $data['endDate'] = false;
                 break;
+            case 'zones':
+                $data['zones'] = Zone::all();
+                $data['customZones'] = $client->customZones()->get();
+                break;
             case 'edit':
                 $data['countries'] = \Countries::lookup();
                 $data['zones'] = Zone::all();

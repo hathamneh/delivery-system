@@ -15,4 +15,13 @@ require('bootstrap-select');
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    $(document).ready(function () {
+        $('#custom_price').on('change', function () {
+            if($(this).is(':checked'))
+                $('#total_price').prop('disabled', false);
+            else
+                $('#total_price').prop('disabled', true);
+        });
+    });
 })(jQuery)

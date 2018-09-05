@@ -26,6 +26,7 @@
         @includeWhen($tab == "statistics", "clients.statistics")
         @includeWhen($tab == "shipments", "shipments.table")
         @includeWhen($tab == "pickups", "pickups.pickups-list")
+        @includeWhen($tab == "zones", "clients.customZones")
     </div>
 @endsection
 

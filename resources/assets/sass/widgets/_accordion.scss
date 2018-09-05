@@ -1,0 +1,22 @@
+.accordion {
+  .card-header {
+    position: relative;
+    cursor: pointer;
+    &:after {
+      content: '\e985';
+      font-family: kangarooIcons;
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &.collapsed:after {
+      content: '\e982';
+      font-family: kangarooIcons;
+    }
+  }
+}
+
+.add-custom-zone-btn[aria-expanded="true"] {
+  display: none;
+}

@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>Kangaroo Delivery</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ mix('css/main.bundle.css') }}" rel="stylesheet">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body class="{{ __("common.dir") }} sidebar-condensed account separate-inputs" data-page="login">
@@ -60,19 +59,18 @@
             </div>
         </div>
         <div class="col-sm-6 col-md-7">
-            <form action="#" class="form-shipment-status" id="form-shipment-status" method="post">
+            <form action="{{ route('tracking.show') }}" class="form-shipment-status" id="form-shipment-status"
+                  method="get">
                 <div class="row form-group">
-                    <label for="identifier" class="col-md-12 control-label">
+                    <label for="shipment" class="col-md-12 control-label">
                         <b>@lang("shipment.track_shipment")</b>
                     </label>
                     <div class="col-md-12 input-btn-group">
-                        <input type="text" class="form-control form-control-lg from-white" name="identifier"
-                               id="identifier"
+                        <input type="text" class="form-control form-control-lg from-white" name="shipment"
+                               id="shipment"
                                placeholder="@lang("shipment.enter_identifier")" required>
-                        <button type="submit" class="btn btn-primary btn-block ladda-button g-recaptcha"
-                                data-style="zoom-in"
-                                data-sitekey="6LeHGUoUAAAAAHsB_fkTvSrLWkdlgwJRiffKn2po"
-                                data-callback="shipmentStatusSubmit"><i class="fa fa-search"></i></button>
+                        <button type="submit" class="btn btn-primary btn-block "
+                                data-style="zoom-in"><i class="fa fa-search"></i></button>
                     </div>
                     <div class="clearfix"></div>
                     <small style="margin: 5px; font-size: 0.75rem; text-align: center; display: block;width: 100%;">@lang("common.recaptcha_policy_statement")</small>
@@ -91,19 +89,39 @@
 </div>
 
 
-<script src="{{ asset("/js/legacy/plugins/jquery/jquery.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/jquery/jquery-migrate-3.0.0.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/bootstrap/js/bootstrap.min.js") }}"></script>
-<!--<script src="/assets/global/plugins/jquery-validation/jquery.validate.min.js"></script>
--->
-<script src="{{ asset("/js/legacy/plugins/backstretch/backstretch.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/bootstrap-loading/dist/spin.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/plugins/bootstrap-loading/dist/ladda.min.js") }}"></script>
-<script src="{{ asset("/js/legacy/globals/fontawesome-all.min.js") }}"></script>
+<script src="{{ mix("js/main.bundle.js") }}"></script>
 <script>
     var redirect_to = "<?= $redirect ?? "dashboard.php" ?>";
+
+    function shipmentStatusSubmit(token) {
+        //document.getElementById("form-shipment-status").submit();
+        var $form = $("#form-shipment-status");
+        $form.submit();
+        return;
+        var l = Ladda.create($form.find('.ladda-button')[0]);
+        l.start();
+        var _identifier = $form.find("[name='identifier']").val();
+        console.log(_identifier);
+        $.ajax({
+            url: "/ajax_requests.php",
+            type: 'POST',
+            data: {
+                action: "get_shipment_status",
+                identifier: _identifier,
+                "g-recaptcha-response": token
+            },
+            success: function (data) {
+                var $result = $form.find('.status-result');
+                $result.html(data);
+                $result.fadeIn();
+                grecaptcha.reset();
+            },
+            complete: function () {
+                l.stop();
+            }
+        });
+    }
 </script>
-<script src="{{ asset("/js/legacy/globals/pages/login-v1.js") }}"></script>
 
 
 </body>

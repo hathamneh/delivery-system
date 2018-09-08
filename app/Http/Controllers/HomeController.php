@@ -7,6 +7,7 @@ use App\Courier;
 use App\Pickup;
 use App\Shipment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
@@ -32,16 +33,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $statistics = [
-            'pending' => Shipment::pending()->count(),
-            'received' => Shipment::statusIs('received')->count(),
-            'delivered' => Shipment::statusIs('delivered')->count(),
-            'returned' => Shipment::statusIs('returned')->count(),
-            'pickups' => Pickup::count(),
-            'clients' => Client::count(),
-            'couriers' => Courier::count(),
-        ];
+        $data=[];
+        if (Auth::user()->isAdmin())
+            $data['statistics'] = [
+                'pending'   => Shipment::pending()->count(),
+                'received'  => Shipment::statusIs('received')->count(),
+                'delivered' => Shipment::statusIs('delivered')->count(),
+                'returned'  => Shipment::statusIs('returned')->count(),
+                'pickups'   => Pickup::count(),
+                'clients'   => Client::count(),
+                'couriers'  => Courier::count(),
+            ];
 
-        return view('home')->with(['statistics' => $statistics]);
+        return view('home')->with($data);
     }
 }

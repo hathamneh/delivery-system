@@ -62,7 +62,7 @@ class Shipment extends Model
     /**
      * @var string
      */
-    protected $waybill_prefix = "3";
+    protected $waybill_prefix = "1";
 
     /**
      * @var bool
@@ -112,6 +112,21 @@ class Shipment extends Model
     ];
 
     /**
+     * model life cycle event listeners
+     */
+    public static function boot(){
+        parent::boot();
+
+        static::creating(function ($instance){
+            $instance->type = static::$waybill_type ?? "normal";
+        });
+
+        static::addGlobalScope('type', function (Builder $builder) {
+            $builder->where('type', static::$waybill_type ?? "normal");
+        });
+    }
+
+    /**
      * @param array $columns
      * @return \Illuminate\Database\Eloquent\Collection|Model[]
      */
@@ -124,19 +139,6 @@ class Shipment extends Model
             }
         }
         return $results;
-    }
-
-    /**
-     * model life cycle event listeners
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($instance) {
-            $instance->type = "normal";
-        });
-
     }
 
     /**

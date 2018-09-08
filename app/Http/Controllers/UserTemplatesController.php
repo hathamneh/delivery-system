@@ -65,7 +65,7 @@ class UserTemplatesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param $id
+     * @param UserTemplate $role
      * @return \Illuminate\Http\Response
      */
     public function edit(UserTemplate $role)
@@ -82,19 +82,19 @@ class UserTemplatesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param UserTemplate $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, UserTemplate $role)
     {
-        $ut = UserTemplate::findOrFail($id)->first();
-        $ut->update($request->toArray());
+        //$ut = UserTemplate::findOrFail($id)->first();
+        $role->update($request->toArray());
         $manyToMany = [];
-        foreach ($request->get('roles', []) as $role => $value) {
-            $manyToMany[$role] = ['value' => $value];
+        foreach ($request->get('roles', []) as $permission => $value) {
+            $manyToMany[$permission] = ['value' => $value];
         }
-        $ut->roles()->sync($manyToMany);
-        return redirect()->route('roles.edit', ['role' => $ut->id]);
+        $role->roles()->sync($manyToMany);
+        return redirect()->route('roles.edit', ['role' => $role]);
     }
 
     /**

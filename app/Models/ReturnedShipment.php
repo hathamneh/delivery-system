@@ -9,22 +9,8 @@ class ReturnedShipment extends Shipment
 {
 
     protected $table = "shipments";
-    protected $waybill_prefix = "2";
-    protected $waybill_type = "returned";
-    /**
-     * model life cycle event listeners
-     */
-    public static function boot(){
-        parent::boot();
-
-        static::creating(function ($instance){
-            $instance->type = "returned";
-        });
-
-        static::addGlobalScope('type', function (Builder $builder) {
-            $builder->where('type', 'returned');
-        });
-    }
+    protected $waybill_prefix = "3";
+    protected static $waybill_type = "returned";
 
     public static function createFrom(Shipment $returned, $overrides = [])
     {

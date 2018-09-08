@@ -13,7 +13,7 @@ class CouriersPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->template->name == 'admin' || $user->isAuthorized('couriers', Role::UT_READ);
+        return $user->isAdmin();
     }
 
 

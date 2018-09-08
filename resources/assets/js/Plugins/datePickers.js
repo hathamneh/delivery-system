@@ -94,7 +94,7 @@ let dateRangeLocale = {
                 singleDatePicker: true,
                 showDropdowns: true,
                 locale: {
-                    format: "MMM D, YYYY"
+                    format: "DD/MM/YYYY"
                 },
                 minDate: moment(),
                 drops: drops

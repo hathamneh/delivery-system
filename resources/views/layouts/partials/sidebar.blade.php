@@ -98,7 +98,7 @@
             @if(auth()->user()->isAdmin())
 
 
-                <li class="nav-parent{{ request()->is('users*', 'settings*', 'mail*') ? ' active' : '' }}">
+                <li class="nav-parent{{ request()->is('users*', 'settings*', 'emails*') ? ' active' : '' }}">
                     <a href="/settings.php"><i
                                 class="fas fa-wrench"></i><span>@lang('sidebar.manage')</span><span
                                 class="fa fa-angle-down arrow"></span></a>
@@ -107,15 +107,15 @@
                                     href="{{ route('users.index') }}"> <i
                                         class="fas fa-users"></i> @lang('sidebar.users_roles')</a></li>
 
+                        <li class="{{ request()->is('emails*') ? ' active' : '' }}"><a href="{{ route('emails.index') }}">
+                                <i class="far fa-envelope"></i> @lang('emails.label')</a></li>
+
                         <li class="{{ request()->is('settings*') ? 'active' : '' }}"><a
-                                    href="{{ route('settings.index') }}"> <i
+                        href="{{ route('settings.index') }}"> <i
                                         class="fas fa-cogs"></i> @lang('sidebar.settings')</a></li>
 
-                        <li class=""><a href="/mailing_settings.php">
-                                <i class="far fa-envelope"></i> @lang('mailing.label')</a></li>
-
-                        <li class=""><a href="/logs.php"> <i
-                                        class="fas fa-history"></i> @lang('sidebar.logs')</a></li>
+                        {{--<li class=""><a href="/logs.php"> <i--}}
+                                        {{--class="fas fa-history"></i> @lang('sidebar.logs')</a></li>--}}
                     </ul>
                 </li>
             @endif

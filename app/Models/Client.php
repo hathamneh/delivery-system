@@ -9,6 +9,7 @@ use App\Traits\ClientStatistics;
 use App\Traits\HasAttachmentsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -55,6 +56,7 @@ class Client extends Model implements Accountable
 {
     use SoftDeletes, HasAttachmentsTrait;
     use ClientAccounting, ClientStatistics;
+    use Notifiable;
 
     protected $dates = ['deleted_at'];
 

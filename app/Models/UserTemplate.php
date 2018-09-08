@@ -50,6 +50,9 @@ class UserTemplate extends Model
             return $this->hasAllRoles($roles) ||
                 abort(401, 'This action is unauthorized.');
         }
+        logger($roles);
+        logger(Role::UT_CREATE);
+        logger($this->roles()->where('name', $roles)->get()->toArray());
         return $this->hasRole($roles, $accessLevel) ||
             abort(401, 'This action is unauthorized.');
     }

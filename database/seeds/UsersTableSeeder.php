@@ -24,19 +24,18 @@ class UsersTableSeeder extends Seeder
     public function createRoles()
     {
         return [
-            'shipments'     => \App\Role::create(['name' => 'shipments', 'default' => 1])->id,
-            'clients'       => \App\Role::create(['name' => 'clients', 'default' => 1])->id,
-            'couriers'      => \App\Role::create(['name' => 'couriers', 'default' => 0])->id,
-            'pickups'       => \App\Role::create(['name' => 'pickups', 'default' => 0])->id,
-            'public_notes'  => \App\Role::create(['name' => 'public_notes', 'default' => 3])->id,
-            'private_notes' => \App\Role::create(['name' => 'private_notes', 'default' => 3])->id,
-            'zones'         => \App\Role::create(['name' => 'zones', 'default' => 0])->id,
-            'services'      => \App\Role::create(['name' => 'services', 'default' => 0])->id,
-            'users'         => \App\Role::create(['name' => 'users', 'default' => 0])->id,
-            'roles'         => \App\Role::create(['name' => 'roles', 'default' => 0])->id,
-            'mailing'       => \App\Role::create(['name' => 'mailing', 'default' => 1])->id,
-            'settings'      => \App\Role::create(['name' => 'settings', 'default' => 3])->id,
-            'logs'          => \App\Role::create(['name' => 'logs', 'default' => 2])->id,
+            'shipments' => \App\Role::create(['name' => 'shipments', 'default' => 1])->id,
+            'clients'   => \App\Role::create(['name' => 'clients', 'default' => 1])->id,
+            'couriers'  => \App\Role::create(['name' => 'couriers', 'default' => 0])->id,
+            'pickups'   => \App\Role::create(['name' => 'pickups', 'default' => 0])->id,
+            'notes'     => \App\Role::create(['name' => 'notes', 'default' => 3])->id,
+            'zones'     => \App\Role::create(['name' => 'zones', 'default' => 0])->id,
+            'services'  => \App\Role::create(['name' => 'services', 'default' => 0])->id,
+            'users'     => \App\Role::create(['name' => 'users', 'default' => 0])->id,
+            'roles'     => \App\Role::create(['name' => 'roles', 'default' => 0])->id,
+            'mailing'   => \App\Role::create(['name' => 'mailing', 'default' => 1])->id,
+            'settings'  => \App\Role::create(['name' => 'settings', 'default' => 3])->id,
+            'logs'      => \App\Role::create(['name' => 'logs', 'default' => 2])->id,
         ];
     }
 
@@ -51,19 +50,18 @@ class UsersTableSeeder extends Seeder
             'deletable'   => false,
         ]);
         $out['admin']->roles()->attach([
-            $roles['shipments']     => ['value' => 4],
-            $roles['clients']       => ['value' => 4],
-            $roles['couriers']      => ['value' => 4],
-            $roles['pickups']       => ['value' => 4],
-            $roles['public_notes']  => ['value' => 4],
-            $roles['private_notes'] => ['value' => 4],
-            $roles['zones']         => ['value' => 4],
-            $roles['services']      => ['value' => 4],
-            $roles['users']         => ['value' => 4],
-            $roles['roles']         => ['value' => 4],
-            $roles['mailing']       => ['value' => 4],
-            $roles['settings']      => ['value' => 4],
-            $roles['logs']          => ['value' => 4],
+            $roles['shipments'] => ['value' => 4],
+            $roles['clients']   => ['value' => 4],
+            $roles['couriers']  => ['value' => 4],
+            $roles['pickups']   => ['value' => 4],
+            $roles['notes']     => ['value' => 4],
+            $roles['zones']     => ['value' => 4],
+            $roles['services']  => ['value' => 4],
+            $roles['users']     => ['value' => 4],
+            $roles['roles']     => ['value' => 4],
+            $roles['mailing']   => ['value' => 4],
+            $roles['settings']  => ['value' => 4],
+            $roles['logs']      => ['value' => 4],
         ]);
         $out['employee'] = \App\UserTemplate::create([
             'name'        => "employee",

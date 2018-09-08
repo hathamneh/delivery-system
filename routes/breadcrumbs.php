@@ -104,6 +104,10 @@ Breadcrumbs::for('settings', function ($trail) {
     $trail->parent('home');
     $trail->push(trans('settings.label'), route('settings.index'));
 });
+Breadcrumbs::for('emails.index', function ($trail) {
+    $trail->parent('settings');
+    $trail->push(trans('emails.label'), route('emails.index'));
+});
 
 Breadcrumbs::for('notes', function ($trail) {
     $trail->parent('home');

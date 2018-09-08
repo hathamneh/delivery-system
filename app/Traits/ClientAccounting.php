@@ -61,6 +61,7 @@ trait ClientAccounting
 
         // Actual paid by consignee for delivered shipments
         $sum += $targetShipments->statusIs("delivered")->sum('actual_paid_by_consignee');
+
         // Actual paid by consignee fro conflicts only if the lodger is the client
         $sum += $targetShipments->statusIn(["rejected", "returned"])->lodger('client')->sum('actual_paid_by_consignee');
         return $sum;

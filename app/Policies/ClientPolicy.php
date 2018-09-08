@@ -13,7 +13,7 @@ class ClientPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->template->name == 'admin' || $user->isAuthorized('clients', Role::UT_READ);
+        return $user->isAdmin();
     }
 
     /**

@@ -245,7 +245,7 @@ class ShipmentController extends Controller
 
     protected function addShipmentDetails(Shipment &$shipment, Request $request)
     {
-        $newDeliveryDate = Carbon::createFromFormat("d-m-Y h:i A", $request->get('delivery_date') . " 12:00 AM");
+        $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
         if ($newDeliveryDate != $shipment->delivery_date)
             $shipment->delivery_date = $newDeliveryDate;
         $shipment->package_weight = $request->get('package_weight');

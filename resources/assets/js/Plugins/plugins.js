@@ -10,6 +10,7 @@ require('./wizards');
 require('./liveTitles');
 require('./charts');
 require('bootstrap-select');
+require('bootstrap-slider');
 
 (function ($) {
     $(document).ready(function () {

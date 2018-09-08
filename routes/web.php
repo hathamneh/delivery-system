@@ -11,17 +11,17 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('tracking', "TrackController@show")->name('tracking.show');
 Route::middleware('auth')->group(function () {
+
     Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
     Route::get('shipments/create/{type?}', "ShipmentController@create")
         ->name('shipments.create')
@@ -64,7 +64,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('couriers', "CouriersController");
     Route::resource('pickups', "PickupsController");
-    Route::resource('settings', "SettingsController");
     Route::resource('notes', "NotesController");
     Route::resource('services', "ServicesController");
 
@@ -75,6 +74,9 @@ Route::middleware('auth')->group(function () {
     Route::post('accounting/invoice', "AccountingController@store")->name('accounting.store');
     Route::get('accounting/invoice/{invoice}', "AccountingController@show")->name('accounting.invoice');
     Route::get('accounting/goto', "AccountingController@goto")->name('accounting.goto');
+
+    Route::resource('settings', "SettingsController");
+    Route::get('emails', "MailingController@index")->name('emails.index');
 });
 
 

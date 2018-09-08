@@ -1013,3 +1013,18 @@
 .delete-form {
   display: none;
 }
+
+.add-new-buttons {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  .btn {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-top: none;
+    border-bottom: none;
+    border-color: #ddd;
+    border-radius: 0 !important;
+  }
+}

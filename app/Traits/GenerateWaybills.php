@@ -40,7 +40,7 @@ trait GenerateWaybills
 
     public function generateNextWaybill()
     {
-        $type = $this->waybill_type ?? "normal";
+        $type = static::$waybill_type ?? "normal";
         $latestId = DB::table((new static)->getTable())->where('type', $type)->latest()->limit(1)->value('id');
         $index = $latestId ?? 0;
         return self::generateWaybill($index);

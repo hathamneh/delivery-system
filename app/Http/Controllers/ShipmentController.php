@@ -54,7 +54,7 @@ class ShipmentController extends Controller
      * @param string $type
      * @return \Illuminate\Http\Response
      */
-    public function create($type = "wizard")
+    public function create($type = "legacy")
     {
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
         $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Interfaces\Accountable;
+use App\Traits\CourierAccounting;
 use App\Traits\HasAttachmentsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,9 +22,10 @@ use Illuminate\Support\Facades\Hash;
  * @property User user
  * @property string email
  */
-class Courier extends Model
+class Courier extends Model implements Accountable
 {
     use SoftDeletes, HasAttachmentsTrait;
+    use CourierAccounting;
 
     protected $dates = ['deleted_at'];
 

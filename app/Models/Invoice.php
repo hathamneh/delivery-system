@@ -112,7 +112,7 @@ class Invoice extends Model
     }
 
     /**
-     * @return float
+     * @return float|array
      */
     public function getDueForAttribute()
     {

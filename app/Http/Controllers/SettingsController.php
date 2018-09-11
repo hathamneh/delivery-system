@@ -49,6 +49,11 @@ class SettingsController extends Controller
         switch ($this->tab) {
             case 'company':
                 $this->companySettings($request);
+                break;
+            case 'accounting':
+                $this->accountingSettings($request);
+                break;
+
         }
 
         return back()->with([
@@ -112,6 +117,25 @@ class SettingsController extends Controller
             "company_telephone",
             "company_pobox",
             "company_trc",
+        ];
+        foreach ($companySettingKeys as $companySettingKey) {
+            if ($request->has($companySettingKey)) {
+                $realName = str_replace("_", ".", $companySettingKey);
+                $value = $request->get($companySettingKey);
+                Setting::set($realName, $value);
+            }
+        }
+        Setting::save();
+    }
+
+    private function accountingSettings(Request $request)
+    {
+        $companySettingKeys = [
+            "accounting_freelanceShare",
+            "accounting_promoRequirement",
+            "accounting_promoValue",
+            "accounting_maxWeight",
+            "accounting_loyaltyDays",
         ];
         foreach ($companySettingKeys as $companySettingKey) {
             if ($request->has($companySettingKey)) {

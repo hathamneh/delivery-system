@@ -78,10 +78,10 @@ class AccountingController extends Controller
                 'invoice'   => $invoice
             ]);
         } elseif($invoice->type == "courier") {
-            return [
+            return view('accounting.courier' ,[
                 'courier' => $invoice->target,
                 'invoice' => $invoice
-            ];
+            ]);
         }
         return abort(404);
     }

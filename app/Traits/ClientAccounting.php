@@ -19,7 +19,7 @@ trait ClientAccounting
      * @param Invoice|array $input
      * @return float
      */
-    public function dueFrom($input): float
+    public function dueFrom($input)
     {
         $sum = 0;
 
@@ -52,7 +52,7 @@ trait ClientAccounting
      * @param Invoice|array $input
      * @return float
      */
-    public function dueFor($input): float
+    public function dueFor($input)
     {
         $sum = 0;
 

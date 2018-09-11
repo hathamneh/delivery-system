@@ -49,6 +49,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static self statusIs(string $status)
  * @method static self lodger(string $lodger)
  * @method static self unpaid()
+ * @method static self courierCashed(bool $value)
  * @mixin Builder
  */
 class Shipment extends Model
@@ -257,6 +258,17 @@ class Shipment extends Model
     {
         //$statuses = Status::where('unpaid', true)->pluck('id');
         return $query->where('client_paid', false);
+    }
+
+    /**
+     * @param $query
+     * @param bool $value
+     * @return mixed
+     */
+    public function scopeCourierCashed($query, $value = true)
+    {
+        //$statuses = Status::where('unpaid', true)->pluck('id');
+        return $query->where('courier_cashed', $value);
     }
 
     /**

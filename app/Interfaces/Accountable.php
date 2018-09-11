@@ -18,11 +18,11 @@ interface Accountable
      * @param Invoice|array $input
      * @return float
      */
-    public function dueFrom($input): float;
+    public function dueFrom($input);
 
     /**
      * @param Invoice|array $input
      * @return float
      */
-    public function dueFor($input): float;
+    public function dueFor($input);
 }

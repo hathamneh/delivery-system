@@ -80,7 +80,7 @@
                     <div class="card-body">
                         <table class="table table-hover">
                             <tr>
-                                <th>@lang('shipment.courier')</th>
+                                <th>@lang('shipment.courier.label')</th>
                                 <td><span data-update="courier"></span></td>
                             </tr>
                             <tr>

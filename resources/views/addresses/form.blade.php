@@ -25,13 +25,13 @@
         @endif
         <div class="form-group col-sm-6">
             <label for="sameday_price">@lang('zone.address.sameday_price')</label>
-            <input type="text" class="form-control" name="sameday_price" id="sameday_price"
+            <input type="number" step="0.01" class="form-control" name="sameday_price" id="sameday_price"
                    value="{{ $address->sameday_price ?? "" }}"
                    placeholder="@lang('zone.address.sameday_price')">
         </div>
         <div class="form-group col-sm-6">
             <label for="scheduled_price">@lang('zone.address.scheduled_price')</label>
-            <input type="text" class="form-control" name="scheduled_price" id="schedulded_price"
+            <input type="number" step="0.01" class="form-control" name="scheduled_price" id="schedulded_price"
                    value="{{ $address->scheduled_price ?? "" }}"
                    placeholder="@lang('zone.address.scheduled_price')">
         </div>

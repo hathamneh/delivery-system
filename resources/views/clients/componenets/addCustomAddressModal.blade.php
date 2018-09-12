@@ -16,12 +16,12 @@
             </div>
             <div class="form-group col-sm-6">
                 <label for="sameday_price">@lang('zone.address.sameday_price')</label>
-                <input type="number" class="form-control" name="sameday_price" id="sameday_price" required
+                <input type="number" step="0.01" class="form-control" name="sameday_price" id="sameday_price" required
                        placeholder="@lang('zone.address.sameday_price')">
             </div>
             <div class="form-group col-sm-6">
                 <label for="scheduled_price">@lang('zone.address.scheduled_price')</label>
-                <input type="number" class="form-control" name="scheduled_price" id="scheduled_price" required
+                <input type="number" step="0.01" class="form-control" name="scheduled_price" id="scheduled_price" required
                        placeholder="@lang('zone.address.scheduled_price')">
             </div>
         </div>

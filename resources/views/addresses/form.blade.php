@@ -31,10 +31,10 @@
                    placeholder="@lang('zone.address.scheduled_price')">
         </div>
     </div>
-    <div class="d-flex">
-        <button class="btn btn-outline-secondary" data-dismiss="modal">@lang('common.cancel')</button>
+    <div class="d-flex flex-row-reverse">
         <button class="btn btn-primary ml-auto"><i
                     class="fa fa-save mr-2"></i> {{ isset($address) ? trans('zone.address.save') : trans('zone.address.new') }}
         </button>
+        <button class="btn btn-outline-secondary" data-dismiss="modal">@lang('common.cancel')</button>
     </div>
 </form>

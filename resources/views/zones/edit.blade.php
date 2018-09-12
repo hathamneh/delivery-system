@@ -135,5 +135,5 @@
 @endsection
 
 @section('beforeBody')
-    <script src="{{ asset('js/ajaxRequests.js') }}"></script>
+    <script src="{{ asset('js/ajaxRequests.js?1') }}"></script>
 @endsection

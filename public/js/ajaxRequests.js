@@ -48,13 +48,13 @@
         })
         var addressesActions = function (zone, address) {
             return '<div class="d-flex">\n' +
-                '<a class="btn btn-link"\n' +
+                '<a class="btn btn-sm btn-link"\n' +
                 'href="/zone/' + zone + '/address/' + address + '"' +
-                'title="' + trans('zone.address.edit') + '"><i class="fa fa-edit"></i></a>' +
+                'title="Delete Address"><i class="fa fa-edit"></i></a>' +
                 '<form action="/zone/' + zone + '/address" method="post">' +
                 '<input type="hidden" name="_token" value="' + _token + '">' +
                 '<input type="hidden" name="_method" value="DELETE">' +
-                '<button class="btn btn-link" title="' + trans('zone.address.delete') + '"' +
+                '<button class="btn btn-sm btn-link" title="Delete"' +
                 'type="submit"><i class="fa fa-trash"></i></button>' +
                 '</form>' +
                 '</div>'

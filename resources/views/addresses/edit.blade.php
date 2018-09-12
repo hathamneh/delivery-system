@@ -5,11 +5,8 @@
 @endsection
 
 @section('pageTitle')
-    @component('layouts.components.pageTitle')
-        <i class='fas fa-map-marker-alt'></i> @lang("zone.address.edit") @lang('common.for') {{ $zone->name }}
-    @endcomponent
+    <i class='fas fa-map-marker-alt'></i> @lang("zone.address.edit") @lang('common.for') {{ $zone->name }}
 @endsection
-
 
 @section('content')
     <div class="container">

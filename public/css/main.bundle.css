@@ -21994,6 +21994,18 @@ body.rtl .layout-options .img-sidebar-right {
   padding: 0.375rem 0.75rem;
 }
 
+.table-selectable .custom-control {
+  padding-left: 0;
+}
+
+.table-selectable .custom-control-label {
+  margin-bottom: 1rem;
+}
+
+.table-selectable .custom-control-label::before, .table-selectable .custom-control-label::after {
+  left: 0;
+}
+
 .topbar {
   -moz-transition: color 0.2s ease-out;
   -webkit-transition: color 0.2s ease-out;

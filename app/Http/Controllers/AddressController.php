@@ -6,6 +6,7 @@ use App\Address;
 use App\Http\Resources\AddressCollection;
 use App\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AddressController extends Controller
 {
@@ -89,6 +90,26 @@ class AddressController extends Controller
         ]);
     }
 
+    public function bulkUpdate(Request $request)
+    {
+        $addresses = $this->parseAddresses($request->get('addresses', ''));
+        $sameday_price = $request->get('sameday_price', false);
+        $scheduled_price = $request->get('scheduled_price', false);
+
+        $update = [];
+        if ($sameday_price && !empty($sameday_price) && $sameday_price != 'default') {
+            $update['sameday_price'] = $sameday_price;
+        }
+        if ($scheduled_price && !empty($scheduled_price) && $scheduled_price != 'default') {
+            $update['scheduled_price'] = $scheduled_price;
+        }
+
+        if (!empty($update))
+            DB::table((new Address())->getTable())->whereIn('id', $addresses)->update($update);
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -105,5 +126,16 @@ class AddressController extends Controller
             return ['deleted' => $res];
         }
         return redirect()->route('zones.edit', ['zone' => $zone->id]);
+    }
+
+
+    public function parseAddresses(string $addresses)
+    {
+        $addresses = explode(',', $addresses);
+        $out = [];
+        foreach ($addresses as $id) {
+            $out[] = $id;
+        }
+        return $out;
     }
 }

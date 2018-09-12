@@ -22,3 +22,15 @@
     padding: 0.375rem 0.75rem;
   }
 }
+
+.table-selectable {
+  .custom-control {
+    padding-left: 0;
+    &-label {
+      margin-bottom: 1rem;
+      &::before, &::after {
+        left: 0;
+      }
+    }
+  }
+}

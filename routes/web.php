@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('zones', "ZoneController");
     Route::resource('zones/{zone}/address', "AddressController");
+    Route::put('zones/address/bulk', "AddressController@bulkUpdate")->name('addresses.bulkUpdate');
 
     Route::resource('users/roles', "UserTemplatesController");
     Route::resource('users', "UsersController");

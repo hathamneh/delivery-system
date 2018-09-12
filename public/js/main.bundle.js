@@ -109942,14 +109942,19 @@ module.exports = selectableTable = {
                 $actions.slideUp();
             }
         }
-        var $clientsAddresses = $(".custom-addresses-actions");
+        var $clientsAddresses = $(".custom-addresses-actions, .addresses-table-actions");
         if ($clientsAddresses.length) {
+            var clientTable = $clientsAddresses.is('.custom-addresses-actions');
             if ($selected.length) {
                 var selected = [];
                 $selected.each(function () {
                     var val = $(this).find('input[type=checkbox]').val();
-                    if ($(this).is('.modified, .new')) selected.push(val + ":customize");else {
-                        selected.push(val + ":new");
+                    if (clientTable) {
+                        if ($(this).is('.modified, .new')) selected.push(val + ":customize");else {
+                            selected.push(val + ":new");
+                        }
+                    } else {
+                        selected.push(val);
                     }
                 });
                 $clientsAddresses.find('input[name=addresses]').val(selected.join(','));

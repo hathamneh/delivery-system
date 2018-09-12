@@ -59,7 +59,7 @@
                                class="btn btn-light mb-md-1 mr-md-0 mr-1" title="@lang('zone.edit')">
                                 <i class="fa fa-edit"></i> @lang('zone.edit')</a>
                             <button class="btn btn-light" title="@lang('zone.delete')"
-                                    onclick="$('deleteZone-{{ $zone->id }}').submit()"
+                                    onclick="$('#deleteZone-{{ $zone->id }}').submit()"
                                     type="button"><i
                                         class="fa fa-trash"></i> @lang('zone.delete')
                             </button>

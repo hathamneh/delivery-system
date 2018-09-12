@@ -86,8 +86,13 @@ class ZoneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Zone $zone)
     {
-        //
+        try {
+            $zone->delete();
+        } catch (\Exception $ex) {
+
+        }
+        return redirect()->route('zones.index');
     }
 }

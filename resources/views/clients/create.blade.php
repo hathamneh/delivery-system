@@ -36,7 +36,15 @@
                 <hr>
                 @include('clients.form.urls')
                 <hr>
-                @include('clients.form.attachments')
+                <br>
+                <p>
+                    <b>Attachments</b>
+                </p>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" multiple name="client_files[]"
+                           id="client_files">
+                    <label class="custom-file-label" for="client_files">Choose file</label>
+                </div>
 
             </div>
             <div class="col-md-3">

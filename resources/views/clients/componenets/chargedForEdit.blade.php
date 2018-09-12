@@ -1,7 +1,7 @@
 @php /** @var App\Client $client */
 $enabled = (isset($client) && $client->isChargedFor($status)) || old('chargedFor.'.$status.'.enabled') == "on";
 /** @var \App\ClientChargedFor $cf */
-$cf = isset($client) ? $client->chargedFor()->byStatus($status)->first() : null;
+$cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($status)->first() : null;
 @endphp
 
 <fieldset class="form-fieldset fieldset-toggle">

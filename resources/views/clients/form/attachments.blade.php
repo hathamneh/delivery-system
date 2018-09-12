@@ -10,7 +10,7 @@
     @endcomponent
 @endif
 
-@if($client->attachments->count())
+@if(isset($client) && $client->attachments->count())
     <label class="control-label">@lang('client.files')</label>
     <ul class="list-group mb-3">
         @foreach($client->attachments as $attachment)
@@ -53,7 +53,7 @@
             @endslot
         @endcomponent
     @endforeach
-    @else
+@else
     <p class="py-4 text-muted text-center">
         No Attachments!
     </p>

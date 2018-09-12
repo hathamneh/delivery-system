@@ -18,7 +18,7 @@
                     <th>@lang('client.account_number')</th>
                     <th>@lang('client.trade_name')</th>
                     <th>@lang('client.phone')</th>
-                    <th>@lang('client.bank_name')</th>
+                    <th>@lang('client.bank.name')</th>
                     <th>@lang('client.password')</th>
                     <th>@lang('common.actions')</th>
                 </tr>

@@ -2,23 +2,23 @@
 
 <div class="form-row">
     <div class="form-group col-sm-6">
-        <label for="trade_name" class="control-label">@lang('client.trade_name')</label>
+        <label for="trade_name" class="control-label">@lang('client.trade_name') *</label>
         <input type="text" name="trade_name" id="trade_name" required value="{{ $client->trade_name ?? old('trade_name') }}"
                placeholder="@lang('client.trade_name')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
-        <label for="name" class="control-label">@lang('client.name')</label>
+        <label for="name" class="control-label">@lang('client.name') *</label>
         <input type="text" name="name" id="name" required value="{{ $client->name ?? old('name') }}"
                placeholder="@lang('client.name')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
-        <label for="phone_number" class="control-label">@lang('client.phone')</label>
+        <label for="phone_number" class="control-label">@lang('client.phone') *</label>
         <input type="text" name="phone_number" id="phone_number" required
                value="{{ $client->phone_number ?? old('phone_number') }}"
                placeholder="@lang('client.phone')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
-        <label for="email" class="control-label">@lang('client.email')</label>
+        <label for="email" class="control-label">@lang('client.email') *</label>
         <input type="email" name="email" id="email" required value="{{ $client->email ?? old('email') }}"
                placeholder="@lang('client.email')" class="form-control">
     </div>

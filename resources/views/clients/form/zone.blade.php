@@ -2,7 +2,7 @@
 
 <div class="form-row">
     <div class="form-group col-sm-12">
-        <label for="zone_id" class="control-label">@lang('client.zone')</label>
+        <label for="zone_id" class="control-label">@lang('client.zone') *</label>
         <select name="zone_id" id="zone_id" class="form-control selectpicker" data-live-search="true"
                 required>
             <option value="" disabled {{ old('zone_id') ?: 'selected' }}>@lang('common.select')</option>
@@ -31,7 +31,7 @@
                placeholder="@lang('client.sector')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
-        <label for="category" class="control-label">@lang('client.category')</label>
+        <label for="category" class="control-label">@lang('client.category') *</label>
         <select name="category" id="category" required class="selectpicker form-control">
             <option {{ (isset($client) && $client->category == 1) || (old('category') && old('category') == 1) ? 'selected' : '' }} value="1">@lang('client.online_store')</option>
             <option {{ (isset($client) && $client->category == 2) || (old('category') && old('category') == 2) ? 'selected' : '' }} value="2">@lang('client.local_store')</option>

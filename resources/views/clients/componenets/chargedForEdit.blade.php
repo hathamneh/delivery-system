@@ -17,23 +17,26 @@ $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($sta
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ optional($cf)->type == 'fixed' ? 'active' : '' }}"
+                @php
+                    $checked = optional($cf)->type == 'fixed' || (is_null(old('chargedFor.'.$status.'.type')) || old('charged.'.$status.'.type') != "percentage");
+                @endphp
+                <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ $checked ? 'active' : '' }}"
                        title="@lang('client.charged_for.fixed_value')" data-toggle="tooltip">
                     <input type="radio" name="chargedFor[{{ $status }}][type]" {{ $enabled ? '' : 'disabled' }}
-                    id="charged_{{ $status }}_type" autocomplete="off" value="fixed"
-                            {{ optional($cf)->type == 'fixed' || (!old('chargedFor.'.$status.'.type') || old('charged.'.$status.'.type') == "fixed") ? 'checked' : "" }}>
+                    id="charged_{{ $status }}_type" autocomplete="off" value="fixed" required
+                            {{ $checked ? "checked" : "" }}>
                     <i class="fa-dollar-sign"></i>
                 </label>
                 <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ optional($cf)->type == 'percentage' ? 'active' : '' }}"
                        title="@lang('client.charged_for.percentage_value')" data-toggle="tooltip">
                     <input type="radio" name="chargedFor[{{ $status }}][type]" {{ $enabled ? '' : 'disabled' }}
-                    id="charged_{{ $status }}_type" autocomplete="off" value="percentage"
+                    id="charged_{{ $status }}_type" autocomplete="off" value="percentage" required
                             {{ optional($cf)->type == 'percentage' || (old('chargedFor.'.$status.'.type') == "percentage") ? 'checked' : "" }}>
                     <i class="fa-percent"></i>
                 </label>
             </div>
-            <input type="text" class="form-control" {{ $enabled ? '' : 'disabled' }}
-            placeholder="@lang('client.charged_for.value')" aria-label=""
+            <input type="number" step="0.01" class="form-control" {{ $enabled ? '' : 'disabled' }}
+            placeholder="@lang('client.charged_for.value')" aria-label="" required
                    name="chargedFor[{{ $status }}][value]" id="charged_{{ $status }}_value"
                    value="{{  optional($cf)->value ?? old('chargedFor.'.$status.'.value') }}">
         </div>

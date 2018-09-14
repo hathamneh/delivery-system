@@ -10,6 +10,6 @@
             <input type="number" step="0.1" class="form-control" name="price" id="price" placeholder="@lang('service.price')"
                    value="{{ $service->price ?? old('price') ?? '' }}" required>
         </div>
-        <button class="btn btn-primary" type="submit">@lang('services.save')</button>
+        <button class="btn btn-primary" type="submit">@lang('service.save')</button>
     </div>
 </div>

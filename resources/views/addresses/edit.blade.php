@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('addresses.edit', $zone->id, $address->id) }}
+    {{ Breadcrumbs::render('addresses.edit', $zone, $address->id) }}
 @endsection
 
 @section('pageTitle')

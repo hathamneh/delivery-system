@@ -34,9 +34,9 @@ Breadcrumbs::for('zones.edit', function ($trail, Zone $zone) {
     $trail->push($zone->name, route('zones.edit', ['zone' => $zone]));
 });
 
-Breadcrumbs::for('addresses.edit', function ($trail, $zone_id, $address_id) {
-    $trail->parent('zones.edit', $zone_id);
-    $trail->push(trans('zone.address.edit'), route('address.edit', ['zone' => $zone_id, 'address' => $address_id]));
+Breadcrumbs::for('addresses.edit', function ($trail, $zone, $address_id) {
+    $trail->parent('zones.edit', $zone);
+    $trail->push(trans('zone.address.edit'), route('address.edit', ['zone' => $zone, 'address' => $address_id]));
 });
 
 Breadcrumbs::for('users', function ($trail) {

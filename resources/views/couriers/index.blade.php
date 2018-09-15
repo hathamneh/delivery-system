@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> @lang("couriers.label")
+    <i class='fa-user-tie'></i> @lang("courier.label")
 @endsection
 
 @section('content')

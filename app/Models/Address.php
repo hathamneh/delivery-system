@@ -5,13 +5,14 @@ namespace App;
 use App\Presenters\Address\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * @property string name
  * @property double sameday_price
  * @property double scheduled_price
  * @property Zone zone
- * @property CustomAddress customAddress
+ * @property Collection customAddresses
  */
 class Address extends Model
 {
@@ -30,10 +31,22 @@ class Address extends Model
         parent::boot();
 
         static::updating(function (Address $address) {
-            if(!is_null($customAddress = $address->customAddress)) {
-                $customAddress->name = $address->name;
-                $customAddress->save();
-            }
+            if (!$address instanceof CustomAddress)
+                if (!is_null($customAddresses = $address->customAddresses)) {
+                    foreach ($customAddresses as $customAddress) {
+                        $customAddress->name = $address->name;
+                        $customAddress->save();
+                    }
+                }
+        });
+
+        static::deleting(function (Address $address) {
+            if (!$address instanceof CustomAddress)
+                if (!is_null($customAddresses = $address->customAddresses)) {
+                    foreach ($customAddresses as $customAddress) {
+                        $customAddress->delete();
+                    }
+                }
         });
     }
 
@@ -47,9 +60,9 @@ class Address extends Model
         return $this->hasMany(Shipment::class);
     }
 
-    public function customAddress()
+    public function customAddresses()
     {
-        return $this->hasOne(CustomAddress::class, 'address_id', 'id');
+        return $this->hasMany(CustomAddress::class, 'address_id', 'id');
     }
 
     /**

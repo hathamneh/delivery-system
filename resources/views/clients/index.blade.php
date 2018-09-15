@@ -53,6 +53,10 @@
                                                data-toggle="tooltip"
                                                class="btn btn-light btn-sm" title="@lang('client.dashboard')">
                                                 <i class="fa-tachometer-alt"></i></a>
+                                            <a href="{{ route('reports.index', ['client'=>$client->account_number]) }}"
+                                               data-toggle="tooltip"
+                                               class="btn btn-light btn-sm" title="@lang('reports.label')">
+                                                <i class="fa-reports"></i></a>
                                             <a href="{{ route('clients.edit', ['client'=>$client->account_number]) }}"
                                                data-toggle="tooltip"
                                                class="btn btn-light btn-sm" title="@lang('client.edit')">

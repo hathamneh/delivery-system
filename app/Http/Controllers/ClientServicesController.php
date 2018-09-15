@@ -18,6 +18,8 @@ class ClientServicesController extends Controller
             "pageTitle"   => "{$client->trade_name} - Custom Services",
             'tab'         => 'services',
             'client'      => $client,
+            'shipmentsCount' => $client->shipments()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
             'services'       => Service::all(),
         ]);
     }

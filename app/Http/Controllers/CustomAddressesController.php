@@ -21,6 +21,8 @@ class CustomAddressesController extends Controller
             "pageTitle"   => "{$client->trade_name} - Custom Zone Addresses",
             'tab'         => 'zones',
             'client'      => $client,
+            'shipmentsCount' => $client->shipments()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
             'zones'       => Zone::whereNotIn('id', $client->customZones()->pluck('zone_id'))->get(),
             'customZones' => $client->customZones()->get()
         ]);

@@ -1,6 +1,6 @@
 <!-- Code generated at https://WeatherWidget.io -->
 <a class="weatherwidget-io" href="https://forecast7.com/en/31d9535d93/amman/" data-label_1="Amman"
-   data-label_2="Wehather" data-theme="blue">Amman Weather</a>
+   data-label_2="Weather" data-theme="blue">Amman Weather</a>
 <script>
     !function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];

@@ -16,6 +16,13 @@ class SetLanguage
     protected $languages = ['en', 'ar'];
 
     /**
+     * Default language.
+     *
+     * @var string
+     */
+    protected $default = 'en';
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
@@ -27,7 +34,7 @@ class SetLanguage
         if ($request->has("lang"))
             Session::put('locale', $request->get("lang"));
         elseif (!Session::has('locale')) {
-            Session::put('locale', $request->getPreferredLanguage($this->languages));
+            Session::put('locale', $this->default);
         }
 
         app()->setLocale(Session::get('locale'));

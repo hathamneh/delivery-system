@@ -6,6 +6,7 @@ use App\Presenters\Address\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property string name
@@ -13,6 +14,7 @@ use Illuminate\Support\Collection;
  * @property double scheduled_price
  * @property Zone zone
  * @property Collection customAddresses
+ * @property integer id
  */
 class Address extends Model
 {
@@ -31,22 +33,11 @@ class Address extends Model
         parent::boot();
 
         static::updating(function (Address $address) {
-            if (!$address instanceof CustomAddress)
-                if (!is_null($customAddresses = $address->customAddresses)) {
-                    foreach ($customAddresses as $customAddress) {
-                        $customAddress->name = $address->name;
-                        $customAddress->save();
-                    }
-                }
+            DB::table('custom_addresses')->where('address_id', $address->id)->update(['name' => $address->name]);
         });
 
         static::deleting(function (Address $address) {
-            if (!$address instanceof CustomAddress)
-                if (!is_null($customAddresses = $address->customAddresses)) {
-                    foreach ($customAddresses as $customAddress) {
-                        $customAddress->delete();
-                    }
-                }
+            DB::table('custom_addresses')->where('address_id', $address->id)->delete();
         });
     }
 

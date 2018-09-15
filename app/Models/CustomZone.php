@@ -52,6 +52,13 @@ class CustomZone extends Zone
         return $this->belongsTo(Zone::class, 'zone_id');
     }
 
+    public function getNameAttribute()
+    {
+        if(is_null($this->attributes['name']))
+            return $this->originalZone->name;
+        return $this->name;
+    }
+
     public function url($for)
     {
         switch ($for) {

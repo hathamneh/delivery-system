@@ -4,7 +4,7 @@
 
             $custom = $service->customFor($client);
         @endphp
-        <div class="col-sm-3">
+        <div class="col-sm-4 pb-3">
             <div class="card service-card {{ $custom ? "border-warning" : "" }}">
                 <div class="card-body">
                     <button class="btn btn-warning w-100 mb-2" data-toggle="modal"

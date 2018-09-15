@@ -35,10 +35,6 @@ class Zone extends Model
     {
         parent::boot();
 
-        static::updating(function (Zone $zone) {
-            DB::table('custom_zones')->where('zone_id', $zone->id)->update(['name' => $zone->name]);
-        });
-
         static::deleting(function (Zone $zone) {
             DB::table('custom_zones')->where('zone_id', $zone->id)->delete();
         });

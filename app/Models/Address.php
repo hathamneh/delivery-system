@@ -32,10 +32,6 @@ class Address extends Model
     {
         parent::boot();
 
-        static::updating(function (Address $address) {
-            DB::table('custom_addresses')->where('address_id', $address->id)->update(['name' => $address->name]);
-        });
-
         static::deleting(function (Address $address) {
             DB::table('custom_addresses')->where('address_id', $address->id)->delete();
         });

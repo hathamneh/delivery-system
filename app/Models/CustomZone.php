@@ -15,7 +15,6 @@ class CustomZone extends Zone
     public static function createFromZone(Zone $origianlZone, Client $client)
     {
         $new = new static;
-        $new->name = $origianlZone->name;
         $new->base_weight = $origianlZone->base_weight;
         $new->charge_per_unit = $origianlZone->charge_per_unit;
         $new->extra_fees_per_unit = $origianlZone->extra_fees_per_unit;

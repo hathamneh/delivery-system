@@ -23,10 +23,16 @@ class CustomAddress extends Address
         return $this->belongsTo(Address::class, 'address_id');
     }
 
+    public function getNameAttribute()
+    {
+        if(is_null($this->attributes['name']))
+            return $this->originalAddress->name;
+        return $this->name;
+    }
+
     public static function createFromAddress(Address $address, CustomZone $zone, Client $client)
     {
         $customAddress = new static;
-        $customAddress->name = $address->name;
         $customAddress->sameday_price = $address->sameday_price;
         $customAddress->scheduled_price = $address->scheduled_price;
         $customAddress->originalAddress()->associate($address);

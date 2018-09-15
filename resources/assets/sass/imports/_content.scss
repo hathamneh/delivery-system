@@ -7,6 +7,7 @@
     border-radius: 0;
     &-item {
       color: #000;
+      white-space: nowrap;
       a {
         color: #666;
       }
@@ -31,6 +32,7 @@
       padding: 1rem;
       font-weight: bold;
       font-size: 1.5rem;
+      white-space: nowrap;
       text-transform: capitalize;
       [data-fa-i2svg] {
         color: $brand;

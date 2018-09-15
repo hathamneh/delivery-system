@@ -53,7 +53,7 @@
                         @endif
                     </div>
                     <div class="col-md-2 ml-auto">
-                        <div class="d-flex flex-md-column justify-content-center h-100 mt-1">
+                        <div class="d-flex flex-md-column justify-content-center align-items-center py-2 h-100 mt-1">
                             <a href="{{ route('zones.edit', ['zone'=>$zone->id]) }}"
                                class="btn btn-outline-secondary mb-md-1 mr-md-0 mr-1" title="@lang('zone.edit')">
                                 <i class="fa fa-edit"></i> @lang('zone.edit')</a>

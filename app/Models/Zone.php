@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -14,6 +15,7 @@ use Illuminate\Support\Collection;
  * @property double extra_fees_per_unit
  * @property Collection addresses
  * @property Collection customZones
+ * @mixin Builder
  */
 class Zone extends Model
 {
@@ -34,17 +36,16 @@ class Zone extends Model
 
         static::updating(function (Zone $zone) {
             if (!$zone instanceof CustomZone)
-                if (!is_null($customZones = $zone->customZones)) {
-                    foreach ($customZones as $customZone) {
-                        $customZone->name = $zone->name;
-                        $customZone->save();
+                if (($customZones = $zone->customZones)->count()) {
+                    foreach (/** @var CustomZone $customZone */$customZones as $customZone) {
+                        $customZone->update('name', $zone->name);
                     }
                 }
         });
 
         static::deleting(function (Zone $zone) {
             if (!$zone instanceof CustomZone)
-                if (!is_null($customZones = $zone->customZones)) {
+                if (($customZones = $zone->customZones)->count()) {
                     foreach ($customZones as $customZone) {
                         $customZone->delete();
                     }

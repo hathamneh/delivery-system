@@ -2,7 +2,7 @@
 
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('clients') }}
+    {{ Breadcrumbs::render('clients.show', $client) }}
 @endsection
 
 @section('pageTitle')

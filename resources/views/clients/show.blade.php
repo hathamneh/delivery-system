@@ -2,7 +2,7 @@
 
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('clients') }}
+    {{ Breadcrumbs::render('clients.show', $client) }}
 @endsection
 
 @section('pageTitle')
@@ -26,7 +26,8 @@
         @includeWhen($tab == "statistics", "clients.statistics")
         @includeWhen($tab == "shipments", "shipments.table")
         @includeWhen($tab == "pickups", "pickups.pickups-list")
-        @includeWhen($tab == "zones", "clients.customZones")
+        @includeWhen($tab == "zones", "clients.zones.index")
+        @includeWhen($tab == "services", "clients.services.index")
     </div>
 @endsection
 

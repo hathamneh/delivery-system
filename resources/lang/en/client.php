@@ -60,6 +60,7 @@ return [
     'shipments' => 'Shipments',
     'pickups' => 'Pickups',
     'zones' => 'Zones',
+    'services' => 'Services',
     'edit' => "Edit",
     'properties' => "Properties",
 

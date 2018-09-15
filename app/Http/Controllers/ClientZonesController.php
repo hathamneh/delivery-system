@@ -16,7 +16,7 @@ class ClientZonesController extends Controller
         /** @var Client $client */
         $client = Client::find(\request('client'));
         View::share([
-            "pageTitle"   => "Custom Zones",
+            "pageTitle"   => "{$client->trade_name} - Custom Zones",
             'tab'         => 'zones',
             'client'      => $client,
             'zones'       => Zone::whereNotIn('id', $client->customZones()->pluck('zone_id'))->get(),

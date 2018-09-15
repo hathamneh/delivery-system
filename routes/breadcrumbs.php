@@ -74,7 +74,10 @@ Breadcrumbs::for('clients.create', function ($trail) {
     $trail->parent('clients');
     $trail->push(trans('client.create'), route('clients.create'));
 });
-
+Breadcrumbs::for('clients.show', function ($trail, \App\Client $client) {
+    $trail->parent('clients');
+    $trail->push($client->trade_name, route('clients.show', [$client]));
+});
 
 Breadcrumbs::for('couriers', function ($trail) {
     $trail->parent('home');

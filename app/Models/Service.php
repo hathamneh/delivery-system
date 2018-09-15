@@ -39,4 +39,9 @@ class Service extends Model
     {
         return $this->shipments()->exists($shipment->id);
     }
+
+    public function customFor(Client $client)
+    {
+        return $this->customClients()->where('account_number', $client->account_number)->first() ?? false;
+    }
 }

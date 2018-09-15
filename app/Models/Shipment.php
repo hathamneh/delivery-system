@@ -115,10 +115,11 @@ class Shipment extends Model
     /**
      * model life cycle event listeners
      */
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
 
-        static::creating(function ($instance){
+        static::creating(function ($instance) {
             $instance->type = static::$waybill_type ?? "normal";
         });
 
@@ -194,7 +195,7 @@ class Shipment extends Model
     {
         $address = $this->address()->first();
         $custom = $address->customFor($this->client);
-        if(!is_null($custom))
+        if (!is_null($custom))
             return $custom;
         return $address;
     }
@@ -382,7 +383,11 @@ class Shipment extends Model
     {
         $services_cost = 0;
         foreach ($this->services as $service) {
-            $services_cost += $service->price;
+            /** @var Service $service */
+            if ($custom_service = $service->customFor($this->client))
+                $services_cost += $custom_service->pivot->price;
+            else
+                $services_cost += $service->price;
         }
         return $services_cost;
     }

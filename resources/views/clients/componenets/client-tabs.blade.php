@@ -11,6 +11,9 @@
     <a href="{{ route('clients.zones.index', ['client'=>$client]) }}"
        class="{{ $tab != "zones" ?: "active" }}"><i class="fa-map-marker-alt"></i> @lang('client.zones')</a>
 
+    <a href="{{ route('clients.services.index', ['client'=>$client]) }}"
+       class="{{ $tab != "services" ?: "active" }}"><i class="fa-map-marker-alt"></i> @lang('client.services')</a>
+
     <a href="{{ route('clients.edit', ['client'=>$client]) }}"
        class="{{ $tab != "edit" ?: "active" }}"><i class="fa-cogs"></i> @lang('client.properties')</a>
 </nav>

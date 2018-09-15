@@ -7,7 +7,7 @@
         <div class="col-sm-4 pb-3">
             <div class="card service-card {{ $custom ? "border-warning" : "" }}">
                 <div class="card-body">
-                    <button class="btn btn-warning w-100 mb-2" data-toggle="modal"
+                    <button class="btn btn-outline-warning w-100 mb-2" data-toggle="modal"
                             data-target="#customizeService-{{ $service->id }}"><i class="fa-edit mr-2"></i> Customize</button>
                     <div class="service-name" title="@lang('service.name')">{{ $service->name }}</div>
                     <div class="service-price" title="@lang('service.price')">

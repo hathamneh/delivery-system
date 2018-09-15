@@ -1,7 +1,7 @@
 @if($services->count())
     @foreach($services as $service)
         @php /** @var App\Service $service */ @endphp
-        <div class="col-sm-3">
+        <div class="col-sm-4 pb-3">
             <div class="card service-card">
                 <div class="card-body">
                     <div class="service-name" title="@lang('service.name')">{{ $service->name }}</div>

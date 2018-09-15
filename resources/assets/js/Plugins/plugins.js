@@ -14,7 +14,7 @@ require('bootstrap-slider');
 
 (function ($) {
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"],[data-toggle-tooltip]').tooltip();
     });
 
     $(document).ready(function () {

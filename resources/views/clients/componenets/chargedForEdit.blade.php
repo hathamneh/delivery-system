@@ -17,8 +17,9 @@ $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($sta
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend btn-group-toggle" data-toggle="buttons">
+
                 @php
-                    $checked = optional($cf)->type == 'fixed' || (is_null(old('chargedFor.'.$status.'.type')) || old('charged.'.$status.'.type') != "percentage");
+                    $checked = optional($cf)->type != 'percentage' && (!is_null(old('chargedFor.'.$status.'.type') && old('charged.'.$status.'.type') != "percentage"));
                 @endphp
                 <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ $checked ? 'active' : '' }}"
                        title="@lang('client.charged_for.fixed_value')" data-toggle="tooltip">

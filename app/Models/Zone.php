@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  * @property double charge_per_unit
  * @property double extra_fees_per_unit
  * @property Collection addresses
+ * @property CustomZone customZone
  */
 class Zone extends Model
 {
@@ -27,6 +28,19 @@ class Zone extends Model
         'extra_fees_per_unit',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function (Zone $zone) {
+            if(!is_null($customZone = $zone->customZone)) {
+                $customZone->name = $zone->name;
+                $customZone->save();
+            }
+        });
+    }
+
+
     public function addresses()
     {
         return $this->hasMany(Address::class);
@@ -36,6 +50,11 @@ class Zone extends Model
     public function couriers()
     {
         return $this->hasMany(Courier::class);
+    }
+
+    public function customZone()
+    {
+        return $this->hasOne(CustomZone::class, 'zone_id', 'id');
     }
 
 }

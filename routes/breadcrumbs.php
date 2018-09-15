@@ -1,5 +1,6 @@
 <?php
 
+use App\Zone;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 
 Breadcrumbs::for('home', function ($trail) {
@@ -28,9 +29,9 @@ Breadcrumbs::for('zones.create', function ($trail) {
     $trail->parent('zones');
     $trail->push(trans('zone.new'), route('zones.create'));
 });
-Breadcrumbs::for('zones.edit', function ($trail, $zone_id) {
+Breadcrumbs::for('zones.edit', function ($trail, Zone $zone) {
     $trail->parent('zones');
-    $trail->push(trans('zone.edit'), route('zones.edit', ['zone' => $zone_id]));
+    $trail->push($zone->name, route('zones.edit', ['zone' => $zone]));
 });
 
 Breadcrumbs::for('addresses.edit', function ($trail, $zone_id, $address_id) {

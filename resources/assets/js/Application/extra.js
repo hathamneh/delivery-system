@@ -152,6 +152,16 @@
         })
     }
 
+    function shipmentServiceAutoSelect($services) {
+        console.log("test");
+        $("input#shipment_value").on('change', function () {
+            let val = $(this).val();
+            if(val !== '' && val > 0) {
+                $services.selectpicker('val', 1);
+            }
+        })
+    }
+
     $(document).ready(function () {
         fieldSetToggle()
         bindElements()
@@ -159,6 +169,10 @@
         customFileInput()
         changeShipmentClientType()
         customLinks()
+        let $services = $('select#services');
+        if($services.length) {
+            shipmentServiceAutoSelect($services)
+        }
     })
     $(window).scroll(function () {
         sticko()

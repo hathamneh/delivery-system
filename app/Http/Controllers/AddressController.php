@@ -39,8 +39,8 @@ class AddressController extends Controller
      */
     public function store(Zone $zone, Request $request)
     {
-        $address = $zone->addresses()->create($request->toArray());
-        return new AddressCollection($address);
+        $zone->addresses()->create($request->toArray());
+        return back();
     }
 
     /**

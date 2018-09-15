@@ -23,6 +23,17 @@
     <div class="legacy-new-shipment">
         <div class="container px-0 px-sm-3">
             <div class="row">
+                @if ($errors->any())
+                    <div class="col-md-10 mx-auto">
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-md-10 mx-auto">
                     <form role="form" action="{{ route('shipments.store') }}" method="post">
                         {{ csrf_field() }}

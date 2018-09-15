@@ -45,13 +45,12 @@
 
     <div class="form-group col-sm-12">
         <label for="courier_id">@lang('pickup.courier')</label>
-        @component('couriers.search-courier-input',[
-            'name' => 'courier_id',
-            'placeholder' => trans('common.select'),
-            'value' => "",
-            'text' => "",
-
-        ]) @endcomponent
+        <select name="courier_id" id="courier_id" class="form-control selectpicker" data-live-search="true">
+            <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
+            @foreach($couriers as $courier)
+                <option value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="form-group col-sm-6">

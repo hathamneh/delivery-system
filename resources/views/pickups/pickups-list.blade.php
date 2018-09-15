@@ -149,7 +149,9 @@
                 @endcomponent
             @endforeach
         @else
-            <div class="my-5 w-100 text-center">No Pickups!</div>
+            <div class="py-5 w-100 text-center">No Pickups!
+                <hr class="mt-5"></div>
+
         @endif
     </div>
 </div>

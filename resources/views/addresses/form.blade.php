@@ -4,9 +4,7 @@
     else
         $action = isset($address) ? route('address.update', ['zone'=>$zone->id, 'address'=>$address->id]) : route('address.store', ['zone' => $zone->id])
 @endphp
-<form id="createAddressForm" data-ajax="{{ (isset($ajax) && $ajax) ? "true" : "false" }}"
-      action="{{ $action }}"
-      method="post" data-zone-id="{{ $zone->id }}">
+<form id="createAddressForm" action="{{ $action }}" method="post">
 
     @if(isset($address) || (isset($bulk) && $bulk))
         {{ method_field('PUT') }}

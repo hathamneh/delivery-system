@@ -48,7 +48,7 @@
         })
         var addressesActions = function (zone, address) {
             return '<div class="d-flex">\n' +
-                '<a class="btn btn-sm btn-link"\n' +
+                '<a class="btn btn-sm btn-outline-secondary mr-1"\n' +
                 'href="/zone/' + zone + '/address/' + address + '"' +
                 'title="Delete Address"><i class="fa fa-edit"></i></a>' +
                 '<form action="/zone/' + zone + '/address" method="post">' +

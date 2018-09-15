@@ -29,10 +29,9 @@ class StoreShipmentRequest extends FormRequest
             'shipment_client.account_number' => 'required_if:shipment_client.type,client',
             'shipment_client.name' => 'required_if:shipment_client.type,guest',
             'shipment_client.phone_number' => 'required_if:shipment_client.type,guest',
-            'waybill' => 'required|integer',
+            'waybill' => 'required|unique:shipments|integer',
             'delivery_date' => 'required',
             'courier' => 'required',
-            'consignee_name' => 'required',
             'phone_number' => 'required',
             'address_from_zones' => 'required',
             'service_type' => [

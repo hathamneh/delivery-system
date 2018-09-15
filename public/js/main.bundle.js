@@ -108812,6 +108812,16 @@ if (msie > 0 || trident > 0 || edge > 0) {
         });
     }
 
+    function shipmentServiceAutoSelect($services) {
+        console.log("test");
+        $("input#shipment_value").on('change', function () {
+            var val = $(this).val();
+            if (val !== '' && val > 0) {
+                $services.selectpicker('val', 1);
+            }
+        });
+    }
+
     $(document).ready(function () {
         fieldSetToggle();
         bindElements();
@@ -108819,6 +108829,10 @@ if (msie > 0 || trident > 0 || edge > 0) {
         customFileInput();
         changeShipmentClientType();
         customLinks();
+        var $services = $('select#services');
+        if ($services.length) {
+            shipmentServiceAutoSelect($services);
+        }
     });
     $(window).scroll(function () {
         sticko();
@@ -109575,7 +109589,7 @@ __webpack_require__("./node_modules/bootstrap-slider/dist/bootstrap-slider.js");
 
 (function ($) {
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"],[data-toggle-tooltip]').tooltip();
     });
 
     $(document).ready(function () {
@@ -110898,7 +110912,7 @@ module.exports = [];
 /***/ "./resources/lang/en/common.php":
 /***/ (function(module, exports) {
 
-module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All","percentage":"Percentage"};
+module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","delete":"Delete","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All","percentage":"Percentage"};
 
 /***/ }),
 

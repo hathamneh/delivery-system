@@ -7,8 +7,6 @@
         <div class="col-sm-4 pb-3">
             <div class="card service-card {{ $custom ? "border-warning" : "" }}">
                 <div class="card-body">
-                    <button class="btn btn-outline-warning w-100 mb-2" data-toggle="modal"
-                            data-target="#customizeService-{{ $service->id }}"><i class="fa-edit mr-2"></i> Customize</button>
                     <div class="service-name" title="@lang('service.name')">{{ $service->name }}</div>
                     <div class="service-price" title="@lang('service.price')">
                         <small class="currency">@lang('common.jod')</small>
@@ -24,11 +22,13 @@
                 <div class="card-footer">
                     <div class="service-links">
                         @if($service->shipmentsCount())
-                            <a href="#"
-                               class="service-shipments btn btn-sm btn-link">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</a>
+                            <small
+                               class="service-shipments p-1">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</small>
                         @else
-                            <span class="service-shipments btn btn-sm">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</span>
+                            <small class="service-shipments p-1">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</small>
                         @endif
+                            <button class="btn btn-outline-warning" data-toggle="modal"
+                                    data-target="#customizeService-{{ $service->id }}"><i class="fa-edit mr-2"></i> Customize</button>
                     </div>
                 </div>
             </div>

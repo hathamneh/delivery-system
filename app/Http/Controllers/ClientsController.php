@@ -84,9 +84,11 @@ class ClientsController extends Controller
     public function show(Client $client, Request $request, $tab = "statistics")
     {
         $data = [
-            'client'    => $client,
-            'tab'       => $tab,
-            'pageTitle' => $client->trade_name
+            'client'         => $client,
+            'tab'            => $tab,
+            'pageTitle'      => $client->trade_name,
+            'shipmentsCount' => $client->shipments()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
         ];
 
         switch ($tab) {
@@ -122,12 +124,14 @@ class ClientsController extends Controller
     public function edit(Client $client, $section = 'personal')
     {
         $data = [
-            'client'    => $client,
-            'countries' => \Countries::lookup(),
-            'zones'     => Zone::all(),
-            'pageTitle' => trans('client.edit') . ' ' . $client->trade_name,
-            'tab'       => 'edit',
-            'section'   => $section
+            'client'         => $client,
+            'countries'      => \Countries::lookup(),
+            'zones'          => Zone::all(),
+            'pageTitle'      => trans('client.edit') . ' ' . $client->trade_name,
+            'tab'            => 'edit',
+            'section'        => $section,
+            'shipmentsCount' => $client->shipments()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
         ];
         return view('clients.edit', $data);
     }
@@ -155,10 +159,10 @@ class ClientsController extends Controller
                 break;
             case 'attachments':
                 $request->validate([
-                        'client_files.*' => 'required|file|max:5000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx',
-                    ],
+                    'client_files.*' => 'required|file|max:5000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx',
+                ],
                     [
-                        'max' => "The file cannot be greater than 5 MB",
+                        'max'   => "The file cannot be greater than 5 MB",
                         'mimes' => "The file must be of type :values"
                     ]);
                 if ($request->hasFile('client_files'))
@@ -181,7 +185,12 @@ class ClientsController extends Controller
         } catch (\Exception $ex) {
 
         }
-        return redirect()->route('clients.index');
+        return redirect()->route('clients.index')->with([
+            'alert' => (object)[
+                'type' => 'success',
+                'msg'  => trans("client.deleted")
+            ]
+        ]);
     }
 
 

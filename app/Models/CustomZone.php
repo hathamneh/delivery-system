@@ -59,6 +59,7 @@ class CustomZone extends Zone
                 return route("clients.zones.$for", ['client' => $this->client]);
                 break;
             case 'show':
+                return route('clients.addresses.index', [$this->client, $this]);
             case 'update':
             case 'delete':
                 return route("clients.zones.$for", ['client' => $this->client, 'zone' => $this->id]);

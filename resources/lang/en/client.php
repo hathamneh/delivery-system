@@ -6,6 +6,10 @@ return [
     'single' => "Client",
     'create' => "New Client",
     'save' => "Save Client",
+    'delete' => "Delete Client",
+    'deleted' => "<i class='fa-check-circle'></i> Client has been deleted successfully!",
+
+    'dashboard' => 'Client Dashboard',
 
     'account_number' => 'Account Number',
     'c_account_number' => 'Client Account Number',

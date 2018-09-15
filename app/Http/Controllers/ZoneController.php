@@ -15,7 +15,10 @@ class ZoneController extends Controller
     public function index()
     {
         $zones = Zone::with(['addresses'])->get();
-        return view('zones.index')->with(['zones' => $zones]);
+        return view('zones.index')->with([
+            'zones' => $zones,
+            'pageTitle' => "Zones"
+        ]);
     }
 
     /**
@@ -37,7 +40,10 @@ class ZoneController extends Controller
     public function store(Request $request)
     {
         $zone = Zone::create($request->toArray());
-        return redirect()->route('zones.edit', ['zone' => $zone->id]);
+        return redirect()->route('zones.edit', [
+            'zone' => $zone->id,
+            'pageTitle' => "New Zone"
+        ]);
     }
 
     /**
@@ -59,7 +65,10 @@ class ZoneController extends Controller
      */
     public function edit(Zone $zone)
     {
-        return view('zones.edit')->with(['zone' => $zone]);
+        return view('zones.edit')->with([
+            'zone' => $zone,
+            'pageTitle' => "Edit Zone - {$zone->name}"
+        ]);
     }
 
     /**

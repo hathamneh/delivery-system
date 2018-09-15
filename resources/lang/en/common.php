@@ -13,6 +13,7 @@ return [
     'for'                        => "for",
     'select'                     => '-- Select --',
     'new'                        => 'New',
+    'delete'                     => 'Delete',
 
     'back' => "Back",
 

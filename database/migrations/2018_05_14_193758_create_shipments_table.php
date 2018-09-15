@@ -27,7 +27,7 @@ class CreateShipmentsTable extends Migration
             $table->text('address_sub_text')->nullable();
             $table->string('address_maps_link')->nullable();
 
-            $table->string('consignee_name');
+            $table->string('consignee_name')->nullable();
             $table->string('phone_number')->nullable();
 
             $table->text('internal_notes')->nullable();

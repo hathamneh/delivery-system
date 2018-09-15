@@ -134,7 +134,7 @@ class ShipmentController extends Controller
         $data = [
             'shipment'  => $shipment->load('status'),
             'tab'       => $tab,
-            'pageTitle' => trans('shipment.info')
+            'pageTitle' => trans('shipment.info'),
         ];
         if ($tab == "actions") {
             $data['statuses'] = Status::all();

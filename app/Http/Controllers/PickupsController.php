@@ -55,16 +55,22 @@ class PickupsController extends Controller
     public function store(Request $request)
     {
         $pickup = new Pickup;
-        $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
-        $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
+        try {
+            $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
+            $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
+
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
         $pickup->fill($request->toArray());
         $pickup->save();
 
         $waybills = $request->get('waybills', []);
-        if (count($waybills))
+        if (count($waybills)) {
             foreach ($waybills as $waybill) {
                 $pickup->shipments()->attach(Shipment::waybill($waybill)->first());
             }
+        }
 
         return redirect()->route('pickups.index');
     }

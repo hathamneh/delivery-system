@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property double sameday_price
  * @property double scheduled_price
  * @property Zone zone
+ * @property CustomAddress customAddress
  */
 class Address extends Model
 {
@@ -24,6 +25,18 @@ class Address extends Model
         'scheduled_price',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function (Address $address) {
+            if(!is_null($customAddress = $address->customAddress)) {
+                $customAddress->name = $address->name;
+                $customAddress->save();
+            }
+        });
+    }
+
     public function zone()
     {
         return $this->belongsTo(Zone::class);
@@ -32,6 +45,11 @@ class Address extends Model
     public function shipments()
     {
         return $this->hasMany(Shipment::class);
+    }
+
+    public function customAddress()
+    {
+        return $this->hasOne(CustomAddress::class, 'address_id', 'id');
     }
 
     /**

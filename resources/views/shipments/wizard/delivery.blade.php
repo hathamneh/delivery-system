@@ -32,7 +32,7 @@
                     <div class="form-group col-sm-6">
                         <label for="consignee_name">@lang('shipment.consignee_name') *</label>
                         <input type="text" name="consignee_name" id="consignee_name" class="form-control"
-                               required placeholder="@lang('shipment.consignee_name')" data-bind="consignee_name"
+                               placeholder="@lang('shipment.consignee_name')" data-bind="consignee_name"
                                value="{{ isset($shipment) ? $shipment->consignee_name : old('consignee_name') }}">
                     </div>
 

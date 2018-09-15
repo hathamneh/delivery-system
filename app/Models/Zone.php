@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property integer id
@@ -35,21 +36,14 @@ class Zone extends Model
         parent::boot();
 
         static::updating(function (Zone $zone) {
-            if (!$zone instanceof CustomZone)
-                if (($customZones = $zone->customZones)->count()) {
-                    foreach (/** @var CustomZone $customZone */$customZones as $customZone) {
-                        $customZone->update('name', $zone->name);
-                    }
-                }
+            if (!$zone instanceof CustomZone) {
+                DB::table('custom_zones')->where('zone_id', $zone->id)->update(['name' => $zone->name]);
+            }
         });
 
         static::deleting(function (Zone $zone) {
             if (!$zone instanceof CustomZone)
-                if (($customZones = $zone->customZones)->count()) {
-                    foreach ($customZones as $customZone) {
-                        $customZone->delete();
-                    }
-                }
+                DB::table('custom_zones')->where('zone_id', $zone->id)->delete();
         });
     }
 

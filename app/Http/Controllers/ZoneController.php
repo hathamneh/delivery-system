@@ -80,7 +80,7 @@ class ZoneController extends Controller
      */
     public function update(Request $request, Zone $zone)
     {
-        $zone->update($request->toArray());
+        $zone->fill($request->toArray());
         $zone->save();
         return back()->with([
             'alert' => (object)[

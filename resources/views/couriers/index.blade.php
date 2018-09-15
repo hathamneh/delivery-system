@@ -45,7 +45,7 @@
                         <td>{{ $courier->user->username }}</td>
                         <td>{{ $courier->password }}</td>
                         <td>{{ $courier->phone_number }}</td>
-                        <td>{{ $courier->zone->name}}</td>
+                        <td>{{ !is_null($courier->zone) ? $courier->zone->name : '' }}</td>
                         <td>{{ $courier->address}}</td>
                         <td>
                             <div class="btn-group">

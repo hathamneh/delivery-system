@@ -48,6 +48,7 @@ class CouriersController extends Controller
     {
         $courier = new Courier;
         $courier->name = $request->get('name');
+        $courier->email = $request->get('email');
         $courier->password = User::generatePassword();
         $courier->phone_number = $request->get('phone_number');
         $courier->address = $request->get('address');
@@ -104,7 +105,17 @@ class CouriersController extends Controller
      */
     public function update(Request $request, Courier $courier)
     {
-        //
+        $courier->name = $request->get('name');
+        $courier->email = $request->get('email');
+        $courier->phone_number = $request->get('phone_number');
+        $courier->address = $request->get('address');
+        $courier->category = $request->get('category');
+        $courier->notes = $request->get('notes');
+        $courier->zone()->associate($request->get('zone_id'));
+
+        $courier->save();
+
+        return back();
     }
 
     /**

@@ -35,9 +35,9 @@
         </div>
     </div>
     <div class="d-flex flex-row-reverse">
-        <button class="btn btn-primary ml-auto"><i
+        <button class="btn btn-primary ml-auto" type="submit"><i
                     class="fa fa-save mr-2"></i> {{ isset($address) || (isset($bulk) && $bulk) ? trans('zone.address.save') : trans('zone.address.new') }}
         </button>
-        <button class="btn btn-outline-secondary" data-dismiss="modal">@lang('common.cancel')</button>
+        <a class="btn btn-outline-secondary" data-dismiss="modal" href="{{ route('zones.edit', [$zone]) }}">@lang('common.cancel')</a>
     </div>
 </form>

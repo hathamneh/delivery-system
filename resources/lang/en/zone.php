@@ -21,7 +21,7 @@ return [
         'edit'            => "Edit Address",
         'delete'          => "Delete Address",
         'save'            => "Save Address",
-        'updated'         => "Address updated successfully!",
+        'updated'         => "<i class='fa-check-circle2 mr-2'></i> Address updated successfully!",
         'name'            => "Address Name",
         'sameday_price'   => "Same Day Price",
         'scheduled_price' => "Next Day Price",

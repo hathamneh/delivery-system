@@ -36,6 +36,7 @@ class Zone extends Model
         parent::boot();
 
         static::updating(function (Zone $zone) {
+            logger($zone);
             if (!$zone instanceof CustomZone) {
                 logger(DB::table('custom_zones')->where('zone_id', $zone->id)->update(['name' => $zone->name]));
                 logger(DB::getQueryLog());

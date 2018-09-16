@@ -26707,6 +26707,23 @@ body.rtl .layout-options .img-sidebar-right {
   margin-bottom: 10px;
 }
 
+.widget-infobox a.infobox {
+  color: #555;
+  border: 1px solid #eee;
+  -webkit-box-shadow: 0 0 0 rgba(100, 100, 100, 0.5);
+          box-shadow: 0 0 0 rgba(100, 100, 100, 0.5);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.widget-infobox a.infobox:hover {
+  -webkit-box-shadow: 0 5px 15px rgba(100, 100, 100, 0.25);
+          box-shadow: 0 5px 15px rgba(100, 100, 100, 0.25);
+  z-index: 10;
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
 .widget-infobox .left {
   float: left;
   padding-left: 0;

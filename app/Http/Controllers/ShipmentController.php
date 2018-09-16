@@ -25,8 +25,23 @@ class ShipmentController extends Controller
     public function index(Request $request)
     {
         $type = $request->get('type', 'normal,guest');
+        $scope = $request->get('scope', false);
         $types = explode(",", $type);
-        $shipments = Shipment::type($types)->filtered();
+        $shipments = Shipment::type($types);
+        if($scope) {
+            switch ($scope) {
+                case "pending":
+                    $shipments = $shipments->pending();
+                    break;
+                case "received":
+                    $shipments = $shipments->statusIn(['received']);
+                    break;
+                case "delivered":
+                    $shipments = $shipments->statusIn(['delivered']);
+                    break;
+            }
+        }
+        $shipments = $shipments->filtered();
         return view('shipments.index', [
             'shipments' => $shipments,
             'pageTitle' => trans('shipment.label'),

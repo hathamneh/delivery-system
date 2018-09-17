@@ -7,16 +7,22 @@
     </a>
     <div class="dropdown-menu bg-transparent">
         <div class="list-group notofocations-list">
-            @foreach($notifications as $notification)
-                @php /** @var \Illuminate\Notifications\DatabaseNotification $notification */ @endphp
-                <div class="list-group-item list-group-item-action notification-item {{ ($notification->read() ?: "unread") }}">
-                    <a href="{{ $notification->data['link'] }}">
-                        <div>{{ $notification->data['message'] }}</div>
-                        <small class="text-muted dropdown-time">{{ $notification->created_at }}</small>
+            @if($notifications->count())
+                @foreach($notifications as $notification)
+                    @php /** @var \Illuminate\Notifications\DatabaseNotification $notification */ @endphp
+                    <div class="list-group-item list-group-item-action notification-item {{ ($notification->read() ?: "unread") }}">
+                        <a href="{{ $notification->data['link'] }}">
+                            <div>{{ $notification->data['message'] }}</div>
+                            <small class="text-muted dropdown-time">{{ $notification->created_at }}</small>
 
-                    </a>
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <div class="list-group-item notification-item">
+                    <span class="text-muted">You have no notifications!</span>
                 </div>
-            @endforeach
+            @endif
         </div>
     </div>
 </li>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 
@@ -14,8 +15,18 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $username = Auth()->user()->username;
-        View::share('username', $username);
+        view()->composer('*', function($view) {
+            if ($view->getName() != 'auth.login') {
+                $username = auth()->user()->username;
+                $unread = Auth::user()->unreadNotifications;
+                $notys = Auth::user()->notifications()->latest()->get();
+                $view->with([
+                    'username'           => $username,
+                    'notificationsCount' => $unread->count() > 0 ? $unread->count() : "",
+                    'notifications'      => $notys
+                ]);
+            }
+        });
     }
 
     /**

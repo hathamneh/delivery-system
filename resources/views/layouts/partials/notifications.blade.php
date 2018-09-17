@@ -3,32 +3,21 @@
     <a href="#" class="dropdown-toggle" data-hover="dropdown" data-close-others="true"
        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="icon-bell"></i>
-        <span class="badge badge-danger badge-header">5</span>
+        <span class="badge badge-danger badge-header">{{ $notificationsCount }}</span>
     </a>
-    <ul class="dropdown-menu">
-        <li class="dropdown-header clearfix">
-            <p class="pull-left">5 @lang("Pending_Notifications")</p>
-        </li>
-        <li>
-            <ul class="dropdown-menu-list withScroll" data-height="220">
+    <div class="dropdown-menu bg-transparent">
+        <div class="list-group notofocations-list">
+            @foreach($notifications as $notification)
+                @php /** @var \Illuminate\Notifications\DatabaseNotification $notification */ @endphp
+                <div class="list-group-item list-group-item-action notification-item {{ ($notification->read() ?: "unread") }}">
+                    <a href="{{ $notification->data['link'] }}">
+                        <div>{{ $notification->data['message'] }}</div>
+                        <small class="text-muted dropdown-time">{{ $notification->created_at }}</small>
 
-                {{--foreach ($alerts as $alert) :--}}
-                    <li class="notification-item unread">
-                        <a href="$alert->url + &read= + $alert->id">
-                            <i class="fa fa-flag p-r-10 f-18"></i>
-                            Alert Type
-                            <span class="dropdown-time">{{ date("d-m-Y h:i A") }}</span>
-                            <span class="clearfix"></span>
-
-                        </a>
-                    </li>
-                {{--endforeach;--}}
-            </ul>
-        </li>
-        <li class="dropdown-footer clearfix">
-            <a href="/alerts.php" class="pull-left"><?= __("SHOW_ALL_NOTIFICATION") ?></a>
-
-        </li>
-    </ul>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
 </li>
 <!-- END NOTIFICATION DROPDOWN -->

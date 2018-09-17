@@ -160,8 +160,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        anlutro\LaravelSettings\ServiceProvider::class
-
+        anlutro\LaravelSettings\ServiceProvider::class,
+        App\Providers\LayoutServiceProvider::class,
+        App\Providers\NotificationServiceProvider::class,
     ],
 
     /*

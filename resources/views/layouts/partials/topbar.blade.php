@@ -17,7 +17,7 @@
         </div>
         {{--endif;--}}
         <div class="welcome-msg">
-            @lang("topbar.welcome", ["name" => Auth()->user()->username])
+            @lang("topbar.welcome", ["name" => $username])
         </div>
     </div>
 

@@ -7,6 +7,7 @@ use App\Interfaces\Accountable;
 use App\Traits\ClientAccounting;
 use App\Traits\ClientStatistics;
 use App\Traits\HasAttachmentsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -86,6 +87,7 @@ class Client extends Model implements Accountable
         'bank_account_number',
         'bank_holder_name',
         'bank_iban',
+        'alerted'
     ];
 
     public function getAddressAttribute()
@@ -183,6 +185,10 @@ class Client extends Model implements Accountable
         return $this->hasOne(User::class, 'identifier', 'account_number');
     }
 
+    public function scopeNotAlerted(Builder $query)
+    {
+        return $query->where('alerted', false);
+    }
     public function zone()
     {
         return $this->belongsTo(Zone::class);

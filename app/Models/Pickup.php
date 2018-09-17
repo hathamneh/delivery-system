@@ -25,6 +25,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Client client
  * @property Courier courier
  * @property string identifier
+ * @property integer id
  * @mixin Builder
  * @method static self unpaid()
  */
@@ -55,12 +56,13 @@ class Pickup extends Model
         'status',
         'phone_number',
         'identifier',
+        'alerted'
     ];
 
     protected $dispatchesEvents = [
         'saving' => Events\PickupSaving::class,
     ];
-    protected $availableDateTimeFormat = 'd-m-Y g:i A';
+    protected $availableDateTimeFormat = 'M d, Y g:i A';
     protected $availableTimeFormat = 'g:i A';
 
     public function shipments()
@@ -91,6 +93,11 @@ class Pickup extends Model
     public function scopeDeclined($query)
     {
         return $query->where('status', 'declined');
+    }
+
+    public function scopeNotAlerted($query)
+    {
+        return $query->where('alerted', false);
     }
 
     public function setAvailableTimeAttribute($value)

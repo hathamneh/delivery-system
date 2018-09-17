@@ -8,6 +8,8 @@ use App\Pickup;
 use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Notification;
 
 class PickupsController extends Controller
 {
@@ -89,11 +91,13 @@ class PickupsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param  \App\Pickup $pickup
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pickup $pickup)
+    public function edit(Request $request, Pickup $pickup)
     {
+
         $couriers = Courier::all();
         $pickup->load('shipments');
         return view('pickups.edit')->with([

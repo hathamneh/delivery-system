@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="discount" class="control-label">@lang('accounting.discount')</label>
-                                    <input type="number" name="discount" id="discount" class="form-control" step="0.1"
+                                    <input type="number" name="discount" id="discount" class="form-control" step="any"
                                            value="0.00">
                                     <small class="form-text text-muted">@lang('accounting.discount_note')</small>
                                 </div>

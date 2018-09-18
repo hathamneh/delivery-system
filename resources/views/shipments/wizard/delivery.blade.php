@@ -7,30 +7,8 @@
         <div class="card mb-2">
             <div class="card-body">
                 <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="courier">@lang('shipment.couriers.label') *</label>
-                        <select name="courier" id="courier" class="form-control selectpicker" data-live-search="true" data-bind="courier">
-                            <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
-                            @foreach($couriers as $courier)
-                                <option value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
-                            @endforeach
-                        </select>
-                        <small class="text-muted form-text">
-                            @lang("shipment.couriers.help")
-                        </small>
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <label for="internal_notes">@lang("shipment.internal_notes")</label>
-                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"
-                                  placeholder="@lang("shipment.internal_notes")" data-bind="internal_notes"
-                                  class="form-control">{{ isset($shipment) ? $shipment->internal_notes : old('internal_notes') }}</textarea>
-                    </div>
-
-                    <div class="w-100">
-                        <hr>
-                    </div>
                     <div class="form-group col-sm-6">
-                        <label for="consignee_name">@lang('shipment.consignee_name') *</label>
+                        <label for="consignee_name">@lang('shipment.consignee_name')</label>
                         <input type="text" name="consignee_name" id="consignee_name" class="form-control"
                                placeholder="@lang('shipment.consignee_name')" data-bind="consignee_name"
                                value="{{ isset($shipment) ? $shipment->consignee_name : old('consignee_name') }}">
@@ -66,6 +44,27 @@
                         <textarea name="address_sub_text" id="address_sub_text" cols="30" rows="3"
                                   placeholder="@lang("shipment.address_sub_text")" data-bind="address_sub_text"
                                   class="form-control">{{ isset($shipment) ? $shipment->address_sub_text : old('address_sub_text') }}</textarea>
+                    </div>
+                </div>
+                        <hr>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="courier">@lang('shipment.couriers.label') *</label>
+                        <select name="courier" id="courier" class="form-control selectpicker" data-live-search="true" data-bind="courier">
+                            <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
+                            @foreach($couriers as $courier)
+                                <option value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted form-text">
+                            @lang("shipment.couriers.help")
+                        </small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="internal_notes">@lang("shipment.internal_notes")</label>
+                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"
+                                  placeholder="@lang("shipment.internal_notes")" data-bind="internal_notes"
+                                  class="form-control">{{ isset($shipment) ? $shipment->internal_notes : old('internal_notes') }}</textarea>
                     </div>
 
                 </div>

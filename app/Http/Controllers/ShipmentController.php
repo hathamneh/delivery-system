@@ -291,11 +291,9 @@ class ShipmentController extends Controller
      */
     public function suggestedDeliveryDate()
     {
-        $date = now()->addDays(1);
-        if ($date->isDayOfWeek(Carbon::FRIDAY)
-            || $date->isDayOfWeek(Carbon::SATURDAY))
-            $date = $date->next(Carbon::SUNDAY);
-
-        return $date;
+        Carbon::setWeekendDays([
+            Carbon::FRIDAY
+        ]);
+        return now()->nextWeekday();
     }
 }

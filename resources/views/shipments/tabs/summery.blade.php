@@ -11,7 +11,7 @@
                     <div class="shipment-cost">
                         <div class="shipment-cost__label">@lang('shipment.price_of_address')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->price_of_address, 2, '.', '') }}
                         </div>
@@ -19,7 +19,7 @@
                     <div class="shipment-cost">
                         <div class="shipment-cost__label">@lang('shipment.fees')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->extra_fees, 2, '.', '') }}
                         </div>
@@ -27,39 +27,31 @@
                     <div class="shipment-cost">
                         <div class="shipment-cost__label">@lang('shipment.services_cost')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->services_cost, 2, '.', '') }}
                         </div>
                     </div>
-                    <div class="shipment-cost summery-border">
+                    <div class="shipment-cost summery-border summery-bold">
                         <div class="shipment-cost__label">@lang('shipment.delivery_cost')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->delivery_cost, 2, '.', '') }}
                         </div>
                     </div>
-                    <div class="shipment-cost mt-1">
+                    <div class="shipment-cost mt-2">
                         <div class="shipment-cost__label">@lang('shipment.shipment_value')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->shipment_value, 2, '.', '') }}
-                        </div>
-                    </div>
-                    <div class="shipment-cost summery-border summery-bold">
-                        <div class="shipment-cost__label">@lang('shipment.total')</div>
-                        <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
-                        <div class="shipment-cost__value">
-                            {{ number_format((float)$shipment->total, 2, '.', '') }}
                         </div>
                     </div>
                     <div class="shipment-cost mt-2">
                         <div class="shipment-cost__label">@lang('shipment.actual_paid')</div>
                         <div class="dots"></div>
-                        <span class="shipment-cost__currency">@lang('common.jod')</span>
+                        <span class="shipment-cost__currency currency">@lang('common.jod')</span>
                         <div class="shipment-cost__value">
                             {{ number_format((float)$shipment->actual_paid_by_consignee, 2, '.', '') }}
                         </div>

@@ -43,16 +43,19 @@
                             <li class="list-group-item">Shipment created at <span
                                         class="badge badge-secondary">{{ $history->newValue() }}</span></li>
                         @else
-                            <li class="list-group-item">{{ ucfirst(trans("shipment.".$history->fieldName())) }} changed
-                                from <span class="badge badge-secondary">{{ $history->oldValue() }}</span> to <span
-                                        class="badge badge-secondary">{{ $history->newValue() }}</span>
-                                <br>
-                                <small class="text-muted">{{ $history->userResponsible() != null && (Auth::check() && Auth::user()->isAdmin()) ? "By ". $history->userResponsible()->username . " at" : "At" }} {{ $history->created_at }}</small>
-                            </li>
+                                <li class="list-group-item">
+                                    {{ $history->fieldName() }}
+                                    {{--{{ ucfirst(trans("shipment.".$history->fieldName())) }}--}}
+                                    {{--changed--}}
+                                    {{--from <span class="badge badge-secondary">{{ $history->oldValue() }}</span> to <span--}}
+                                            {{--class="badge badge-secondary">{{ $history->newValue() }}</span>--}}
+                                    {{--<br>--}}
+                                    {{--<small class="text-muted">{{ $history->userResponsible() != null && (Auth::check() && Auth::user()->isAdmin()) ? "By ". $history->userResponsible()->username . " at" : "At" }} {{ $history->created_at }}</small>--}}
+                                </li>
                         @endif
                     @endforeach
                 </ul>
-                @else
+            @else
                 <div class="py-4 px-1 text-center border-dark">No history!</div>
             @endif
         </div>

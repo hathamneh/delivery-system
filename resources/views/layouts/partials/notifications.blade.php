@@ -14,7 +14,6 @@
                         <a href="{{ $notification->data['link'] }}">
                             <div>{{ $notification->data['message'] }}</div>
                             <small class="text-muted dropdown-time">{{ $notification->created_at }}</small>
-
                         </a>
                     </div>
                 @endforeach

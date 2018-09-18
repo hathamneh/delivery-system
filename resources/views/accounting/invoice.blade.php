@@ -5,7 +5,7 @@
 
 @section('invoiceContent')
     <tr>
-        <td class="text-center" colspan="2"><b>@lang('accounting.statement')</b></td>
+        <td class="text-center" colspan="2"><b style="font-size: 1.1rem;">@lang('accounting.statement')</b></td>
     </tr>
     <tr>
         <td colspan="2" class="invoice__statement-table">
@@ -15,7 +15,7 @@
                         <tbody>
                         <tr>
                             <th>@lang('accounting.to')</th>
-                            <td>{{ $client->trade_name }}</td>
+                            <td>{{ $client->trade_name }} / {{ $client->name }}</td>
                         </tr>
                         <tr>
                             <th>@lang('accounting.address')</th>
@@ -53,7 +53,7 @@
                                 <tbody>
                                 <tr>
                                     <th>@lang('accounting.bank_info')</th>
-                                    <td>{{ $client->bank->full }}</td>
+                                    <td>{!! $client->bank->full !!}</td>
                                 </tr>
                                 <tr>
                                     <th>@lang('accounting.account_number')</th>

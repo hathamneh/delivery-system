@@ -30,9 +30,12 @@
     @slot('footer')
         <button class="btn btn-outline-secondary"
                 data-dismiss="modal">@lang('common.cancel')</button>
-        <button class="btn btn-danger ml-auto" type="button"
-                data-delete="{{ $shipment->id }}"><i
-                    class="fa fa-trash"></i> @lang('shipment.delete')
-        </button>
+        <form action="{{ route('shipments.destroy', [$shipment]) }}" method="post" class="ml-auto">
+            {{ csrf_field() }}
+            {{ method_field('delete') }}
+            <button class="btn btn-danger" type="submit"><i
+                        class="fa fa-trash"></i> @lang('shipment.delete')
+            </button>
+        </form>
     @endslot
 @endcomponent

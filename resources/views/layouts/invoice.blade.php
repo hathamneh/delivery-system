@@ -18,13 +18,13 @@
                     <td class="invoice__company-details" colspan="2">
                         {{ Setting::get('company.name') }}
                         <br>
-                        {!! nl2br(e(Setting::get('company.address')))  !!}
-                        <br>
                         @lang('settings.company.pobox'): {{ Setting::get('company.pobox') }}
+                        <br>
+                        {!! nl2br(e(Setting::get('company.address')))  !!}
                         <br>
                         @lang('accounting.telephone'): {{ Setting::get('company.telephone') }}
                         <br>
-                        @lang('settings.company.trc') : {{ Setting::get('company.trc') }}
+                        NO. : {{ Setting::get('company.trc') }}
                     </td>
                 </tr>
                 @yield('invoiceContent')

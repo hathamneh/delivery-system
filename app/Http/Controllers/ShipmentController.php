@@ -78,7 +78,7 @@ class ShipmentController extends Controller
         $services = Service::all();
         $data = [
             'statuses'         => $statuses,
-            'suggestedWaybill' => $suggestedWaybill,
+            'suggestedWaybill' => $suggestedWaybill['waybill'],
             'couriers'         => $couriers,
             'addresses'        => $addresses,
             'services'         => $services,
@@ -104,6 +104,7 @@ class ShipmentController extends Controller
     public function store(StoreShipmentRequest $request)
     {
 
+        $suggestedWaybill = (new Shipment)->generateNextWaybill();
         $clientData = $request->get('shipment_client');
 
         $shipment = null;
@@ -118,7 +119,11 @@ class ShipmentController extends Controller
         $shipment->courier()->associate(Courier::findOrFail($request->get('courier')));
         $shipment->status()->associate(Status::findOrFail($request->get('status')));
         // save form data
-        $shipment->waybill = $request->get('waybill');
+        $newWaybill = $request->get('waybill');
+        if($suggestedWaybill['waybill'] == $newWaybill) {
+            $shipment->waybill_index = $suggestedWaybill['index'];
+        }
+        $shipment->waybill = $newWaybill;
         $this->addShipmentDetails($shipment, $request);
         $this->addDeliveryDetails($shipment, $request);
         // Money calculations

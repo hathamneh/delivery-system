@@ -11,7 +11,7 @@ trait GenerateWaybills
 
     /**
      * @param int $index
-     * @return int
+     * @return array
      */
     public function generateWaybill(int $index)
     {
@@ -41,8 +41,11 @@ trait GenerateWaybills
     public function generateNextWaybill()
     {
         $type = static::$waybill_type ?? "normal";
-        $latestId = DB::table((new static)->getTable())->where('type', $type)->latest()->limit(1)->value('id');
-        $index = $latestId ?? 0;
-        return self::generateWaybill($index);
+        $latestId = DB::table((new static)->getTable())->where('type', $type)->whereNotNull('waybill_index')->latest()->limit(1)->value('waybill_index');
+        $index = is_null($latestId) ? 0 : $latestId + 1;
+        return [
+            "index"   => $index,
+            "waybill" => self::generateWaybill($index)
+        ];
     }
 }

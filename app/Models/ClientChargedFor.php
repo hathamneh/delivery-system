@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property mixed value
  * @method static self byStatus(string $string)
+ * @method static self clientIs(Client $client)
  * @mixin Builder
  */
 class ClientChargedFor extends Model
@@ -39,12 +40,17 @@ class ClientChargedFor extends Model
         return $builder->where('status_id', $status->id);
     }
 
+    public function scopeClientIs(Builder $query, Client $client)
+    {
+        return $query->where('client_account_number', $client);
+    }
+
     public function compute(float $delivery_cost)
     {
         if($this->type == 'fixed')
             return $this->value;
         elseif($this->type == "percentage")
-            return $delivery_cost * $this->value;
+            return $delivery_cost * ($this->value / 100);
 
         // otherwise
         return $delivery_cost;

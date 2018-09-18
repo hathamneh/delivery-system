@@ -1,4 +1,12 @@
-@php /** @var \App\Shipment $shipment */ @endphp
+@php /** @var \App\Shipment $shipment */
+if(isset($shipment)) {
+    $deliveryDateValue = $shipment->delivery_date->format("d-m-Y") ;
+} elseif(isset($suggestedDeliveryDate)) {
+    $deliveryDateValue = $suggestedDeliveryDate;
+} else {
+    $deliveryDateValue = old("delivery_date");
+}
+@endphp
 <fieldset>
     <legend><i class="fa fa-info-circle"></i> @lang("shipment.details")</legend>
 
@@ -21,7 +29,7 @@
                         <label for="deliveryDate">@lang('shipment.delivery_date') *</label>
                         <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
                                required placeholder="@lang('shipment.deliveryDate')" data-bind="delivery_date"
-                               value="{{ isset($shipment) ? $shipment->delivery_date->format("d-m-Y") : isset($suggestedDeliveryDate) ? $suggestedDeliveryDate : old("delivery_date") }}">
+                               value="{{ $deliveryDateValue }}">
                     </div>
 
                     <div class="form-group col-sm-6">

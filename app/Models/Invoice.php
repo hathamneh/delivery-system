@@ -61,7 +61,8 @@ class Invoice extends Model
      */
     public function shipments()
     {
-        $shipments = Shipment::unpaid()->statusIn(['delivered', 'returned', 'rejected', 'cancelled'])->whereBetween('delivery_date', [$this->from, $this->until]);
+        $shipments = Shipment::unpaid()->statusIn(['delivered', 'returned', 'rejected', 'cancelled'])
+            ->whereBetween('delivery_date', [$this->from, $this->until]);
 
         if ($this->type == "client")
             return $shipments->where('client_account_number', $this->target->account_number);
@@ -133,7 +134,7 @@ class Invoice extends Model
 
     public function getTermsAppliedAttribute()
     {
-        return "-" . fnumber($this->discount) . "%";
+        return fnumber(-1 * $this->discount) . "%";
     }
 
     public function getPickupFeesAttribute()

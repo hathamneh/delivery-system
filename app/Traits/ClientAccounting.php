@@ -24,25 +24,33 @@ trait ClientAccounting
         $sum = 0;
 
         // prepare the shipments we want to work with, exit if no valid shipments
-        if(!($targetShipments = $this->prepareTargetShipments($input))) return false;
+        if (!($targetShipments = $this->prepareTargetShipments($input))) return false;
 
         // ( DONE ) shipments
-        $shipments = $targetShipments->statusIn(['delivered', 'returned'])->lodger('client')->get();
+
+        $shipments = clone $targetShipments;
+        $shipments = $shipments->statusIn(['delivered', 'returned'])->lodger('client')->get();
         foreach ($shipments as $shipment) {
             /** @var  Shipment $shipment */
             $sum += $shipment->delivery_cost;
         }
 
         // ( CONFLICT ) shipments
+        $shipments = clone $targetShipments;
+        $charged = [];
         foreach (['rejected', 'cancelled'] as $item) {
-            if ($this->isChargedFor($item)) {
-                /** @var ClientChargedFor $cf */
-                $cf = ClientChargedFor::byStatus($item)->first();
-                $shipments = $targetShipments->statusIs($item)->lodger('client')->get();
-                foreach ($shipments as $shipment) {
-                    /** @var  Shipment $shipment */
-                    $sum += $cf->compute($shipment->delivery_cost);
-                }
+            if ($this->isChargedFor($item))
+                $charged[$item] = $this->chargedFor()->byStatus($item)->first();
+            else
+                $charged[$item] = false;
+        }
+
+        $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
+        foreach ($shipments as $shipment) {
+            /** @var  Shipment $shipment */
+            $status = $shipment->status->name;
+            if ($charged[$status]) {
+                $sum += $charged[$status]->compute($shipment->delivery_cost);
             }
         }
         return $sum;
@@ -57,7 +65,7 @@ trait ClientAccounting
         $sum = 0;
 
         // prepare the shipments we want to work with, exit if no valid shipments
-        if(!($targetShipments = $this->prepareTargetShipments($input))) return false;
+        if (!($targetShipments = $this->prepareTargetShipments($input))) return false;
 
         // Actual paid by consignee for delivered shipments
         $sum += $targetShipments->statusIs("delivered")->sum('actual_paid_by_consignee');
@@ -73,14 +81,13 @@ trait ClientAccounting
      */
     public function prepareTargetShipments($input)
     {
-        if($input instanceof Invoice)
+        if ($input instanceof Invoice)
             return $input->shipments();
-        elseif(is_array($input) && count($input) == 2) {
+        elseif (is_array($input) && count($input) == 2) {
             $start = $input[0];
             $end = $input[1];
             return $this->shipments()->whereBetween('created_at', [$start, $end]);
-        }
-        else {
+        } else {
             return false;
         }
     }

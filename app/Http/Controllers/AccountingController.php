@@ -70,6 +70,7 @@ class AccountingController extends Controller
 
     public function show(Invoice $invoice)
     {
+        //dd($invoice->shipments()->toSql());
         $shipments = $invoice->shipments;
         if ($invoice->type == "client") {
             return view('accounting.invoice')->with([

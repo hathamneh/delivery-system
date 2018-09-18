@@ -305,6 +305,12 @@ class Shipment extends Model
         return $query->where('status_id', $status_id);
     }
 
+    public function isStatus($status) {
+        if(is_string($status))
+            $status = Status::name($status)->first();
+        return $this->status->is($status);
+    }
+
     /**
      * @param Builder $query
      * @param array $statuses

@@ -21,7 +21,7 @@
                         <label for="deliveryDate">@lang('shipment.delivery_date') *</label>
                         <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
                                required placeholder="@lang('shipment.deliveryDate')" data-bind="delivery_date"
-                               value="{{ isset($shipment) ? $shipment->delivery_date->format("d-m-Y") : old("delivery_date") }}">
+                               value="{{ isset($shipment) ? $shipment->delivery_date->format("d-m-Y") : isset($suggestedDeliveryDate) ? $suggestedDeliveryDate : old("delivery_date") }}">
                     </div>
 
                     <div class="form-group col-sm-6">

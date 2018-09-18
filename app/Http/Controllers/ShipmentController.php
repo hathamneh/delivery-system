@@ -28,7 +28,7 @@ class ShipmentController extends Controller
         $scope = $request->get('scope', false);
         $types = explode(",", $type);
         $shipments = Shipment::type($types);
-        if($scope) {
+        if ($scope) {
             switch ($scope) {
                 case "pending":
                     $shipments = $shipments->pending();
@@ -43,8 +43,8 @@ class ShipmentController extends Controller
         }
         $shipments = $shipments->filtered();
         return view('shipments.index', [
-            'shipments' => $shipments,
-            'pageTitle' => trans('shipment.label'),
+            'shipments'        => $shipments,
+            'pageTitle'        => trans('shipment.label'),
             'sidebarCollapsed' => true
         ]);
     }
@@ -72,6 +72,7 @@ class ShipmentController extends Controller
     public function create($type = "legacy")
     {
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
+        $suggestedDeliveryDate = $this->suggestedDeliveryDate();
         $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
         $couriers = Courier::all();
         $addresses = Address::all();
@@ -79,6 +80,7 @@ class ShipmentController extends Controller
         $data = [
             'statuses'         => $statuses,
             'suggestedWaybill' => $suggestedWaybill['waybill'],
+            'suggestedDeliveryDate' => $suggestedDeliveryDate->format('d/m/Y'),
             'couriers'         => $couriers,
             'addresses'        => $addresses,
             'services'         => $services,
@@ -120,7 +122,7 @@ class ShipmentController extends Controller
         $shipment->status()->associate(Status::findOrFail($request->get('status')));
         // save form data
         $newWaybill = $request->get('waybill');
-        if($suggestedWaybill['waybill'] == $newWaybill) {
+        if ($suggestedWaybill['waybill'] == $newWaybill) {
             $shipment->waybill_index = $suggestedWaybill['index'];
         }
         $shipment->waybill = $newWaybill;
@@ -282,5 +284,18 @@ class ShipmentController extends Controller
         $shipment->address_sub_text = $request->get('address_sub_text');
         $shipment->service_type = $request->get('service_type');
         $shipment->delivery_cost_lodger = $request->get('delivery_cost_lodger');
+    }
+
+    /**
+     * @return \Illuminate\Support\Carbon
+     */
+    public function suggestedDeliveryDate()
+    {
+        $date = now()->addDays(1);
+        if ($date->isDayOfWeek(Carbon::FRIDAY)
+            || $date->isDayOfWeek(Carbon::SATURDAY))
+            $date = $date->next(Carbon::SUNDAY);
+
+        return $date;
     }
 }

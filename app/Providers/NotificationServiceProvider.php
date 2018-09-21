@@ -27,9 +27,11 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-            $this->admins = User::where('user_template_id', UserTemplate::where('name', 'admin')->first()->id)->get();
-            $this->latePickups();
-            $this->losingClients();
+            try {
+                $this->admins = User::where('user_template_id', UserTemplate::where('name', 'admin')->first()->id)->get();
+                $this->latePickups();
+                $this->losingClients();
+            } catch (\Exception $e) {}
         });
     }
 

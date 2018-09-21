@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotAvailableConsignee extends Notification
+class ConsigneeRescheduled extends Notification
 {
     use Queueable;
 
@@ -20,7 +20,7 @@ class NotAvailableConsignee extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param Shipment $shipment
+     * @return void
      */
     public function __construct(Shipment $shipment)
     {
@@ -47,9 +47,9 @@ class NotAvailableConsignee extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("The consignee is not available to receive the shipment - Kangaroo Delivery")
+            ->subject("The consignee has rescheduled receiving the shipment - Kangaroo Delivery")
             ->markdown('notifications.mail', [
-                'tmpl'     => 'not-available-consignee',
+                'tmpl'     => 'consignee-rescheduled',
                 'client'   => $notifiable,
                 'shipment' => $this->shipment
             ]);

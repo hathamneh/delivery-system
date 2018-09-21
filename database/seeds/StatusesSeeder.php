@@ -36,26 +36,23 @@ class StatusesSeeder extends Seeder
             'pending'           => true,
             'courier_dashboard' => true,
         ]);
-        $status = \App\Status::create([
-            'name'              => "on_hold",
-            'description'       => "Attempted to deliver shipment",
+        \App\Status::create([
+            'name'              => "consignee_rescheduled",
+            'description'       => "The consignee has rescheduled receiving the shipment",
             'group'             => "in_transit",
-            'unpaid'            => false,
-            'pending'           => true,
-            'courier_dashboard' => false,
-        ]);
-        $status->subStatuses()->create([
-            'name'              => 'consignee_rescheduled',
-            'has_date'          => true,
             'suggested_reasons' => [
                 'Insufficient Amount',
                 'Not Ready to receive shipment',
                 'To be collected from office',
-            ]
+            ],
+            'unpaid'            => false,
+            'pending'           => true,
+            'courier_dashboard' => false,
         ]);
-        $status->subStatuses()->create([
-            'name'              => 'not_available',
-            'has_date'          => false,
+        \App\Status::create([
+            'name'              => "not_available",
+            'description'       => "The consignee is not available to receive the shipment",
+            'group'             => "in_transit",
             'suggested_reasons' => [
                 'SMS Sent',
                 'Mobile switched off',
@@ -64,9 +61,11 @@ class StatusesSeeder extends Seeder
                 'Incorrect Number',
                 'Blocked',
                 'Transferred Calls',
-            ]
+            ],
+            'unpaid'            => false,
+            'pending'           => true,
+            'courier_dashboard' => false,
         ]);
-
         \App\Status::create([
             'name'              => "cancelled",
             'description'       => "Shipment has been cancelled",

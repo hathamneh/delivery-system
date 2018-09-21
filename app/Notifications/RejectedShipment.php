@@ -48,7 +48,7 @@ class RejectedShipment extends Notification
     {
         $message = new MailMessage;
         $message
-            ->subject("Rejected Shipment")
+            ->subject("Rejected Shipment - Kangaroo Delivery")
             ->markdown('notifications.mail', [
                 'tmpl'     => 'rejected-shipment',
                 'client'   => $notifiable,

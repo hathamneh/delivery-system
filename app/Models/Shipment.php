@@ -2,6 +2,10 @@
 
 namespace App;
 
+use App\Notifications\CancelledShipment;
+use App\Notifications\ConsigneeRescheduled;
+use App\Notifications\NotAvailableConsignee;
+use App\Notifications\RejectedShipment;
 use App\Traits\GenerateWaybills;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -125,6 +129,14 @@ class Shipment extends Model
 
         static::addGlobalScope('type', function (Builder $builder) {
             $builder->where('type', static::$waybill_type ?? "normal");
+        });
+
+        static::saving(function (self $instance) {
+            $changed = $instance->getDirty();
+            if(isset($changed['status_id'])) { // If status has changed
+                $newStatus = Status::find($changed['status_id']);
+                $instance->notifyFor($newStatus);
+            }
         });
     }
 
@@ -483,5 +495,23 @@ class Shipment extends Model
     {
         $this->client_paid = !$this->client_paid;
         return $this;
+    }
+
+    public function notifyFor(Status $status)
+    {
+        switch($status->name) {
+            case "not_available":
+                $this->client->notify(new NotAvailableConsignee($this));
+                break;
+            case "consignee_rescheduled":
+                $this->client->notify(new ConsigneeRescheduled($this));
+                break;
+            case "rejected":
+                $this->client->notify(new RejectedShipment($this));
+                break;
+            case "cancelled":
+                $this->client->notify(new CancelledShipment($this));
+                break;
+        }
     }
 }

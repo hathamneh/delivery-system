@@ -4,6 +4,7 @@ namespace App;
 
 
 use App\Interfaces\Accountable;
+use App\Notifications\ClientCreated;
 use App\Traits\ClientAccounting;
 use App\Traits\ClientStatistics;
 use App\Traits\HasAttachmentsTrait;
@@ -89,6 +90,15 @@ class Client extends Model implements Accountable
         'bank_iban',
         'alerted'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (self $client) {
+            $client->notify(new ClientCreated());
+        });
+    }
 
     public function getAddressAttribute()
     {

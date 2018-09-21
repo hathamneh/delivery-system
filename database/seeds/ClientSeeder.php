@@ -13,18 +13,6 @@ class ClientSeeder extends Seeder
     public function run()
     {
 
-        $oldStatuses = array(
-            1  => "received",
-            2  => "on_hold",
-            3  => "delivered",
-            4  => "cancelled",
-            5  => "rejected",
-            6  => "rejected",
-            7  => "returned",
-            8  => "returned",
-            12 => "on_hold", // notes must be submitted on status
-            13 => "on_hold", // notes must be submitted on status
-        );
 
         $oldCients = DB::connection('mysql2')->table('clients')
             ->select('*')->where('zombie', 0)->get();

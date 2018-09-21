@@ -24,7 +24,7 @@ class ClientCreated extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -35,19 +35,23 @@ class ClientCreated extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                ->markdown('notifications.client-created', ['client'=>$notifiable]);
+            ->subject("Welcome to Kangaroo Delivery")
+            ->markdown('notifications.mail', [
+                'client' => $notifiable,
+                'tmpl'   => 'client-created',
+            ]);
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

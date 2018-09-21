@@ -20,7 +20,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('tracking', "TrackController@show")->name('tracking.show');
+
 Route::middleware('auth')->group(function () {
+
+    Route::get('testmail', function () {
+        /** @var \App\Shipment $shipment */
+        $shipment = \App\Shipment::first();
+        $shipment->client->email = "test@mail.com";
+        echo $shipment->waybill;
+        echo "<br>";
+        echo $shipment->client->email;
+
+        $shipment->client->notify(new \App\Notifications\CancelledShipment($shipment));
+    });
 
     Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
     Route::get('shipments/create/{type?}', "ShipmentController@create")
@@ -87,12 +99,3 @@ Route::middleware('auth')->group(function () {
     Route::resource('settings', "SettingsController");
     Route::get('emails', "MailingController@index")->name('emails.index');
 });
-
-
-function parseItems($key, $value)
-{
-
-    array_walk($test_array, function (&$a, $b) {
-        $a = "$b loves $a";
-    });
-}

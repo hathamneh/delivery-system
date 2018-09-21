@@ -36908,6 +36908,28 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
   color: #5B5B5F;
 }
 
+.mailing-demo {
+  border: 2px solid #fff;
+  -webkit-box-shadow: 0 0 10px rgba(32, 83, 93, 0.46);
+          box-shadow: 0 0 10px rgba(32, 83, 93, 0.46);
+  border-radius: 0.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .mailing-demo .inner-body {
+    width: 100% !important;
+  }
+  .mailing-demo .footer {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mailing-demo .button {
+    width: 100% !important;
+  }
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

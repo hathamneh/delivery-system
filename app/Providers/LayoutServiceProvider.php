@@ -16,7 +16,7 @@ class LayoutServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function($view) {
-            if ($view->getName() != 'auth.login') {
+            if (Auth::check() && $view->getName() != 'auth.login') {
                 $username = auth()->user()->username;
                 $unread = Auth::user()->unreadNotifications;
                 $notys = Auth::user()->notifications()->latest()->get();

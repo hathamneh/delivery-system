@@ -46,6 +46,14 @@
                            placeholder="@lang('settings.company.trc')">
                 </div>
             </div>
+            <div class="form-group form-row">
+                <label for="company.trc" class="col-form-label col-md-4">@lang('settings.company.trc')</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="company.trc" id="company.trc"
+                           value="{{ Setting::get('company.trc') }}"
+                           placeholder="@lang('settings.company.trc')">
+                </div>
+            </div>
 
             <div class="mt-3">
                 <button class="btn btn-primary" type="submit"><i class="fa-save"></i> @lang('settings.save')</button>

@@ -11,7 +11,8 @@
     {{-- Subcopy --}}
     @slot('subcopy')
         @component('mail::subcopy')
-            Kind regards,<br>Kangaroo Delivery Operations
+            Customer Happiness Department,<br>
+            Kangaroo Delivery
             @endcomponent
             @endslot
 

@@ -3,7 +3,7 @@
         <i class="fa-arrow-circle-right mr-2"></i><b>Go To</b>
     </div>
     <div class="card-body">
-        @if(auth()->user()->isAuthorized("shipments"))
+        @can('index', \App\Shipment::class)
             <a href="{{ route('shipments.index') }}" class="quick-link">
                 <div class="row">
                     <div class="icon">
@@ -13,7 +13,7 @@
                 </div>
             </a>
         @endif
-        @if(auth()->user()->isAuthorized("clients"))
+            @can('index', \App\Client::class)
             <a href="{{ route('clients.index') }}" class="quick-link">
                 <div class="row">
                     <div class="icon">
@@ -23,7 +23,7 @@
                 </div>
             </a>
         @endif
-        @if(auth()->user()->isAuthorized("couriers"))
+            @can('index', \App\Courier::class)
             <a href="{{ route('couriers.index') }}" class="quick-link">
                 <div class="row">
                     <div class="icon">
@@ -33,7 +33,7 @@
                 </div>
             </a>
         @endif
-        @if(auth()->user()->isAuthorized("pickups"))
+            @can('index', \App\Pickup::class)
             <a href="{{ route('pickups.index') }}" class="quick-link">
                 <div class="row">
                     <div class="icon">
@@ -43,7 +43,7 @@
                 </div>
             </a>
         @endif
-        @if(auth()->user()->isAuthorized("notes"))
+            @can('index', \App\Note::class)
             <a href="{{ route('notes.index') }}" class="quick-link">
                 <div class="row">
                     <div class="icon">

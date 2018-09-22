@@ -104,14 +104,14 @@ class User extends Authenticatable
         return $this->hasMany(Note::class);
     }
 
-    public function getUsernameAttribute()
+    public function getDisplayNameAttribute()
     {
         if($this->isClient())
             return $this->client->trade_name;
         elseif($this->isCourier())
             return $this->courier->name;
         else
-            return $this->attributes['username'];
+            return $this->username;
     }
 
     /**

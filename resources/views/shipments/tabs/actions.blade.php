@@ -3,11 +3,15 @@
     <div class="row mt-4" data-id="{{ $shipment->id }}">
         <div class="mx-auto col-md-9">
 
-            @include('shipments.actions.changeStatus')
+            @if(auth()->user()->isCourier() && auth()->user()->can('update', $shipment))
+                hi
+            @endif
 
-            @include('shipments.actions.return')
-
-            @include('shipments.actions.delete')
+            @can('delete', $shipment)
+                @include('shipments.actions.changeStatus')
+                @include('shipments.actions.return')
+                @include('shipments.actions.delete')
+            @endcan
 
         </div>
     </div>

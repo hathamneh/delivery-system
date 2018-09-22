@@ -13,7 +13,8 @@ class ZonePolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdmin();
+        if ($user->isAdmin())
+            return true;
     }
 
     /**

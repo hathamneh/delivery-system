@@ -13,7 +13,8 @@ class ShipmentPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdmin();
+        if($user->isAdmin())
+            return true;
     }
 
     /**
@@ -60,7 +61,7 @@ class ShipmentPolicy
     public function update(User $user, Shipment $shipment)
     {
         return $user->isAuthorized('shipments', Role::UT_UPDATE)
-            && $user->client->account_number == $shipment->client_account_number;
+            && ($shipment->client->is($user->client) || $shipment->courier->is($user->courier));
     }
 
     /**
@@ -72,6 +73,7 @@ class ShipmentPolicy
      */
     public function delete(User $user, Shipment $shipment)
     {
-        return $user->isAuthorized('shipments', Role::UT_DELETE);
+        return $user->isAuthorized('shipments', Role::UT_DELETE)
+            && $shipment->client->is($user->client);
     }
 }

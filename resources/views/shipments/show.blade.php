@@ -12,12 +12,16 @@
     <nav class="nav inner-nav">
         <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'status']) }}"
            class="{{ $tab != "status" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.status')</a>
-        <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'summery']) }}"
-           class="{{ $tab != "summery" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.summery')</a>
-        <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'actions']) }}"
-           class="{{ $tab != "actions" ?: "active" }}"><i class="fa-cogs"></i> @lang('shipment.actions')</a>
-        <a href="{{ route('shipments.edit', ['shipment'=>$shipment->id]) }}"
-           class="{{ $tab != "edit" ?: "active" }}"><i class="fa-pencil-alt"></i> @lang('shipment.edit')</a>
+        @if(auth()->user()->isAdmin())
+            <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'summery']) }}"
+               class="{{ $tab != "summery" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.summery')</a>
+        @endif
+        @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_UPDATE))
+            <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'actions']) }}"
+               class="{{ $tab != "actions" ?: "active" }}"><i class="fa-cogs"></i> @lang('shipment.actions')</a>
+            <a href="{{ route('shipments.edit', ['shipment'=>$shipment->id]) }}"
+               class="{{ $tab != "edit" ?: "active" }}"><i class="fa-pencil-alt"></i> @lang('shipment.edit')</a>
+        @endif
     </nav>
 
     @includeWhen($tab == "status", "shipments.tabs.status")
@@ -36,7 +40,7 @@
                     var $container = $(this).closest('form');
                     var $subStatuses = $container.find("select#sub_status");
                     var $suggestions = $container.find(".suggestions");
-                    if($subStatuses.length) {
+                    if ($subStatuses.length) {
                         $subStatuses.html("");
                         $subStatuses.closest(".subStatus-field").hide();
                     }
@@ -65,10 +69,10 @@
                     })
                 });
 
-                $(document).on('click', '.suggestions-item', function(e){
+                $(document).on('click', '.suggestions-item', function (e) {
                     e.preventDefault();
                     var $this = $(this);
-                    var $target = $('[data-target-for="'+$this.closest('.suggestions').attr('id')+'"]');
+                    var $target = $('[data-target-for="' + $this.closest('.suggestions').attr('id') + '"]');
                     $target.val($this.text());
                     $target.focus();
                 });

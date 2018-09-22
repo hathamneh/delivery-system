@@ -2,12 +2,18 @@
 
 namespace App\Providers;
 
+use App\Client;
+use App\Courier;
+use App\Note;
+use App\Pickup;
 use App\Policies\PickupPolicy;
 use App\Policies\NotePolicy;
 use App\Policies\ShipmentPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\CouriersPolicy;
 use App\Policies\ZonePolicy;
+use App\Shipment;
+use App\Zone;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -19,12 +25,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //'App\Model' => 'App\Policies\ModelPolicy',
-        'App\Client' => ClientPolicy::class,
-        'App\Courier' => CouriersPolicy::class,
-        'App\Shipment' => ShipmentPolicy::class,
-        'App\Pickup' => PickupPolicy::class,
-        'App\Note' => NotePolicy::class,
-        'App\Zone' => ZonePolicy::class,
+        Client::class => ClientPolicy::class,
+        Courier::class => CouriersPolicy::class,
+        Shipment::class => ShipmentPolicy::class,
+        Pickup::class => PickupPolicy::class,
+        Note::class => NotePolicy::class,
+        Zone::class => ZonePolicy::class,
     ];
 
     /**

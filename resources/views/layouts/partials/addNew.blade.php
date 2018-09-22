@@ -13,7 +13,7 @@
                 <a href="{{ route('pickups.create') }}" class="btn"><i
                             class="fa-shopping-bag"></i> Pickup</a>
             @endcan
-            @if(auth()->user()->isAuthorized("notes", \App\Role::UT_CREATE))
+            @can('create', \App\Note::class)
                 <a href="{{ route('notes.create') }}" class="btn"><i
                             class="fa-sticky-note"></i> Note</a>
             @endif

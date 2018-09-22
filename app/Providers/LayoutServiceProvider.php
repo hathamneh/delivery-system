@@ -17,11 +17,11 @@ class LayoutServiceProvider extends ServiceProvider
     {
         view()->composer('*', function($view) {
             if (Auth::check() && $view->getName() != 'auth.login') {
-                $username = auth()->user()->username;
+                $displayName = auth()->user()->display_name;
                 $unread = Auth::user()->unreadNotifications;
                 $notys = Auth::user()->notifications()->latest()->get();
                 $view->with([
-                    'username'           => $username,
+                    'displayName'           => $displayName,
                     'notificationsCount' => $unread->count() > 0 ? $unread->count() : "",
                     'notifications'      => $notys
                 ]);

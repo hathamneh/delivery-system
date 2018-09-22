@@ -13,7 +13,8 @@ class ClientPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdmin();
+        if ($user->isAdmin())
+            return true;
     }
 
     /**
@@ -30,8 +31,8 @@ class ClientPolicy
     /**
      * Determine whether the user can view the client.
      *
-     * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\User $user
+     * @param  \App\Client $client
      * @return boolean
      */
     public function view(User $user, Client $client)
@@ -42,7 +43,7 @@ class ClientPolicy
     /**
      * Determine whether the user can create clients.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -53,8 +54,8 @@ class ClientPolicy
     /**
      * Determine whether the user can update the client.
      *
-     * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\User $user
+     * @param  \App\Client $client
      * @return mixed
      */
     public function update(User $user, Client $client)
@@ -65,8 +66,8 @@ class ClientPolicy
     /**
      * Determine whether the user can delete the client.
      *
-     * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\User $user
+     * @param  \App\Client $client
      * @return mixed
      */
     public function delete(User $user, Client $client)

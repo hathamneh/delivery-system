@@ -20929,6 +20929,10 @@ body.rtl .layout-options .img-sidebar-right {
   color: #4a89dc;
 }
 
+.page-heading .page-heading__title h3:empty {
+  display: none;
+}
+
 .page-heading__actions {
   display: -webkit-box;
   display: -ms-flexbox;

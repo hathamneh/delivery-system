@@ -11,8 +11,10 @@ use App\Service;
 use App\Shipment;
 use App\Status;
 use App\SubStatus;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ShipmentController extends Controller
@@ -24,10 +26,18 @@ class ShipmentController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         $type = $request->get('type', 'normal,guest');
         $scope = $request->get('scope', false);
         $types = explode(",", $type);
-        $shipments = Shipment::type($types);
+        if ($user->isCourier())
+            $shipments = $user->courier->shipments()->type($types);
+        elseif ($user->isClient())
+            $shipments = $user->client->shipments()->type($types);
+        else
+            $shipments = Shipment::type($types);
         if ($scope) {
             switch ($scope) {
                 case "pending":
@@ -78,13 +88,13 @@ class ShipmentController extends Controller
         $addresses = Address::all();
         $services = Service::all();
         $data = [
-            'statuses'         => $statuses,
-            'suggestedWaybill' => $suggestedWaybill['waybill'],
+            'statuses'              => $statuses,
+            'suggestedWaybill'      => $suggestedWaybill['waybill'],
             'suggestedDeliveryDate' => $suggestedDeliveryDate->format('d/m/Y'),
-            'couriers'         => $couriers,
-            'addresses'        => $addresses,
-            'services'         => $services,
-            'pageTitle'        => trans('shipment.new')
+            'couriers'              => $couriers,
+            'addresses'             => $addresses,
+            'services'              => $services,
+            'pageTitle'             => trans('shipment.new')
         ];
         switch ($type) {
             case "legacy":

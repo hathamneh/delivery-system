@@ -47,16 +47,47 @@ class User extends Authenticatable
      * @param int|null $accessLevel
      * @return bool
      */
-    public function isAuthorized($roles, $accessLevel = null)
+    public function isAuthorized($roles, $accessLevel = Role::UT_READ)
     {
         return $this->template->authorizeRoles($roles, $accessLevel);
     }
 
+    /**
+     * @param string|array $roles
+     * @param int|null $accessLevel
+     * @return bool
+     */
+    public function isAuthorizedAny($roles, $accessLevel = Role::UT_READ)
+    {
+        foreach ($roles as $role) {
+            if ($this->template->authorizeRoles($role, $accessLevel)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function isAdmin()
     {
         return $this->template->name == "admin";
     }
 
+    /**
+     * @return bool
+     */
+    public function isClient()
+    {
+        return !is_null($this->client);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCourier()
+    {
+        return !is_null($this->courier);
+    }
 
     public function client()
     {
@@ -71,6 +102,16 @@ class User extends Authenticatable
     public function notes()
     {
         return $this->hasMany(Note::class);
+    }
+
+    public function getUsernameAttribute()
+    {
+        if($this->isClient())
+            return $this->client->trade_name;
+        elseif($this->isCourier())
+            return $this->courier->name;
+        else
+            return $this->attributes['username'];
     }
 
     /**

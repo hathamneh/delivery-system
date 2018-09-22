@@ -33,9 +33,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data=[];
         if (Auth::user()->isAdmin())
-            $data['statistics'] = [
+            $data =  $this->adminStats();
+        elseif (Auth::user()->isCourier())
+            $data = $this->courierData();
+        return view('home')->with($data);
+    }
+
+    public function adminStats()
+    {
+        return [
+            'title' => "Admin Dashboard",
+            'statistics' => [
                 'pending'   => Shipment::pending()->count(),
                 'received'  => Shipment::statusIs('received')->count(),
                 'delivered' => Shipment::statusIs('delivered')->count(),
@@ -43,8 +52,23 @@ class HomeController extends Controller
                 'pickups'   => Pickup::count(),
                 'clients'   => Client::count(),
                 'couriers'  => Courier::count(),
-            ];
+            ]
+        ];
+    }
 
-        return view('home')->with($data);
+    public function courierData()
+    {
+        /** @var Courier $courier */
+        $courier = Auth::user()->courier;
+        return [
+            'title' => "Courier Dashboard",
+            'statistics' => [
+                'pending'   => $courier->shipments()->pending()->count(),
+                'received'  => $courier->shipments()->statusIs('received')->count(),
+                'delivered' => $courier->shipments()->statusIs('delivered')->count(),
+                'returned'  => $courier->shipments()->statusIs('returned')->count(),
+                'pickups'   => $courier->pickups()->count(),
+            ]
+        ];
     }
 }

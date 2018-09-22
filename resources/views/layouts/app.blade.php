@@ -12,6 +12,7 @@
             <div class="page-heading {{ $pageHeadingClass ?? "" }}">
                 @yield('breadcrumbs')
                 <div class="page-heading__title">
+                    @yield('smallTitle')
                     <h3>@yield('pageTitle')</h3>
                     <div class="page-heading__actions">
                         @yield('actions')

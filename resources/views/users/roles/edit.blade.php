@@ -42,7 +42,7 @@
                                                        {!! $ut->editable ?: 'data-slider-enabled="false"' !!}
                                                        data-provide="slider"
                                                        data-slider-ticks="[0, 1, 2, 3, 4]"
-                                                       data-slider-ticks-labels='["@lang('user.roles.no_access')", "@lang('user.roles.view')", "@lang('user.roles.create')", "@lang('user.roles.update')", "@lang('user.roles.delete')"]'
+                                                       data-slider-ticks-labels='["@lang('user.roles.no_access')", "@lang('user.roles.view')", "@lang('user.roles.update')", "@lang('user.roles.create')", "@lang('user.roles.delete')"]'
                                                        data-slider-min="0"
                                                        data-slider-max="3"
                                                        data-slider-step="1"

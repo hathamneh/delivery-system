@@ -47,14 +47,11 @@ class UserTemplate extends Model
     public function authorizeRoles($roles, $accessLevel = null)
     {
         if (is_array($roles)) {
-            return $this->hasAllRoles($roles) ||
-                abort(401, 'This action is unauthorized.');
+            return $this->hasAllRoles($roles);
         }
-        logger($roles);
-        logger(Role::UT_CREATE);
-        logger($this->roles()->where('name', $roles)->get()->toArray());
-        return $this->hasRole($roles, $accessLevel) ||
-            abort(401, 'This action is unauthorized.');
+        if($roles=="notes")
+            logger($this->hasRole($roles, $accessLevel));
+        return $this->hasRole($roles, $accessLevel);
     }
 
     /**
@@ -79,6 +76,7 @@ class UserTemplate extends Model
      */
     public function hasRole($role, $accessLevel)
     {
+
         return $this->roles()->where('name', $role)->where('value', '>=', $accessLevel)->exists();
     }
 

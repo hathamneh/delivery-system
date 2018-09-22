@@ -50,7 +50,7 @@ class NotePolicy
      */
     public function create(User $user)
     {
-        return $user->isAuthorized('shipments', Role::UT_CREATE);
+        return $user->isAuthorized('notes', Role::UT_CREATE);
     }
 
     /**

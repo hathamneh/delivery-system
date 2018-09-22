@@ -18,6 +18,7 @@ return [
         'label' => 'Roles',
         'add_new' => 'Add New Role',
         'edit' => 'Edit Role',
+        'save' => 'Save Role',
         'select' => "Select User Role",
         'name' => "Role Name",
         'description' => "Role Description",

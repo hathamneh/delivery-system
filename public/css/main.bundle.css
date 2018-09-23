@@ -28809,8 +28809,8 @@ a.pickup-toggle-details.collapsed i {
   width: 35%;
 }
 
-.dataTables_empty {
-  padding: 1rem 2.5rem;
+table tbody td.dataTables_empty {
+  padding: 2.5rem 1rem;
 }
 
 .boxed-layout {

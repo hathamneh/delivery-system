@@ -104,4 +104,11 @@ return [
     'pieces'            => 'Number of Pieces',
     'courier_cashed'    => "Courier Cashed",
     'client_paid'       => "Client Paid",
+
+    'delivery'  => "Shipment Delivery",
+    'delivery_notice' => "If you are delivering this shipment please choose the status of delivery.<p><b>Is this shipment delivered successfully?</b></p>",
+    'delivered' => "Yes, delivered successfully",
+    'not_delivered' => "No, not delivered",
+    'make_delivered' => "Set as delivered",
+    'make_not_delivered' => "Set as not delivered",
 ];

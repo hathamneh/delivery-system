@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('shipments', "ShipmentController")->except(['create', 'show']);
 
     Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');
+    Route::put('shipments/{shipment}/delivery', "ShipmentController@updateDelivery")->name('shipments.delivery');
 
     Route::resource('zones', "ZoneController");
     Route::resource('zones/{zone}/address', "AddressController");

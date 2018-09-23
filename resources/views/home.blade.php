@@ -14,9 +14,7 @@
                 @endisset
             </div>
             <div class="col-md-4">
-
                 @include('layouts.partials.weather')
-
             </div>
         </div>
         <div class="row">

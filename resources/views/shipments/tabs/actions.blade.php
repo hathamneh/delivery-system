@@ -4,7 +4,7 @@
         <div class="mx-auto col-md-9">
 
             @if(auth()->user()->isCourier() && auth()->user()->can('update', $shipment))
-                hi
+                @include("shipments.actions.courierConfirm")
             @endif
 
             @can('delete', $shipment)

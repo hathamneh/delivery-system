@@ -428,6 +428,14 @@ class Shipment extends Model
         return $this->price_of_address + $this->extra_fees + $this->services_cost;
     }
 
+    public function getCashOnDeliveryAttribute()
+    {
+        if($this->service_type == 'courier')
+            return $this->total_price;
+        else
+            return $this->delivery_cost;
+    }
+
     /**
      * @return float|mixed
      */

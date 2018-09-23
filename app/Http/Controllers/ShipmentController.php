@@ -259,6 +259,22 @@ class ShipmentController extends Controller
         return redirect()->route('shipments.show', ['shipment' => $new]);
     }
 
+    public function updateDelivery(Request $request, Shipment $shipment)
+    {
+        $request->validate([
+            'status' => 'required'
+        ]);
+        $status = $request->get('status');
+        if($status == "delivered") {
+            $shipment->status()->associate(Status::name('delivered')->first());
+            $shipment->actual_paid_by_consignee = $request->get('actual_paid');
+        } elseif($status == "not_delivered") {
+
+        }
+        $shipment->save();
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

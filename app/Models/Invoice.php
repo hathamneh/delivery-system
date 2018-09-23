@@ -152,4 +152,34 @@ class Invoice extends Model
 
         return $net;
     }
+
+    public function getClientPaidAttribute()
+    {
+        return !$this->shipments()->where('client_paid', false)->exists();
+    }
+
+    public function getCourierCashedAttribute()
+    {
+        return !$this->shipments()->where('courier_cashed', false)->exists();
+    }
+
+    public function markAsClientPaid()
+    {
+        foreach ($this->shipments as $shipment) {
+            /** @var Shipment $shipment */
+            $shipment->update([
+                'client_paid' => true
+            ]);
+        }
+    }
+
+    public function markAsCourierCashed()
+    {
+        foreach ($this->shipments as $shipment) {
+            /** @var Shipment $shipment */
+            $shipment->update([
+                'courier_cashed' => true
+            ]);
+        }
+    }
 }

@@ -27,10 +27,14 @@
   .custom-control {
     padding-left: 0;
     &-label {
-      margin-bottom: 1rem;
       &::before, &::after {
         left: 0;
       }
+    }
+  }
+  &.addresses-table {
+    .custom-control-label {
+      margin-bottom: 1rem;
     }
   }
 }

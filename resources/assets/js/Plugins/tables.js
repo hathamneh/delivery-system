@@ -134,6 +134,9 @@ function datatablesSetup() {
         $this.on('preXhr.dt', function (e, settings, data) {
             data.client = $('select[name=client]').val()
             data.courier = $('select[name=courier]').val()
+            let qs = window.getUrlVars();
+            data.from = qs.start;
+            data.until = qs.end;
         }).on('xhr.dt', function () {
             selectableTable.clearSelected();
         }).DataTable(dtOpts);

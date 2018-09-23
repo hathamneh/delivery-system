@@ -62,7 +62,6 @@ class ReportingController extends Controller
                 $result = $this->bulkCourierCashed($shipments);
                 break;
         }
-        dd($action, $result);
         if (!$result) throw new \BadMethodCallException("Action is invalid");
         return back()->with([
             'alert' => (object)[
@@ -107,8 +106,12 @@ class ReportingController extends Controller
 
     public function bulkCourierCashed(array $shipments)
     {
-        $shipmentsTable = (new Shipment)->getTable();
-        return DB::table($shipmentsTable)->whereIn('id', $shipments)->update(array('courier_cashed' => true));
+        $shipments = Shipment::whereIn('id', $shipments)->get();
+        foreach ($shipments as $shipment) {
+            /** @var Shipment $shipment */
+            $shipment->toggleCourierCashed()->save();
+        }
+        return count($shipments);
     }
 
     public function makeReport(Request $request)
@@ -132,10 +135,12 @@ class ReportingController extends Controller
             $query->search($search['value']);
         }
 
-        if($from)
-            $query->whereDate("delivery_date", ">=", new Carbon($from), "or");
-        if($until)
-            $query->whereDate("delivery_date", "<=", new Carbon($from), "or");
+        if($from) {
+            $query->whereDate("delivery_date", ">=", Carbon::createFromTimestamp($from), "or");
+        }
+        if($until) {
+            $query->whereDate("delivery_date", "<=", Carbon::createFromTimestamp($until), "and");
+        }
 
         if ($order) {
             $orderOnCollectin = [];

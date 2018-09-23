@@ -48,7 +48,8 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string internal_notes
  * @property string status_notes
  * @property double total_price)
- * @property mixed client_paid
+ * @property boolean client_paid
+ * @property boolean courier_cashed
  * @method static self statusIn(array $statuses)
  * @method static self statusIs(string $status)
  * @method static self lodger(string $lodger)
@@ -433,7 +434,7 @@ class Shipment extends Model
         if($this->service_type == 'courier')
             return $this->total_price;
         else
-            return $this->delivery_cost;
+            return $this->shipment_value;
     }
 
     /**
@@ -502,6 +503,15 @@ class Shipment extends Model
     public function toggleClientPaid()
     {
         $this->client_paid = !$this->client_paid;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function toggleCourierCashed()
+    {
+        $this->courier_cashed = !$this->courier_cashed;
         return $this;
     }
 

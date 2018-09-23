@@ -64,4 +64,10 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
   .main-content {
     margin: 0;
   }
+  .print-tools {
+    padding: .5rem;
+    margin: 0 auto;
+    background-color: rgba(220,220,220,.75);
+    border-radius: 0 0 .5rem .5rem;
+  }
 }

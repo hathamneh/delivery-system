@@ -7,10 +7,14 @@
 
 .reports {
   &-actions {
-    display: none;
-    background-color: #efdbb7;
+    //display: none;
+    background-color: $dark;
     margin: 0 0.5rem;
-    padding: 0 1rem;
+    padding: 0 .5rem 0 1rem;
+    border-radius: 0.25rem;
+    box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
+    transition: all .25s;
+
     .actions-content {
       display: flex;
       align-items: center;
@@ -19,6 +23,12 @@
     }
     .selection-indicator {
       margin-right: 0.5rem;
+      color: $light;
+    }
+    &.disabled {
+      opacity: 0.25;
+      box-shadow: none;
+      background-color: #999;
     }
   }
   &-filters {
@@ -224,4 +234,8 @@ $border-dark: #9aa3a7;
       }
     }
   }
+}
+
+.dataTables_empty {
+  padding: 1rem 2.5rem;
 }

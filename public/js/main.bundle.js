@@ -108573,6 +108573,9 @@ __webpack_require__("./resources/assets/js/Application/detectIE.js");
 __webpack_require__("./resources/assets/js/Application/printing.js");
 __webpack_require__("./resources/assets/js/Application/extra.js");
 
+var shistory = document.querySelector(".shipment-history");
+if (shistory) shistory.scrollTo(0, 0);
+
 /***/ }),
 
 /***/ "./resources/assets/js/Application/customScrollbar.js":
@@ -109423,6 +109426,7 @@ var dateRangeLocale = {
 // date range picker for reports
 (function () {
 
+    var isLifetime = false;
     var $range = $('#reportrange');
     var drpOptions = {
         ranges: pickerRanges,
@@ -109437,7 +109441,7 @@ var dateRangeLocale = {
         var qs = window.getUrlVars();
         var startDate = qs.start || $range.data('start-date') || false;
         var endDate = qs.end || $range.data('end-date') || false;
-        drpOptions.isLifetime = !(startDate && endDate);
+        drpOptions.isLifetime = isLifetime = !(startDate && endDate);
 
         if (!drpOptions.isLifetime) {
             drpOptions.startDate = moment.unix(startDate);
@@ -109452,10 +109456,21 @@ var dateRangeLocale = {
             $range.daterangepicker(drpOptions, callback);
 
             $range.on('apply.daterangepicker', function (ev, picker) {
-                var qs = window.getUrlVars();
-                qs.start = picker.startDate.unix();
-                qs.end = picker.endDate.unix();
-                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+                isLifetime = false;
+                var reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    var qs = window.getUrlVars();
+                    qs.start = picker.startDate.unix();
+                    qs.end = picker.endDate.unix();
+                    window.history.pushState({}, window.title, "?" + to_qs(qs));
+                    reportsDT.DataTable().ajax.reload();
+                    callback(picker.startDate, picker.endDate);
+                } else {
+                    var qs = window.getUrlVars();
+                    qs.start = picker.startDate.unix();
+                    qs.end = picker.endDate.unix();
+                    window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+                }
             });
             $range.on('lifetime.daterangepicker', function (ev, picker) {
 
@@ -109471,7 +109486,7 @@ var dateRangeLocale = {
 
     function callback(start, end) {
         var label = $range.find('span');
-        if (drpOptions.isLifetime) label.html(window.lifetimeRangeLabel);else label.html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+        if (isLifetime) label.html(window.lifetimeRangeLabel);else label.html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
     }
 })();
 
@@ -109949,11 +109964,14 @@ module.exports = selectableTable = {
                     selectableTable.$selAll.prop('checked', true);
                     selectableTable.$selAll.prop('indeterminate', false);
                 }
-                $actions.slideDown();
+                $actions.removeClass('disabled');
+                $actions.find('.btn').prop('disabled', false);
             } else {
+                $('.selection-indicator').text("With Selected:");
                 $(".page-heading").removeClass('sticky');
                 selectableTable.$selAll.prop('selected', false);
-                $actions.slideUp();
+                $actions.addClass('disabled');
+                $actions.find('.btn').prop('disabled', true);
             }
         }
         var $clientsAddresses = $(".custom-addresses-actions, .addresses-table-actions");
@@ -109984,7 +110002,7 @@ module.exports = selectableTable = {
         selectableTable.selected = [];
         var $actions = $(".reports-actions");
         $actions.find('input[name=shipments]').val("");
-        $actions.slideUp();
+        $actions.prop('disabled', true);
     }
 };
 
@@ -110642,6 +110660,9 @@ function datatablesSetup() {
         $this.on('preXhr.dt', function (e, settings, data) {
             data.client = $('select[name=client]').val();
             data.courier = $('select[name=courier]').val();
+            var qs = window.getUrlVars();
+            data.from = qs.start;
+            data.until = qs.end;
         }).on('xhr.dt', function () {
             selectableTable.clearSelected();
         }).DataTable(dtOpts);
@@ -110912,7 +110933,7 @@ module.exports = [];
 /***/ "./resources/lang/en/common.php":
 /***/ (function(module, exports) {
 
-module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","delete":"Delete","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All","percentage":"Percentage"};
+module.exports = {"dir":"ltr","name":"English","recaptcha_policy_statement":"This website uses reCAPTCHA by & under Google's terms","home":"Home","footer_copyright":"Copyright © 2018 Kangaroo Delivery System. All rights reserved.","cancel":"Cancel","save":"Save","save_changes":"Save Changes","for":"for","select":"-- Select --","new":"New","delete":"Delete","back":"Back","arabic":"العربية","english":"English","lifetime":"Lifetime","today":"Today","yesterday":"Yesterday","last7days":"Last 7 days","thisWeek":"This Week","last30days":"Last 30 days","thisMonth":"This Month","lastMonth":"Last Month","customRange":"Custom Range","apply":"Apply","jod":"JOD","actions":"Actions","selectAll":"Select All","percentage":"Percentage","print":"Print","confirmation":"Are you sure?"};
 
 /***/ }),
 

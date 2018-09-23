@@ -78,12 +78,29 @@ class AccountingController extends Controller
                 'client'    => $invoice->target,
                 'invoice'   => $invoice
             ]);
-        } elseif($invoice->type == "courier") {
-            return view('accounting.courier' ,[
+        } elseif ($invoice->type == "courier") {
+            return view('accounting.courier', [
                 'courier' => $invoice->target,
                 'invoice' => $invoice
             ]);
         }
         return abort(404);
+    }
+
+    public function markAsPaid(Request $request, Invoice $invoice)
+    {
+        $request->validate([
+            'type' => 'required'
+        ]);
+        $type = $request->get('type');
+        switch ($type) {
+            case "client":
+                $invoice->markAsClientPaid();
+                break;
+            case "courier":
+                $invoice->markAsCourierCashed();
+                break;
+        }
+        return back();
     }
 }

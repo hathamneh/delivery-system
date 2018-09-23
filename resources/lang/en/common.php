@@ -36,6 +36,7 @@ return [
     'actions'   => "Actions",
     "selectAll" => "Select All",
 
-    'percentage' => "Percentage"
-
+    'percentage' => "Percentage",
+    'print' => "Print",
+    'confirmation' => "Are you sure?",
 ];

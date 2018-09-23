@@ -22004,12 +22004,12 @@ body.rtl .layout-options .img-sidebar-right {
   padding-left: 0;
 }
 
-.table-selectable .custom-control-label {
-  margin-bottom: 1rem;
-}
-
 .table-selectable .custom-control-label::before, .table-selectable .custom-control-label::after {
   left: 0;
+}
+
+.table-selectable.addresses-table .custom-control-label {
+  margin-bottom: 1rem;
 }
 
 .topbar {
@@ -28548,10 +28548,14 @@ a.pickup-toggle-details.collapsed i {
 }
 
 .reports-actions {
-  display: none;
-  background-color: #efdbb7;
+  background-color: #343a40;
   margin: 0 0.5rem;
-  padding: 0 1rem;
+  padding: 0 .5rem 0 1rem;
+  border-radius: 0.25rem;
+  -webkit-box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
+          box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
+  -webkit-transition: all .25s;
+  transition: all .25s;
 }
 
 .reports-actions .actions-content {
@@ -28567,6 +28571,14 @@ a.pickup-toggle-details.collapsed i {
 
 .reports-actions .selection-indicator {
   margin-right: 0.5rem;
+  color: #f8f9fa;
+}
+
+.reports-actions.disabled {
+  opacity: 0.25;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background-color: #999;
 }
 
 .reports-filters {
@@ -28795,6 +28807,10 @@ a.pickup-toggle-details.collapsed i {
 
 .invoice__statement-table th {
   width: 35%;
+}
+
+.dataTables_empty {
+  padding: 1rem 2.5rem;
 }
 
 .boxed-layout {
@@ -36969,6 +36985,13 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
 
 .print-layout .main-content {
   margin: 0;
+}
+
+.print-layout .print-tools {
+  padding: .5rem;
+  margin: 0 auto;
+  background-color: rgba(220, 220, 220, 0.75);
+  border-radius: 0 0 .5rem .5rem;
 }
 
 /*# sourceMappingURL=main.bundle.css.map*/

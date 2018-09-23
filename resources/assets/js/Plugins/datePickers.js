@@ -107,6 +107,7 @@ let dateRangeLocale = {
 // date range picker for reports
 (function () {
 
+    let isLifetime = false;
     let $range = $('#reportrange');
     let drpOptions = {
         ranges: pickerRanges,
@@ -121,7 +122,7 @@ let dateRangeLocale = {
         var qs = window.getUrlVars();
         var startDate = qs.start || $range.data('start-date') || false;
         var endDate = qs.end || $range.data('end-date') || false;
-        drpOptions.isLifetime = !(startDate && endDate);
+        drpOptions.isLifetime = isLifetime = !(startDate && endDate);
 
         if (!drpOptions.isLifetime) {
             drpOptions.startDate = moment.unix(startDate);
@@ -136,10 +137,21 @@ let dateRangeLocale = {
             $range.daterangepicker(drpOptions, callback);
 
             $range.on('apply.daterangepicker', function (ev, picker) {
-                var qs = window.getUrlVars();
-                qs.start = picker.startDate.unix();
-                qs.end = picker.endDate.unix();
-                window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+                isLifetime = false;
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
+                    var qs = window.getUrlVars();
+                    qs.start = picker.startDate.unix();
+                    qs.end = picker.endDate.unix();
+                    window.history.pushState({}, window.title, "?" + to_qs(qs))
+                    reportsDT.DataTable().ajax.reload();
+                    callback(picker.startDate, picker.endDate);
+                } else {
+                    var qs = window.getUrlVars();
+                    qs.start = picker.startDate.unix();
+                    qs.end = picker.endDate.unix();
+                    window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
+                }
             });
             $range.on('lifetime.daterangepicker', function (ev, picker) {
 
@@ -156,7 +168,7 @@ let dateRangeLocale = {
 
     function callback(start, end) {
         let label = $range.find('span');
-        if (drpOptions.isLifetime)
+        if (isLifetime)
             label.html(window.lifetimeRangeLabel);
         else
             label.html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));

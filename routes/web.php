@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::post('accounting/invoice', "AccountingController@store")->name('accounting.store');
     Route::get('accounting/invoice/{invoice}', "AccountingController@show")->name('accounting.invoice');
     Route::get('accounting/goto', "AccountingController@goto")->name('accounting.goto');
+    Route::put('accounting/client/{invoice}', "AccountingController@markAsPaid")->name('accounting.paid');
 
     Route::resource('settings', "SettingsController");
     Route::get('emails', "MailingController@index")->name('emails.index');

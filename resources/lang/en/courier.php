@@ -24,4 +24,6 @@ return [
     'password' => "Password",
     'id' => "ID",
 
+    'courier_cashed' => 'Mark as Cashed',
+    'courier_cashed_tooltip' => 'Mark these shipment as Cashed for selected courier'
 ];

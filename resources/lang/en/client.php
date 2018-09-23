@@ -78,4 +78,7 @@ return [
 
     'upload' => 'Upload',
     'upload_file' => 'Add Attachment',
+
+    'client_paid' => "Mark as Paid",
+    'client_paid_tooltip' => "Mark these shipment as Paid for selected client",
 ];

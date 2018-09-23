@@ -9,45 +9,7 @@
 @endsection
 
 @section('actions')
-    <div class="reports-actions">
-        <form class="actions-content" action="{{ route('reports.update') }}" method="post">
-            {{ csrf_field() }}
-            {{ method_field('put') }}
-            <input type="hidden" name="shipments" value="">
-            <div class="selection-indicator">@lang('reports.with_selected')</div>
-            <div class="btn-group">
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="changeStatusDropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @lang('shipment.change_status')
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="changeStatusDropdown">
-                        @foreach($statuses as $status)
-                            <button name="status" type="submit" class="dropdown-item"
-                                    value="{{ $status->id }}">@lang('shipment.statuses.'.$status->name)</button>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulkActionsDropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @lang('shipment.bulk_actions')
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
-                        <button name="clientPaid" type="submit" class="dropdown-item"
-                                value="true">@lang('shipment.toggle_client_paid')</button>
-                        <div class="dropdown-divider"></div>
-                        <button name="courierCashed" type="submit" class="dropdown-item"
-                                value="true">@lang('shipment.toggle_courier_cashed')</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div id="reportrange" class="btn btn-outline-secondary">
-        <i class="fa fa-calendar"></i>&nbsp;
-        <span></span> <i class="fa fa-caret-down"></i>
-    </div>
+    @include('reports.partials.actions')
 @endsection
 
 @section('content')

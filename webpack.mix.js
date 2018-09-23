@@ -33,6 +33,7 @@ if (!mix.inProduction()) {
  */
 //mix.disableNotifications();
 mix.js('resources/assets/js/app.js', 'public/js/main.bundle.js')
+    .js('resources/assets/js/print.js', 'public/js/print.bundle.js')
     .sass('resources/assets/sass/app.scss', 'public/css/main.bundle.css')
     .sass('resources/assets/sass/print.scss', 'public/css/print.css')
     .options({

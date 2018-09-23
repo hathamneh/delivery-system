@@ -15,40 +15,77 @@
 
 <!-- BEGIN BODY -->
 <body class="@lang('common.dir') print-layout">
-<a href="javascript:" onclick="window.history.back()" class="btn btn-light btn-sm d-print-none"><i
-            class="fa-chevron-left mr-2"></i> @lang('common.back')</a>
+<div class="d-flex sticky-top">
+    <div class="btn-group print-tools">
+        <a href="javascript:" onclick="window.history.back()" class="btn btn-secondary btn-sm d-print-none"><i
+                    class="fa-chevron-left mr-2"></i> @lang('common.back')</a>
+        <a href="javascript:" onclick="window.print()" class="btn btn-primary btn-sm d-print-none"><i
+                    class="fa-print mr-2"></i> @lang('common.print')</a>
+        @if(isset($invoice))
+            @if($invoice->type == "client")
+                <button class="btn btn-success btn-sm d-print-none" {{ $invoice->client_paid ? "disabled" : "" }}
+                title="@lang('client.client_paid_tooltip')" data-toggle="modal" data-target="#makePaidModal"><i
+                            class="fa-check mr-2"></i> @lang('client.client_paid')</button>
+            @elseif(isset($invoice) && $invoice->type == "courier")
+                <button class="btn btn-success btn-sm d-print-none" {{ $invoice->courier_cashed ? "disabled" : "" }}
+                title="@lang('courier.courier_cashed_tooltip')" data-toggle="modal" data-target="#makeCashedModal"><i
+                            class="fa-check mr-2"></i> @lang('courier.courier_cashed')</button>
+            @endif
+        @endif
+    </div>
+</div>
+@if(isset($invoice))
+    @if($invoice->type == "client" && !$invoice->client_paid)
+        @component('bootstrap::modal',[
+                    'id' => 'makePaidModal'
+                ])
+            @slot('title')
+                @lang('common.confirmation')
+            @endslot
+            <p><b>Are you sure to mark the shipments included in this invoice as paid for the selected client?</b></p>
+            <small>You can revert this action in reports page.</small>
+            @slot('footer')
+                <button class="btn btn-outline-secondary"
+                        data-dismiss="modal">@lang('common.cancel')</button>
+                <form action="{{ route('accounting.paid', [$invoice]) }}" method="post" class="ml-auto">
+                    {{ csrf_field() }}
+                    {{ method_field('put') }}
+                    <button class="btn btn-success" type="submit" name="type" value="client"><i
+                                class="fa fa-check mr-2"></i> @lang('client.client_paid')
+                    </button>
+                </form>
+            @endslot
+        @endcomponent
+    @elseif($invoice->type == "courier" && !$invoice->courier_cashed)
+        @component('bootstrap::modal',[
+                    'id' => 'makeCashedModal'
+                ])
+            @slot('title')
+                @lang('common.confirmation')
+            @endslot
+            <p><b>Are you sure to mark the shipments included in this invoice as cashed for the selected courier?</b></p>
+            <small>You can revert this action in reports page.</small>
+            @slot('footer')
+                <button class="btn btn-outline-secondary"
+                        data-dismiss="modal">@lang('common.cancel')</button>
+                <form action="{{ route('accounting.paid', [$invoice]) }}" method="post" class="ml-auto">
+                    {{ csrf_field() }}
+                    {{ method_field('put') }}
+                    <button class="btn btn-success" type="submit" name="type" value="courier"><i
+                                class="fa fa-check mr-2"></i> @lang('courier.courier_cashed')
+                    </button>
+                </form>
+            @endslot
+        @endcomponent
+    @endif
+@endif
 
 <div id="content">
     @yield('content')
 </div>
-{{--<section>
 
-    <div class="main-content">
-
-
-
-        <!-- BEGIN PAGE CONTENT -->
-        <div class="page-content page-thin">
-
-
-
-            <div class="footer d-print-none">
-                <div class="container-fluid">
-                    <div class="copyright">
-                        <p class="pull-left sm-pull-reset">
-                            <span>@lang("common.footer_copyright")</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END PAGE CONTENT -->
-    </div>
-    <!-- END MAIN CONTENT -->
-</section>--}}
-
+<script src="{{ mix('js/print.bundle.js') }}"></script>
 @yield('beforeBody')
-
 
 </body>
 </html>

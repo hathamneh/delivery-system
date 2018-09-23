@@ -70,11 +70,14 @@ module.exports = selectableTable = {
                     selectableTable.$selAll.prop('checked', true);
                     selectableTable.$selAll.prop('indeterminate', false);
                 }
-                $actions.slideDown();
+                $actions.removeClass('disabled');
+                $actions.find('.btn').prop('disabled', false);
             } else {
+                $('.selection-indicator').text("With Selected:")
                 $(".page-heading").removeClass('sticky');
                 selectableTable.$selAll.prop('selected', false);
-                $actions.slideUp();
+                $actions.addClass('disabled');
+                $actions.find('.btn').prop('disabled', true);
             }
         }
         var $clientsAddresses = $(".custom-addresses-actions, .addresses-table-actions");
@@ -108,6 +111,6 @@ module.exports = selectableTable = {
         selectableTable.selected = [];
         var $actions = $(".reports-actions");
         $actions.find('input[name=shipments]').val("");
-        $actions.slideUp();
+        $actions.prop('disabled', true);
     }
 }

@@ -27,7 +27,7 @@ class CustomAddress extends Address
     {
         if(is_null($this->attributes['name']))
             return $this->originalAddress->name;
-        return $this->name;
+        return $this->attributes['name'];
     }
 
     public static function createFromAddress(Address $address, CustomZone $zone, Client $client)

@@ -108576,6 +108576,19 @@ __webpack_require__("./resources/assets/js/Application/extra.js");
 var shistory = document.querySelector(".shipment-history");
 if (shistory) shistory.scrollTo(0, 0);
 
+var deliveryReasons = document.querySelectorAll('.delivery-reasons input[type=radio]');
+if (deliveryReasons.length) {
+    deliveryReasons.forEach(function (item) {
+        item.addEventListener('change', function () {
+            if (item.checked) {
+                var step2 = document.querySelector('.delivery-failed-form .step-2');
+                step2.querySelector('.message').textContent = item.dataset.message;
+                step2.style.display = "block";
+            }
+        });
+    });
+}
+
 /***/ }),
 
 /***/ "./resources/assets/js/Application/customScrollbar.js":

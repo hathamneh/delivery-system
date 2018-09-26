@@ -19,6 +19,8 @@
         @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_UPDATE))
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'actions']) }}"
                class="{{ $tab != "actions" ?: "active" }}"><i class="fa-cogs"></i> @lang('shipment.actions')</a>
+        @endif
+        @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_DELETE))
             <a href="{{ route('shipments.edit', ['shipment'=>$shipment->id]) }}"
                class="{{ $tab != "edit" ?: "active" }}"><i class="fa-pencil-alt"></i> @lang('shipment.edit')</a>
         @endif

@@ -171,7 +171,6 @@ class ShipmentController extends Controller
         if ($tab == "actions") {
             $data['statuses'] = Status::all();
             $data['returned_statuses'] = Status::whereIn('name', ['rejected', 'cancelled'])->get();
-            $data['subStatuses'] = $shipment->status->subStatuses()->get();
         }
         return view('shipments.show', $data);
     }

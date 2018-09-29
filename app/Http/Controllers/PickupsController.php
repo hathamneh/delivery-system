@@ -144,7 +144,8 @@ class PickupsController extends Controller
     {
         $request->validate([
             'status'         => 'required',
-            'available_time' => 'required_if:status,client_rescheduled'
+            'available_time' => 'required_if:status,client_rescheduled',
+            'actualPackages' => 'required_if:status,completed'
         ]);
 
         $status = $request->get('status');
@@ -154,6 +155,7 @@ class PickupsController extends Controller
                 $pickup->status = "pending";
                 break;
             case "completed":
+                $pickup->actual_packages_number = $request->get('actualPackages');
             case "declined_client":
             case "declined_dispatcher":
             case "declined_not_available":

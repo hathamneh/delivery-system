@@ -44,13 +44,17 @@ if(pickupStates.length) {
             let step2 = document.querySelector('.pickup-actions-form .step-2');
             let suggestions = step2.querySelector('.reasons-input .suggestions');
             let newtimeInput = step2.querySelector('.newTime-input');
+            let actualPackagesInput = step2.querySelector('.actualPackages-input');
             suggestions.style.display = "none";
             newtimeInput.style.display = "none";
+            actualPackagesInput.style.display = "none";
             if(item.value === "client_rescheduled") {
                 //newtimeInput.querySelector('input').required = true;
                 newtimeInput.style.display = "block";
             } else if(item.value === "declined_not_available") {
                 suggestions.style.display = "block";
+            } else if(item.value === "completed") {
+                actualPackagesInput.style.display = "block";
             }
         });
     });

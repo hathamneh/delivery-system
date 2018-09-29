@@ -40,7 +40,7 @@
         <!-- END MAIN CONTENT -->
     </section>
 
-    @include('layouts.partials.search')
+    {{--@include('layouts.partials.search')--}}
 
     <!-- BEGIN PRELOADER -->
     <div class="loader-overlay">

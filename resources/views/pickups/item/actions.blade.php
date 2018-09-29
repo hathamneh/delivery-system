@@ -57,9 +57,14 @@
             </div>
 
             <div class="step-2">
+                <div class="form-group actualPackages-input" style="display: none;">
+                    <label for="actualPackages">@lang('pickup.actual_packages_number')</label>
+                    <input type="number" name="actualPackages" id="actualPackages"
+                           class="form-control" required>
+                </div>
                 <div class="form-group newTime-input" style="display: none;">
                     <label for="available_time">New @lang('pickup.available_time')</label>
-                    <input type="text" name="available_time" id="available_time" value="{{ isset($pickup) ? $pickup->available_date_time : old('available_time') }}"
+                    <input type="text" name="available_time" id="available_time"
                            class="form-control datetime-rangepicker" data-drp-drops="up" required>
                 </div>
                 <div class="form-group reasons-input">

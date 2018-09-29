@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="my-3">Summery</h2>
+            <h2 class="my-3 font-weight-bold">Summery</h2>
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -36,8 +36,8 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card">
-                        <ul class="list-group list-group-flush">
+                    <div class="card h-100">
+                        <ul class="list-group list-group-flush h-100">
                             <li class="list-group-item">
                                 <small>@lang('shipment.pieces'):</small>
                                 <b>{{ $shipment->pieces }}</b>
@@ -49,12 +49,9 @@
                             <li class="list-group-item">
                                 <small>@lang('shipment.address_sub_text'):</small>
                                 <b>{{ $shipment->address_sub_text }}</b>
+                                <a href="{{ $shipment->address_maps_link }}">See on google maps</a>
                             </li>
-                            <li class="list-group-item">
-                                <small>@lang('shipment.address_sub_text'):</small>
-                                <a href="{{ $shipment->address_maps_link }}">{{ $shipment->address_maps_link }}</a>
-                            </li>
-                            <li class="list-group-item list-group-item-warning">
+                            <li class="list-group-item list-group-item-warning flex-fill">
                                 <small>@lang('shipment.internal_notes'):</small>
                                 <br> <b>{{ $shipment->internal_notes }}</b>
                             </li>
@@ -65,10 +62,8 @@
         </div>
         @if(!auth()->user()->isClient())
             <div class="col-md-6">
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h3 class="m-0">Shipment Accounting Summery</h3>
-                    </div>
+                <h3 class="mt-5 font-weight-bold">Shipment Accounting Summery</h3>
+                <div class="card">
                     <div class="card-body">
                         <div class="shipment-cost">
                             <div class="shipment-cost__label">@lang('shipment.price_of_address')</div>
@@ -131,21 +126,19 @@
         @endif
         @if(!auth()->user()->isCourier())
             <div class="col-md-6 shipment-client">
-                <div class="card mt-4">
-                    <div class="card-header d-flex align-items-center">
-                        <h3 class="m-0">@lang('shipment.client_info')</h3>
-                        @if(!($shipment instanceof \App\GuestShipment))
-                            <a href="{{ route('clients.show', ['client' => $shipment->client]) }}"
-                               class="btn btn-sm btn-secondary ml-auto">
-                                <i class="fa-arrow-circle-right"></i> @lang('client.go_to_dashboard', ['client' => $shipment->client->trade_name])
-                            </a>
-                        @else
-                            <div class="badge badge-warning ml-auto">Guest Client</div>
-                        @endif
-                    </div>
+                <h3 class="mt-5 font-weight-bold">@lang('shipment.client_info')</h3>
+                <div class="card">
                     <div class="card-body">
-                        <div class="shipment-client_name">
+                        <div class="shipment-client_name d-flex align-items-center">
                             {{ $shipment->client->trade_name }}
+                            @if(!($shipment instanceof \App\GuestShipment))
+                                <a href="{{ route('clients.show', ['client' => $shipment->client]) }}"
+                                   class="btn btn-sm btn-secondary ml-auto">
+                                    <i class="fa-arrow-circle-right"></i> @lang('client.go_to_dashboard', ['client' => $shipment->client->trade_name])
+                                </a>
+                            @else
+                                <div class="badge badge-warning ml-auto">Guest Client</div>
+                            @endif
                         </div>
                         <div class="mt-3">
                             <table class="table table-hover">

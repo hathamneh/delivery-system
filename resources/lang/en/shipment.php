@@ -5,6 +5,7 @@ return [
     'all'     => 'All Shipments',
     'single'  => "Shipment",
     'new'     => 'New Shipment',
+    'save'     => 'Save Shipment',
     'edit'    => 'Edit Shipment',
     'updated' => "{0} Nothing updated|{1} <i class='fa-check-circle2'></i> One shipment updated successfully.|[2,*] <i class='fa-check-circle2'></i> :value shipments updated successfully.",
     'info'    => "Shipment Info",

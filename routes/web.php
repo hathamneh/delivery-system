@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('attachment/{attachment}', "AttachmentController@destroy")->name('attachment.destroy');
 
     Route::resource('couriers', "CouriersController");
+    Route::put('pickups/{pickup}/actions', "PickupsController@actions")->name('pickups.actions');
     Route::resource('pickups', "PickupsController");
     Route::resource('notes', "NotesController");
     Route::resource('services', "ServicesController");

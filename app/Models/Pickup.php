@@ -28,6 +28,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property integer id
  * @mixin Builder
  * @method static self unpaid()
+ * @method static self today()
  */
 class Pickup extends Model
 {
@@ -83,6 +84,12 @@ class Pickup extends Model
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
+    }
+
+    public function scopeToday(Builder $query)
+    {
+        return $query->whereDate('available_time_start', '<=', Carbon::today()->startOfDay())
+            ->whereDate('available_time_end', '>=', Carbon::today()->endOfDay());
     }
 
     public function scopeCompleted($query)
@@ -146,7 +153,9 @@ class Pickup extends Model
                     default:
                         return "success";
                 }
-            case "declined":
+            case 'declined_client':
+            case 'declined_dispatcher':
+            case 'declined_not_available':
                 switch ($context) {
                     case 'card':
                         return "border-danger";

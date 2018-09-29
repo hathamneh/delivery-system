@@ -45,11 +45,11 @@ class HomeController extends Controller
         return [
             'title' => "Admin Dashboard",
             'statistics' => [
-                'pending'   => Shipment::pending()->count(),
-                'received'  => Shipment::statusIs('received')->count(),
-                'delivered' => Shipment::statusIs('delivered')->count(),
-                'returned'  => Shipment::statusIs('returned')->count(),
-                'pickups'   => Pickup::count(),
+                'pending'   => Shipment::today()->pending()->count(),
+                'received'  => Shipment::today()->statusIs('received')->count(),
+                'delivered' => Shipment::today()->statusIs('delivered')->count(),
+                'returned'  => Shipment::today()->statusIs('returned')->count(),
+                'pickups'   => Pickup::today()->count(),
                 'clients'   => Client::count(),
                 'couriers'  => Courier::count(),
             ]
@@ -63,11 +63,11 @@ class HomeController extends Controller
         return [
             'title' => "Courier Dashboard",
             'statistics' => [
-                'pending'   => $courier->shipments()->pending()->count(),
-                'received'  => $courier->shipments()->statusIs('received')->count(),
-                'delivered' => $courier->shipments()->statusIs('delivered')->count(),
-                'returned'  => $courier->shipments()->statusIs('returned')->count(),
-                'pickups'   => $courier->pickups()->count(),
+                'pending'   => $courier->shipments()->today()->pending()->count(),
+                'received'  => $courier->shipments()->today()->statusIs('received')->count(),
+                'delivered' => $courier->shipments()->today()->statusIs('delivered')->count(),
+                'returned'  => $courier->shipments()->today()->statusIs('returned')->count(),
+                'pickups'   => $courier->pickups()->today()->count(),
             ]
         ];
     }

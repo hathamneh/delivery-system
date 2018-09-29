@@ -262,15 +262,25 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $request->validate([
-            'status' => 'required'
+            'status'      => 'required',
+            'actual_paid' => 'required',
+            'delivery_date' => 'required_if:status,consignee_reschedule'
         ]);
         $status = $request->get('status');
-        if($status == "delivered") {
+        if ($status == "delivered") {
             $shipment->status()->associate(Status::name('delivered')->first());
             $shipment->actual_paid_by_consignee = $request->get('actual_paid');
-        } elseif($status == "not_delivered") {
+        } else {
+            $newStatus = Status::name($status)->first();
+            if (!is_null($newStatus)) {
+                $shipment->status()->associate($newStatus);
+                if($newStatus->name == "consignee_reschedule") {
 
+                }
+                $shipment->actual_paid_by_consignee = $request->get('actual_paid');
+            }
         }
+        $shipment->external_notes = $request->get('external_notes');
         $shipment->save();
         return back();
     }

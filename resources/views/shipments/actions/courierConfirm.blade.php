@@ -7,30 +7,43 @@
         {{ $shipment->internal_notes }}
     </p>
 </div>
+<div class="d-flex mt-4 ">
 
-<fieldset class="shipment-actions-fieldset mt-4">
-    <legend><i class="fa-shipment mr-2"></i> @lang('shipment.delivery')</legend>
-    <div>
-        <p>@lang('shipment.delivery_notice')</p>
-        <button type="button" class="btn btn-success" data-toggle="modal"
-                data-target="#deliveredShipment-{{ $shipment->id }}"><i
-                    class="fa-check  mr-2"></i> @lang('shipment.delivered')</button>
-        <button type="button" class="btn btn-secondary" data-toggle="modal"
-                data-target="#notDeliveredShipment-{{ $shipment->id }}"><i
-                    class="fa-times mr-2"></i> @lang('shipment.not_delivered')</button>
+    <fieldset class="shipment-actions-fieldset flex-fill mr-2">
+        <legend><i class="fa-shipment mr-2"></i> @lang('shipment.delivery')</legend>
+        <div>
+
+            <p>@lang('shipment.delivery_notice')</p>
+            @if(!$shipment->isStatus('delivered'))
+                <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#deliveredShipment-{{ $shipment->id }}"><i
+                            class="fa-check  mr-2"></i> @lang('shipment.delivered')</button>
+            @endif
+            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                    data-target="#notDeliveredShipment-{{ $shipment->id }}"><i
+                        class="fa-times mr-2"></i> @lang('shipment.not_delivered')</button>
+        </div>
+    </fieldset>
+
+    <div class="border rounded border-success flex-fill mx-auto py-5 d-flex align-items-center flex-column justify-content-center"
+         style="max-width: 300px;">
+        <div class="text-center">Current State</div>
+        <div class="text-center" style="font-size: 1.3rem; font-weight: 700;">
+            @lang('shipment.statuses.'.$shipment->status->name)
+        </div>
     </div>
-</fieldset>
+</div>
 @component('bootstrap::modal',[
             'id' => 'deliveredShipment-'.$shipment->id
         ])
     @slot('title')
-        Good job
+        Shipment delivered
     @endslot
     <form action="{{ route("shipments.delivery", ['shipment' => $shipment]) }}" method="post" class="delivered-form">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
-        <p>Kindly confirm COD</p>
+        <div class="font-weight-bold mb-3 text-info">Good job! Kindly confirm COD</div>
 
         <div class="form-group">
             <label for="actual_paid">How much did the consignee pay ?</label>
@@ -62,7 +75,8 @@
     @slot('title')
         Shipment didn't delivered
     @endslot
-    <form action="{{ route("shipments.delivery", ['shipment' => $shipment]) }}" method="post" class="delivery-failed-form">
+    <form action="{{ route("shipments.delivery", ['shipment' => $shipment]) }}" method="post"
+          class="delivery-failed-form">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
@@ -90,10 +104,16 @@
         <div class="step-2" style="display: none;">
             <div class="message font-weight-bold mb-4 text-danger"></div>
 
-            <div class="form-group">
-                <label for="actual_paid">How much did the consignee pay ?</label>
+            <div class="form-group actualPaid-input">
+                <label for="actual_paid">How much did the consignee pay?</label>
                 <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
                        placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery }}">
+            </div>
+
+            <div class="form-group deliveryDate-input" style="display: none;">
+                <label for="delivery_date">When the new delivery date?</label>
+                <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
+                       placeholder="@lang('shipment.delivery_date')">
             </div>
 
             <div class="form-group">
@@ -106,7 +126,7 @@
         </div>
 
         <div class="d-flex flex-row-reverse">
-            <button class="btn btn-success ml-auto" type="submit" name="status" value="delivered"><i
+            <button class="btn btn-success ml-auto" type="submit"><i
                         class="fa fa-check mr-2"></i> @lang('shipment.make_delivered')
             </button>
             <button class="btn btn-outline-secondary" type="button"

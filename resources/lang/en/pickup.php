@@ -10,6 +10,7 @@ return [
     'history' => "Pickup History",
     'delete' => "Delete Pickup",
     'save' => "Save Pickup",
+    'update' => "Update Pickup",
 
     'completed' => 'Completed',
     'pending' => 'Pending',
@@ -39,5 +40,7 @@ return [
     'address_text' => "Address (Text)",
     'address_maps' => "Address (Google Maps Link)",
     'notes' => "Your notes",
-
+    'internal_notes' => "Notes for courier",
+    'external_notes' => "Courier Notes",
+    'address' => "Address"
 ];

@@ -46,8 +46,9 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double base_charge
  * @property double actual_paid_by_consignee
  * @property string internal_notes
+ * @property string external_notes
  * @property string status_notes
- * @property double total_price)
+ * @property double total_price
  * @property boolean client_paid
  * @property boolean courier_cashed
  * @method static self statusIn(array $statuses)
@@ -318,6 +319,12 @@ class Shipment extends Model
         return $query->where('status_id', $status_id);
     }
 
+    public function scopeToday(Builder $query)
+    {
+        return $query->whereDate('delivery_date', '>=', Carbon::today()->startOfDay())
+            ->whereDate('delivery_date', "<=", Carbon::today()->endOfDay());
+    }
+
     public function isStatus($status) {
         if(is_string($status))
             $status = Status::name($status)->first();
@@ -532,4 +539,5 @@ class Shipment extends Model
                 break;
         }
     }
+
 }

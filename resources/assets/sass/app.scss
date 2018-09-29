@@ -71,3 +71,9 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
     border-radius: 0 0 .5rem .5rem;
   }
 }
+
+@include media-breakpoint-down('sm') {
+  .drp-calendar.right {
+    display: none !important;
+  }
+}

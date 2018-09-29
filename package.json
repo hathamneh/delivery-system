@@ -34,6 +34,7 @@
         "laravel-mix": "^2.1.11",
         "malihu-custom-scrollbar-plugin": "^3.1.5",
         "metrojs": "^0.9.77",
+        "mixitup": "^3.3.0",
         "moment": "^2.22.2",
         "octicons": "^8.0.0",
         "popper.js": "^1.14.4",

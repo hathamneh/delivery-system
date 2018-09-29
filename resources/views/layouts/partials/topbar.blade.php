@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div class="header-right">
+    <div class="header-right d-none d-md-block">
         <ul class="header-menu nav navbar-nav">
             <li id="nav-search">
                 <a id="search-results" href="#"><i class="icon-magnifier"></i></a>

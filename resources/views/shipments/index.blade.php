@@ -9,9 +9,11 @@
 @endsection
 
 @section('actions')
-    <a href="{{ route('shipments.create') }}" class="btn btn-info"><i
-                class="fa-plus-circle"></i> <span>@lang('shipment.new')</span>
-    </a>
+    @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
+        <a href="{{ route('shipments.create') }}" class="btn btn-info"><i
+                    class="fa-plus-circle"></i> <span>@lang('shipment.new')</span>
+        </a>
+    @endif
 @endsection
 
 @section('content')

@@ -18,3 +18,7 @@ window.to_qs = function (obj) {
         }
     return str.join("&");
 }
+
+window.isTouchDevice = () => {
+    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+}

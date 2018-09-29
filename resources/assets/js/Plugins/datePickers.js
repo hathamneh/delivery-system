@@ -55,10 +55,10 @@ let dateRangeLocale = {
     dateTimePicker();
 
     function dateTimePicker() {
-        var startDate = $('#available_time_start');
-        var endDate = $('#available_time_end');
+        let startDate = $('#available_time_start');
+        let endDate = $('#available_time_end');
         $('.date-rangepicker').each(function () {
-            var ranges = $(this).data("ranges") ? pickerRanges : false;
+            let ranges = $(this).data("ranges") ? pickerRanges : false;
             $(this).daterangepicker({
                 showDropdowns: true,
                 minDate: moment([2018]),
@@ -67,15 +67,18 @@ let dateRangeLocale = {
                 },
                 ranges: ranges
             }, function (start, end, label) {
-                var years = moment().diff(start, 'years');
+                let years = moment().diff(start, 'years');
             });
         });
         $('.datetime-rangepicker').each(function () {
-            var ranges = $(this).data("ranges") ? pickerRanges : false;
+            let ranges = $(this).data("ranges") ? pickerRanges : false;
+            let drops = $(this).data("drp-drops") || "down";
             $(this).daterangepicker({
                 showDropdowns: true,
                 timePicker: true,
                 minDate: moment([2018]),
+                drops: drops,
+                linkedCalendars: window.isTouchDevice(),
                 locale: {
                     format: "MMM D, YYYY hh:mm A"
                 },
@@ -119,9 +122,9 @@ let dateRangeLocale = {
     function reportRangePicker() {
 
         window.lifetimeRangeLabel = lang.get('common.lifetime');
-        var qs = window.getUrlVars();
-        var startDate = qs.start || $range.data('start-date') || false;
-        var endDate = qs.end || $range.data('end-date') || false;
+        let qs = window.getUrlVars();
+        let startDate = qs.start || $range.data('start-date') || false;
+        let endDate = qs.end || $range.data('end-date') || false;
         drpOptions.isLifetime = isLifetime = !(startDate && endDate);
 
         if (!drpOptions.isLifetime) {
@@ -140,14 +143,14 @@ let dateRangeLocale = {
                 isLifetime = false;
                 let reportsDT = $('.reports-table.dataTable');
                 if (reportsDT.length) {
-                    var qs = window.getUrlVars();
+                    let qs = window.getUrlVars();
                     qs.start = picker.startDate.unix();
                     qs.end = picker.endDate.unix();
                     window.history.pushState({}, window.title, "?" + to_qs(qs))
                     reportsDT.DataTable().ajax.reload();
                     callback(picker.startDate, picker.endDate);
                 } else {
-                    var qs = window.getUrlVars();
+                    let qs = window.getUrlVars();
                     qs.start = picker.startDate.unix();
                     qs.end = picker.endDate.unix();
                     window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
@@ -155,7 +158,7 @@ let dateRangeLocale = {
             });
             $range.on('lifetime.daterangepicker', function (ev, picker) {
 
-                var qs = window.getUrlVars();
+                let qs = window.getUrlVars();
                 if (qs.start) delete qs.start;
                 if (qs.end) delete qs.end;
                 window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + (qs.length ? "?" + window.to_qs(qs) : "");

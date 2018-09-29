@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     padding: 0.25rem 1rem;
+    min-height: 2.5rem;
   }
   a {
     color: inherit;
@@ -33,6 +34,12 @@
     a {
       text-decoration: none;
     }
+  }
+  span, .meta-value, .meta-label {
+    font-size: .75rem;
+  }
+  .badge {
+    font-size: .7rem;
   }
   .pickup-actions {
     position: absolute;
@@ -58,14 +65,39 @@
     .card {
       z-index: 501;
       box-shadow: 0 0 20px #999;
+      width: 50vw;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      overflow-y: auto;
+      max-height: 90vh;
+      @include media-breakpoint-down('sm') {
+        width: 95vw;
+      }
     }
     .card-body {
       padding-top: 2.5rem;
+      padding-bottom: 0;
     }
     .pickup-actions {
       right: 0;
       opacity: 1;
       visibility: visible;
+    }
+    h3 {
+      font-size: 1.2rem;
+    }
+    span, .meta-value, .meta-label {
+      font-size: .9rem;
+    }
+    .badge {
+      font-size: .8rem;
+    }
+    .pickup-meta {
+      .list-group-item:last-child {
+        padding-bottom: 1rem;
+      }
     }
   }
   kbd {

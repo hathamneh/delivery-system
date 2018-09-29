@@ -30,7 +30,7 @@ class CreatePickupsTable extends Migration
             $table->string("pickup_address_text")->nullable();
             $table->string("pickup_address_maps")->nullable();
             $table->boolean("is_fees_paid")->default(false);
-            $table->enum('status', ['pending', 'completed', 'declined'])->default("pending");
+            $table->enum('status', ['pending', 'completed', 'declined_client', 'declined_dispatcher', 'declined_not_available'])->default("pending");
             $table->boolean('alerted')->default(false);
             $table->timestamps();
             $table->softDeletes();

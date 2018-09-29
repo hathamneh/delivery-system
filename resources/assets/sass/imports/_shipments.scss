@@ -217,8 +217,11 @@
     padding: 0.25rem 0.5rem;
     border: 1px solid;
     color: #555;
+    background-color: transparent;
     border-radius: 50px;
     margin-right: 0.25rem;
+    cursor: pointer;
+    
     &:hover {
       background-color: #888;
       color: #fff;

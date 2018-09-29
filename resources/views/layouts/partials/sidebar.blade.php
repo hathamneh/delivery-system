@@ -73,10 +73,17 @@
                     <ul class="children collapse">
                         <li class="{{ (\Request::route()->getName() == 'pickups.index') ? 'active' : '' }}"><a
                                     href="{{ route('pickups.index') }}"><i
-                                        class="fas fa-shopping-bag"></i>@lang('pickup.all')</a></li>
-                        <li class="{{ request()->is('pickups?start='.time().'&end='.time()) ? ' active' : '' }}"><a
-                                    href="{{ route('pickups.index', ['start' => time(), 'end' => time()]) }}"><i
-                                        class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a></li>
+                                        class="fas fa-shopping-bag"></i>
+                                {{ auth()->user()->isCourier() ? trans('pickup.today_pickups') : trans('pickup.all') }}
+                            </a>
+                        </li>
+
+                        @if(auth()->user()->isAdmin())
+                            <li class="{{ request()->is('pickups?start='.time().'&end='.time()) ? ' active' : '' }}"><a
+                                        href="{{ route('pickups.index', ['start' => time(), 'end' => time()]) }}"><i
+                                            class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a>
+                            </li>
+                        @endif
                         @if(auth()->user()->isAuthorized("pickups", \App\Role::UT_CREATE))
                             <li class=""><a href="{{ route('pickups.create') }}"><i
                                             class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>

@@ -12,7 +12,7 @@
     <nav class="nav inner-nav">
         <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'status']) }}"
            class="{{ $tab != "status" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.status')</a>
-        @if(auth()->user()->isAdmin())
+        @if(auth()->user()->isAuthorized('shipments'))
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'summery']) }}"
                class="{{ $tab != "summery" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.summery')</a>
         @endif
@@ -69,14 +69,6 @@
                             }
                         }
                     })
-                });
-
-                $(document).on('click', '.suggestions-item', function (e) {
-                    e.preventDefault();
-                    var $this = $(this);
-                    var $target = $('[data-target-for="' + $this.closest('.suggestions').attr('id') + '"]');
-                    $target.val($this.text());
-                    $target.focus();
                 });
             });
         </script>

@@ -14,10 +14,10 @@ require('bootstrap-slider');
 
 (function ($) {
     $(document).ready(function () {
-        $('[data-toggle="tooltip"],[data-toggle-tooltip]').tooltip();
-    });
+        if(isTouchDevice()===false) {
+            $('[data-toggle="tooltip"],[data-toggle-tooltip]').tooltip();
+        }
 
-    $(document).ready(function () {
         $('#custom_price').on('change', function () {
             if($(this).is(':checked'))
                 $('#total_price').prop('disabled', false);

@@ -57,10 +57,9 @@
                                    data-toggle="tooltip"
                                    class="btn btn-light btn-sm" title="@lang('courier.edit')">
                                     <i class="fa fa-edit"></i></a>
-                                <button class="btn btn-light btn-sm" type="button"
+                                <button class="btn btn-light btn-sm" type="button" data-toggle-tooltip title="@lang('courier.delete')"
                                         data-toggle="modal" data-target="#deleteCourier-{{ $courier->id }}">
-                                    <span data-toggle="tooltip" title="@lang('courier.delete')" class="d-block"><i
-                                                class="fa fa-trash"></i></span>
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </div>
                             <form class="delete-form"

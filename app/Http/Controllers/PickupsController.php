@@ -9,6 +9,7 @@ use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class PickupsController extends Controller
@@ -21,12 +22,13 @@ class PickupsController extends Controller
     public function index(Request $request)
     {
         $pickups = Pickup::latest('available_time_start');
-        if ($request->has('start') && $request->has('end')) {
+        $startDate = $endDate = false;
+        if (Auth::user()->isCourier()) {
+            $pickups->today()->where('courier_id', Auth::user()->courier->id);
+        } elseif ($request->has('start') && $request->has('end')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'))->toDateString();
             $endDate = Carbon::createFromTimestamp($request->get('end'))->toDateString();
             $pickups->whereBetween('available_time_start', [$startDate, $endDate])->whereBetween('available_time_end', [$startDate, $endDate], 'or');
-        } else {
-            $startDate = $endDate = false;
         }
         return view('pickups.index')->with([
             'pickups'   => $pickups->get(),
@@ -131,5 +133,36 @@ class PickupsController extends Controller
     public function destroy(Pickup $pickup)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @param Pickup $pickup
+     * @return \Illuminate\Http\Response
+     */
+    public function actions(Request $request, Pickup $pickup)
+    {
+        $request->validate([
+            'status'         => 'required',
+            'available_time' => 'required_if:status,client_rescheduled'
+        ]);
+
+        $status = $request->get('status');
+        switch ($status) {
+            case "client_rescheduled":
+                $pickup->available_time = $request->get('available_time');
+                $pickup->status = "pending";
+                break;
+            case "completed":
+            case "declined_client":
+            case "declined_dispatcher":
+            case "declined_not_available":
+                $pickup->notes_external = $request->get('reasons');
+                $pickup->status = $status;
+                break;
+        }
+        $pickup->save();
+
+        return redirect()->route('pickups.index');
     }
 }

@@ -27884,6 +27884,7 @@ body.rtl .layout-options .img-sidebar-right {
       -ms-flex-align: center;
           align-items: center;
   padding: 0.25rem 1rem;
+  min-height: 2.5rem;
 }
 
 .pickup-item a {
@@ -27904,6 +27905,14 @@ body.rtl .layout-options .img-sidebar-right {
 
 .pickup-item h3 a {
   text-decoration: none;
+}
+
+.pickup-item span, .pickup-item .meta-value, .pickup-item .meta-label {
+  font-size: .75rem;
+}
+
+.pickup-item .badge {
+  font-size: .7rem;
 }
 
 .pickup-item .pickup-actions {
@@ -27929,16 +27938,47 @@ body.rtl .layout-options .img-sidebar-right {
   z-index: 501;
   -webkit-box-shadow: 0 0 20px #999;
           box-shadow: 0 0 20px #999;
+  width: 50vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+@media (max-width: 767.98px) {
+  .pickup-item.item-expanded .card {
+    width: 95vw;
+  }
 }
 
 .pickup-item.item-expanded .card-body {
   padding-top: 2.5rem;
+  padding-bottom: 0;
 }
 
 .pickup-item.item-expanded .pickup-actions {
   right: 0;
   opacity: 1;
   visibility: visible;
+}
+
+.pickup-item.item-expanded h3 {
+  font-size: 1.2rem;
+}
+
+.pickup-item.item-expanded span, .pickup-item.item-expanded .meta-value, .pickup-item.item-expanded .meta-label {
+  font-size: .9rem;
+}
+
+.pickup-item.item-expanded .badge {
+  font-size: .8rem;
+}
+
+.pickup-item.item-expanded .pickup-meta .list-group-item:last-child {
+  padding-bottom: 1rem;
 }
 
 .pickup-item kbd {
@@ -28265,8 +28305,10 @@ a.pickup-toggle-details.collapsed i {
   padding: 0.25rem 0.5rem;
   border: 1px solid;
   color: #555;
+  background-color: transparent;
   border-radius: 50px;
   margin-right: 0.25rem;
+  cursor: pointer;
 }
 
 .suggestions-item:hover {
@@ -36992,6 +37034,12 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
   margin: 0 auto;
   background-color: rgba(220, 220, 220, 0.75);
   border-radius: 0 0 .5rem .5rem;
+}
+
+@media (max-width: 767.98px) {
+  .drp-calendar.right {
+    display: none !important;
+  }
 }
 
 /*# sourceMappingURL=main.bundle.css.map*/

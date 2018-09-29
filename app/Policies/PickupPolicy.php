@@ -61,8 +61,10 @@ class PickupPolicy
      */
     public function update(User $user, Pickup $pickup)
     {
-        return $user->isAuthorized('pickups', Role::UT_UPDATE)
-            && $pickup->client_account_number == $user->client->account_number;
+        $pass = false;
+        if($user->isClient())
+            $pass = $pickup->client->is($user->client);
+        return $user->isAuthorized('pickups', Role::UT_UPDATE) && $pass;
     }
 
     /**

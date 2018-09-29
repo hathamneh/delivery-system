@@ -221,7 +221,7 @@
     border-radius: 50px;
     margin-right: 0.25rem;
     cursor: pointer;
-    
+
     &:hover {
       background-color: #888;
       color: #fff;
@@ -270,4 +270,26 @@
 
 .custom-control-label[for="custom_price"] {
   margin-bottom: 0.5rem;
+}
+
+.applied-filters {
+  &-item {
+    padding: .25rem 0 .25rem .5rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid;
+    border-radius: $border-radius;
+    margin-bottom: .25rem;
+    .btn {
+      padding: 0 .2rem;
+      background-color: transparent;
+      color: inherit;
+      line-height: 1;
+      margin-left: .75rem;
+      display: inline-flex;
+      font-size: .85rem;
+      font-weight: 700;
+    }
+  }
 }

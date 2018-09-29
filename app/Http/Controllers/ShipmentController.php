@@ -30,7 +30,6 @@ class ShipmentController extends Controller
         $user = Auth::user();
 
         $type = $request->get('type', 'normal,guest');
-        $scope = $request->get('scope', false);
         $types = explode(",", $type);
         if ($user->isCourier())
             $shipments = $user->courier->shipments()->type($types);
@@ -38,22 +37,25 @@ class ShipmentController extends Controller
             $shipments = $user->client->shipments()->type($types);
         else
             $shipments = Shipment::type($types);
-        if ($scope) {
-            switch ($scope) {
-                case "pending":
+
+        $filter_raw = $request->get('scope', false);
+        $filters = [];
+        if ($filter_raw) {
+            $filters = explode(',', $filter_raw);
+            $i = 0;
+            foreach ($filters as $filter) {
+                if ($filter === "pending")
                     $shipments = $shipments->pending();
-                    break;
-                case "received":
-                    $shipments = $shipments->statusIn(['received']);
-                    break;
-                case "delivered":
-                    $shipments = $shipments->statusIn(['delivered']);
-                    break;
+                elseif (Status::name($filter)->exists()) {
+                    $shipments = $shipments->statusIn([$filter], $i++ > 0 ? "or" : "and");
+                }
             }
         }
         $shipments = $shipments->filtered();
         return view('shipments.index', [
             'shipments'        => $shipments,
+            'statuses'         => Status::all(),
+            'applied'          => $filters,
             'pageTitle'        => trans('shipment.label'),
             'sidebarCollapsed' => true
         ]);
@@ -261,8 +263,8 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $request->validate([
-            'status'      => 'required',
-            'actual_paid' => 'required',
+            'status'        => 'required',
+            'actual_paid'   => 'required',
             'delivery_date' => 'required_if:status,consignee_reschedule'
         ]);
         $status = $request->get('status');
@@ -273,7 +275,7 @@ class ShipmentController extends Controller
             $newStatus = Status::name($status)->first();
             if (!is_null($newStatus)) {
                 $shipment->status()->associate($newStatus);
-                if($newStatus->name == "consignee_reschedule") {
+                if ($newStatus->name == "consignee_reschedule") {
 
                 }
                 $shipment->actual_paid_by_consignee = $request->get('actual_paid');

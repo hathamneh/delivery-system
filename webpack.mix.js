@@ -12,6 +12,8 @@ mix.webpackConfig({
     }
 });
 
+mix.browserSync('http://kangaroo-v2.test');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

@@ -17,6 +17,7 @@ require('bootstrap-slider');
         if(isTouchDevice()===false) {
             $('[data-toggle="tooltip"],[data-toggle-tooltip]').tooltip();
         }
+        $('[data-toggle="popover"]').popover();
 
         $('#custom_price').on('change', function () {
             if($(this).is(':checked'))

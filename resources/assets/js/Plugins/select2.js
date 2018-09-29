@@ -1,6 +1,6 @@
 require('select2')
 
-function inputSelect() {
+window.inputSelect = () => {
 
     if ($.fn.select2) {
         setTimeout(function () {
@@ -11,8 +11,8 @@ function inputSelect() {
                     allowClear: $(this).data('allowclear') ? $(this).data('allowclear') : false,
                     minimumInputLength: $(this).data('minimumInputLength') ? $(this).data('minimumInputLength') : -1,
                     minimumResultsForSearch: $(this).data('search') ? -1 : 1,
-                    dropdownCssClass: $(this).data('style') ? $(this).data('style') : '',
-                    containerCssClass: $(this).data('container-class') ? $(this).data('container-class') : ''
+                    //dropdownCssClass: $(this).data('style') ? $(this).data('style') : '',
+                    //containerCssClass: $(this).data('container-class') ? $(this).data('container-class') : ''
                 });
             });
             $('.select2-tags').select2({

@@ -233,11 +233,12 @@ class Shipment extends Model
     /**
      * @param Builder $query
      * @param array $type
+     * @param string $boolean
      * @return Builder
      */
-    public function scopeType(Builder $query, array $type)
+    public function scopeType(Builder $query, array $type, string $boolean = 'and')
     {
-        return $query->whereIn('type', $type);
+        return $query->whereIn('type', $type, $boolean);
     }
 
     /**
@@ -334,12 +335,13 @@ class Shipment extends Model
     /**
      * @param Builder $query
      * @param array $statuses
+     * @param string $boolean
      * @return Builder
      */
-    public function scopeStatusIn(Builder $query, array $statuses)
+    public function scopeStatusIn(Builder $query, array $statuses, string $boolean = 'and')
     {
         $status_ids = Status::whereIn('name', $statuses)->pluck('id');
-        return $query->whereIn('status_id', $status_ids);
+        return $query->whereIn('status_id', $status_ids, $boolean);
     }
 
     /**

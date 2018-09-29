@@ -9,7 +9,13 @@
 @endsection
 
 @section('actions')
-    @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
+
+    <button class="btn btn-light shipments-filter-btn dropdown-toggle" type="button" data-toggle="popover" data-placement="bottom" data-html="true"
+            data-content='@include('shipments.partials.filter')' data-title="Filter Shipments">
+        <i class="fa-filter mr-2"></i> Filter
+    </button>
+
+    @can('create', \App\Shipment::class)
         <a href="{{ route('shipments.create') }}" class="btn btn-info"><i
                     class="fa-plus-circle"></i> <span>@lang('shipment.new')</span>
         </a>

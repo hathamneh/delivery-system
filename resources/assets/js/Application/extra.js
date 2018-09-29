@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 (function() {
     function fieldSetToggle() {
         $('.fieldset-toggle').each(function () {
@@ -153,12 +155,24 @@
     }
 
     function shipmentServiceAutoSelect($services) {
-        console.log("test");
         $("input#shipment_value").on('change', function () {
             let val = $(this).val();
             if(val !== '' && val > 0) {
                 $services.selectpicker('val', 1);
+            } else {
+                $services.selectpicker('deselectAll');
             }
+        })
+    }
+
+    function shipmentServiceTypeAutoSelect($serviceType) {
+        $("input#delivery_date").on('change', function () {
+            let val = $(this).val();
+            if(moment(val, "DD/MM/YYYY").diff(moment().startOf('day')) === 0)
+                $serviceType.selectpicker('val', 'sameday');
+            else
+                $serviceType.selectpicker('val', 'nextday');
+
         })
     }
 
@@ -172,6 +186,10 @@
         let $services = $('select#services');
         if($services.length) {
             shipmentServiceAutoSelect($services)
+        }
+        let $serviceType = $('select#service_type');
+        if($serviceType.length) {
+            shipmentServiceTypeAutoSelect($serviceType)
         }
     })
     $(window).scroll(function () {

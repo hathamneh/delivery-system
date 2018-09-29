@@ -82,13 +82,6 @@
             $(".shipment-form").stepFormWizard({
                 theme: "sky",
                 height: 'auto',
-                onNext: function(i, wizard) {
-                    console.log(i);
-                    switch(i) {
-                        case 0:
-                            console.log("ddd");
-                    }
-                }
             });
             $('#custom_price').on('change', function () {
                 if($(this).is(':checked'))

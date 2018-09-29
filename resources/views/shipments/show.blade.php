@@ -42,6 +42,12 @@
                     var $container = $(this).closest('form');
                     var $subStatuses = $container.find("select#sub_status");
                     var $suggestions = $container.find(".suggestions");
+                    var $newDeliveryDate = $container.find(".newDeliveryDate-input");
+                    if(val == 4)
+                        $newDeliveryDate.show();
+                    else
+                        $newDeliveryDate.hide();
+
                     if ($subStatuses.length) {
                         $subStatuses.html("");
                         $subStatuses.closest(".subStatus-field").hide();

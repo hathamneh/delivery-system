@@ -15,13 +15,10 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-6 subStatus-field" {!! count($subStatuses) > 0 ?: 'style="display: none;"' !!}>
-                <label for="sub_status">@lang('shipment.sub_status')</label>
-                <select name="sub_status" id="sub_status" class="selectpicker form-control">
-                    @foreach($subStatuses as $subStatus)
-                        <option value="{{ $subStatus->id }}" {{ $shipment->sub_status_id == $subStatus->id ? "selected" : "" }}>@lang('shipment.statuses.'.$subStatus->name)</option>
-                    @endforeach
-                </select>
+            <div class="form-group newDeliveryDate-input col-md-6" style="display: none;">
+                <label for="delivery_date">When the new delivery date?</label>
+                <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
+                       placeholder="@lang('shipment.delivery_date')">
             </div>
             <div class="form-group col-md-12 statusNotes-field">
                 <label for="status_notes">@lang('shipment.status_notes')

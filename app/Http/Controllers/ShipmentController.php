@@ -232,10 +232,11 @@ class ShipmentController extends Controller
                 break;
             case "status":
                 $status = Status::findOrFail($request->get('status'));
-                $subStatus = SubStatus::find($request->get('sub_status'));
                 $shipment->status()->associate($status);
-                if ($subStatus)
-                    $shipment->subStatus()->associate($subStatus);
+                if ($status == 4) {
+                    $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
+                    $shipment->delivery_date = $newDeliveryDate;
+                }
                 $shipment->status_notes = $request->get('status_notes');
                 $shipment->save();
                 return redirect()->route("shipments.show", ['shipment' => $shipment, 'tab' => 'actions']);

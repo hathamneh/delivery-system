@@ -144,7 +144,7 @@ class Invoice extends Model
 
     public function getTotalAttribute()
     {
-        $net = $this->due_from - $this->due_for;
+        $net = abs($this->due_from - $this->due_for);
         if ($this->discount > 0) {
             $net -= $net * ($this->discount / 100);
         }

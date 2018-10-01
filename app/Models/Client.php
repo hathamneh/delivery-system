@@ -52,6 +52,9 @@ use Illuminate\Support\Facades\Hash;
  * @property object bank
  * @property object urls
  *
+ * @property float min_delivery_cost
+ * @property integer max_returned_shipments
+ *
  * @property Collection attachments
  */
 class Client extends Model implements Accountable
@@ -88,7 +91,9 @@ class Client extends Model implements Accountable
         'bank_account_number',
         'bank_holder_name',
         'bank_iban',
-        'alerted'
+        'alerted',
+        'max_returned_shipments',
+        'min_delivery_cost',
     ];
 
     public static function boot()

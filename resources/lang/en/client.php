@@ -81,4 +81,7 @@ return [
 
     'client_paid' => "Mark as Paid",
     'client_paid_tooltip' => "Mark these shipment as Paid for selected client",
+
+    'min_delivery_cost' => 'Min delivery cost',
+    'max_returned_shipments' => 'Max NO. of returned',
 ];

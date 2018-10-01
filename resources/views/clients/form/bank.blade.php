@@ -2,7 +2,7 @@
 
 <div class="form-row">
     <div class="col-sm-12">
-        <label for="bank_name" class="control-label">@lang('client.bank.info')</label>
+        <h3 style="font-weight: bold;" class="mt-0">@lang('client.bank.info')</h3>
     </div>
     <div class="form-group col-sm-6">
         <input type="text" name="bank[name]" id="bank_name" value="{{ $client->bank->name ?? old('bank.name') }}"

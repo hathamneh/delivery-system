@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Notifications\LosingClient;
+use App\Notifications\LowDilveryCost;
+use App\Notifications\MaxRejectedShipments;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notification;
 use Setting;
 use App\Client;
@@ -31,7 +34,8 @@ class NotificationServiceProvider extends ServiceProvider
                 $this->admins = User::where('user_template_id', UserTemplate::where('name', 'admin')->first()->id)->get();
                 $this->latePickups();
                 $this->losingClients();
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         });
     }
 
@@ -77,6 +81,32 @@ class NotificationServiceProvider extends ServiceProvider
             if (is_null($notification)) continue;
             $client->update(['alerted' => true]);
             $this->notifyAdmins($notification);
+        }
+    }
+
+    public function lowDeliveryCostClients()
+    {
+        $clients = Client::all();
+        foreach ($clients as $client) {
+            if ($client->max_returned_shipments > 0) {
+                $returnedShipments = $client->shipments()->statusIn(['cancelled', 'rejected', 'returned'])
+                    ->whereDate('created_at', '>=', Carbon::now()->startOfMonth())->count();
+                if ($returnedShipments >= $client->max_returned_shipments) {
+                    $this->notifyAdmins(new MaxRejectedShipments($client));
+                }
+            }
+            if ($client->min_delivery_cost > 0) {
+                $sum = 0;
+
+                $shipments = $client->shipments()->whereDate('created_at', '>=', Carbon::now()->startOfMonth())->get();
+                foreach ($shipments as $shipment) {
+                    /** @var Shipment $shipment */
+                    $sum += $shipment->delivery_cost;
+                }
+                if ($sum < $client->min_delivery_cost) {
+                    $this->notifyAdmins(new LowDilveryCost($client));
+                }
+            }
         }
     }
 

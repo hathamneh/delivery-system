@@ -36,47 +36,7 @@
 @section('beforeBody')
     @if($tab == "actions")
         <script>
-            $(document).ready(function () {
-                $("select#status, select#original_status").on('change', function () {
-                    var val = $(this).val();
-                    var $container = $(this).closest('form');
-                    var $subStatuses = $container.find("select#sub_status");
-                    var $suggestions = $container.find(".suggestions");
-                    var $newDeliveryDate = $container.find(".newDeliveryDate-input");
-                    if(val == 4)
-                        $newDeliveryDate.show();
-                    else
-                        $newDeliveryDate.hide();
 
-                    if ($subStatuses.length) {
-                        $subStatuses.html("");
-                        $subStatuses.closest(".subStatus-field").hide();
-                    }
-                    $suggestions.html("");
-                    $.ajax({
-                        url: "/api/suggest/status/" + val,
-                        method: "GET",
-                        success: function (data) {
-                            if (data.subStatuses && data.subStatuses.length) {
-                                var options = "";
-                                for (var sub of data.subStatuses) {
-                                    options += `<option value="${sub.id}">${sub.name}</option>`
-                                }
-                                $subStatuses.html(options);
-                                $subStatuses.selectpicker('refresh');
-                                $subStatuses.closest(".subStatus-field").show();
-                            }
-                            if (data.suggestions && data.suggestions.length) {
-                                var suggs = "";
-                                for (var sugg of data.suggestions) {
-                                    suggs += `<a href="#" class="suggestions-item">${sugg}</a>`;
-                                }
-                                $suggestions.html(suggs);
-                            }
-                        }
-                    })
-                });
-            });
         </script>
     @endif
 @endsection

@@ -45,13 +45,11 @@ class SuggestController extends Controller
         return CourierSuggestResource::collection(Courier::all());
     }
 
-    public function statuses(Status $status)
+    public function statuses($status)
     {
-        $sub = $status->subStatuses()->get();
-
+        $theStatus = Status::name($status)->first();
         return [
-            'subStatuses' => StatusSuggestCollection::collection($sub),
-            'suggestions' => $status->suggested_reasons
+            'suggestions' => $theStatus->suggested_reasons
         ];
     }
 }

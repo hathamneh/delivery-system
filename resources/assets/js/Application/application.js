@@ -6,6 +6,7 @@ require('./detectIE');
 require('./printing');
 require('./extra');
 require('./pickups');
+require('./suggestions');
 
 (function () {
     let shistory = document.querySelector(".shipment-history")
@@ -22,14 +23,18 @@ require('./pickups');
                 }
                 let crInput = step2.querySelector('.deliveryDate-input');
                 let apInput = step2.querySelector('.actualPaid-input');
+                let suggInput = step2.querySelector('.suggestions');
                 crInput.querySelector('input').removeAttribute('required');
                 crInput.style.display = "none";
                 apInput.style.display = "none";
+                suggInput.style.display = "none";
                 if (item.value === "consignee_rescheduled") {
                     crInput.querySelector('input').required = true;
                     crInput.style.display = "block";
                 } else if (item.value === "rejected") {
                     apInput.style.display = "block";
+                } else if(item.value === 'not_available') {
+                    suggInput.style.display = "block";
                 }
             });
         });
@@ -75,14 +80,19 @@ require('./pickups');
 
     }
 
+
+    $("select#status, select#original_status").on('change', function () {
+        let val = $(this).val();
+        let $container = $(this).closest('form');
+        let $newDeliveryDate = $container.find(".newDeliveryDate-input");
+        if (val == 4)
+            $newDeliveryDate.show();
+        else
+            $newDeliveryDate.hide();
+
+    });
 })();
 
-$(document).on('click', '.suggestions-item', function (e) {
-    e.preventDefault();
-    var $this = $(this);
-    var $target = $('[data-target-for="' + $this.closest('.suggestions').attr('id') + '"]');
-    $target.val($this.text());
-    $target.focus();
-});
+
 
 

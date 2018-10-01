@@ -23,6 +23,7 @@ Route::get('tracking', "TrackController@show")->name('tracking.show');
 
 Route::middleware('auth')->group(function () {
 
+    Route::put('shipments/{shipment}/recalculate', "ShipmentController@recalculate")->name('shipments.recalculate');
     Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
     Route::get('shipments/create/{type?}', "ShipmentController@create")
         ->name('shipments.create')

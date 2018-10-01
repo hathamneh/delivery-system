@@ -98,5 +98,10 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('shipments.recalculate', [$shipment]) }}" method="post">
+            {{ csrf_field() }}
+            {{ method_field('put') }}
+            <button class="btn btn-link" type="submit">Recalculate</button>
+        </form>
     </div>
 </fieldset>

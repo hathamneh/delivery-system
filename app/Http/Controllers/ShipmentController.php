@@ -231,9 +231,9 @@ class ShipmentController extends Controller
                 return redirect()->route("shipments.edit", ['shipment' => $shipment]);
                 break;
             case "status":
-                $status = Status::findOrFail($request->get('status'));
+                $status = Status::name($request->get('status'))->first();
                 $shipment->status()->associate($status);
-                if ($status == 4) {
+                if ($status->name = 'consignee_rescheduled') {
                     $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
                     $shipment->delivery_date = $newDeliveryDate;
                 }
@@ -282,6 +282,7 @@ class ShipmentController extends Controller
                 $shipment->actual_paid_by_consignee = $request->get('actual_paid');
             }
         }
+        $shipment->status_notes = $request->get('external_notes');
         $shipment->external_notes = $request->get('external_notes');
         $shipment->save();
         return back();
@@ -333,5 +334,11 @@ class ShipmentController extends Controller
             Carbon::FRIDAY
         ]);
         return now()->nextWeekday();
+    }
+
+    public function recalculate(Shipment $shipment)
+    {
+        $shipment->gatherPriceInformation();
+        return back();
     }
 }

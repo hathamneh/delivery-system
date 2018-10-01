@@ -83,19 +83,31 @@
         <div class="form-group delivery-reasons">
             <b class="mb-3 d-block">Why it isn't delivered?</b>
             <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="rejected" name="status" value="rejected" required
+                <input type="radio" id="rejected" name="status" value="rejected" required data-status-suggest
                        class="custom-control-input" data-message="We're sorry for that, Please provide some details">
                 <label class="custom-control-label" for="rejected">Rejected</label>
             </div>
             <div class="custom-control custom-radio mb-3">
                 <input type="radio" id="not_available" name="status" value="not_available" required
-                       class="custom-control-input"
+                       class="custom-control-input" data-status-suggest
                        data-message="We're sorry for wasting your time, Kindly provide some details">
                 <label class="custom-control-label" for="not_available">Not Available</label>
             </div>
             <div class="custom-control custom-radio mb-3">
+                <input type="radio" id="cancelled" name="status" value="cancelled" required
+                       class="custom-control-input" data-status-suggest
+                       data-message="We're sorry for wasting your time, Kindly provide some details">
+                <label class="custom-control-label" for="cancelled">Cancelled</label>
+            </div>
+            <div class="custom-control custom-radio mb-3">
+                <input type="radio" id="failed" name="status" value="failed" required
+                       class="custom-control-input" data-status-suggest
+                       data-message="We're sorry for wasting your time, Kindly provide some details">
+                <label class="custom-control-label" for="failed">Failed</label>
+            </div>
+            <div class="custom-control custom-radio mb-3">
                 <input type="radio" id="consignee_rescheduled" name="status" value="consignee_rescheduled" required
-                       class="custom-control-input"
+                       class="custom-control-input" data-status-suggest
                        data-message="Kindly inform us about the requested time and any additional details">
                 <label class="custom-control-label" for="consignee_rescheduled">Consignee Rescheduled</label>
             </div>
@@ -121,13 +133,15 @@
                     <small class="text-muted">(Optional)</small>
                 </label>
                 <textarea name="external_notes" id="external_notes" class="form-control"
-                          placeholder="Your notes"></textarea>
+                          placeholder="Your notes" data-target-for="statusSuggs"></textarea>
+                <div class="suggestions" id="statusSuggs">
+                </div>
             </div>
         </div>
 
         <div class="d-flex flex-row-reverse">
             <button class="btn btn-success ml-auto" type="submit"><i
-                        class="fa fa-check mr-2"></i> @lang('shipment.make_delivered')
+                        class="fa fa-check mr-2"></i> @lang('common.save')
             </button>
             <button class="btn btn-outline-secondary" type="button"
                     data-dismiss="modal">@lang('common.cancel')</button>

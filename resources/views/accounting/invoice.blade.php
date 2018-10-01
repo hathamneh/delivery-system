@@ -135,7 +135,7 @@
                                                 <span class="invoice__service-item">({{ $service->name }}
                                                     , @if ($custom_service = $service->customFor($client))
                                                         {{ fnumber($custom_service->pivot->price) }}
-                                                    @else {{ fnumber($service->cost) }} @endif
+                                                    @else {{ fnumber($service->price) }} @endif
                                                     )</span>
                                             @endforeach
                                         </li>

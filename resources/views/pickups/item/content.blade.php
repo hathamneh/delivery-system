@@ -1,6 +1,6 @@
 <small class="text-muted">@lang('client.trade_name')</small>
 <h3>
-    @can('view', \App\Client::class)
+    @can('index', \App\Client::class)
         <a href="{{ route('clients.show', ['client' => $pickup->client->account_number]) }}">{{ $pickup->client->trade_name }}</a>
     @else
         {{ $pickup->client->trade_name }}

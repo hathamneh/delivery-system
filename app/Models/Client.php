@@ -126,7 +126,7 @@ class Client extends Model implements Accountable
             'account_number' => $this->bank_account_number,
             'holder_name'    => $this->bank_holder_name,
             'iban'           => $this->bank_iban,
-            'full'           => $this->bank_name . " - " . $this->name . '<br>' . $this->bank_account_number
+            'full'           => $this->bank_name . " - " . $this->bank_holder_name . '<br>' . $this->bank_account_number
         ];
     }
 

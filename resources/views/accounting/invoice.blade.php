@@ -133,8 +133,10 @@
                                             @foreach($shipment->services as $service)
                                                 @php /** @var \App\Service $service */ @endphp
                                                 <span class="invoice__service-item">({{ $service->name }}
-                                                    , @if ($custom_service = $service->customFor($client)){{ fnumber($custom_service->pivot->price) }})
-                                                    @else{{ $service->cost }}@endif</span>
+                                                    , @if ($custom_service = $service->customFor($client))
+                                                        {{ fnumber($custom_service->pivot->price) }}
+                                                    @else {{ fnumber($service->cost) }} @endif
+                                                    )</span>
                                             @endforeach
                                         </li>
                                     @endif

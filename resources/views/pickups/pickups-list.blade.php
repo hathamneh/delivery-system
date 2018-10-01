@@ -26,7 +26,7 @@
         @if($pickups->count())
             @foreach($pickups as $pickup)
                 <?php /** @var \App\Pickup $pickup */ ?>
-                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->status }}">
+                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->status }}" style="max-height: 200px;min-width: 250px">
                     <div class="card {{ $pickup->statusContext('card') }}">
                         <div class="card-body">
                             @include('pickups.item.actionButtons')

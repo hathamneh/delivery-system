@@ -19,7 +19,7 @@
                         </tr>
                         <tr>
                             <th>@lang('accounting.address')</th>
-                            <td>{!! nl2br(e($client->address->full)) !!}</td>
+                            <td>{{ $client->pickup_address->text }}</td>
                         </tr>
                         <tr>
                             <th>@lang('accounting.telephone')</th>

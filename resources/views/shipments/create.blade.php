@@ -41,30 +41,11 @@
                         @include('shipments.wizard.details')
                         @include('shipments.wizard.delivery')
 
-                        @component('bootstrap::modal',[
-                                'id' => 'reviewShipmentModal',
-                                'sizeClass' => 'modal-lg',
-                            ])
-                            @slot('title')
-                                @lang('shipment.review')
-                            @endslot
-                            @include("shipments.review")
-                            @slot('footer')
-                                <button class="btn btn-light mr-auto" type="button" data-dismiss="modal">@lang('common.cancel')</button>
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">@lang('shipment.edit')</button>
-                                <button class="btn btn-primary" type="submit">@lang('shipment.save')</button>
-                            @endslot
-                        @endcomponent
-
                         <div class="d-flex mt-4">
                             <div class="ml-auto text-right">
-                                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal"
-                                        data-target="#reviewShipmentModal">
-                                    @lang('shipment.review')
+                                <button class="btn btn-primary btn-lg" type="submit">
+                                    @lang('shipment.save')
                                 </button>
-                                <p class="form-text text-muted">
-                                    @lang('shipment.reviewNote')
-                                </p>
                             </div>
                         </div>
                     </form>

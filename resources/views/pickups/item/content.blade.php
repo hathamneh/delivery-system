@@ -1,6 +1,10 @@
 <small class="text-muted">@lang('client.trade_name')</small>
 <h3>
-    <a href="{{ route('clients.show', ['client' => $pickup->client->account_number]) }}">{{ $pickup->client->trade_name }}</a>
+    @can('view', \App\Client::class)
+        <a href="{{ route('clients.show', ['client' => $pickup->client->account_number]) }}">{{ $pickup->client->trade_name }}</a>
+    @else
+        {{ $pickup->client->trade_name }}
+    @endcan
 </h3>
 <span>
     <span title="{{{ trans("pickup.expected_packages_number"). ": ". $pickup->expected_packages_number }}}"

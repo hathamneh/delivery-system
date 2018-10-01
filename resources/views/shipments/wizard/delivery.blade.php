@@ -88,7 +88,7 @@
                             @lang("shipment.delivery_cost_lodger.help")
                         </small>
                     </div>
-                    <div class="col-sm-6 form-group">
+                    <div class="col-sm-12 form-group">
                         <label for="reference">@lang('shipment.reference')</label>
                         <textarea name="reference" id="reference" class="form-control"
                                   placeholder="@lang('shipment.reference')">{{ old("reference") ?? $shipment->reference ?? "" }}</textarea>

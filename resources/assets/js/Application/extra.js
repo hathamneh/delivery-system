@@ -159,6 +159,8 @@ import moment from 'moment';
             let val = $(this).val();
             if(val !== '' && val > 0) {
                 $services.selectpicker('val', 1);
+            } else if(val !== '' && val < 0) {
+                $services.selectpicker('val', 4);
             } else {
                 $services.selectpicker('deselectAll');
             }

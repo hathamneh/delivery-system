@@ -104,7 +104,7 @@
                         <td>{{ $shipment->waybill }}</td>
                         <td>@lang("shipment.statuses.".$shipment->status->name)</td>
                         <td>{{ $shipment->delivery_date->toFormattedDateString() }}</td>
-                        <td>{{ $shipment->address->name }}</td>
+                        <td>{{ $shipment->address->zone->name }}</td>
                         <td>@lang("accounting.service_types.".$shipment->service_type)</td>
                         <td>{{ $shipment->package_weight }}</td>
                         <td>{{ $shipment->pieces }}</td>
@@ -127,7 +127,7 @@
                                 <ul class="operational-details">
                                     <li><b>@lang('accounting.consignee_info')
                                             :</b> {{ $shipment->consignee_name }}
-                                        , {{ $shipment->phone_number }}</li>
+                                        , {{ $shipment->phone_number }} , {{ $shipment->address->name }}</li>
                                     @if($shipment->services->count())
                                         <li><b>@lang('accounting.extra_services'):</b>
                                             @foreach($shipment->services as $service)

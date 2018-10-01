@@ -13,14 +13,18 @@
                     @include('layouts.partials.general-stats')
                 @endisset
             </div>
-            <div class="col-md-4">
-                @include('layouts.partials.weather')
-            </div>
+            @if(!auth()->user()->isCourier())
+                <div class="col-md-4">
+                    @include('layouts.partials.weather')
+                </div>
+            @endif
         </div>
         <div class="row">
-            <div class="col-md-12">
-                @include('layouts.partials.addNew')
-            </div>
+            @if(!auth()->user()->isCourier())
+                <div class="col-md-12">
+                    @include('layouts.partials.addNew')
+                </div>
+            @endif
             <div class="col-md-12 mt-4">
                 @include('layouts.partials.goto')
             </div>

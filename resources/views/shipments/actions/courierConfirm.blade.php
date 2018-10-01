@@ -4,17 +4,17 @@
     <b class="alert-heading">Shipments Notes</b>
     <hr>
     <p>
-        {{ $shipment->internal_notes }}
+        {{ $shipment->internal_notes ?? "No notes" }}
     </p>
 </div>
 <div class="alert alert-light">
     <b class="alert-heading">@lang('shipment.reference')</b>
     <hr>
     <p>
-        {{ $shipment->reference }}
+        {{ $shipment->reference ?? "No reference" }}
     </p>
 </div>
-<div class="d-flex mt-4 ">
+<div class="d-flex mt-4 flex-column-reverse flex-md-row">
 
     <fieldset class="shipment-actions-fieldset flex-fill mr-2">
         <legend><i class="fa-shipment mr-2"></i> @lang('shipment.delivery')</legend>
@@ -22,18 +22,18 @@
 
             <p>@lang('shipment.delivery_notice')</p>
             @if(!$shipment->isStatus('delivered'))
-                <button type="button" class="btn btn-success" data-toggle="modal"
+                <button type="button" class="btn btn-success mb-2" data-toggle="modal"
                         data-target="#deliveredShipment-{{ $shipment->id }}"><i
                             class="fa-check  mr-2"></i> @lang('shipment.delivered')</button>
             @endif
-            <button type="button" class="btn btn-secondary" data-toggle="modal"
+            <button type="button" class="btn btn-secondary mb-2" data-toggle="modal"
                     data-target="#notDeliveredShipment-{{ $shipment->id }}"><i
                         class="fa-times mr-2"></i> @lang('shipment.not_delivered')</button>
         </div>
     </fieldset>
 
-    <div class="border rounded border-success flex-fill mx-auto py-5 d-flex align-items-center flex-column justify-content-center"
-         style="max-width: 300px;">
+    <div class="border rounded border-success flex-fill mx-auto py-5 mb-3 d-flex align-items-center flex-column justify-content-center w-100"
+         style="max-width: 250px;">
         <div class="text-center">Current State</div>
         <div class="text-center" style="font-size: 1.3rem; font-weight: 700;">
             @lang('shipment.statuses.'.$shipment->status->name)

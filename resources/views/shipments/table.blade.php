@@ -12,7 +12,9 @@
             <th>@lang('shipment.service_types.label')</th>
             <th>@lang('shipment.status')</th>
             <th>@lang('shipment.shipment_value')</th>
-            <th>@lang('shipment.delivery_cost')</th>
+            @if(auth()->user()->isAdmin())
+                <th>@lang('shipment.delivery_cost')</th>
+            @endif
             <th>@lang('shipment.actual_paid')</th>
         </tr>
         </thead>
@@ -31,7 +33,9 @@
                 <td><span title="{{ $shipment->status->description }}"
                           data-toggle="tooltip">@lang('shipment.statuses.'.$shipment->status->name)</span></td>
                 <td>{{ fnumber($shipment->shipment_value) }}</td>
-                <td>{{ fnumber($shipment->delivery_cost) }}</td>
+                @if(auth()->user()->isAdmin())
+                    <td>{{ fnumber($shipment->delivery_cost) }}</td>
+                @endif
                 <td>{{ fnumber($shipment->actual_paid_by_consignee) }}</td>
             </tr>
         @endforeach

@@ -1,7 +1,7 @@
 <div class="p-2">
     <div class="form-group">
         <label for="filter_status">@lang('shipment.status')</label>
-        <select id="filter_status" class="form-control select2 w-100" multiple>
+        <select id="filter_status" class="form-control select2 w-100" multiple data-style="popover-select2">
             @foreach($statuses as $status)
                 <option value="{{ $status->name }}" {{ in_array($status->name,$applied) ? "selected" : "" }}>@lang('shipment.statuses.'.$status->name)</option>
             @endforeach

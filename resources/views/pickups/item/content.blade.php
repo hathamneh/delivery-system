@@ -51,14 +51,16 @@
                 </div>
             </div>
         </li>
-        <li class="list-group-item">
-            <span class="meta-label">
-                <i class="fa-truck"></i> @lang('courier.phone'):
-            </span>
-            <span class="meta-value">
-                {{ $pickup->courier->phone_number }}
-            </span>
-        </li>
+        @if(!auth()->user()->isCourier())
+            <li class="list-group-item">
+                <span class="meta-label">
+                    <i class="fa-truck"></i> @lang('courier.phone'):
+                </span>
+                <span class="meta-value">
+                    {{ $pickup->courier->phone_number }}
+                </span>
+            </li>
+        @endif
         <li class="list-group-item">
             <span class="meta-label">
                 <i class="fa-user-circle2"></i> @lang('pickup.'.$pickup->pickup_from.'_phone'):

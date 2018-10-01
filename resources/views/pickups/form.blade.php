@@ -131,7 +131,7 @@
 
     <div class="col-sm-12 form-group">
         <label for="notes_internal">@lang('pickup.notes')</label>
-        <textarea name="notes.internal" id="notes_internal" class="form-control"
+        <textarea name="notes_internal" id="notes_internal" class="form-control"
                   placeholder="@lang('pickup.notes')">{{ $pickup->notes_internal ?? old('notes.internal') }}</textarea>
     </div>
 

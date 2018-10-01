@@ -1,4 +1,4 @@
-require('select2')
+require('select2/dist/js/select2.full')
 
 window.inputSelect = () => {
 
@@ -11,7 +11,7 @@ window.inputSelect = () => {
                     allowClear: $(this).data('allowclear') ? $(this).data('allowclear') : false,
                     minimumInputLength: $(this).data('minimumInputLength') ? $(this).data('minimumInputLength') : -1,
                     minimumResultsForSearch: $(this).data('search') ? -1 : 1,
-                    //dropdownCssClass: $(this).data('style') ? $(this).data('style') : '',
+                    dropdownCssClass: $(this).data('style') ? $(this).data('style') : '',
                     //containerCssClass: $(this).data('container-class') ? $(this).data('container-class') : ''
                 });
             });

@@ -71,19 +71,10 @@
             </div>
         </div>
         <h3 class="font-weight-bold">More</h3>
+        <input name="service_type" id="service_type" type="hidden" value="{{ old('service_type') ?? $shipment->service_typ ?? 'nextday' }}">
         <div class="card mb-2">
             <div class="card-body">
                 <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="service_type">@lang('shipment.service_types.label') *</label>
-                        <select name="service_type" id="service_type" class="form-control selectpicker" data-bind="service_type">
-                            <option value="nextday" {{ ((isset($shipment) && $shipment->service_type == "nextday") || old('service_type') == "nextday") ? "selected" : "" }}>@lang('shipment.service_types.nextday')</option>
-                            <option value="sameday" {{ ((isset($shipment) && $shipment->service_type == "sameday") || old('service_type') == "sameday") ? "selected" : "" }}>@lang('shipment.service_types.sameday')</option>
-                        </select>
-                        <small class="form-text text-muted">
-                            @lang("shipment.service_types.help")
-                        </small>
-                    </div>
                     <div class="form-group col-sm-6">
                         <label for="delivery_cost_lodger">@lang('shipment.delivery_cost_lodger.label') *</label>
                         <select name="delivery_cost_lodger" id="delivery_cost_lodger" class="form-control selectpicker"
@@ -98,10 +89,5 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('shipments.recalculate', [$shipment]) }}" method="post">
-            {{ csrf_field() }}
-            {{ method_field('put') }}
-            <button class="btn btn-link" type="submit">Recalculate</button>
-        </form>
     </div>
 </fieldset>

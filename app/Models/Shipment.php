@@ -404,6 +404,11 @@ class Shipment extends Model
         return 0;
     }
 
+    public function getServices()
+    {
+
+    }
+
     /**
      * @return int
      */

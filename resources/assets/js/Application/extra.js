@@ -169,9 +169,9 @@ import moment from 'moment';
         $("input#delivery_date").on('change', function () {
             let val = $(this).val();
             if(moment(val, "DD/MM/YYYY").diff(moment().startOf('day')) === 0)
-                $serviceType.selectpicker('val', 'sameday');
+                $serviceType.val('sameday');
             else
-                $serviceType.selectpicker('val', 'nextday');
+                $serviceType.val('nextday');
 
         })
     }
@@ -187,7 +187,7 @@ import moment from 'moment';
         if($services.length) {
             shipmentServiceAutoSelect($services)
         }
-        let $serviceType = $('select#service_type');
+        let $serviceType = $('input#service_type');
         if($serviceType.length) {
             shipmentServiceTypeAutoSelect($serviceType)
         }

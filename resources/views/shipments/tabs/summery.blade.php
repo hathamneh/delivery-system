@@ -51,6 +51,10 @@
                                 <b>{{ $shipment->address_sub_text }}</b>
                                 <a href="{{ $shipment->address_maps_link }}">See on google maps</a>
                             </li>
+                            <li class="list-group-item">
+                                <small>@lang('shipment.reference'):</small>
+                                <b>{{ $shipment->reference }}</b>
+                            </li>
                             <li class="list-group-item list-group-item-warning flex-fill">
                                 <small>@lang('shipment.internal_notes'):</small>
                                 <br> <b>{{ $shipment->internal_notes }}</b>
@@ -60,7 +64,7 @@
                 </div>
             </div>
         </div>
-        @if(!auth()->user()->isClient())
+        @if(auth()->user()->isAdmin())
             <div class="col-md-6">
                 <h3 class="mt-5 font-weight-bold">Shipment Accounting Summery</h3>
                 <div class="card">
@@ -123,8 +127,6 @@
                     </div>
                 </div>
             </div>
-        @endif
-        @if(!auth()->user()->isCourier())
             <div class="col-md-6 shipment-client">
                 <h3 class="mt-5 font-weight-bold">@lang('shipment.client_info')</h3>
                 <div class="card">

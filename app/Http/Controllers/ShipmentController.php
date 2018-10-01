@@ -323,6 +323,7 @@ class ShipmentController extends Controller
         $shipment->address_sub_text = $request->get('address_sub_text');
         $shipment->service_type = $request->get('service_type');
         $shipment->delivery_cost_lodger = $request->get('delivery_cost_lodger');
+        $shipment->reference = $request->get('reference');
     }
 
     /**

@@ -48,6 +48,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string internal_notes
  * @property string external_notes
  * @property string status_notes
+ * @property string reference
  * @property double total_price
  * @property boolean client_paid
  * @property boolean courier_cashed
@@ -116,6 +117,7 @@ class Shipment extends Model
         'actual_paid_by_consignee',
         'courier_cashed',
         'client_paid',
+        'reference',
     ];
 
     /**

@@ -7,6 +7,13 @@
         {{ $shipment->internal_notes }}
     </p>
 </div>
+<div class="alert alert-light">
+    <b class="alert-heading">@lang('shipment.reference')</b>
+    <hr>
+    <p>
+        {{ $shipment->reference }}
+    </p>
+</div>
 <div class="d-flex mt-4 ">
 
     <fieldset class="shipment-actions-fieldset flex-fill mr-2">

@@ -11,9 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\View;
 
 class PickupsController extends Controller
 {
+
+    public function __construct()
+    {
+        View::share([
+            'pageTitle' => trans('pickup.label')
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +55,8 @@ class PickupsController extends Controller
     {
         $couriers = Courier::all();
         return view('pickups.create')->with([
-            'couriers' => $couriers
+            'couriers' => $couriers,
+            'pageTitle' => trans('pickup.create')
         ]);
     }
 

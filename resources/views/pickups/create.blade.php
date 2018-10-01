@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-shopping-bag'></i> @lang("pickup.new")
+    <i class='fa-shopping-bag'></i> @lang("pickup.create")
 @endsection
 
 @section('content')

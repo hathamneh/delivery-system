@@ -84,7 +84,7 @@
             <hr>
             <div class="d-flex flex-row-reverse w-100">
                 <button class="btn btn-primary ml-auto" type="submit"><i
-                            class="fa fa-trash"></i> @lang('pickup.update')
+                            class="fa fa-save"></i> @lang('pickup.update')
                 </button>
 
                 <button class="btn btn-outline-secondary"

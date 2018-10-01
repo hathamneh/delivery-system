@@ -80,11 +80,18 @@
                 @endif
             </span>
         </li>
+        <li class="list-group-item">
+            <span class="meta-label">@lang('pickup.external_notes'):</span>
+            <br>
+            <span class="meta-value">
+                {{ $pickup->notes_external ?? "No notes" }}
+            </span>
+        </li>
         <li class="list-group-item list-group-item-warning">
             <span class="meta-label">@lang('pickup.internal_notes'):</span>
             <br>
             <span class="meta-value">
-                {{ $pickup->internal_notes ?? "No notes" }}
+                {{ $pickup->notes_internal ?? "No notes" }}
             </span>
         </li>
     </ul>

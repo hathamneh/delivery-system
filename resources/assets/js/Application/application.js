@@ -85,7 +85,7 @@ require('./suggestions');
         let val = $(this).val();
         let $container = $(this).closest('form');
         let $newDeliveryDate = $container.find(".newDeliveryDate-input");
-        if (val == 4)
+        if (val === 'consignee_rescheduled')
             $newDeliveryDate.show();
         else
             $newDeliveryDate.hide();

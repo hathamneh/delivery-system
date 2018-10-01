@@ -24,7 +24,7 @@
                         <br>
                         @lang('accounting.telephone'): {{ Setting::get('company.telephone') }}
                         <br>
-                        NO. : {{ Setting::get('company.trc') }}
+                        TRC NO. : {{ Setting::get('company.trc') }}
                     </td>
                 </tr>
                 @yield('invoiceContent')

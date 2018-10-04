@@ -76,7 +76,16 @@ class PickupsController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
+
         $pickup->fill($request->toArray());
+
+        $day = $request->get('available_day');
+        $start = $request->get('time_start');
+        $end = $request->get('time_end');
+        $startDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
+        $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+        $pickup->available_time_start = $startDate;
+        $pickup->available_time_end = $endDate;
         $pickup->save();
 
         $waybills = $request->get('waybills', []);

@@ -107,12 +107,6 @@ class Pickup extends Model
         return $query->where('alerted', false);
     }
 
-    public function setAvailableTimeAttribute($value)
-    {
-        $dates = explode(' - ', $value);
-        $this->available_time_start = Carbon::createFromTimeString($dates[0]);
-        $this->available_time_end = Carbon::createFromTimeString($dates[1]);
-    }
 
     public function getAvailableDateTimeAttribute()
     {

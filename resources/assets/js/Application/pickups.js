@@ -6,6 +6,9 @@ if (containerEl)
         {
             selectors: {
                 control: '[data-mixitup-control]'
+            },
+            animation: {
+                clampHeight: false
             }
         });
 
@@ -33,7 +36,7 @@ $(document).ready(function () {
         e.stopPropagation();
         if ($(e.target).closest('.item-expanded').length === 0) {
             var $expanded = $('.item-expanded');
-            $expanded.find(".pickup-meta.collapse").collapse('hide')
+                $expanded.find(".pickup-meta.collapse").collapse('hide')
             setTimeout(function () {
                 $expanded.removeClass('item-expanded');
                 $('body').removeClass('lock-screen');

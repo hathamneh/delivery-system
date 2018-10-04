@@ -10,12 +10,14 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <form action="{{ route('pickups.store') }}" method="post">
-                {{ csrf_field() }}
-                @include('pickups.form')
-            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <form action="{{ route('pickups.store') }}" method="post">
+                    {{ csrf_field() }}
+                    @include('pickups.form')
+                </form>
+            </div>
         </div>
     </div>
 @endsection

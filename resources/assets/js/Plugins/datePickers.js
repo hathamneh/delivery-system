@@ -1,4 +1,5 @@
-let moment = require('moment')
+let moment = require('moment');
+require('timepicker');
 import Lang from 'lang.js';
 import messages from '../lang';
 
@@ -105,6 +106,7 @@ let dateRangeLocale = {
         })
     }
 
+    $(".timepicker").timepicker();
 })();
 
 // date range picker for reports

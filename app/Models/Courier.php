@@ -79,7 +79,7 @@ class Courier extends Model implements Accountable
         if(is_null($user_template)) UserTemplate::default()->first();
 
         $user = new User;
-        $user->username = User::sanitize_auto_username($this->name);
+        $user->username = str_pad($this->name);
         $user->email = $this->email;
         $user->password = Hash::make($this->password);
         $user->template()->associate($user_template);

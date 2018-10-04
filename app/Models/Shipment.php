@@ -131,10 +131,6 @@ class Shipment extends Model
             $instance->type = static::$waybill_type ?? "normal";
         });
 
-        static::addGlobalScope('type', function (Builder $builder) {
-            $builder->where('type', static::$waybill_type ?? "normal");
-        });
-
         static::saving(function (self $instance) {
             $changed = $instance->getDirty();
             if(isset($changed['status_id'])) { // If status has changed

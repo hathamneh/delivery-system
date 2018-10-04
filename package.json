@@ -47,6 +47,7 @@
     },
     "dependencies": {
         "bootstrap-slider": "^10.2.0",
-        "paper-css": "^0.4.1"
+        "paper-css": "^0.4.1",
+        "timepicker": "^1.11.12"
     }
 }

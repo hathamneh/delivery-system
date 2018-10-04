@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Interfaces\CanHaveShipment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,8 +41,10 @@ class Service extends Model
         return $this->shipments()->exists($shipment->id);
     }
 
-    public function customFor(Client $client)
+    public function customFor(CanHaveShipment $client)
     {
-        return $this->customClients()->where('account_number', $client->account_number)->first() ?? false;
+        if ($client instanceof Client)
+            return $this->customClients()->where('account_number', $client->account_number)->first() ?? false;
+        return null;
     }
 }

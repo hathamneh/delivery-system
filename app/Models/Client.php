@@ -4,6 +4,7 @@ namespace App;
 
 
 use App\Interfaces\Accountable;
+use App\Interfaces\CanHaveShipment;
 use App\Notifications\ClientCreated;
 use App\Traits\ClientAccounting;
 use App\Traits\ClientStatistics;
@@ -57,7 +58,7 @@ use Illuminate\Support\Facades\Hash;
  *
  * @property Collection attachments
  */
-class Client extends Model implements Accountable
+class Client extends Model implements Accountable, CanHaveShipment
 {
     use SoftDeletes, HasAttachmentsTrait;
     use ClientAccounting, ClientStatistics;
@@ -185,7 +186,7 @@ class Client extends Model implements Accountable
         if (is_null($user_template)) UserTemplate::default()->first();
 
         $user = new User;
-        $user->username = $this->trade_name;
+        $user->username = $this->account_number;
         $user->email = $this->email;
         $user->password = Hash::make($this->password);
         $user->template()->associate($user_template);

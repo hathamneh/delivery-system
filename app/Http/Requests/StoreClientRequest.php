@@ -28,7 +28,7 @@ class StoreClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'trade_name'          => 'required|unique:clients,trade_name|alpha_dash',
+            'trade_name'          => 'required|unique:clients,trade_name',
             'name'                => 'required',
             'phone_number'        => [ new PhoneNumber()],
             'email'               => 'required|email',

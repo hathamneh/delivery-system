@@ -1,5 +1,5 @@
-<div class="scrollable-nav__wrapper">
-    <ul class="nav nav-pills scrollable-nav pickup-pills" id="pickupsTabs">
+<div class="">
+    <ul class="nav nav-pills pickup-pills" id="pickupsTabs">
         <li class="nav-item">
             <a class="nav-link active" id="all-tab" href="#" data-toggle="tab" role="tab" data-mixitup-control
                aria-selected="true" data-filter="all"><span>@lang('pickup.all')</span></a>
@@ -26,13 +26,17 @@
         @if($pickups->count())
             @foreach($pickups as $pickup)
                 <?php /** @var \App\Pickup $pickup */ ?>
-                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->status }}" style="max-height: 200px;min-width: 250px">
+                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->status }} {{ auth()->user()->isCourier() ? "layout-2" : "" }}"
+                     style="max-height: 200px;min-width: 250px">
                     <div class="card {{ $pickup->statusContext('card') }}">
                         <div class="card-body">
                             @include('pickups.item.actionButtons')
 
-                            @include('pickups.item.content')
-
+                            @if(auth()->user()->isCourier())
+                                @include('pickups.item.layout2')
+                            @else
+                                @include('pickups.item.layout1')
+                            @endif
                         </div>
                         <div class="card-footer">
                             <div class="pickup-status">

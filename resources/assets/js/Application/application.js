@@ -51,14 +51,18 @@ require('./suggestions');
                 let actualPackagesInput = step2.querySelector('.actualPackages-input');
                 suggestions.style.display = "none";
                 newtimeInput.style.display = "none";
+                newtimeInput.querySelector('input').type = "hidden";
                 actualPackagesInput.style.display = "none";
+                actualPackagesInput.querySelector('input').type = "hidden";
                 if (item.value === "client_rescheduled") {
                     //newtimeInput.querySelector('input').required = true;
                     newtimeInput.style.display = "block";
+                    newtimeInput.querySelector('input').type = "text";
                 } else if (item.value === "declined_not_available") {
                     suggestions.style.display = "block";
                 } else if (item.value === "completed") {
                     actualPackagesInput.style.display = "block";
+                    actualPackagesInput.querySelector('input').type = "number";
                 }
             });
         });

@@ -27932,6 +27932,7 @@ body.rtl .layout-options .img-sidebar-right {
   position: absolute;
   top: 0;
   right: -50px;
+  z-index: 9;
   padding: 0.25rem;
   visibility: hidden;
   opacity: 0;
@@ -28000,8 +28001,16 @@ body.rtl .layout-options .img-sidebar-right {
   padding-bottom: 1rem;
 }
 
-.pickup-item kbd {
-  vertical-align: top;
+.pickup-item.layout-2 .card-body {
+  padding-top: .25rem;
+}
+
+.pickup-item.layout-2 h3 {
+  margin: 0;
+}
+
+.pickup-item.layout-2 .pickup-meta {
+  margin: 0 -1.25rem 0;
 }
 
 a.pickup-toggle-details {

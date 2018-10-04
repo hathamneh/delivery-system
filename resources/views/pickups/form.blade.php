@@ -61,7 +61,8 @@
         <select name="courier_id" id="courier_id" class="form-control selectpicker" data-live-search="true" required>
             <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
             @foreach($couriers as $courier)
-                <option value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($pickup) && $pickup->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
+                <option data-subtext="{{ $courier->zone->name }}"
+                        value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($pickup) && $pickup->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
             @endforeach
         </select>
     </div>

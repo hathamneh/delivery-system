@@ -54,14 +54,14 @@ function ajaxSelect2() {
                     var markup = data.text;
                     if (data.name && data.trade_name)
                         markup = '<div class="client-suggestion">' +
-                            '<b>' + data.name + '</b><br>' +
+                            '<b>' + data.name + '</b> - '+ data.zone +'<br>' +
                             '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
                             '</div>'
                     return markup;
                 },
                 templateSelection: function (data) {
                     if (!data.name) return data.text;
-                    return data.text + "<small class='text-muted mx-2'>(" + data.name + ")</small>";
+                    return data.text + "<small class='text-muted mx-2'>(" + data.name + " - " + data.zone + ")</small>";
                 }
             });
         });

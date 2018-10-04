@@ -36,19 +36,19 @@
     <div class="form-group col-sm-6">
         <label for="available_time">@lang('pickup.available_time')</label>
         <input type="text" name="available_day" id="available_day"
-               value="{{ isset($pickup) ? $pickup->available_date_time : old('available_time') }}"
+               value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
                class="form-control datetimepicker">
     </div>
     <div class="form-group col-sm-3 col-6">
         <label for="available_time">From:</label>
         <input type="text" name="time_start" id="time_start"
-               value="{{ isset($pickup) ? $pickup->available_date_time : old('available_time') }}"
+               value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
                class="form-control timepicker">
     </div>
     <div class="form-group col-sm-3 col-6">
         <label for="available_time">To:</label>
         <input type="text" name="time_end" id="time_end"
-               value="{{ isset($pickup) ? $pickup->available_date_time : old('available_time') }}"
+               value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
                class="form-control timepicker">
     </div>
 
@@ -114,6 +114,13 @@
 
                     <div class="col-sm-6">
                         <div class="form-row">
+                            <div class="col-sm-12 form-group">
+                                <label for="client_name" class="d-none">@lang('pickup.client_name')</label>
+                                <input type="text" name="client_name" id="client_name" required
+                                       class="form-control" title="@lang('pickup.client_name')" data-toggle="tooltip"
+                                       value="{{ $pickup->client_name ?? old('client_name') }}" data-placement="left"
+                                       placeholder="@lang('pickup.client_name')">
+                            </div>
                             <div class="col-sm-12 form-group">
                                 <label for="phone_number" class="d-none">@lang('pickup.phone')</label>
                                 <input type="text" name="phone_number" id="phone_number" required

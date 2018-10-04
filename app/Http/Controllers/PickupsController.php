@@ -163,14 +163,22 @@ class PickupsController extends Controller
     {
         $request->validate([
             'status'         => 'required',
-            'available_time' => 'required_if:status,client_rescheduled',
+            'available_day' => 'required_if:status,client_rescheduled',
+            'time_start' => 'required_if:status,client_rescheduled',
+            'time_end' => 'required_if:status,client_rescheduled',
             'actualPackages' => 'required_if:status,completed'
         ]);
 
         $status = $request->get('status');
         switch ($status) {
             case "client_rescheduled":
-                $pickup->available_time = $request->get('available_time');
+                $day = $request->get('available_day');
+                $start = $request->get('time_start');
+                $end = $request->get('time_end');
+                $startDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
+                $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+                $pickup->available_time_start = $startDate;
+                $pickup->available_time_end = $endDate;
                 $pickup->status = "pending";
                 break;
             case "completed":

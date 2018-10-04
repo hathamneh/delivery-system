@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <form action="{{ route('pickups.update', ['pickup' => $pickup->id]) }}" method="post">
+                <form action="{{ route('pickups.update', ['pickup' => $pickup->id]) }}" method="post" class="pickup-form">
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     @include('pickups.form')

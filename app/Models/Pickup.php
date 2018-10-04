@@ -26,6 +26,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Courier courier
  * @property string identifier
  * @property integer id
+ * @property string client_name
  * @mixin Builder
  * @method static self unpaid()
  * @method static self today()
@@ -88,8 +89,8 @@ class Pickup extends Model
 
     public function scopeToday(Builder $query)
     {
-        return $query->whereDate('available_time_start', '<=', Carbon::today()->startOfDay())
-            ->whereDate('available_time_end', '>=', Carbon::today()->endOfDay());
+        return $query->whereDate('available_time_start', '>=', Carbon::today()->startOfDay())
+            ->whereDate('available_time_end', '<=', Carbon::today()->endOfDay());
     }
 
     public function scopeCompleted($query)
@@ -107,6 +108,10 @@ class Pickup extends Model
         return $query->where('alerted', false);
     }
 
+    public function getClientNameAttribute()
+    {
+        return $this->client_name ?? $this->client->trade_name;
+    }
 
     public function getAvailableDateTimeAttribute()
     {
@@ -114,24 +119,19 @@ class Pickup extends Model
             " - " . Carbon::createFromTimeString($this->attributes['available_time_end'])->format($this->availableDateTimeFormat);
     }
 
-    public function getAvailableTimeStartAttribute()
+    public function getTimeStartAttribute()
     {
-        return Carbon::createFromTimeString($this->attributes['available_time_start'])->format($this->availableTimeFormat);
+        return $this->available_time_start->format('h:ia');
     }
 
-    public function getAvailableTimeEndAttribute()
+    public function getTimeEndAttribute()
     {
-        return Carbon::createFromTimeString($this->attributes['available_time_end'])->format($this->availableTimeFormat);
+        return $this->available_time_end->format('h:ia');
     }
 
-    public function getAvailableDateStartAttribute()
+    public function getAvailableDayAttribute()
     {
-        return Carbon::createFromTimeString($this->attributes['available_time_start'])->toFormattedDateString();
-    }
-
-    public function getAvailableDateEndAttribute()
-    {
-        return Carbon::createFromTimeString($this->attributes['available_time_end'])->toFormattedDateString();
+        return $this->available_time_start->format('j/n/Y');
     }
 
     public function statusContext($context = null)

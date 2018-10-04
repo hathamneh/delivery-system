@@ -903,7 +903,7 @@
 
 .page-content.page-thin {
   padding: 25px 0 75px;
-  .row {
+  > .row {
     margin-left: -5px;
     margin-right: -5px;
     > [class^="col-"] {

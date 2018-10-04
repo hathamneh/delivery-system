@@ -12,7 +12,7 @@
         <li class="nav-item">
             <a class="nav-link" id="declined-tab" data-toggle="tab" href="#" role="tab"
                data-filter="[class*=pickup-declined]" data-mixitup-control
-               aria-selected="false"><i class="fa-minus-circle"></i><span>@lang('pickup.declined')</span></a>
+               aria-selected="false"><i class="fa-minus-circle"></i><span>@lang('pickup.cancelled')</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="completed-tab" data-toggle="tab" href="#" role="tab"

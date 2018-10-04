@@ -15,6 +15,7 @@ return [
     'completed' => 'Completed',
     'pending' => 'Pending',
     'declined' => 'Declined',
+    'cancelled' => 'Cancelled',
 
     'show_more' => "Pickup Details",
 
@@ -36,6 +37,8 @@ return [
     'waybills' => "Related Shipments (Waybills)",
     'courier' => "Courier to Pickup",
     'pickup_fees' => "Extra Fees",
+    'client_name' => "Name",
+    'phone' => "Phone Number",
     'phone' => "Phone Number",
     'address_text' => "Address (Text)",
     'address_maps' => "Address (Google Maps Link)",

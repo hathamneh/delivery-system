@@ -62,10 +62,27 @@
                     <input type="number" name="actualPackages" id="actualPackages"
                            class="form-control" required>
                 </div>
-                <div class="form-group newTime-input" style="display: none;">
-                    <label for="available_time">New @lang('pickup.available_time')</label>
-                    <input type="text" name="available_time" id="available_time"
-                           class="form-control datetime-rangepicker" data-drp-drops="up" required>
+                <div class="newTime-input" style="display: none;">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label for="available_time">@lang('pickup.available_time')</label>
+                            <input type="text" name="available_day" id="available_day"
+                                   value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
+                                   class="form-control datetimepicker">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="available_time">From:</label>
+                            <input type="text" name="time_start" id="time_start"
+                                   value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
+                                   class="form-control timepicker">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="available_time">To:</label>
+                            <input type="text" name="time_end" id="time_end"
+                                   value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
+                                   class="form-control timepicker">
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group reasons-input">
                     <label for="reasons">@lang('pickup.external_notes'):</label>

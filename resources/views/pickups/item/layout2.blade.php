@@ -45,14 +45,14 @@
         </li>
         <li class="list-group-item">
             <span class="meta-label">
-                <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_date_start }}
+                <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_day }}
             </span>
             <div class="meta-value">
                 <div>
                     <span class="text-muted mr-1">From:</span>
-                    <span class="badge badge-dark">{{ $pickup->available_time_start }}</span>
+                    <span class="badge badge-dark">{{ $pickup->time_start }}</span>
                     <span class="text-muted mr-1 ml-1">To:</span>
-                    <span class="badge badge-dark">{{ $pickup->available_time_end }}</span>
+                    <span class="badge badge-dark">{{ $pickup->time_end }}</span>
                 </div>
             </div>
         </li>

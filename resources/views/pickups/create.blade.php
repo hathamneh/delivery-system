@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <form action="{{ route('pickups.store') }}" method="post">
+                <form action="{{ route('pickups.store') }}" method="post" class="pickup-form">
                     {{ csrf_field() }}
                     @include('pickups.form')
                 </form>

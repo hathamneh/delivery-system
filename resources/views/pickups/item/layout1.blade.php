@@ -1,10 +1,10 @@
 <small class="text-muted">@lang('client.trade_name')</small>
 <h3>
-    @can('index', \App\Client::class)
-        <a href="{{ route('clients.show', ['client' => $pickup->client->account_number]) }}">{{ $pickup->client->trade_name }}</a>
+    @if(Gate::check('index', \App\Client::class) && !is_null($pickup->client))
+        <a href="{{ route('clients.show', ['client' => $pickup->client->account_number]) }}">{{ $pickup->client_name }}</a>
     @else
-        {{ $pickup->client->trade_name }}
-    @endcan
+        {{ $pickup->client_name }}
+    @endif
 </h3>
 <span>
     <span title="{{{ trans("pickup.expected_packages_number"). ": ". $pickup->expected_packages_number }}}"
@@ -38,14 +38,14 @@
         </li>
         <li class="list-group-item">
             <span class="meta-label">
-                <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_date_start }}
+                <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_day }}
             </span>
             <div class="meta-value">
                 <div>
                     <span class="text-muted mr-1">From:</span>
-                    <span class="badge badge-dark">{{ $pickup->available_time_start }}</span>
+                    <span class="badge badge-dark">{{ $pickup->time_start }}</span>
                     <span class="text-muted mr-1 ml-1">To:</span>
-                    <span class="badge badge-dark">{{ $pickup->available_time_end }}</span>
+                    <span class="badge badge-dark">{{ $pickup->time_end }}</span>
                 </div>
             </div>
         </li>
@@ -72,9 +72,9 @@
                 <i class="fa-map-marker-alt"></i> @lang('pickup.address'):
             </span>
             <span class="meta-value">
-                {{ $pickup->address_text }}
-                @if(!is_null($pickup->address_maps))
-                    <a href="{{ $pickup->address_maps }}">See on google maps</a>
+                {{ $pickup->pickup_address_text }}
+                @if(!is_null($pickup->pickup_address_maps))
+                    <a href="{{ $pickup->pickup_address_maps }}">See on google maps</a>
                 @endif
             </span>
         </li>

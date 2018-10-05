@@ -30,6 +30,8 @@ class PickupsController extends Controller
      */
     public function index(Request $request)
     {
+        $s = $request->get('s', false);
+
         $pickups = Pickup::latest('available_time_start');
         $startDate = $endDate = false;
         if (Auth::user()->isCourier()) {
@@ -39,10 +41,14 @@ class PickupsController extends Controller
             $endDate = Carbon::createFromTimestamp($request->get('end'))->toDateString();
             $pickups->whereBetween('available_time_start', [$startDate, $endDate])->whereBetween('available_time_end', [$startDate, $endDate], 'or');
         }
+
+        if($s)
+            $pickups->where('client_account_number', '=', $s);
         return view('pickups.index')->with([
             'pickups'   => $pickups->get(),
             'startDate' => $startDate,
             'endDate'   => $endDate,
+            's' => $s
         ]);
     }
 

@@ -175,3 +175,28 @@ a.pickup-toggle-details {
     display: inline-block;
   }
 }
+
+.pickups-search {
+  position: relative;
+  .form-control {
+    background-color: transparent;
+    padding-right: 2.25rem;
+    &:focus {
+      background-color: $input-bg;
+    }
+  }
+  .search-submit {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    height: 100%;
+    width: 2rem;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}

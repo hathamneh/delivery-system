@@ -22,7 +22,8 @@
                             {{ csrf_field() }}
                             <div class="form-row">
                                 <div class="col-sm-10">
-                                    <input type="number" name="invoice_number" class="form-control {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
+                                    <input type="number" name="invoice_number"
+                                           class="form-control {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
                                            placeholder="@lang('accounting.invoice_no')">
                                     @if ($errors->has('invoice_number'))
                                         @foreach ($errors->get('invoice_number') as $message)
@@ -49,7 +50,7 @@
                             <div class="form-row">
                                 <div class="form-group col-sm-12">
                                     <div class="form-row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="custom-control custom-radio form-group">
                                                 <input type="radio" id="type_client" name="type"
                                                        class="custom-control-input"
@@ -65,7 +66,7 @@
                                                 ]) @endcomponent
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="custom-control custom-radio form-group">
                                                 <input type="radio" id="type_courier" name="type"
                                                        class="custom-control-input"
@@ -81,6 +82,19 @@
                                                     'text' => "",
                                                     "disabled" => true
                                                 ]) @endcomponent
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="custom-control custom-radio form-group">
+                                                <input type="radio" id="type_national_id" name="type"
+                                                       class="custom-control-input"
+                                                       value="national_id">
+                                                <label class="custom-control-label"
+                                                       for="type_national_id">@lang('client.national_id')</label>
+                                            </div>
+                                            <div class="a-group">
+                                                <input type="text" name="national_id" id="national_id" disabled
+                                                       class="form-control" placeholder="@lang('client.national_id')">
                                             </div>
                                         </div>
 
@@ -124,19 +138,20 @@
             $("input[name=type]").on('change', function () {
                 var $couriers = $(".couriers-group"),
                     $clients = $('.clients-group'),
+                    $nationalId = $('.a-group'),
                     val = $(this).val();
                 if (val === "client") {
-                    // $couriers.hide();
-                    // $clients.show();
-
                     $couriers.find('select').prop('disabled', true);
-                    $clients.find('select').prop('disabled', false);
+                    $nationalId.find('input').prop('disabled', true);
+                    $clients.find('select').prop('disabled', false).focus();
                 } else if (val === 'courier') {
-                    // $clients.hide();
-                    // $couriers.show();
-
                     $clients.find('select').prop('disabled', true);
-                    $couriers.find('select').prop('disabled', false);
+                    $nationalId.find('input').prop('disabled', true);
+                    $couriers.find('select').prop('disabled', false).focus();
+                } else if (val === 'national_id') {
+                    $clients.find('select').prop('disabled', true);
+                    $couriers.find('select').prop('disabled', true);
+                    $nationalId.find('input').prop('disabled', false).focus();
                 }
             })
         });

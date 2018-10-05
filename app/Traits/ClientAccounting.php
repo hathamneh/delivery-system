@@ -9,7 +9,7 @@
 namespace App\Traits;
 
 
-use App\ClientChargedFor;
+use App\Client;
 use App\Invoice;
 use App\Shipment;
 
@@ -39,7 +39,7 @@ trait ClientAccounting
         $shipments = clone $targetShipments;
         $charged = [];
         foreach (['rejected', 'cancelled'] as $item) {
-            if ($this->isChargedFor($item))
+            if ($this instanceof Client && $this->isChargedFor($item))
                 $charged[$item] = $this->chargedFor()->byStatus($item)->first();
             else
                 $charged[$item] = false;

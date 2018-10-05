@@ -1,9 +1,10 @@
 @php
     /** @var App\Invoice $invoice */
-    /** @var App\Client $client */
+    /** @var App\Guest $client */
 @endphp
 
 @extends('layouts.invoice')
+
 
 @section('invoiceContent')
     <tr>
@@ -17,19 +18,15 @@
                         <tbody>
                         <tr>
                             <th>@lang('accounting.to')</th>
-                            <td>{{ $client->trade_name }} / {{ $client->name }}</td>
+                            <td>{{ $client->trade_name }}</td>
                         </tr>
                         <tr>
                             <th>@lang('accounting.address')</th>
-                            <td>{{ $client->pickup_address->text }}</td>
+                            <td>{{ $client->country }}, {{ $client->city }}</td>
                         </tr>
                         <tr>
                             <th>@lang('accounting.telephone')</th>
                             <td>{{ $client->phone_number }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('accounting.attn')</th>
-                            <td>{{ $client->name }}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -53,14 +50,6 @@
                         <div class="col-12 mt-2">
                             <table>
                                 <tbody>
-                                <tr>
-                                    <th>@lang('accounting.bank_info')</th>
-                                    <td>{!! $client->bank->full !!}</td>
-                                </tr>
-                                <tr>
-                                    <th>@lang('accounting.account_number')</th>
-                                    <td>{{ $client->account_number }}</td>
-                                </tr>
                                 <tr>
                                     <th>@lang('accounting.invoice_period')</th>
                                     <td>{{ $invoice->period }}</td>

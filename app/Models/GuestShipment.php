@@ -37,6 +37,7 @@ class GuestShipment extends Shipment
             'phone_number' => $clientData['phone_number'],
             'country'      => $clientData['country'],
             'city'         => $clientData['city'],
+            'national_id'  => $clientData['national_id'],
         ]);
         $this->client()->associate($guest);
     }

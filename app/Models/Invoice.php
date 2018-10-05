@@ -11,7 +11,7 @@ use Illuminate\Database\Query\Builder;
 /**
  * @property Carbon until
  * @property Carbon from
- * @property Client|Courier target
+ * @property Accountable target
  * @property string type
  * @property Collection shipments
  * @property string period
@@ -68,6 +68,8 @@ class Invoice extends Model
             return $shipments->where('client_account_number', $this->target->account_number);
         elseif ($this->type == "courier")
             return $shipments->where('courier_id', $this->target->id);
+        elseif ($this->type == "guest")
+            return $shipments->where('client_account_number', $this->target->id);
         return $shipments;
     }
 
@@ -86,6 +88,8 @@ class Invoice extends Model
             return Client::find($value);
         else if ($this->type == "courier")
             return Courier::find($value);
+        else if ($this->type == "guest")
+            return Guest::find($value);
         return null;
     }
 

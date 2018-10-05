@@ -15,7 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', ['client', 'courier']);
+            $table->enum('type', ['client', 'courier', 'guest']);
             $table->unsignedInteger('target');
             $table->timestamp('from')->nullable();
             $table->timestamp('until')->nullable();

@@ -123,10 +123,10 @@
                                        placeholder="@lang('pickup.client_name')">
                             </div>
                             <div class="col-sm-6 form-group">
-                                <label for="national_id">@lang('client.national_id')</label>
-                                <input type="text" name="national_id" id="national_id" required
+                                <label for="client_national_id">@lang('client.national_id')</label>
+                                <input type="text" name="client_national_id" id="client_national_id" required
                                        class="form-control"
-                                       value="{{ $pickup->national_id ?? old('national_id') }}"
+                                       value="{{ $pickup->client_national_id ?? old('client_national_id') }}"
                                        placeholder="@lang('client.national_id')">
                             </div>
                             <div class="col-sm-4 form-group">

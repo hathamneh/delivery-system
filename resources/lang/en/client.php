@@ -14,6 +14,7 @@ return [
     'account_number' => 'Account Number',
     'c_account_number' => 'Client Account Number',
     'trade_name' => 'Trade Name',
+    'national_id' => 'National ID',
     'password' => 'Password',
     'name' => 'Client Name',
     'phone' => 'Phone',

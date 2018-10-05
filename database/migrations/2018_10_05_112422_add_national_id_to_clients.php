@@ -13,13 +13,13 @@ class AddNationalIdToClients extends Migration
      */
     public function up()
     {
-        Schema::table('client', function (Blueprint $table) {
+        Schema::table('clients', function (Blueprint $table) {
             $table->string('national_id')->nullable();
         });
-        Schema::table('guest', function (Blueprint $table) {
+        Schema::table('guests', function (Blueprint $table) {
             $table->string('national_id')->nullable();
         });
-        Schema::table('pickup', function (Blueprint $table) {
+        Schema::table('pickups', function (Blueprint $table) {
             $table->string('client_national_id')->nullable();
         });
     }
@@ -31,13 +31,13 @@ class AddNationalIdToClients extends Migration
      */
     public function down()
     {
-        Schema::table('client', function (Blueprint $table) {
+        Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('national_id');
         });
-        Schema::table('guest', function (Blueprint $table) {
+        Schema::table('guests', function (Blueprint $table) {
             $table->dropColumn('national_id');
         });
-        Schema::table('pickup', function (Blueprint $table) {
+        Schema::table('pickups', function (Blueprint $table) {
             $table->dropColumn('client_national_id');
         });
     }

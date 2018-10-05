@@ -50,15 +50,3 @@
         </div>
     </div>
 @endsection
-
-@section('beforeBody')
-    @if($section == 'attachments')
-        <script>
-            (function ($) {
-                $(document).ready(function () {
-                    $("")
-                });
-            })(jQuery);
-        </script>
-    @endif
-@endsection

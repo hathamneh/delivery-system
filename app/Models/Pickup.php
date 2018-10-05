@@ -27,6 +27,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string identifier
  * @property integer id
  * @property string client_name
+ * @property string client_national_id
  * @mixin Builder
  * @method static self unpaid()
  * @method static self today()
@@ -58,7 +59,8 @@ class Pickup extends Model
         'status',
         'phone_number',
         'identifier',
-        'alerted'
+        'alerted',
+        'client_national_id'
     ];
 
     protected $dispatchesEvents = [

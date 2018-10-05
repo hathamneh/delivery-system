@@ -33,6 +33,8 @@
                     <hr>
                     @include('clients.form.bank')
                     <hr>
+                    @include('clients.form.limits')
+                    <hr>
                     @include('clients.form.chargedFor')
                     <hr>
                     @include('clients.form.urls')

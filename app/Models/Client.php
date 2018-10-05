@@ -52,6 +52,7 @@ use Illuminate\Support\Facades\Hash;
  * @property object pickup_address
  * @property object bank
  * @property object urls
+ * @property string national_id
  *
  * @property float min_delivery_cost
  * @property integer max_returned_shipments
@@ -95,6 +96,7 @@ class Client extends Model implements Accountable, CanHaveShipment
         'alerted',
         'max_returned_shipments',
         'min_delivery_cost',
+        'national_id'
     ];
 
     public static function boot()

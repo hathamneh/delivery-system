@@ -12,6 +12,11 @@
                placeholder="@lang('client.name')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
+        <label for="national_id" class="control-label">@lang('client.national_id')</label>
+        <input type="text" name="national_id" id="national_id" value="{{ $client->national_id ?? old('national_id') }}"
+               placeholder="@lang('client.national_id')" class="form-control">
+    </div>
+    <div class="form-group col-sm-6">
         <label for="phone_number" class="control-label">@lang('client.phone') *</label>
         <input type="text" name="phone_number" id="phone_number" required
                value="{{ $client->phone_number ?? old('phone_number') }}"

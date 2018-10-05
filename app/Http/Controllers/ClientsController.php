@@ -197,6 +197,7 @@ class ClientsController extends Controller
     public function savePersonalData(Request $request, Client &$client)
     {
         $client->trade_name = $request->trade_name;
+        $client->national_id = $request->national_id;
         $client->password = User::generatePassword();
         $client->name = $request->name;
         $client->phone_number = $request->get('phone_number', null);
@@ -212,7 +213,8 @@ class ClientsController extends Controller
         $client->sector = $request->get('sector', null);
         $client->category = $request->get('category', null);
         $client->bank = $request->get('bank', []);
-        $client->bank = $request->get('bank', []);
+        $client->min_delivery_cost = $request->get('min_delivery_cost', 0);
+        $client->max_returned_shipments = $request->get('max_returned_shipments', 0);
     }
 
 

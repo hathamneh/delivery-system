@@ -16,6 +16,7 @@ class Guest extends Model implements CanHaveShipment
         'phone_number',
         'country',
         'city',
+        'national_id'
     ];
 
     public function shipments()

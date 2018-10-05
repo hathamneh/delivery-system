@@ -21,7 +21,7 @@
 @section('content')
 
     <div class="legacy-new-shipment">
-        <div class="container px-0 px-sm-3">
+        <div class="container">
             <div class="row">
                 @if ($errors->any())
                     <div class="col-md-10 mx-auto">

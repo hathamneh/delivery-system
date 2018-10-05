@@ -580,7 +580,12 @@
     }
   }
   .header-right {
-    margin-left: auto;
+    .ltr & {
+      margin-left: auto;
+    }
+    .rtl & {
+      margin-right: auto;
+    }
     .nav {
       > li {
         float: left;

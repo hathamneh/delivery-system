@@ -53,6 +53,10 @@
     @include media-breakpoint-down('sm') {
       margin: 0.75rem 0.2rem 0;
     }
+    .rtl & {
+      margin-right: auto;
+      margin-left: 0;
+    }
     > .btn, > .btn-group, > .header-action {
       margin-right: 0.5rem;
       @include media-breakpoint-down('sm') {
@@ -67,9 +71,11 @@
     }
   }
 }
+
 .alert ul {
   margin-left: 1rem;
 }
+
 .title-warning {
   font-size: 12px;
   background-color: $warning;
@@ -82,6 +88,7 @@
   border-radius: 50%;
   vertical-align: middle;
 }
+
 .main-content {
   margin-left: 240px;
   background: #F5F5F5;
@@ -1032,5 +1039,17 @@
     border-bottom: none;
     border-color: #ddd;
     border-radius: 0 !important;
+  }
+}
+
+.rtl {
+  .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+    padding-right: .5rem;
+    &::before {
+      padding-right: 0;
+      padding-left: 0.5rem;
+
+    }
   }
 }

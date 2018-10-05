@@ -86,10 +86,10 @@
         <div class="card card-transparent">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <label for="pickup_from">@lang('pickup.pickup_from')</label>
+                    <div class="col-sm-12 form-group">
+                        <b>@lang('pickup.pickup_from')</b>
                         <div>
-                            <div class="custom-control custom-radio mt-2 pb-2">
+                            <div class="custom-control custom-radio custom-control-inline mt-2 pb-2">
                                 <input type="radio" id="pickup_from_client" name="pickup_from"
                                        class="custom-control-input"
                                        value="client" {{ (isset($pickup) && $pickup->pickup_from == 'customer') || old('pickup_from') == 'customer' ? "" : "checked" }}>
@@ -99,7 +99,7 @@
                                     <small class="text-muted">@lang('pickup.from_client_description')</small>
                                 </label>
                             </div>
-                            <div class="custom-control custom-radio mt-2 pt-2 mb-2 mb-sm-0">
+                            <div class="custom-control custom-radio custom-control-inline mt-2 pt-2 mb-2 mb-sm-0">
                                 <input type="radio" id="pickup_from_customer" name="pickup_from"
                                        class="custom-control-input"
                                        value="customer" {{ (isset($pickup) && $pickup->pickup_from == 'customer') || old('pickup_from') == 'customer' ? "checked" : "" }}>
@@ -113,34 +113,39 @@
 
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="form-row">
-                            <div class="col-sm-12 form-group">
-                                <label for="client_name" class="d-none">@lang('pickup.client_name')</label>
+                            <div class="col-sm-6 form-group">
+                                <label for="client_name">@lang('pickup.client_name')</label>
                                 <input type="text" name="client_name" id="client_name" required
-                                       class="form-control" title="@lang('pickup.client_name')" data-toggle="tooltip"
-                                       value="{{ $pickup->client_name ?? old('client_name') }}" data-placement="left"
+                                       class="form-control"
+                                       value="{{ $pickup->client_name ?? old('client_name') }}"
                                        placeholder="@lang('pickup.client_name')">
                             </div>
-                            <div class="col-sm-12 form-group">
-                                <label for="phone_number" class="d-none">@lang('pickup.phone')</label>
+                            <div class="col-sm-6 form-group">
+                                <label for="national_id">@lang('client.national_id')</label>
+                                <input type="text" name="national_id" id="national_id" required
+                                       class="form-control"
+                                       value="{{ $pickup->national_id ?? old('national_id') }}"
+                                       placeholder="@lang('client.national_id')">
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label for="phone_number">@lang('pickup.phone')</label>
                                 <input type="text" name="phone_number" id="phone_number" required
-                                       class="form-control" title="@lang('pickup.phone')" data-toggle="tooltip"
-                                       value="{{ $pickup->phone_number ?? old('phone_number') }}" data-placement="left"
+                                       class="form-control"
+                                       value="{{ $pickup->phone_number ?? old('phone_number') }}"
                                        placeholder="@lang('pickup.phone')">
                             </div>
-                            <div class="col-sm-12 form-group">
-                                <label for="pickup_address_text"
-                                       class="d-none">@lang('pickup.address_text')</label>
+                            <div class="col-sm-4 form-group">
+                                <label for="pickup_address_text">@lang('pickup.address_text')</label>
                                 <input type="text" name="pickup_address.text" id="pickup_address_text"
                                        class="form-control" title="@lang('pickup.address_text')" data-toggle="tooltip"
                                        value="{{ $pickup->pickup_address_text ?? old('pickup_address.text') }}"
                                        data-placement="left"
                                        placeholder="@lang('pickup.address_text')">
                             </div>
-                            <div class="col-sm-12">
-                                <label for="pickup_address_maps"
-                                       class="d-none">@lang('pickup.address_maps')</label>
+                            <div class="col-sm-4">
+                                <label for="pickup_address_maps">@lang('pickup.address_maps')</label>
                                 <input type="text" name="pickup_address.maps" id="pickup_address_maps"
                                        class="form-control" title="@lang('pickup.address_maps')" data-toggle="tooltip"
                                        value="{{ $pickup->pickup_address_maps ?? old('pickup_address.maps') }}"

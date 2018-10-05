@@ -55,19 +55,19 @@
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.national_id") }}"
                                    placeholder="@lang('client.national_id')">
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4">
                             <label for="clientPhone">@lang('shipment.client.phone')</label>
                             <input type="text" name="shipment_client[phone_number]" id="clientPhone" data-bind="shipment_client[phone_number]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.phone_number") }}"
                                    placeholder="@lang('shipment.client.phone')">
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4 col-6">
                             <label for="clientCountry">@lang('shipment.client.country')</label>
                             <input type="text" name="shipment_client[country]" id="clientCountry" data-bind="shipment_client[country]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.country") }}"
                                    placeholder="@lang('shipment.client.country')">
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-4 col-6">
                             <label for="clientCity">@lang('shipment.client.city')</label>
                             <input type="text" name="shipment_client[city]" id="clientCity" data-bind="shipment_client[city]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.city") }}"

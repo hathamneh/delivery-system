@@ -89,7 +89,7 @@
         &:hover {
           opacity: 0.7;
         }
-        i , .svg-inline--fa{
+        i, .svg-inline--fa {
           -moz-transition-property: -moz-transform;
           -moz-transition-timing-function: linear;
           -webkit-transition-property: -webkit-transform;
@@ -710,7 +710,7 @@
           }
         }
         hr.divider {
-                    background: linear-gradient(to right, rgba(205, 205, 205, 0), #4d4d4d, rgba(205, 205, 205, 0));
+          background: linear-gradient(to right, rgba(205, 205, 205, 0), #4d4d4d, rgba(205, 205, 205, 0));
           border: 0;
           height: 1px;
           margin-bottom: 0;
@@ -775,7 +775,7 @@
       }
       a {
         &:hover {
-          i,.svg-inline--fa {
+          i, .svg-inline--fa {
             color: #F7F7F7;
           }
         }
@@ -1297,7 +1297,9 @@
     .main-content {
       margin-left: 190px;
       .topbar {
-        left: 190px;
+        .ltr & {
+          left: 190px;
+        }
       }
     }
   }
@@ -1712,6 +1714,7 @@
   }
 
 }
+
 .fixed-sidebar:not(.sidebar-collapsed) .sidebar-inner {
   overflow: hidden;
   position: relative;

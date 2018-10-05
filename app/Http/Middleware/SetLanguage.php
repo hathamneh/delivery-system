@@ -31,11 +31,13 @@ class SetLanguage
      */
     public function handle($request, Closure $next)
     {
-        if ($request->has("lang"))
+
+        if ($request->has("lang")) {
             Session::put('locale', $request->get("lang"));
-        elseif (!Session::has('locale')) {
+        } elseif (!Session::has('locale')) {
             Session::put('locale', $this->default);
         }
+        Session::save();
 
         app()->setLocale(Session::get('locale'));
 

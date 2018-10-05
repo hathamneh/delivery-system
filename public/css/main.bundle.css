@@ -18772,6 +18772,28 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection {
   display: block;
 }
 
+.rtl .select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+  right: auto;
+  left: 3px;
+}
+
+.rtl .select2-container .select2-search--inline .select2-search__field {
+  padding-right: 1rem;
+}
+
+.rtl .bootstrap-select > button.dropdown-toggle {
+  padding-left: 12px;
+  text-align: left;
+}
+
+.rtl .bootstrap-select .dropdown-menu li a {
+  text-align: right;
+}
+
+.bootstrap-select .dropdown-menu li small {
+  padding-right: .5rem;
+}
+
 html {
   height: 100%;
   width: 100%;
@@ -21036,6 +21058,11 @@ body.rtl .layout-options .img-sidebar-right {
   }
 }
 
+.rtl .page-heading__actions {
+  margin-right: auto;
+  margin-left: 0;
+}
+
 .page-heading__actions > .btn, .page-heading__actions > .btn-group, .page-heading__actions > .header-action {
   margin-right: 0.5rem;
 }
@@ -22053,6 +22080,16 @@ body.rtl .layout-options .img-sidebar-right {
   border-radius: 0 !important;
 }
 
+.rtl .breadcrumb-item + .breadcrumb-item {
+  padding-left: 0;
+  padding-right: .5rem;
+}
+
+.rtl .breadcrumb-item + .breadcrumb-item::before {
+  padding-right: 0;
+  padding-left: 0.5rem;
+}
+
 .form-fieldset {
   border: 1px solid #ccc;
   padding: 0.5rem;
@@ -22094,6 +22131,18 @@ body.rtl .layout-options .img-sidebar-right {
 
 .table-selectable.addresses-table .custom-control-label {
   margin-bottom: 1rem;
+}
+
+.rtl .custom-control.custom-control-inline {
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 1.5rem;
+  margin-left: 1rem;
+}
+
+.rtl .custom-control-label::before, .rtl .custom-control-label::after {
+  left: auto;
+  right: -1.5rem;
 }
 
 .topbar {
@@ -22675,8 +22724,12 @@ body.rtl .layout-options .img-sidebar-right {
           align-items: center;
 }
 
-.topbar .header-right {
+.ltr .topbar .header-right {
   margin-left: auto;
+}
+
+.rtl .topbar .header-right {
+  margin-right: auto;
 }
 
 .topbar .header-right .nav > li {
@@ -24497,7 +24550,7 @@ body.rtl .layout-options .img-sidebar-right {
   margin-left: 190px;
 }
 
-.sidebar-condensed:not(.sidebar-collapsed) .main-content .topbar {
+.ltr .sidebar-condensed:not(.sidebar-collapsed) .main-content .topbar {
   left: 190px;
 }
 

@@ -197,6 +197,7 @@ class PickupsController extends Controller
                 $pickup->available_time_start = $startDate;
                 $pickup->available_time_end = $endDate;
                 $pickup->status = "pending";
+                $pickup->notes_external = $request->get('reasons');
                 break;
             case "completed":
                 $pickup->actual_packages_number = $request->get('actualPackages');

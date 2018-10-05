@@ -33,7 +33,7 @@ require('./suggestions');
                     crInput.style.display = "block";
                 } else if (item.value === "rejected") {
                     apInput.style.display = "block";
-                } else if(item.value === 'not_available') {
+                } else if (item.value === 'not_available') {
                     suggInput.style.display = "block";
                 }
             });
@@ -46,7 +46,9 @@ require('./suggestions');
         pickupStates.forEach(item => {
             item.addEventListener('change', () => {
                 let step2 = item.closest('.pickup-actions-form').querySelector('.step-2');
-                let suggestions = step2.querySelector('.reasons-input .suggestions');
+                let reasonsInput = step2.querySelector('.reasons-input');
+                let notesTextArea = reasonsInput.querySelector('textarea');
+                let suggestions = reasonsInput.querySelector('.suggestions');
                 let newtimeInput = step2.querySelector('.newTime-input');
                 let actualPackagesInput = step2.querySelector('.actualPackages-input');
                 suggestions.style.display = "none";
@@ -55,15 +57,20 @@ require('./suggestions');
                 actualPackagesInput.style.display = "none";
                 actualPackagesInput.querySelector('input').type = "hidden";
                 if (item.value === "client_rescheduled") {
-                    //newtimeInput.querySelector('input').required = true;
                     newtimeInput.style.display = "block";
                     newtimeInput.querySelector('input').type = "text";
-                    console.log(newtimeInput)
+                    notesTextArea.value = "";
                 } else if (item.value === "declined_not_available") {
                     suggestions.style.display = "block";
+                    notesTextArea.value = "";
+                } else if (item.value === "declined_client") {
+                    notesTextArea.value = "Cancelled by client";
+                } else if (item.value === "declined_dispatcher") {
+                    notesTextArea.value = "Cancelled by dispatcher";
                 } else if (item.value === "completed") {
                     actualPackagesInput.style.display = "block";
                     actualPackagesInput.querySelector('input').type = "number";
+                    notesTextArea.value = "";
                 }
             });
         });
@@ -78,7 +85,7 @@ require('./suggestions');
             if (!filter_status) return;
             $(filter_status).on('change', () => {
                 let input = document.querySelector('input[name="scope"]')
-                if(!input) return;
+                if (!input) return;
                 input.value = $(filter_status).val().join(',');
             });
         });

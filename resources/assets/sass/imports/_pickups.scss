@@ -7,6 +7,7 @@
   box-shadow: 0 0 0 #000;
   transition: box-shadow 0.5s;
   margin-bottom: 1rem;
+  max-height: none !important;
   .card {
     overflow: hidden;
   }

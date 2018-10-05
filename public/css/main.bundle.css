@@ -28002,6 +28002,7 @@ body.rtl .layout-options .img-sidebar-right {
   transition: box-shadow 0.5s;
   transition: box-shadow 0.5s, -webkit-box-shadow 0.5s;
   margin-bottom: 1rem;
+  max-height: none !important;
 }
 
 .pickup-item .card {

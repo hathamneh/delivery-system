@@ -59,7 +59,7 @@ class AccountingController extends Controller
                 elseif ($targetObject instanceof Guest)
                     $type = "guest";
             } else {
-                return back()->withErrors("Not found");
+                return back()->withErrors(['national_id' =>"No client/guest found with provided national ID."]);
             }
         }
 

@@ -47,6 +47,12 @@
                             <h3 class="m-0 font-weight-bold">@lang('accounting.make_invoice')</h3>
                         </div>
                         <div class="card-body">
+                            @if($errors->count() && $errors->has('national_id'))
+
+                                    <div class="alert alert-danger">
+                                        {{ $errors->get('national_id')[0] }}
+                                    </div>
+                            @endif
                             <div class="form-row">
                                 <div class="form-group col-sm-12">
                                     <div class="form-row">
@@ -97,7 +103,6 @@
                                                        class="form-control" placeholder="@lang('client.national_id')">
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 

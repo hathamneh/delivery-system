@@ -106,7 +106,10 @@ let dateRangeLocale = {
         })
     }
 
-    $(".timepicker").timepicker();
+    console.log(moment().format('hh:mma'));
+    $(".timepicker").timepicker({
+        minTime: moment().format('hh:mma')
+    });
 })();
 
 // date range picker for reports

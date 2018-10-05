@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for="client_national_id">@lang('client.national_id')</label>
-                                <input type="text" name="client_national_id" id="client_national_id" required
+                                <input type="text" name="client_national_id" id="client_national_id"
                                        class="form-control"
                                        value="{{ $pickup->client_national_id ?? old('client_national_id') }}"
                                        placeholder="@lang('client.national_id')">

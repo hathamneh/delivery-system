@@ -164,7 +164,11 @@ class PickupsController extends Controller
      */
     public function destroy(Pickup $pickup)
     {
-        //
+        try{
+            $pickup->delete();
+        } catch (\Exception $ex) {
+        }
+        return back();
     }
 
     /**

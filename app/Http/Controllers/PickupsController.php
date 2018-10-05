@@ -42,13 +42,13 @@ class PickupsController extends Controller
             $pickups->whereBetween('available_time_start', [$startDate, $endDate])->whereBetween('available_time_end', [$startDate, $endDate], 'or');
         }
 
-        if($s)
+        if ($s)
             $pickups->where('client_account_number', '=', $s);
         return view('pickups.index')->with([
             'pickups'   => $pickups->get(),
             'startDate' => $startDate,
             'endDate'   => $endDate,
-            's' => $s
+            's'         => $s
         ]);
     }
 
@@ -61,7 +61,7 @@ class PickupsController extends Controller
     {
         $couriers = Courier::all();
         return view('pickups.create')->with([
-            'couriers' => $couriers,
+            'couriers'  => $couriers,
             'pageTitle' => trans('pickup.create')
         ]);
     }
@@ -164,7 +164,7 @@ class PickupsController extends Controller
      */
     public function destroy(Pickup $pickup)
     {
-        try{
+        try {
             $pickup->delete();
         } catch (\Exception $ex) {
         }
@@ -180,9 +180,9 @@ class PickupsController extends Controller
     {
         $request->validate([
             'status'         => 'required',
-            'available_day' => 'required_if:status,client_rescheduled',
-            'time_start' => 'required_if:status,client_rescheduled',
-            'time_end' => 'required_if:status,client_rescheduled',
+            'available_day'  => 'required_if:status,client_rescheduled',
+            'time_start'     => 'required_if:status,client_rescheduled',
+            'time_end'       => 'required_if:status,client_rescheduled',
             'actualPackages' => 'required_if:status,completed'
         ]);
 
@@ -197,13 +197,18 @@ class PickupsController extends Controller
                 $pickup->available_time_start = $startDate;
                 $pickup->available_time_end = $endDate;
                 $pickup->status = "pending";
+                $pickup->actual_packages_number = null;
                 $pickup->notes_external = $request->get('reasons');
                 break;
             case "completed":
                 $pickup->actual_packages_number = $request->get('actualPackages');
+                $pickup->notes_external = $request->get('reasons');
+                $pickup->status = $status;
+                break;
             case "declined_client":
             case "declined_dispatcher":
             case "declined_not_available":
+                $pickup->actual_packages_number = null;
                 $pickup->notes_external = $request->get('reasons');
                 $pickup->status = $status;
                 break;

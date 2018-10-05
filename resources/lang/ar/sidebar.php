@@ -6,4 +6,7 @@ return [
     "manage"    => "Management",
     "settings"    => "Settings",
     "logs"    => "Logs",
+    "extra"    => "Extra",
+    "users_roles" => "Users & Roles",
+    "reporting" => "Reporting",
 ];

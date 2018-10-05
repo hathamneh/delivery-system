@@ -18,6 +18,8 @@ return [
 
     "username" => "Username",
     "password" => "Password",
+    'type' => "Account Type",
+    'show_password' => "Show Password",
 
     'logout' => "Logout"
 

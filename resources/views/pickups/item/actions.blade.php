@@ -60,7 +60,7 @@
                 <div class="form-group actualPackages-input" style="display: none;">
                     <label for="actualPackages-{{ $pickup->id }}">@lang('pickup.actual_packages_number')</label>
                     <input type="number" name="actualPackages" id="actualPackages-{{ $pickup->id }}"
-                           class="form-control" required>
+                           class="form-control" required min="0" max="{{ $pickup->expected_packages_number }}">
                 </div>
                 <div class="newTime-input" style="display: none;">
                     <div class="row">

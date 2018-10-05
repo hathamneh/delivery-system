@@ -63,6 +63,14 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item border-top">
             <span class="meta-label">
+                <i class="fa-shopping-bag"></i> @lang('pickup.identifier'):
+            </span>
+            <span class="meta-value">
+                {{ $pickup->identifier }}
+            </span>
+        </li>
+        <li class="list-group-item border-top">
+            <span class="meta-label">
                 <i class="fa-shopping-bag"></i> @lang('pickup.pickup_from'):
             </span>
             <span class="meta-value">

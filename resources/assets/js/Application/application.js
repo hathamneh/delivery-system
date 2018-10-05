@@ -45,7 +45,7 @@ require('./suggestions');
     if (pickupStates.length) {
         pickupStates.forEach(item => {
             item.addEventListener('change', () => {
-                let step2 = document.querySelector('.pickup-actions-form .step-2');
+                let step2 = item.closest('.pickup-actions-form').querySelector('.step-2');
                 let suggestions = step2.querySelector('.reasons-input .suggestions');
                 let newtimeInput = step2.querySelector('.newTime-input');
                 let actualPackagesInput = step2.querySelector('.actualPackages-input');
@@ -58,6 +58,7 @@ require('./suggestions');
                     //newtimeInput.querySelector('input').required = true;
                     newtimeInput.style.display = "block";
                     newtimeInput.querySelector('input').type = "text";
+                    console.log(newtimeInput)
                 } else if (item.value === "declined_not_available") {
                     suggestions.style.display = "block";
                 } else if (item.value === "completed") {

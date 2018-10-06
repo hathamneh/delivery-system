@@ -49,7 +49,7 @@
                 </div>
                 <div class="custom-control custom-radio mb-3">
                     <input type="radio" id="client_rescheduled-{{ $pickup->id }}" name="status" value="client_rescheduled"
-                           required
+                           required data-original-time="{{ $pickup->available_day }} from {{ $pickup->time_start }} to {{ $pickup->time_end }}"
                            class="custom-control-input"
                            data-message="Kindly inform us about the requested time and any additional details">
                     <label class="custom-control-label" for="client_rescheduled-{{ $pickup->id }}">Client rescheduled</label>
@@ -60,7 +60,7 @@
                 <div class="form-group actualPackages-input" style="display: none;">
                     <label for="actualPackages-{{ $pickup->id }}">@lang('pickup.actual_packages_number')</label>
                     <input type="number" name="actualPackages" id="actualPackages-{{ $pickup->id }}"
-                           class="form-control" required min="0" max="{{ $pickup->expected_packages_number }}">
+                           class="form-control" required min="1">
                 </div>
                 <div class="newTime-input" style="display: none;">
                     <div class="row">

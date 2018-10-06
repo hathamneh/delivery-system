@@ -56,17 +56,23 @@ require('./suggestions');
                 newtimeInput.querySelector('input').type = "hidden";
                 actualPackagesInput.style.display = "none";
                 actualPackagesInput.querySelector('input').type = "hidden";
+
                 if (item.value === "client_rescheduled") {
+                    let originalTime = item.dataset.originalTime;
                     newtimeInput.style.display = "block";
                     newtimeInput.querySelector('input').type = "text";
-                    notesTextArea.value = "";
+                    notesTextArea.value = `Rescheduled (Original: ${originalTime})`;
+
                 } else if (item.value === "declined_not_available") {
                     suggestions.style.display = "block";
                     notesTextArea.value = "";
+
                 } else if (item.value === "declined_client") {
                     notesTextArea.value = "Cancelled by client";
+
                 } else if (item.value === "declined_dispatcher") {
                     notesTextArea.value = "Cancelled by dispatcher";
+
                 } else if (item.value === "completed") {
                     actualPackagesInput.style.display = "block";
                     actualPackagesInput.querySelector('input').type = "number";

@@ -57,4 +57,12 @@ import mixitup from 'mixitup';
         });
     }
 
+    let pills = document.querySelector('.pickup-pills');
+    if(pills) {
+        pills.querySelectorAll('.nav-link').forEach(item => {
+            let filter = item.dataset.filter;
+            let count = document.querySelector('.pickups-list').querySelectorAll(filter).length;
+            item.querySelector('.badge').textContent = count;
+        });
+    }
 })(jQuery);

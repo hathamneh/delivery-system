@@ -56,11 +56,6 @@
                 </div>
             </div>
         </li>
-    </ul>
-</div>
-
-<div class="pickup-meta collapse" id="pickupDetails_{{ $pickup->id }}">
-    <ul class="list-group list-group-flush">
         <li class="list-group-item border-top">
             <span class="meta-label">
                 <i class="fa-shopping-bag"></i> @lang('pickup.identifier'):
@@ -69,6 +64,11 @@
                 {{ $pickup->identifier }}
             </span>
         </li>
+    </ul>
+</div>
+
+<div class="pickup-meta collapse" id="pickupDetails_{{ $pickup->id }}">
+    <ul class="list-group list-group-flush">
         <li class="list-group-item border-top">
             <span class="meta-label">
                 <i class="fa-shopping-bag"></i> @lang('pickup.pickup_from'):

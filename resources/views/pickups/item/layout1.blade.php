@@ -25,7 +25,18 @@
     |
     @lang('pickup.identifier'): <b>{{ $pickup->identifier }}</b>
 </span>
-
+<hr class="my-2">
+<span class="meta-label">
+    <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_day }}
+</span>
+<div class="meta-value">
+    <div>
+        <span class="text-muted mr-1">From:</span>
+        <span class="badge badge-dark">{{ $pickup->time_start }}</span>
+        <span class="text-muted mr-1 ml-1">To:</span>
+        <span class="badge badge-dark">{{ $pickup->time_end }}</span>
+    </div>
+</div>
 <div class="pickup-meta collapse" id="pickupDetails_{{ $pickup->id }}">
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -35,19 +46,6 @@
             <span class="meta-value">
                 @lang('pickup.from_'.$pickup->pickup_from)
             </span>
-        </li>
-        <li class="list-group-item">
-            <span class="meta-label">
-                <i class="fa-clock2"></i> @lang('pickup.available_time'): {{ $pickup->available_day }}
-            </span>
-            <div class="meta-value">
-                <div>
-                    <span class="text-muted mr-1">From:</span>
-                    <span class="badge badge-dark">{{ $pickup->time_start }}</span>
-                    <span class="text-muted mr-1 ml-1">To:</span>
-                    <span class="badge badge-dark">{{ $pickup->time_end }}</span>
-                </div>
-            </div>
         </li>
         @if(!auth()->user()->isCourier())
             <li class="list-group-item">

@@ -2,22 +2,26 @@
     <ul class="nav nav-pills pickup-pills" id="pickupsTabs">
         <li class="nav-item">
             <a class="nav-link active" id="all-tab" href="#" data-toggle="tab" role="tab" data-mixitup-control
-               aria-selected="true" data-filter="all"><span>@lang('pickup.all')</span></a>
+               aria-selected="true" data-filter="all"><span>@lang('pickup.all')</span>
+                <span class="badge badge-light ml-2"></span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pending-tab" data-toggle="tab" href="#" role="tab" data-filter=".pickup-pending"
                data-mixitup-control
-               aria-selected="false"><i class="fa-clock"></i><span>@lang('pickup.pending')</span></a>
+               aria-selected="false"><i class="fa-clock"></i><span>@lang('pickup.pending')</span>
+                <span class="badge badge-light ml-2"></span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="declined-tab" data-toggle="tab" href="#" role="tab"
                data-filter="[class*=pickup-declined]" data-mixitup-control
-               aria-selected="false"><i class="fa-minus-circle"></i><span>@lang('pickup.cancelled')</span></a>
+               aria-selected="false"><i class="fa-minus-circle"></i><span>@lang('pickup.cancelled')</span>
+                <span class="badge badge-light ml-2"></span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="completed-tab" data-toggle="tab" href="#" role="tab"
                data-filter=".pickup-completed" data-mixitup-control
-               aria-selected="false"><i class="fa-check-circle2"></i><span>@lang('pickup.completed')</span></a>
+               aria-selected="false"><i class="fa-check-circle2"></i><span>@lang('pickup.completed')</span>
+                <span class="badge badge-light ml-2"></span></a>
         </li>
     </ul>
 </div>

@@ -47,7 +47,7 @@ import mixitup from 'mixitup';
     });
 
     let pickupForm = document.querySelector('.pickup-form');
-    if(pickupForm) {
+    if (pickupForm) {
         $(pickupForm.querySelector("#client_account_number")).on('select2:select', e => {
             let client = e.params.data;
             pickupForm.querySelector('#client_name').value = client.trade_name;
@@ -58,10 +58,14 @@ import mixitup from 'mixitup';
     }
 
     let pills = document.querySelector('.pickup-pills');
-    if(pills) {
+    if (pills) {
         pills.querySelectorAll('.nav-link').forEach(item => {
             let filter = item.dataset.filter;
-            let count = document.querySelector('.pickups-list').querySelectorAll(filter).length;
+            let count = 0;
+            if (filter === "all")
+                count = document.querySelectorAll('.pickups-list .pickup-item').length;
+            else
+                count = document.querySelector('.pickups-list').querySelectorAll(filter).length;
             item.querySelector('.badge').textContent = count;
         });
     }

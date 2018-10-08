@@ -58,7 +58,7 @@ class Address extends Model
      */
     public function customFor($client)
     {
-        if ($client instanceof $client)
+        if ($client instanceof Client)
             return CustomAddress::where('address_id', $this->id)->where('client_account_number', $client->account_number)->first();
         return null;
     }

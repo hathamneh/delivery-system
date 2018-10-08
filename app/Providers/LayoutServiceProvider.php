@@ -19,7 +19,7 @@ class LayoutServiceProvider extends ServiceProvider
             if (Auth::check() && $view->getName() != 'auth.login') {
                 $displayName = auth()->user()->display_name;
                 $unread = Auth::user()->unreadNotifications;
-                $notys = Auth::user()->notifications()->latest()->get();
+                $notys = Auth::user()->notifications()->latest()->max(15)->get();
                 $view->with([
                     'displayName'           => $displayName,
                     'notificationsCount' => $unread->count() > 0 ? $unread->count() : "",

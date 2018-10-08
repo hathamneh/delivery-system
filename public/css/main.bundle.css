@@ -23151,6 +23151,8 @@ body.rtl .layout-options .img-sidebar-right {
   position: absolute !important;
   -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.03);
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.03);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .topbar .header-right .header-menu.navbar-nav > li {
@@ -33800,7 +33802,7 @@ i.bg-grey::before {
 }
 
 .notification-item.unread {
-  background-color: #cecece !important;
+  background-color: #e0eaf7 !important;
 }
 
 .notification-item.unread i {

@@ -410,7 +410,7 @@ class Shipment extends Model
         $services_cost = 0;
         foreach ($this->services as $service) {
             /** @var Service $service */
-            if ($custom_service = $service->customFor($this->client))
+            if (!is_null($this->client) && $custom_service = $service->customFor($this->client))
                 $services_cost += $custom_service->pivot->price;
             else
                 $services_cost += $service->price;

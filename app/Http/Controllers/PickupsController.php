@@ -32,7 +32,7 @@ class PickupsController extends Controller
     {
         $s = $request->get('s', false);
 
-        $pickups = Pickup::latest('available_time_start');
+        $pickups = Pickup::whereDate('available_time_start', ">=", now()->subDays(2));
         $startDate = $endDate = false;
         if (Auth::user()->isCourier()) {
             $pickups->today()->where('courier_id', Auth::user()->courier->id);

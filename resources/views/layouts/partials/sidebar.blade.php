@@ -79,8 +79,8 @@
                         </li>
 
                         @if(auth()->user()->isAdmin())
-                            <li class="{{ request()->is('pickups?start='.now()->startOfDay().'&end='.now()->endOfDay()) ? ' active' : '' }}"><a
-                                        href="{{ route('pickups.index', ['start' => time(), 'end' => time()]) }}"><i
+                            <li class="{{ request()->is('pickups?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}"><a
+                                        href="{{ route('pickups.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp]) }}"><i
                                             class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a>
                             </li>
                         @endif

@@ -30,7 +30,10 @@ class GuestShipment extends Shipment
         return $this->belongsTo(Guest::class, 'client_account_number', 'id');
     }
 
-    public function saveClient($clientData)
+    /**
+     * @param array $clientData
+     */
+    public function saveClient(array $clientData)
     {
         $guest = Guest::firstOrCreate([
             'trade_name'   => $clientData['name'],

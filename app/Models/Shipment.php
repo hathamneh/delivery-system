@@ -460,12 +460,10 @@ class Shipment extends Model
     public function attachServices($services)
     {
         $syncData = [];
-        logger($services);
         foreach ($services as $service) {
             if (!$service instanceof Service) $service = Service::findOrFail($service);
             $syncData[$service->id] = ['price' => $service->price];
         }
-        logger($syncData);
         return $this->services()->sync($syncData);
     }
 

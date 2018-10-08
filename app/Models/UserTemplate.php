@@ -49,8 +49,6 @@ class UserTemplate extends Model
         if (is_array($roles)) {
             return $this->hasAllRoles($roles);
         }
-        if($roles=="notes")
-            logger($this->hasRole($roles, $accessLevel));
         return $this->hasRole($roles, $accessLevel);
     }
 

@@ -104,11 +104,11 @@ import mixitup from 'mixitup';
         nationalId.addEventListener('change', e => {
             let val = e.target.value;
             axios.get('/api/suggest/guest/' + val).then(res => {
-                document.getElementById('guest_name').value = res.data.trade_name;
-                document.getElementById('client_name').value = res.data.trade_name;
-                document.getElementById('guest_country').value = res.data.country;
-                document.getElementById('guest_city').value = res.data.city;
-                document.getElementById('phone_number').value = res.data.phone_number;
+                document.getElementById('guest_name').value = res.data.trade_name || "";
+                document.getElementById('client_name').value = res.data.trade_name || "";
+                document.getElementById('guest_country').value = res.data.country || "";
+                document.getElementById('guest_city').value = res.data.city || "";
+                document.getElementById('phone_number').value = res.data.phone_number || "";
             })
         });
     }

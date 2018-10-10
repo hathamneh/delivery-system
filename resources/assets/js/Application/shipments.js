@@ -4,10 +4,10 @@
         nationalId.addEventListener('change', e => {
             let val = e.target.value;
             axios.get('/api/suggest/guest/' + val).then(res => {
-                document.getElementById('clientName').value = res.data.trade_name;
-                document.getElementById('clientCountry').value = res.data.country;
-                document.getElementById('clientCity').value = res.data.city;
-                document.getElementById('clientPhone').value = res.data.phone_number;
+                document.getElementById('clientName').value = res.data.trade_name || "";
+                document.getElementById('clientCountry').value = res.data.country || "";
+                document.getElementById('clientCity').value = res.data.city || "";
+                document.getElementById('clientPhone').value = res.data.phone_number || "";
             })
         });
     }

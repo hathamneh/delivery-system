@@ -25,9 +25,15 @@ trait CourierAccounting
         $sum = 0;
         // prepare the shipments we want to work with, exit if no valid shipments
         if (!($targetShipments = $this->prepareTargetShipments($input))) return false;
+        if (!($targetPickups = $this->prepareTargetPickups($input))) return false;
+
         $shipments = $targetShipments->where('courier_id', $this->id)->courierCashed(false);
 
-        return $shipments->sum('actual_paid_by_consignee');
+        $sum += $shipments->sum('actual_paid_by_consignee');
+
+        $sum += $targetPickups->sum('prepaid_cash');
+
+        return $sum;
     }
 
     /**
@@ -55,22 +61,6 @@ trait CourierAccounting
         ];
     }
 
-    /**
-     * @param Invoice|array $input
-     * @return Shipment|bool
-     */
-    public function prepareTargetShipments($input)
-    {
-        if ($input instanceof Invoice)
-            return $input->shipments();
-        elseif (is_array($input) && count($input) == 2) {
-            $start = $input[0];
-            $end = $input[1];
-            return $this->shipments()->whereBetween('created_at', [$start, $end]);
-        } else {
-            return false;
-        }
-    }
 
     public function promotion($numShipments)
     {

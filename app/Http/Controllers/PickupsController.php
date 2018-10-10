@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Courier;
+use App\Guest;
 use App\Pickup;
 use App\Shipment;
 use Carbon\Carbon;
@@ -40,7 +41,7 @@ class PickupsController extends Controller
         } elseif ($request->has('start') && $request->has('end')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
             $endDate = Carbon::createFromTimestamp($request->get('end'));
-            $pickups->whereDate('available_time_start', '>=',$startDate)->whereDate('available_time_end', '<=', $endDate);
+            $pickups->whereDate('available_time_start', '>=', $startDate)->whereDate('available_time_end', '<=', $endDate);
         } else {
             $pickups = Pickup::whereDate('available_time_start', ">=", now()->subDays(2));
         }
@@ -79,7 +80,16 @@ class PickupsController extends Controller
     {
         $pickup = new Pickup;
         try {
-            $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
+            if ($request->has('is_guest') && $request->get('is_guest') === "1") {
+                Guest::findOrCreateByNationalId($request->get('client_national_id'), [
+                    'trade_name'    => $request->get('guest_name'),
+                    'phone_number'  => $request->get('phone_number'),
+                    'guest_country' => $request->get('guest_country'),
+                    'guest_city'    => $request->get('guest_city'),
+                ]);
+            } else {
+                $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
+            }
             $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
 
         } catch (\Exception $exception) {

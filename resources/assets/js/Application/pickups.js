@@ -69,4 +69,47 @@ import mixitup from 'mixitup';
             item.querySelector('.badge').textContent = count;
         });
     }
+
+    let isGuestRadios = document.getElementsByName('is_guest');
+    let guestInputs = ['guest_name', 'client_national_id', 'guest_country', 'guest_city', 'prepaid_cash'];
+    isGuestRadios.forEach(radio => {
+        radio.addEventListener('change', e => {
+            if (e.target.value === "1") {
+                guestInputs.forEach(id => {
+                    let item = document.getElementById(id);
+                    item.disabled = false;
+                    if (id === 'prepaid_cash')
+                        item.closest('.form-group').style.display = 'block';
+                    else
+                        item.closest('.form-group').style.display = 'flex';
+                });
+                let clientAccNum = document.getElementById('client_account_number');
+                clientAccNum.disabled = true;
+                clientAccNum.nextSibling.style.display = 'none';
+            } else {
+                guestInputs.forEach(id => {
+                    let item = document.getElementById(id);
+                    item.disabled = true;
+                    item.closest('.form-group').style.display = 'none';
+                });
+                let clientAccNum = document.getElementById('client_account_number');
+                clientAccNum.disabled = false;
+                clientAccNum.nextSibling.style.display = 'block';
+            }
+        })
+    });
+
+    let nationalId = document.getElementById('client_national_id');
+    if (nationalId) {
+        nationalId.addEventListener('change', e => {
+            let val = e.target.value;
+            axios.get('/api/suggest/guest/' + val).then(res => {
+                document.getElementById('guest_name').value = res.data.trade_name;
+                document.getElementById('client_name').value = res.data.trade_name;
+                document.getElementById('guest_country').value = res.data.country;
+                document.getElementById('guest_city').value = res.data.city;
+                document.getElementById('phone_number').value = res.data.phone_number;
+            })
+        });
+    }
 })(jQuery);

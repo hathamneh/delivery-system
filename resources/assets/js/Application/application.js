@@ -7,6 +7,7 @@ require('./printing');
 require('./extra');
 require('./pickups');
 require('./suggestions');
+require('./shipments');
 
 (function () {
     let shistory = document.querySelector(".shipment-history")
@@ -51,16 +52,19 @@ require('./suggestions');
                 let suggestions = reasonsInput.querySelector('.suggestions');
                 let newtimeInput = step2.querySelector('.newTime-input');
                 let actualPackagesInput = step2.querySelector('.actualPackages-input');
+                let prepaid_cash = step2.querySelector('.prepaid_cash-input');
                 suggestions.style.display = "none";
                 newtimeInput.style.display = "none";
-                newtimeInput.querySelector('input').type = "hidden";
+                newtimeInput.querySelector('input').disabled = true;
                 actualPackagesInput.style.display = "none";
-                actualPackagesInput.querySelector('input').type = "hidden";
+                actualPackagesInput.querySelector('input').disabled = true;
+                prepaid_cash.style.display = "none";
+                prepaid_cash.querySelector('input').disabled = true;
 
                 if (item.value === "client_rescheduled") {
                     let originalTime = item.dataset.originalTime;
                     newtimeInput.style.display = "block";
-                    newtimeInput.querySelector('input').type = "text";
+                    newtimeInput.querySelector('input').disabled = false;
                     notesTextArea.value = `Rescheduled (Original: ${originalTime})`;
 
                 } else if (item.value === "declined_not_available") {
@@ -75,7 +79,9 @@ require('./suggestions');
 
                 } else if (item.value === "completed") {
                     actualPackagesInput.style.display = "block";
-                    actualPackagesInput.querySelector('input').type = "number";
+                    actualPackagesInput.querySelector('input').disabled = false;
+                    prepaid_cash.style.display = "block";
+                    prepaid_cash.querySelector('input').disabled = false;
                     notesTextArea.value = "";
                 }
             });

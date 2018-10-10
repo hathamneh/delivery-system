@@ -99,12 +99,16 @@ class Invoice extends Model
      */
     public function pickups()
     {
-        $pickups = Pickup::unpaid()->whereBetween('created_at', [$this->from, $this->until]);
+        $pickups = Pickup::unpaid()
+            ->completed()
+            ->whereBetween('updated_at', [$this->from, $this->until]);
 
         if ($this->type == "client")
             return $pickups->where('client_account_number', $this->target->account_number);
         elseif ($this->type == "courier")
             return $pickups->where('courier_id', $this->target->id);
+        elseif ($this->type == "guest")
+            return $pickups->where('client_national_id', $this->target->national_id);
         return $pickups;
     }
 

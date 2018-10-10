@@ -9,6 +9,7 @@ use App\Notifications\ClientCreated;
 use App\Traits\ClientAccounting;
 use App\Traits\ClientStatistics;
 use App\Traits\HasAttachmentsTrait;
+use App\Traits\PrepareAccounting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -62,7 +63,7 @@ use Illuminate\Support\Facades\Hash;
 class Client extends Model implements Accountable, CanHaveShipment
 {
     use SoftDeletes, HasAttachmentsTrait;
-    use ClientAccounting, ClientStatistics;
+    use PrepareAccounting, ClientAccounting, ClientStatistics;
     use Notifiable;
 
     protected $dates = ['deleted_at'];

@@ -28,6 +28,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property integer id
  * @property string client_name
  * @property string client_national_id
+ * @property boolean is_guest
  * @mixin Builder
  * @method static self unpaid()
  * @method static self today()
@@ -60,7 +61,8 @@ class Pickup extends Model
         'phone_number',
         'identifier',
         'alerted',
-        'client_national_id'
+        'client_national_id',
+        'is_guest'
     ];
 
     protected $dispatchesEvents = [
@@ -77,6 +79,14 @@ class Pickup extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_account_number', 'account_number');
+    }
+
+    public function getClientAttribute()
+    {
+        if($this->is_guest)
+            return Guest::whereNationalId($this->client_national_id)->first();
+        else
+            return $this->client()->first();
     }
 
     public function courier()

@@ -44,16 +44,16 @@
                 <div class="card-body">
                     <div class="form-row">
                         <div class="form-group col-sm-6">
+                            <label for="national_id">@lang('client.national_id') *</label>
+                            <input type="text" name="shipment_client[national_id]" id="national_id" data-bind="shipment_client[national_id]" required
+                                   class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.national_id") }}"
+                                   placeholder="@lang('client.national_id')">
+                        </div>
+                        <div class="form-group col-sm-6">
                             <label for="clientName">@lang('shipment.client.name') *</label>
                             <input type="text" name="shipment_client[name]" id="clientName" data-bind="shipment_client[name]"
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.name") }}"
                                    required placeholder="@lang('shipment.client.name')">
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label for="national_id">@lang('client.national_id')</label>
-                            <input type="text" name="shipment_client[national_id]" id="national_id" data-bind="shipment_client[national_id]"
-                                   class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.national_id") }}"
-                                   placeholder="@lang('client.national_id')">
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="clientPhone">@lang('shipment.client.phone')</label>

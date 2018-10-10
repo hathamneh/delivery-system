@@ -24,19 +24,24 @@
                 <div class="custom-control custom-radio mb-3">
                     <input type="radio" id="completed-{{ $pickup->id }}" name="status" value="completed" required
                            class="custom-control-input">
-                    <label class="custom-control-label" for="completed-{{ $pickup->id }}">@lang('pickup.completed')</label>
+                    <label class="custom-control-label"
+                           for="completed-{{ $pickup->id }}">@lang('pickup.completed')</label>
                 </div>
                 <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="declined_client-{{ $pickup->id }}" name="status" value="declined_client" required
+                    <input type="radio" id="declined_client-{{ $pickup->id }}" name="status" value="declined_client"
+                           required
                            class="custom-control-input">
-                    <label class="custom-control-label" for="declined_client-{{ $pickup->id }}">@lang('pickup.declined') -
+                    <label class="custom-control-label" for="declined_client-{{ $pickup->id }}">@lang('pickup.declined')
+                        -
                         Cancelled by client</label>
                 </div>
                 <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="declined_dispatcher-{{ $pickup->id }}" name="status" value="declined_dispatcher"
+                    <input type="radio" id="declined_dispatcher-{{ $pickup->id }}" name="status"
+                           value="declined_dispatcher"
                            required
                            class="custom-control-input">
-                    <label class="custom-control-label" for="declined_dispatcher-{{ $pickup->id }}">@lang('pickup.declined') -
+                    <label class="custom-control-label"
+                           for="declined_dispatcher-{{ $pickup->id }}">@lang('pickup.declined') -
                         Cancelled by dispatcher</label>
                 </div>
                 <div class="custom-control custom-radio mb-3">
@@ -48,19 +53,30 @@
                         available</label>
                 </div>
                 <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="client_rescheduled-{{ $pickup->id }}" name="status" value="client_rescheduled"
-                           required data-original-time="{{ $pickup->available_day }} from {{ $pickup->time_start }} to {{ $pickup->time_end }}"
+                    <input type="radio" id="client_rescheduled-{{ $pickup->id }}" name="status"
+                           value="client_rescheduled"
+                           required
+                           data-original-time="{{ $pickup->available_day }} from {{ $pickup->time_start }} to {{ $pickup->time_end }}"
                            class="custom-control-input"
                            data-message="Kindly inform us about the requested time and any additional details">
-                    <label class="custom-control-label" for="client_rescheduled-{{ $pickup->id }}">Client rescheduled</label>
+                    <label class="custom-control-label" for="client_rescheduled-{{ $pickup->id }}">Client
+                        rescheduled</label>
                 </div>
             </div>
 
             <div class="step-2">
+                <div class="form-group prepaid_cash-input" style="display: none;">
+                    <label for="prepaid_cash">@lang('How much did he pay?')</label>
+                    <small class="form-control-feedback text-danger">This must match the value agreed on with the
+                        customer.
+                    </small>
+                    <input type="number" step="any" name="prepaid_cash" id="prepaid_cash" class="form-control" required
+                           placeholder="Please enter a value" min="{{ $pickup->prepaid_cash }}" max="{{ $pickup->prepaid_cash }}">
+                </div>
                 <div class="form-group actualPackages-input" style="display: none;">
                     <label for="actualPackages-{{ $pickup->id }}">@lang('pickup.actual_packages_number')</label>
                     <input type="number" name="actualPackages" id="actualPackages-{{ $pickup->id }}"
-                           class="form-control" required min="1">
+                           class="form-control" required min="1" placeholder="Please enter a value">
                 </div>
                 <div class="newTime-input" style="display: none;">
                     <div class="row">

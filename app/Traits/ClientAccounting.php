@@ -10,6 +10,7 @@ namespace App\Traits;
 
 
 use App\Client;
+use App\Guest;
 use App\Invoice;
 use App\Shipment;
 
@@ -64,31 +65,19 @@ trait ClientAccounting
     {
         $sum = 0;
 
-        // prepare the shipments we want to work with, exit if no valid shipments
+        // prepare the shipments and pickups we want to work with, exit if no valid shipments
         if (!($targetShipments = $this->prepareTargetShipments($input))) return false;
-
+        if (!($targetPickups = $this->prepareTargetPickups($input))) return false;
         // Actual paid by consignee for delivered shipments
         $sum += $targetShipments->statusIs("delivered")->sum('actual_paid_by_consignee');
+
+        // Prepaid credit for Not registered clients
+        if ($this instanceof Guest)
+            $sum += $targetPickups->sum('prepaid_cash');
 
         // Actual paid by consignee fro conflicts only if the lodger is the client
         $sum += $targetShipments->statusIn(["rejected", "returned"])->lodger('client')->sum('actual_paid_by_consignee');
         return $sum;
     }
 
-    /**
-     * @param Invoice|array $input
-     * @return Shipment|bool
-     */
-    public function prepareTargetShipments($input)
-    {
-        if ($input instanceof Invoice)
-            return $input->shipments();
-        elseif (is_array($input) && count($input) == 2) {
-            $start = $input[0];
-            $end = $input[1];
-            return $this->shipments()->whereBetween('created_at', [$start, $end]);
-        } else {
-            return false;
-        }
-    }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Client;
 use App\Courier;
+use App\Guest;
 use App\Http\Resources\ClientSuggestCollection;
 use App\Http\Resources\CourierSuggestResource;
+use App\Http\Resources\GuestCollection;
 use App\Http\Resources\ShipmentSuggestCollection;
 use App\Http\Resources\StatusSuggestCollection;
 use App\Shipment;
@@ -51,5 +53,10 @@ class SuggestController extends Controller
         return [
             'suggestions' => $theStatus->suggested_reasons
         ];
+    }
+
+    public function guests(Request $request, $national_id)
+    {
+        return Guest::whereNationalId($national_id)->first();
     }
 }

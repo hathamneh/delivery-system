@@ -39,11 +39,11 @@ return [
     'pickup_fees' => "Extra Fees",
     'client_name' => "Name",
     'phone' => "Phone Number",
-    'phone' => "Phone Number",
     'address_text' => "Address (Text)",
     'address_maps' => "Address (Google Maps Link)",
     'notes' => "Your notes",
     'internal_notes' => "Notes for courier",
     'external_notes' => "Courier Notes",
-    'address' => "Address"
+    'address' => "Address",
+    'prepaid_cash' => 'Cash to be collected from client',
 ];

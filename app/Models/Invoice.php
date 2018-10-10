@@ -44,8 +44,8 @@ class Invoice extends Model
     public function setPeriodAttribute($value)
     {
         $dates = explode(' - ', $value);
-        $this->from = Carbon::createFromFormat('M d, Y', $dates[0]);
-        $this->until = Carbon::createFromFormat('M d, Y', $dates[1]);
+        $this->from = Carbon::createFromFormat('M d, Y', $dates[0])->startOfDay();
+        $this->until = Carbon::createFromFormat('M d, Y', $dates[1])->endOfDay();
     }
 
     /**

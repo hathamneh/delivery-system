@@ -209,6 +209,7 @@ class PickupsController extends Controller
                 $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
                 $pickup->available_time_start = $startDate;
                 $pickup->available_time_end = $endDate;
+                $pickup->status_note = "";
                 $pickup->status = "pending";
                 $pickup->actual_packages_number = null;
                 $pickup->notes_external = $request->get('reasons');
@@ -216,11 +217,15 @@ class PickupsController extends Controller
             case "completed":
                 $pickup->actual_packages_number = $request->get('actualPackages');
                 $pickup->notes_external = $request->get('reasons');
+                $pickup->status_note = "";
                 $pickup->status = $status;
                 break;
             case "declined_client":
+                $pickup->status_note = "Cancelled by client";
             case "declined_dispatcher":
+                $pickup->status_note = "Cancelled by dispatcher";
             case "declined_not_available":
+                $pickup->status_note = "Client not available";
                 $pickup->actual_packages_number = null;
                 $pickup->notes_external = $request->get('reasons');
                 $pickup->status = $status;

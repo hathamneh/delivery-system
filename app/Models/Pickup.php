@@ -29,6 +29,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string client_name
  * @property string client_national_id
  * @property boolean is_guest
+ * @property string status_note
  * @mixin Builder
  * @method static self unpaid()
  * @method static self today()
@@ -64,6 +65,7 @@ class Pickup extends Model
         'client_national_id',
         'is_guest',
         'prepaid_cash',
+        'status_note'
     ];
 
     protected $dispatchesEvents = [
@@ -167,7 +169,9 @@ class Pickup extends Model
                     case 'card':
                         return "border-danger";
                     case 'text':
-                        return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>' . trans('pickup.declined') . '</span></small>';
+                        return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>' . trans('pickup.declined') . '</span>' .
+                            ' - ' . $this->status_note .
+                            '</small>';
                     default:
                         return "danger";
                 }

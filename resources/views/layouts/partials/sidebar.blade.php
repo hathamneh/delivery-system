@@ -11,21 +11,41 @@
                 <a href="{{ route('home') }}"><i
                             class="fas fa-desktop"></i><span>@lang("sidebar.dashboard")</span></a>
             </li>
-            @if(auth()->user()->isAuthorized('shipments'))
-                <li class="nav-parent{{ request()->is('shipments*') ? ' active' : '' }}">
-                    <a href="{{ route('shipments.index') }}"><i
-                                class="fas fa-shipment"></i><span>@lang('shipment.label')</span><span
+            @if(auth()->user()->isAuthorizedAny(["notes", "services", "zones"]))
+                <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*') ? ' active' : '' }}">
+                    <a href="#"><i
+                                class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
                                 class="fa fa-angle-down arrow"></span></a>
                     <ul class="children collapse">
-                        <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
-                                    href="{{ route('shipments.index') }}"><i
-                                        class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
-                        <li class="{{ (\Request::is('shipments?scope=returned')) ? 'active' : '' }}"><a
-                                    href="{{ route('shipments.index', ['scope' => 'returned']) }}"><i
-                                        class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>
-                        @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
-                            <li class="{{ (\Request::route()->getName() == 'shipments.create') ? 'active' : '' }}"><a
-                                        href="{{ route('shipments.create') }}"><i
+                        @if(auth()->user()->isAuthorized('notes'))
+                            <li class="{{ request()->is('notes*') ? 'active' : '' }}"><a
+                                        href="{{ route('notes.index')  }}"><i
+                                            class="fas fa-file"></i>@lang('note.label')</a></li>
+                        @endif
+                        @if(auth()->user()->isAuthorized('zones'))
+                            <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a
+                                        href="{{ route('zones.index') }}"><i
+                                            class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
+                        @endif
+                        @if(auth()->user()->isAuthorized('services'))
+                            <li class="{{ request()->is('services*') }}"><a href="{{ route('services.index') }}"><i
+                                            class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
+            @if(auth()->user()->isAuthorized("couriers"))
+                <li class="nav-parent{{ request()->is('couriers*') ? ' active' : '' }}">
+                    <a href="{{ route('couriers.index') }}"><i
+                                class="fas fa-truck"></i><span>@lang('courier.label')</span><span
+                                class="fa fa-angle-down arrow"></span></a>
+                    <ul class="children collapse">
+                        <li class="{{ (\Request::route()->getName() == 'couriers.index') ? 'active' : '' }}"><a
+                                    href="{{ route('couriers.index') }}"><i
+                                        class="fas fa-truck"></i>@lang('courier.all')</a></li>
+                        @if(auth()->user()->isAuthorized("couriers", \App\Role::UT_CREATE))
+                            <li class="{{ (\Request::route()->getName() == 'couriers.create') ? 'active' : '' }}"><a
+                                        href="{{ route('couriers.create') }}"><i
                                             class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
                         @endif
                     </ul>
@@ -43,23 +63,6 @@
                         @if(auth()->user()->isAuthorized('clients', \App\Role::UT_CREATE))
                             <li class="{{ (\Request::route()->getName() == 'clients.create') ? 'active' : '' }}"><a
                                         href="{{ route('clients.create') }}"><i
-                                            class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            @if(auth()->user()->isAuthorized("couriers"))
-                <li class="nav-parent{{ request()->is('couriers*') ? ' active' : '' }}">
-                    <a href="{{ route('couriers.index') }}"><i
-                                class="fas fa-truck"></i><span>@lang('courier.label')</span><span
-                                class="fa fa-angle-down arrow"></span></a>
-                    <ul class="children collapse">
-                        <li class="{{ (\Request::route()->getName() == 'couriers.index') ? 'active' : '' }}"><a
-                                    href="{{ route('couriers.index') }}"><i
-                                        class="fas fa-truck"></i>@lang('courier.all')</a></li>
-                        @if(auth()->user()->isAuthorized("couriers", \App\Role::UT_CREATE))
-                            <li class="{{ (\Request::route()->getName() == 'couriers.create') ? 'active' : '' }}"><a
-                                        href="{{ route('couriers.create') }}"><i
                                             class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
                         @endif
                     </ul>
@@ -91,6 +94,27 @@
                     </ul>
                 </li>
             @endif
+            @if(auth()->user()->isAuthorized('shipments'))
+                <li class="nav-parent{{ request()->is('shipments*') ? ' active' : '' }}">
+                    <a href="{{ route('shipments.index') }}"><i
+                                class="fas fa-shipment"></i><span>@lang('shipment.label')</span><span
+                                class="fa fa-angle-down arrow"></span></a>
+                    <ul class="children collapse">
+                        <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
+                                    href="{{ route('shipments.index') }}"><i
+                                        class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
+                        <li class="{{ (\Request::is('shipments?scope=returned')) ? 'active' : '' }}"><a
+                                    href="{{ route('shipments.index', ['scope' => 'returned']) }}"><i
+                                        class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>
+                        @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
+                            <li class="{{ (\Request::route()->getName() == 'shipments.create') ? 'active' : '' }}"><a
+                                        href="{{ route('shipments.create') }}"><i
+                                            class="fas fa-plus-circle"></i>@lang('sidebar.add_new')</a></li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
+
 
             @if(auth()->user()->isAdmin())
                 <li class="nav-parent{{ request()->is('reports*', 'accounting*') ? ' active' : '' }}">
@@ -104,30 +128,6 @@
                         <li class="{{ request()->is('accounting*') ? 'active' : '' }}"><a
                                     href="{{ route('accounting.index') }}"><i
                                         class="fa-money-bill-alt2"></i> @lang('accounting.label')</a></li>
-                    </ul>
-                </li>
-            @endif
-
-            @if(auth()->user()->isAuthorizedAny(["notes", "services", "zones"]))
-                <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*') ? ' active' : '' }}">
-                    <a href="#"><i
-                                class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
-                                class="fa fa-angle-down arrow"></span></a>
-                    <ul class="children collapse">
-                        @if(auth()->user()->isAuthorized('notes'))
-                            <li class="{{ request()->is('notes*') ? 'active' : '' }}"><a
-                                        href="{{ route('notes.index')  }}"><i
-                                            class="fas fa-file"></i>@lang('note.label')</a></li>
-                        @endif
-                        @if(auth()->user()->isAuthorized('zones'))
-                            <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a
-                                        href="{{ route('zones.index') }}"><i
-                                            class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
-                        @endif
-                        @if(auth()->user()->isAuthorized('services'))
-                            <li class="{{ request()->is('services*') }}"><a href="{{ route('services.index') }}"><i
-                                            class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
-                        @endif
                     </ul>
                 </li>
             @endif

@@ -233,6 +233,6 @@ class PickupsController extends Controller
         }
         $pickup->save();
 
-        return redirect()->route('pickups.index');
+        return back();
     }
 }

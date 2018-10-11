@@ -208,6 +208,7 @@ class Client extends Model implements Accountable, CanHaveShipment
     {
         return $query->where('alerted', false);
     }
+
     public function zone()
     {
         return $this->belongsTo(Zone::class);
@@ -221,6 +222,11 @@ class Client extends Model implements Accountable, CanHaveShipment
     public function chargedFor()
     {
         return $this->hasMany(ClientChargedFor::class);
+    }
+
+    public function chargedForStatuses()
+    {
+        return Status::whereIn('id', $this->chargedFor()->pluck('status_id'))->pluck('name')->toArray();
     }
 
 

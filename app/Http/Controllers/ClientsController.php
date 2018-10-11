@@ -220,20 +220,32 @@ class ClientsController extends Controller
 
     private function chargeFor(Client $client, Request $request)
     {
-        if (is_array($chargedForItems = $request->get('chargedFor'))) {
-            foreach ($chargedForItems as $statusName => $item) {
-                if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
-                $status = Status::name($statusName)->first();
-                if (is_null($status)) continue;
-                $chargedFor = new ClientChargedFor;
-                $chargedFor->status()->associate($status);
-                $chargedFor->enabled = $item['enabled'] == "on";
-                $chargedFor->type = $item['type'];
-                $chargedFor->value = $item['value'];
-                $chargedFor->client()->associate($client);
-                $chargedFor->save();
+        $chargedForItems = $request->get('chargedFor', []);
+        $savedStatuses = $client->chargedForStatuses();
+        $receivedStatuses = array_keys($chargedForItems);
+        $toDelete = array_diff($savedStatuses, $receivedStatuses);
+        //dd($toDelete);
+        foreach ($toDelete as $item) {
+            /** @var ClientChargedFor $cf */
+            $cf = $client->chargedFor()->byStatus($item)->first();
+            try {
+                $cf->delete();
+            } catch (\Exception $e) {
             }
         }
+        foreach ($chargedForItems as $statusName => $item) {
+            if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
+            $status = Status::name($statusName)->first();
+            if (is_null($status)) continue;
+            $chargedFor = new ClientChargedFor;
+            $chargedFor->status()->associate($status);
+            $chargedFor->enabled = $item['enabled'] == "on";
+            $chargedFor->type = $item['type'];
+            $chargedFor->value = $item['value'];
+            $chargedFor->client()->associate($client);
+            $chargedFor->save();
+        }
+
     }
 
     protected function appendStatsData(array &$data, Client $client, Request $request)

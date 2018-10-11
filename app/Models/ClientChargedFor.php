@@ -55,4 +55,5 @@ class ClientChargedFor extends Model
         // otherwise
         return $delivery_cost;
     }
+
 }

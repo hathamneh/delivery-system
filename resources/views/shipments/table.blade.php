@@ -24,7 +24,7 @@
             <tr data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}" title="Open shipment details">
                 <td>{{ $shipment->waybill }}</td>
                 <td>{{ $shipment->client->trade_name }}</td>
-                <td>{{ $shipment->client_account_number }}</td>
+                <td>{{ $shipment instanceof \App\GuestShipment ? $shipment->client->national_id : $shipment->client_account_number }}</td>
                 <td>{{ $shipment->consignee_name }}</td>
                 <td>{{ $shipment->delivery_date }}</td>
                 <td>{{ $shipment->courier->name }}</td>

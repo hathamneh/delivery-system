@@ -56,4 +56,6 @@ return [
     "discount" => "Apply discount",
     "discount_note" => "The discount will be applied on the total net amount of this invoice.",
     "generate" => "Generate",
+
+    'client_payment' => 'Payment',
 ];

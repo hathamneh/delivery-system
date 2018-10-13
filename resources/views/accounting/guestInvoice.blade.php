@@ -146,6 +146,11 @@
             <table class="invoice__summery-table">
                 <tbody>
                 <tr>
+                    <th>@lang('accounting.client_payment') <small class="text-muted">- Prepaid cashed by the client.</small></th>
+                    <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->payment) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>@lang('accounting.client_due_for')</th>
                     <td><span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->due_for) }}
                     </td>

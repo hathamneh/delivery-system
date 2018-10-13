@@ -35,12 +35,11 @@ class GuestShipment extends Shipment
      */
     public function saveClient(array $clientData)
     {
-        $guest = Guest::firstOrCreate([
+        $guest = Guest::findOrCreateByNationalId($clientData['national_id'], [
             'trade_name'   => $clientData['name'],
             'phone_number' => $clientData['phone_number'],
             'country'      => $clientData['country'],
             'city'         => $clientData['city'],
-            'national_id'  => $clientData['national_id'],
         ]);
         $this->client()->associate($guest);
     }

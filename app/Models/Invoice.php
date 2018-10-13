@@ -94,6 +94,13 @@ class Invoice extends Model
     }
 
 
+    public function getPaymentAttribute()
+    {
+        if ($this->target instanceof Accountable)
+            return $this->target->payment($this);
+        return 0;
+    }
+
     /**
      * @return Pickup
      */

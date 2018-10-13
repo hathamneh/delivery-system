@@ -59,6 +59,7 @@ use Illuminate\Support\Facades\Hash;
  * @property integer max_returned_shipments
  *
  * @property Collection attachments
+ * @mixin Builder
  */
 class Client extends Model implements Accountable, CanHaveShipment
 {

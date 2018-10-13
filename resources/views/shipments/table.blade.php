@@ -26,7 +26,7 @@
                 <td>{{ $shipment->client->trade_name }}</td>
                 <td>{{ $shipment instanceof \App\GuestShipment ? $shipment->client->national_id : $shipment->client_account_number }}</td>
                 <td>{{ $shipment->consignee_name }}</td>
-                <td>{{ $shipment->delivery_date }}</td>
+                <td>{{ $shipment->delivery_date->toFormattedDateString() }}</td>
                 <td>{{ $shipment->courier->name }}</td>
                 <td>{{ $shipment->address->name }}</td>
                 <td>{{ trans($shipment->service_type) }}</td>

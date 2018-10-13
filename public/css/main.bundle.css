@@ -23300,6 +23300,10 @@ body.rtl .layout-options .img-sidebar-right {
   font-size: 0.65rem;
 }
 
+.shipments-table table tbody tr td {
+  padding: .5rem;
+}
+
 .sidebar {
   background-color: #2b2e33;
   left: 0;

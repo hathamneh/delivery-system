@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Client;
 use App\Courier;
+use App\Guest;
 use App\GuestShipment;
 use App\Http\Requests\StoreShipmentRequest;
 use App\ReturnedShipment;
@@ -38,19 +40,8 @@ class ShipmentController extends Controller
         else
             $shipments = Shipment::type($types);
 
-        $filter_raw = $request->get('scope', false);
-        $filters = [];
-        if ($filter_raw) {
-            $filters = explode(',', $filter_raw);
-            $i = 0;
-            foreach ($filters as $filter) {
-                if ($filter === "pending")
-                    $shipments = $shipments->pending();
-                elseif (Status::name($filter)->exists()) {
-                    $shipments = $shipments->statusIn([$filter], $i++ > 0 ? "or" : "and");
-                }
-            }
-        }
+        $filters = $this->applyFilters($shipments, $request);
+
         $shipments = $shipments->filtered();
         return view('shipments.index', [
             'shipments'        => $shipments,
@@ -341,5 +332,38 @@ class ShipmentController extends Controller
     {
         $shipment->gatherPriceInformation();
         return back();
+    }
+
+    private function applyFilters(&$shipments, Request $request)
+    {
+        $filters = [
+            'scope' => [],
+            'client' => '',
+        ];
+
+        $filter_scope_raw = $request->get('scope', false);
+        if ($filter_scope_raw) {
+            $filters['scope'] = explode(',', $filter_scope_raw);
+            $or = false;
+            foreach ($filters['scope'] as $scope) {
+                if ($scope === "pending")
+                    $shipments = $shipments->pending();
+                elseif (Status::name($scope)->exists()) {
+                    $shipments = $shipments->statusIn([$scope], $or ? "or" : "and");
+                }
+                $or = true;
+            }
+        }
+
+        $filter_client = $request->get('client', false);
+        if ($filter_client) {
+            $filters['client'] = $filter_client;
+            if (!is_null(Client::find($filter_client)))
+                $shipments->where('client_account_number', '=', $filter_client);
+            if(!is_null($guest = Guest::whereNationalId($filter_client)->first()))
+                $shipments->where('client_account_number', '=', $guest->id);
+        }
+
+        return $filters;
     }
 }

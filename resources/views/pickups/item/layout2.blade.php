@@ -29,12 +29,22 @@
                 <i class="fa-map-marker-alt"></i> @lang('pickup.address'):
             </span>
             <span class="meta-value">
-                {{ $pickup->address_text }}
-                @if(!is_null($pickup->address_maps))
-                    <a href="{{ $pickup->address_maps }}">See on google maps</a>
+                {{ $pickup->pickup_address_text }}
+                @if(!is_null($pickup->pickup_address_maps))
+                    <a href="{{ $pickup->pickup_address_maps }}">See on google maps</a>
                 @endif
             </span>
         </li>
+        @if(!is_null($pickup->prepaid_cash))
+            <li class="list-group-item">
+                <span class="meta-label">
+                    <i class="fa-dollar-sign"></i> @lang('pickup.prepaid_cash')
+                </span>
+                <span class="meta-value">
+                    {{ $pickup->prepaid_cash }}
+                </span>
+            </li>
+        @endif
         <li class="list-group-item">
             <span class="meta-label">
                 <i class="fa-phone"></i> @lang('pickup.'.$pickup->pickup_from.'_phone'):

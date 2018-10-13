@@ -76,6 +76,16 @@
                 @endif
             </span>
         </li>
+        @if(!is_null($pickup->prepaid_cash))
+            <li class="list-group-item">
+                <span class="meta-label">
+                    <i class="fa-dollar-sign"></i> @lang('pickup.prepaid_cash')
+                </span>
+                <span class="meta-value">
+                    {{ $pickup->prepaid_cash }}
+                </span>
+            </li>
+        @endif
         <li class="list-group-item">
             <span class="meta-label">@lang('pickup.external_notes'):</span>
             <br>

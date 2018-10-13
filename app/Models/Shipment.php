@@ -325,6 +325,10 @@ class Shipment extends Model
     }
 
     public function isStatus($status) {
+        if(is_array($status)) {
+            $s = Status::name('name', $status)->pluck('id');
+            return in_array($this->status_id, $s->toArray());
+        }
         if(is_string($status))
             $status = Status::name($status)->first();
         return $this->status->is($status);
@@ -434,6 +438,14 @@ class Shipment extends Model
     {
         if (!is_null($this->total_price)) return $this->total_price;
         return $this->price_of_address + $this->extra_fees + $this->services_cost;
+    }
+
+    public function getNetAmountAttribute()
+    {
+        if($this->statusIs(["rejected", 'cancelled'])) {
+            return abs($this->delivery_cost - $this->actual_paid_by_consignee);
+        }
+        return $this->delivery_cost;
     }
 
     public function getCashOnDeliveryAttribute()

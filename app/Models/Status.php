@@ -45,6 +45,8 @@ class Status extends Model
 
     public function scopeName($query, $name)
     {
+        if(is_array($name))
+            return $query->whereIn('name', $name);
         return $query->where('name', $name);
     }
 

@@ -50,7 +50,6 @@ trait ClientAccounting
             /** @var  Shipment $shipment */
             $status = $shipment->status->name;
             if ($charged[$status]) {
-                dd($charged[$status]->compute($shipment->delivery_cost), $shipment->actual_paid_by_consignee);
                 $sum += abs($shipment->actual_paid_by_consignee - $charged[$status]->compute($shipment->delivery_cost));
             }
         }

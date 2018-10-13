@@ -13,14 +13,14 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'هذه المدخلات لا تطابق أي من المستخدمين.',
+    'throttle' => 'لقد قمت بالكثير من محاولات تسجيل الدخول، يرجى المحاولة بعد :seconds ثواني.',
 
-    "username" => "Username",
-    "password" => "Password",
-    'type' => "Account Type",
-    'show_password' => "Show Password",
+    "username" => "اسم المستخدم",
+    "password" => "كلمة المرور",
+    'type' => "نوع الحساب",
+    'show_password' => "عرض كلمة المرور",
 
-    'logout' => "Logout"
+    'logout' => "تسجيل الخروج"
 
 ];

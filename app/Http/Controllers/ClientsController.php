@@ -224,7 +224,7 @@ class ClientsController extends Controller
         $savedStatuses = $client->chargedForStatuses();
         $receivedStatuses = array_keys($chargedForItems);
         $toDelete = array_diff($savedStatuses, $receivedStatuses);
-        //dd($toDelete);
+        
         foreach ($toDelete as $item) {
             /** @var ClientChargedFor $cf */
             $cf = $client->chargedFor()->byStatus($item)->first();

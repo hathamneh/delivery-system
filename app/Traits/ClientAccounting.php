@@ -38,6 +38,7 @@ trait ClientAccounting
 
         // ( CONFLICT ) shipments
         $shipments = clone $targetShipments;
+        $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
         $charged = [];
         foreach (['rejected', 'cancelled'] as $item) {
             if ($this instanceof Client && $this->isChargedFor($item))
@@ -45,13 +46,12 @@ trait ClientAccounting
             else
                 $charged[$item] = false;
         }
-
-        $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
         foreach ($shipments as $shipment) {
             /** @var  Shipment $shipment */
             $status = $shipment->status->name;
             if ($charged[$status]) {
-                $sum += $charged[$status]->compute($shipment->delivery_cost);
+
+                $sum += abs($shipment->actual_paid_by_consignee - $charged[$status]->compute($shipment->delivery_cost));
             }
         }
         return $sum;

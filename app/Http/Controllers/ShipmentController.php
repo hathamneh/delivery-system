@@ -32,7 +32,7 @@ class ShipmentController extends Controller
         $type = $request->get('type', 'normal,guest');
         $types = explode(",", $type);
         if ($user->isCourier())
-            $shipments = $user->courier->shipments()->type($types);
+            $shipments = $user->courier->shipments()->type($types)->today();
         elseif ($user->isClient())
             $shipments = $user->client->shipments()->type($types);
         else

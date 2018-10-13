@@ -32,11 +32,3 @@
     @includeWhen($tab == "actions", "shipments.tabs.actions")
 
 @endsection
-
-@section('beforeBody')
-    @if($tab == "actions")
-        <script>
-
-        </script>
-    @endif
-@endsection

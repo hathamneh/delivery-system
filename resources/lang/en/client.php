@@ -75,7 +75,7 @@ return [
 
     'shipment' => "Shipment",
 
-    'statusesPercentage' => 'Status %',
+    'statusesPercentage' => 'Number of Shipments',
 
     'upload' => 'Upload',
     'upload_file' => 'Add Attachment',

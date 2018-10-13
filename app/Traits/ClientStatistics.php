@@ -48,8 +48,8 @@ trait ClientStatistics
         $out = (object)[
             'shipments' => $this->shipmentsStats(),
             'pickups'   => $this->pickupsStats(),
-            'dueFrom'   => $this->dueForStats(),
-            'dueFor'    => $this->dueFromStats(),
+            'dueFrom'   => $this->dueFromStats(),
+            'dueFor'    => $this->dueForStats(),
             'statuses'  => $this->statsStatuses(),
         ];
         return $out;
@@ -147,7 +147,8 @@ trait ClientStatistics
             $out['labels'][] = '"' . trans("shipment.statuses." . $status->name) . '"';
             if ($this->statsShipmentsCount > 0) {
                 $count = $shipments->whereStatusId($status->id)->count();
-                $out['values'][] = round(100 * ($count / $this->statsShipmentsCount), 2);
+                //$out['values'][] = round(100 * ($count / $this->statsShipmentsCount), 2);
+                $out['values'][] = $count;
 
             } else
                 $out['values'][] = 0;

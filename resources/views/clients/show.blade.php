@@ -32,10 +32,7 @@
 @endsection
 
 @section('beforeBody')
-    @if($tab == "pickups")
-        <script src="{{ asset('js/plugins/mixitup.min.js') }}"></script>
-        <script src="{{ asset('js/pickups.js') }}"></script>
-    @elseif($tab == "statistics")
+    @if($tab == "statistics")
         <script>
             var ctx = document.getElementById("myChart").getContext('2d');
             var myChart = new Chart(ctx, {
@@ -74,19 +71,13 @@
                     scales: {
                         xAxes: [{
                             display: true,
-                            categoryPercentage: 1,
-                            barPercentage: 0.1,
                             ticks: {
                                 min: 0,
-                                max: 100,
-                                suggestedMax: 100,
-                                stepSize: 10,
-                                callback: function(value, index, values) {
-                                    return value + "%";
-                                }
+                                stepSize: 1,
+                                suggestedMax: 5
                             }
                         }]
-                    }
+                    },
                 }
             });
         </script>

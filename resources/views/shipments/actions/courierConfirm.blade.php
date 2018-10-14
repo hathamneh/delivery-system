@@ -1,20 +1,24 @@
 @php /** @var \App\Shipment $shipment */ @endphp
 
-<div class="alert alert-warning">
-    <b class="alert-heading">Shipments Notes</b>
-    <hr>
-    <p>
-        {{ $shipment->internal_notes ?? "No notes" }}
-    </p>
-</div>
-<div class="alert alert-light">
-    <b class="alert-heading">@lang('shipment.reference')</b>
-    <hr>
-    <p>
-        {{ $shipment->reference ?? "No reference" }}
-    </p>
-</div>
-<div class="d-flex mt-4 flex-column-reverse flex-md-row">
+@if(auth()->user()->isCourier())
+    <div class="mb-3">
+        <div class="alert alert-warning">
+            <b class="alert-heading">Shipments Notes</b>
+            <hr>
+            <p>
+                {{ $shipment->internal_notes ?? "No notes" }}
+            </p>
+        </div>
+        <div class="alert alert-light">
+            <b class="alert-heading">@lang('shipment.reference')</b>
+            <hr>
+            <p>
+                {{ $shipment->reference ?? "No reference" }}
+            </p>
+        </div>
+    </div>
+@endif
+<div class="d-flex flex-column-reverse flex-md-row">
 
     <fieldset class="shipment-actions-fieldset flex-fill mr-2">
         <legend><i class="fa-shipment mr-2"></i> @lang('shipment.delivery')</legend>
@@ -32,7 +36,7 @@
         </div>
     </fieldset>
 
-    <div class="border rounded border-success flex-fill mx-auto py-5 mb-3 d-flex align-items-center flex-column justify-content-center w-100"
+    <div class="border rounded border-success flex-fill mx-auto py-5 mt-3 d-flex align-items-center flex-column justify-content-center w-100"
          style="max-width: 250px;">
         <div class="text-center">Current State</div>
         <div class="text-center" style="font-size: 1.3rem; font-weight: 700;">

@@ -86,6 +86,7 @@ return [
     'total'                  => "Total",
     'actions'                => "Shipment Actions",
     'change_status'          => "Change Status",
+    'change_status_manually' => "Change Status Manually",
     "sub_status"             => "Sub Status",
     "status_notes"           => "Reasons for this status",
     "summery"                => "Shipment Summery",

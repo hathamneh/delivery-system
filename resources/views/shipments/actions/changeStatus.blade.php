@@ -1,9 +1,9 @@
 @php /** @var \App\Shipment $shipment */ @endphp
-<form action="{{ route('shipments.update', ['shipment' => $shipment,'tab' => "status"]) }}" method="post">
+<form action="{{ route('shipments.update', ['shipment' => $shipment,'tab' => "status"]) }}" method="post" class=" mt-4">
     {{ csrf_field() }}
     {{ method_field('PUT') }}
     <fieldset class="shipment-actions-fieldset">
-        <legend>@lang("shipment.change_status")</legend>
+        <legend>@lang("shipment.change_status_manually")</legend>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="status">@lang('shipment.status')</label>

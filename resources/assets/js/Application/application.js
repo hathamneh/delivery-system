@@ -25,15 +25,17 @@ require('./shipments');
                 let crInput = step2.querySelector('.deliveryDate-input');
                 let apInput = step2.querySelector('.actualPaid-input');
                 let suggInput = step2.querySelector('.suggestions');
-                crInput.querySelector('input').removeAttribute('required');
                 crInput.style.display = "none";
+                crInput.querySelector('input').disabled = true;
                 apInput.style.display = "none";
+                apInput.querySelector('input').disabled = true;
                 suggInput.style.display = "none";
                 if (item.value === "consignee_rescheduled") {
-                    crInput.querySelector('input').required = true;
+                    crInput.querySelector('input').disabled = false;
                     crInput.style.display = "block";
                 } else if (item.value === "rejected") {
                     apInput.style.display = "block";
+                    apInput.querySelector('input').disabled = false;
                 } else if (item.value === 'not_available') {
                     suggInput.style.display = "block";
                 }

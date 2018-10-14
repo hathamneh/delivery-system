@@ -17,6 +17,7 @@
         "laravel/tinker": "^1.0",
         "mariuzzo/laravel-js-localization": "^1.4",
         "petercoles/multilingual-country-list": "^1.2",
+        "spatie/laravel-activitylog": "^2.8",
         "venturecraft/revisionable": "1.*"
     },
     "require-dev": {

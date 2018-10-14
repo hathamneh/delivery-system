@@ -17,6 +17,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ShipmentController extends Controller
@@ -164,6 +165,8 @@ class ShipmentController extends Controller
         if ($tab == "actions") {
             $data['statuses'] = Status::all();
             $data['returned_statuses'] = Status::whereIn('name', ['rejected', 'cancelled'])->get();
+        } elseif ($tab == "status") {
+            $data['log'] = Activity::forSubject($shipment)->get();
         }
         return view('shipments.show', $data);
     }
@@ -256,8 +259,8 @@ class ShipmentController extends Controller
     {
         $request->validate([
             'status'        => 'required',
-            'actual_paid'   => 'required',
-            'delivery_date' => 'required_if:status,consignee_reschedule'
+            'actual_paid'   => 'required_unless:status,consignee_rescheduled',
+            'delivery_date' => 'required_if:status,consignee_rescheduled'
         ]);
         $status = $request->get('status');
         if ($status == "delivered") {
@@ -267,8 +270,8 @@ class ShipmentController extends Controller
             $newStatus = Status::name($status)->first();
             if (!is_null($newStatus)) {
                 $shipment->status()->associate($newStatus);
-                if ($newStatus->name == "consignee_reschedule") {
-
+                if ($newStatus->name == "consignee_rescheduled") {
+                    $shipment->delivery_date = Carbon::createFromFormat('d/m/Y', $request->get('delivery_date'));
                 }
                 $shipment->actual_paid_by_consignee = $request->get('actual_paid');
             }

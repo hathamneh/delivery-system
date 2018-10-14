@@ -120,6 +120,11 @@ class Shipment extends Model
         'reference',
     ];
 
+    protected $dispatchesEvents = [
+        'saving' => Events\ShipmentSaving::class,
+        'created' => Events\ShipmentCreated::class,
+    ];
+
     /**
      * model life cycle event listeners
      */

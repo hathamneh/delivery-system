@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\PickupSaving::class => [
             \App\Listeners\PickupSaving::class,
         ],
+        \App\Events\ShipmentSaving::class => [
+            \App\Listeners\ShipmentSaving::class,
+        ],
     ];
 
     /**

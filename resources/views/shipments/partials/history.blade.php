@@ -1,20 +1,12 @@
 <h3>Shipment History</h3>
-@if($shipment->revisionHistory->count())
+@if(isset($log) && $log->count())
     <ul class="list-group shipment-history flex-column-reverse mt-3">
-        @foreach($shipment->revisionHistory as $history)
-            @if($history->key == 'created_at' && !$history->old_value)
-                <li class="list-group-item">Shipment created at <span
-                            class="badge badge-secondary">{{ $history->newValue() }}</span></li>
-            @else
-                <li class="list-group-item">
-                    {{ $history->fieldName() == "status" ? ucfirst($history->fieldName()) : ucfirst(trans("shipment.".$history->fieldName())) }}
-                    changed
-                    from <span class="badge badge-secondary">{{ $history->oldValue() }}</span> to <span
-                    class="badge badge-secondary">{{ $history->newValue() }}</span>
-                    <br>
-                    <small class="text-muted">{{ $history->userResponsible() != null && (Auth::check() && Auth::user()->isAdmin()) ? "By ". $history->userResponsible()->username . " at" : "At" }} {{ $history->created_at }}</small>
-                </li>
-            @endif
+        @foreach($log as $activity)
+            @php /** @var \Spatie\Activitylog\Models\Activity $activity */ @endphp
+            <li class="list-group-item">
+                <small class="history-date">{{ $activity->created_at->toDayDateTimeString() }}</small>
+                <div class="font-weight-bold py-2">{{ $activity->description }}</div>
+            </li>
         @endforeach
     </ul>
 @else

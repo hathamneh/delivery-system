@@ -187,6 +187,28 @@
   max-height: 400px;
   overflow-y: auto;
   .list-group-item {
+    padding-left: 2.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0.625rem;
+      top: 1.1rem;
+      background-color: #999;
+      width: calc(.75rem + 1px);
+      height: .75rem;
+      border-radius: 50%;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background-color: #eee;
+    }
+
     &:first-child:not(:last-child) {
       border-radius: 0 0 $border-radius $border-radius;
       margin-bottom: 0;
@@ -236,9 +258,9 @@
 }
 
 .bootstrap-select .dropdown-menu li.selected {
-    a {
-      background-color: lighten(#ced4da, 8);
-    }
+  a {
+    background-color: lighten(#ced4da, 8);
+  }
 }
 
 .review-tab {

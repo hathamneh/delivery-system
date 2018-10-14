@@ -35,7 +35,7 @@
     </div>
 </div>
 @if(isset($invoice))
-    @if($invoice->type == "client" && !$invoice->client_paid)
+    @if(($invoice->type == "client" || $invoice->type == "guest") && !$invoice->client_paid)
         @component('bootstrap::modal',[
                     'id' => 'makePaidModal'
                 ])

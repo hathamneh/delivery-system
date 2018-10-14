@@ -120,7 +120,7 @@
                             <td>{{ fnumber($shipment->services_cost) }}</td>
                         @endif
                         <td class="font-weight-bold text-center separator-bottom"
-                            rowspan="2">{{ fnumber($shipment->delivery_cost) }}</td>
+                            rowspan="2">{{ fnumber($shipment->total_price) }}</td>
                     </tr>
                     <tr>
                         <td colspan="12" class="light-bg separator-bottom">

@@ -1,6 +1,6 @@
 <h3 style="font-weight: bold;">Limits</h3>
 <div class="form-row">
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-6 border-right border-secondary">
         <label for="min_delivery_cost">@lang('client.min_delivery_cost')</label>
         <input type="number" name="min_delivery_cost" id="min_delivery_cost" step="any"
                class="form-control" value="{{ old('min_delivery_cost') ?? $client->min_delivery_cost ?? 0 }}">

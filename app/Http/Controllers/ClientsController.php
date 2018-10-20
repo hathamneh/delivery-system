@@ -224,12 +224,13 @@ class ClientsController extends Controller
         $savedStatuses = $client->chargedForStatuses();
         $receivedStatuses = array_keys($chargedForItems);
         $toDelete = array_diff($savedStatuses, $receivedStatuses);
-        
+
         foreach ($toDelete as $item) {
             /** @var ClientChargedFor $cf */
             $cf = $client->chargedFor()->byStatus($item)->first();
             try {
-                $cf->delete();
+                $cf->enabled = false;
+                $cf->save();
             } catch (\Exception $e) {
             }
         }
@@ -237,12 +238,16 @@ class ClientsController extends Controller
             if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
             $status = Status::name($statusName)->first();
             if (is_null($status)) continue;
-            $chargedFor = new ClientChargedFor;
-            $chargedFor->status()->associate($status);
+            if($client->chargedFor()->byStatus($statusName)->exists())
+                $chargedFor = $client->chargedFor()->byStatus($statusName)->first();
+            else {
+                $chargedFor = new ClientChargedFor;
+                $chargedFor->status()->associate($status);
+                $chargedFor->client()->associate($client);
+            }
             $chargedFor->enabled = $item['enabled'] == "on";
             $chargedFor->type = $item['type'];
             $chargedFor->value = $item['value'];
-            $chargedFor->client()->associate($client);
             $chargedFor->save();
         }
 

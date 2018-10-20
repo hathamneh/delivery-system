@@ -1,3 +1,5 @@
+@php /** @var \App\Shipment|\App\ReturnedShipment $shipment */ @endphp
+
 @extends('layouts.app')
 
 @section('breadcrumbs')
@@ -6,6 +8,11 @@
 
 @section('pageTitle')
     <i class='fa-shipment'></i> @lang("shipment.single"): {{ $shipment->waybill }}
+    @if($shipment instanceof \App\ReturnedShipment)
+        <small class="text-muted"> - to return <a href="{{ route('shipments.show', [$shipment->returnedFrom]) }}">{{ $shipment->returnedFrom->waybill }}</a></small>
+    @elseif(!is_null($shipment->returnedIn))
+        <small class="text-muted"> - to be returned in <a href="{{ route('shipments.show', [$shipment->returnedIn]) }}">{{ $shipment->returnedIn->waybill }}</a></small>
+    @endif
 @endsection
 
 @section('content')

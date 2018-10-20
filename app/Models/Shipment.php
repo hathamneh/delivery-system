@@ -118,10 +118,11 @@ class Shipment extends Model
         'courier_cashed',
         'client_paid',
         'reference',
+        'is_guest',
     ];
 
     protected $dispatchesEvents = [
-        'saving' => Events\ShipmentSaving::class,
+        'saving'  => Events\ShipmentSaving::class,
         'created' => Events\ShipmentCreated::class,
     ];
 
@@ -138,26 +139,11 @@ class Shipment extends Model
 
         static::saving(function (self $instance) {
             $changed = $instance->getDirty();
-            if(isset($changed['status_id'])) { // If status has changed
+            if (isset($changed['status_id'])) { // If status has changed
                 $newStatus = Status::find($changed['status_id']);
                 $instance->notifyFor($newStatus);
             }
         });
-    }
-
-    /**
-     * @param array $columns
-     * @return \Illuminate\Database\Eloquent\Collection|Model[]
-     */
-    public static function all($columns = ['*'])
-    {
-        $results = parent::all($columns);
-        for ($i = 0; $i < $results->count(); $i++) {
-            if ($results[$i]->type == "guest") {
-                $results[$i] = GuestShipment::find($results[$i]->id);
-            }
-        }
-        return $results;
     }
 
     /**
@@ -190,6 +176,19 @@ class Shipment extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_account_number', 'account_number');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function guest()
+    {
+        return $this->belongsTo(Guest::class, 'client_account_number', 'id');
+    }
+
+    public function getIsGuestAttribute()
+    {
+        return !is_null($this->guest);
     }
 
     /**
@@ -230,7 +229,7 @@ class Shipment extends Model
      */
     public function returnedIn()
     {
-        return $this->hasOne(ReturnedShipment::class, "returned_from", "shipment_id");
+        return $this->hasOne(ReturnedShipment::class, "returned_from", "id");
     }
 
     /**
@@ -252,21 +251,6 @@ class Shipment extends Model
     public function scopeLodger(Builder $query, $lodger)
     {
         return $query->where('delivery_cost_lodger', $lodger);
-    }
-
-    /**
-     * @param Builder $builder
-     * @return Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function scopeFiltered(Builder $builder)
-    {
-        $results = $builder->get();
-        for ($i = 0; $i < $results->count(); $i++) {
-            if ($results[$i]->type == "guest") {
-                $results[$i] = GuestShipment::find($results[$i]->id);
-            }
-        }
-        return $results;
     }
 
     /**
@@ -329,12 +313,13 @@ class Shipment extends Model
             ->whereDate('delivery_date', "<=", Carbon::today()->endOfDay());
     }
 
-    public function isStatus($status) {
-        if(is_array($status)) {
+    public function isStatus($status)
+    {
+        if (is_array($status)) {
             $s = Status::name('name', $status)->pluck('id');
             return in_array($this->status_id, $s->toArray());
         }
-        if(is_string($status))
+        if (is_string($status))
             $status = Status::name($status)->first();
         return $this->status->is($status);
     }
@@ -378,7 +363,16 @@ class Shipment extends Model
      */
     public function saveClient(array $clientData)
     {
-        $this->client()->associate(Client::findOrFail($clientData['account_number']));
+        if ($clientData['type'] == 'guest') {
+            $guest = Guest::findOrCreateByNationalId($clientData['national_id'], [
+                'trade_name'   => $clientData['name'],
+                'phone_number' => $clientData['phone_number'],
+                'country'      => $clientData['country'] ?? "",
+                'city'         => $clientData['city'] ?? "",
+            ]);
+            $this->guest()->associate($guest);
+        } else
+            $this->client()->associate(Client::findOrFail($clientData['account_number']));
     }
 
 
@@ -447,7 +441,7 @@ class Shipment extends Model
 
     public function getNetAmountAttribute()
     {
-        if($this->statusIs(["rejected", 'cancelled'])) {
+        if ($this->statusIs(["rejected", 'cancelled'])) {
             return abs($this->delivery_cost - $this->actual_paid_by_consignee);
         }
         return $this->delivery_cost;
@@ -455,7 +449,7 @@ class Shipment extends Model
 
     public function getCashOnDeliveryAttribute()
     {
-        if($this->service_type == 'courier')
+        if ($this->service_type == 'courier')
             return $this->total_price;
         else
             return $this->shipment_value;
@@ -516,7 +510,7 @@ class Shipment extends Model
      */
     public function isEditable()
     {
-        return !$this->status()->whereIn('name', ['delivered', 'returned'])->exists();
+        return !$this->status()->whereIn('name', ['delivered'])->exists();
     }
 
     /**
@@ -539,7 +533,7 @@ class Shipment extends Model
 
     public function notifyFor(Status $status)
     {
-        switch($status->name) {
+        switch ($status->name) {
             case "not_available":
                 $this->client->notify(new NotAvailableConsignee($this));
                 break;

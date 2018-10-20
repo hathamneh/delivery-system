@@ -14,7 +14,7 @@
                             </li>
                             <li class="list-group-item">
                                 <small>@lang('client.trade_name'):</small>
-                                <b>{{ $shipment->client->trade_name }}</b>
+                                <b>{{ $shipment->is_guest ? $shipment->guest->trade_name : $shipment->client->trade_name }}</b>
                             </li>
                             <li class="list-group-item">
                                 <small>@lang('shipment.consignee_name'):</small>
@@ -128,7 +128,7 @@
                 </div>
             </div>
 
-            @if($shipment instanceof \App\GuestShipment)
+            @if($shipment->is_guest)
                 @include('shipments.partials.client-guest')
             @else
                 @include('shipments.partials.client-registered')

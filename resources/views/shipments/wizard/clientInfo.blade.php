@@ -56,8 +56,8 @@
                                    required placeholder="@lang('shipment.client.name')">
                         </div>
                         <div class="form-group col-sm-4">
-                            <label for="clientPhone">@lang('shipment.client.phone')</label>
-                            <input type="text" name="shipment_client[phone_number]" id="clientPhone" data-bind="shipment_client[phone_number]"
+                            <label for="clientPhone">@lang('shipment.client.phone') *</label>
+                            <input type="text" name="shipment_client[phone_number]" id="clientPhone" data-bind="shipment_client[phone_number]" required
                                    class="form-control" {{ old("shipment_client.type") == "guest" ?: "disabled" }} value="{{ old("shipment_client.phone_number") }}"
                                    placeholder="@lang('shipment.client.phone')">
                         </div>

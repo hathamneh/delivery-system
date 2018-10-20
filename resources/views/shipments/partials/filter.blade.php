@@ -13,7 +13,7 @@
             <input type="text" class="form-control" name="client" id="filter_client" placeholder="Enter Value"
                    value="{{ $applied['client'] }}">
         </div>
-        <input type="hidden" name="scope" value="">
+        <input type="hidden" name="type" value="">
         <button class="btn btn-sm btn-secondary" type="submit">Apply</button>
     </form>
 </div>

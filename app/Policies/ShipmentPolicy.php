@@ -37,7 +37,7 @@ class ShipmentPolicy
      */
     public function view(User $user, Shipment $shipment)
     {
-        return $user->client->account_number == $shipment->account_number ?? false;
+        return $user->client->account_number == $shipment->client->account_number ?? false;
     }
 
     /**

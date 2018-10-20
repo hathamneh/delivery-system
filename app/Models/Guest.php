@@ -33,7 +33,7 @@ class Guest extends Model implements Accountable, CanHaveShipment
 
     public function shipments()
     {
-        return $this->hasMany(GuestShipment::class, "client_account_number", "id");
+        return $this->hasMany(Shipment::class, "client_account_number", "id");
     }
 
     public function pickups()

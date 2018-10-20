@@ -2,8 +2,15 @@
 
 namespace App\Http\Resources;
 
+use App\Shipment;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class ShipmentSuggestCollection
+ * @package App\Http\Resources
+ *
+ * @mixin Shipment
+ */
 class ShipmentSuggestCollection extends JsonResource
 {
     /**
@@ -17,7 +24,7 @@ class ShipmentSuggestCollection extends JsonResource
         return [
             'id' => $this->waybill,
             'text' => $this->waybill,
-            'client' => $this->client->name,
+            'client' => $this->is_guest ? $this->guest->trade_name : $this->client->name,
             'address' => $this->address_sub_text,
             'delivery_date' => $this->delivery_date->format("d-m-Y"),
         ];

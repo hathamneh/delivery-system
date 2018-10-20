@@ -104,7 +104,7 @@
                                     href="{{ route('shipments.index') }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
                         <li class="{{ (\Request::is('shipments?scope=returned')) ? 'active' : '' }}"><a
-                                    href="{{ route('shipments.index', ['scope' => 'returned']) }}"><i
+                                    href="{{ route('shipments.index', ['type' => 'returned']) }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>
                         @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
                             <li class="{{ (\Request::route()->getName() == 'shipments.create') ? 'active' : '' }}"><a

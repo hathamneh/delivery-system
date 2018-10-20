@@ -46,16 +46,33 @@ class ShipmentSaving
             ->performedOn($this->shipment)
             ->causedBy(auth()->user());
         switch ($new->name) {
+            case "picked_up":
+                $activityItem->log('Shipment picked up');
+                break;
+            case "received":
+                $activityItem->log('Shipment is received to company office');
+                break;
+            case "out_for_delivery":
+                $activityItem->log('Shipment is now out for delivery');
+                break;
+            case "not_available":
+                $activityItem->log('Attempting delivery but consignee is not available');
+                break;
+            case "cancelled":
+                $activityItem->log('Shipment has been cancelled');
+                break;
+            case "rejected":
+                $activityItem->log('Shipment has been rejected');
+                break;
+            case "failed":
+                $activityItem->log('Failed to deliver the shipment');
+                break;
             case "consignee_rescheduled":
                 $activityItem->log('Consignee has rescheduled the delivery of the shipment until ' . $this->shipment->delivery_date->toFormattedDateString());
                 break;
             case "delivered":
-                $activityItem->log('Shipment has been delivered successfully!');
+                $activityItem->log('Shipment delivered successfully!');
                 break;
-            default:
-                $activityItem->log('Shipment status has been changed from ' .
-                    trans("shipment.statuses." . $original->name) . " to " .
-                    trans("shipment.statuses." . $new->name));
         }
     }
 }

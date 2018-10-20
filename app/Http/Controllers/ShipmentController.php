@@ -6,7 +6,6 @@ use App\Address;
 use App\Client;
 use App\Courier;
 use App\Guest;
-use App\GuestShipment;
 use App\Http\Requests\StoreShipmentRequest;
 use App\ReturnedShipment;
 use App\Service;
@@ -15,6 +14,7 @@ use App\Status;
 use App\SubStatus;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -43,27 +43,14 @@ class ShipmentController extends Controller
 
         $filters = $this->applyFilters($shipments, $request);
 
-        $shipments = $shipments->filtered();
+        $shipments = $shipments->get();
+
         return view('shipments.index', [
             'shipments'        => $shipments,
             'statuses'         => Status::all(),
             'applied'          => $filters,
             'pageTitle'        => trans('shipment.label'),
             'sidebarCollapsed' => true
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function returned()
-    {
-        $shipments = ReturnedShipment::all();
-        return view('shipments.index', [
-            'shipments' => $shipments,
-            'pageTitle' => trans('shipment.returned')
         ]);
     }
 
@@ -113,11 +100,10 @@ class ShipmentController extends Controller
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
         $clientData = $request->get('shipment_client');
 
-        $shipment = null;
-        if ($clientData['type'] == 'client')
-            $shipment = new Shipment;
-        elseif ($clientData['type'] == 'guest')
-            $shipment = new GuestShipment;
+        $shipment = new Shipment;
+        if ($clientData['type'] == 'guest') {
+            $shipment->type = 'guest';
+        }
 
         // make relations
         $shipment->saveClient($clientData);
@@ -156,7 +142,7 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment, $tab = "status")
     {
-        $shipment = $shipment->type == "guest" ? GuestShipment::find($shipment->id) : $shipment;
+        $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
         $data = [
             'shipment'  => $shipment->load('status'),
             'tab'       => $tab,
@@ -243,13 +229,13 @@ class ShipmentController extends Controller
 
     public function makeReturn(Request $request, Shipment $shipment)
     {
+        $new = ReturnedShipment::createFrom($shipment, [
+            'delivery_date' => Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'))
+        ]);
         $status = Status::findOrFail($request->get('original_status'));
         $shipment->status()->associate($status);
         $shipment->update([
             'status_notes' => $request->get('status_notes'),
-        ]);
-        $new = ReturnedShipment::createFrom($shipment, [
-            'delivery_date' => Carbon::createFromFormat("d-m-Y h:i A", $request->get('delivery_date') . " 12:00 AM")
         ]);
 
         return redirect()->route('shipments.show', ['shipment' => $new]);

@@ -23,8 +23,8 @@
             @php /** @var \App\Shipment $shipment */ @endphp
             <tr data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}" title="Open shipment details">
                 <td>{{ $shipment->waybill }}</td>
-                <td>{{ $shipment->client->trade_name }}</td>
-                <td>{{ $shipment instanceof \App\GuestShipment ? $shipment->client->national_id : $shipment->client_account_number }}</td>
+                <td>{{ $shipment->is_guest ? $shipment->guest->trade_name : $shipment->client->trade_name }}</td>
+                <td>{{ $shipment->is_guest ? $shipment->guest->national_id : $shipment->client_account_number }}</td>
                 <td>{{ $shipment->consignee_name }}</td>
                 <td>{{ $shipment->delivery_date->toFormattedDateString() }}</td>
                 <td>{{ $shipment->courier->name }}</td>

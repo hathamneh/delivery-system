@@ -28,7 +28,8 @@
                             <option value=""
                                     disabled {{ old('address_from_zones') ?: "selected" }}>@lang('common.select')</option>
                             @foreach($addresses as $address)
-                                <option value="{{ $address->id }}" {{ (old('address_from_zones') == $address->id || (isset($shipment) && $shipment->address->id == $address->id)) ? "selected" : "" }}>{{ $address->name }}</option>
+                                <option value="{{ $address->id }}" data-subtext="{{ $address->zone->name }}"
+                                        {{ (old('address_from_zones') == $address->id || (isset($shipment) && $shipment->address->id == $address->id)) ? "selected" : "" }}>{{ $address->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -54,7 +55,8 @@
                                 data-bind="courier">
                             <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
                             @foreach($couriers as $courier)
-                                <option value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
+                                <option value="{{ $courier->id }}" data-subtext="{{ $courier->zone->name }}"
+                                        {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
                             @endforeach
                         </select>
                         <small class="text-muted form-text">

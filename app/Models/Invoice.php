@@ -149,6 +149,14 @@ class Invoice extends Model
 
     public function getTermsAppliedAttribute()
     {
+        if($this->target instanceof Client)
+            return $this->target->extraTermsApplied($this);
+        return false;
+
+    }
+
+    public function getTheDiscountAttribute()
+    {
         return fnumber(-1 * $this->discount) . "%";
     }
 

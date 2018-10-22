@@ -167,9 +167,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>@lang('accounting.terms_applied')</th>
-                    <td>{{ $invoice->terms_applied }}</td>
+                    <th {{{ $invoice->terms_applied ? "rowspan='2'" : "" }}}>@lang('accounting.terms_applied')</th>
+                    <td>{{ $invoice->the_discount }}</td>
                 </tr>
+                @if($invoice->terms_applied)
+                    <tr>
+                        <td>
+                            <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->terms_applied) }}
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <th>@lang('accounting.pickups_fees')</th>
                     <td>

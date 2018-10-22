@@ -231,6 +231,12 @@ class Client extends Model implements Accountable, CanHaveShipment
     }
 
 
+    public function limits()
+    {
+        return $this->hasMany(ClientLimit::class, 'client_account_number', 'account_number');
+    }
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

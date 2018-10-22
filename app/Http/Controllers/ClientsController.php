@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\ClientChargedFor;
+use App\ClientLimit;
 use App\Http\Requests\StoreClientRequest;
 use App\Shipment;
 use App\Status;
@@ -153,6 +154,7 @@ class ClientsController extends Controller
                 $client->push();
                 break;
             case 'accounting':
+                $this->saveLimits($request, $client);
                 $this->saveAccountingData($request, $client);
                 $this->chargeFor($client, $request);
                 $client->push();
@@ -213,8 +215,26 @@ class ClientsController extends Controller
         $client->sector = $request->get('sector', null);
         $client->category = $request->get('category', null);
         $client->bank = $request->get('bank', []);
-        $client->min_delivery_cost = $request->get('min_delivery_cost', 0);
-        $client->max_returned_shipments = $request->get('max_returned_shipments', 0);
+    }
+
+    public function saveLimits(Request $request, Client &$client)
+    {
+        foreach (['min_delivery_cost', 'max_returned_shipments'] as $item) {
+            if ($client->limits()->whereName($item)->exists())
+                $limit = $client->limits()->whereName($item)->first();
+            else {
+                $limit = new ClientLimit(['name' => $item]);
+                $limit->client()->associate($client);
+            }
+            $itemData = $request->get($item, []);
+            if (!count($itemData)) continue;
+
+//            dd($itemData);
+            $limit->value = $itemData['value'];
+            $limit->appliedOn = $itemData['target'] ?? [];
+            $limit->penalty = $itemData['penalty'];
+            $limit->save();
+        }
     }
 
 
@@ -238,7 +258,7 @@ class ClientsController extends Controller
             if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
             $status = Status::name($statusName)->first();
             if (is_null($status)) continue;
-            if($client->chargedFor()->byStatus($statusName)->exists())
+            if ($client->chargedFor()->byStatus($statusName)->exists())
                 $chargedFor = $client->chargedFor()->byStatus($statusName)->first();
             else {
                 $chargedFor = new ClientChargedFor;

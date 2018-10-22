@@ -20,7 +20,7 @@ use Illuminate\Database\Query\Builder;
  * @property float due_from
  * @property float pickup_fees
  * @property float total
- * @property string terms_applied
+ * @property float terms_applied
  */
 class Invoice extends Model
 {
@@ -171,6 +171,9 @@ class Invoice extends Model
         if ($this->discount > 0) {
             $net -= $net * ($this->discount / 100);
         }
+        if($this->terms_applied)
+            $net += $this->terms_applied;
+
         $net += $this->pickup_fees;
 
         return $net;

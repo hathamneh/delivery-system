@@ -97,7 +97,7 @@ class ClientsController extends Controller
                 $this->appendStatsData($data, $client, $request);
                 break;
             case 'shipments':
-                $data['shipments'] = $client->shipments()->filtered();
+                $data['shipments'] = $client->shipments();
                 break;
             case 'pickups':
                 $data['pickups'] = $client->pickups()->get();

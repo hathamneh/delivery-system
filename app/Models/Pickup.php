@@ -180,7 +180,9 @@ class Pickup extends Model
                     case 'card':
                         return "";
                     case 'text':
-                        return '<small><i class="fa-clock"></i> <span>' . trans('pickup.pending') . '</span></small>';
+                        return '<small><i class="fa-clock"></i> <span>' . trans('pickup.pending') . '</span>' .
+                            (is_null($this->status_note)? '' : ' - ' . $this->status_note) .
+                            '</small>';
                     default:
                         return "";
                 }

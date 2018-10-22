@@ -209,7 +209,7 @@ class PickupsController extends Controller
                 $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
                 $pickup->available_time_start = $startDate;
                 $pickup->available_time_end = $endDate;
-                $pickup->status_note = "rescheduled";
+                $pickup->status_note = "Rescheduled";
                 $pickup->status = "pending";
                 $pickup->actual_packages_number = null;
                 $pickup->notes_external = $request->get('reasons');

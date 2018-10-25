@@ -533,6 +533,7 @@ class Shipment extends Model
 
     public function notifyFor(Status $status)
     {
+        if($this->is_guest) return;
         switch ($status->name) {
             case "not_available":
                 $this->client->notify(new NotAvailableConsignee($this));

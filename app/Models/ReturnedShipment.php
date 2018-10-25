@@ -37,18 +37,20 @@ class ReturnedShipment extends Shipment
         $shipment->waybill_index = $waybill['index'];
 
         $shipment->address()->associate($returned->address);
-        $shipment->client()->associate($returned->client);
+
         $shipment->courier()->associate($returned->courier);
         $shipment->status()->associate(Status::name('returned')->first());
 
         $shipment->delivery_date = $overrides['delivery_date'] ?? $returned->delivery_date;
 
         if($returned->is_guest) {
+            $shipment->guest()->associate($returned->guest);
             $shipment->address_sub_text = $overrides['address_sub_text'] ?? $returned->guest->country . "," . $returned->guest->city;
             $shipment->address_maps_link = $overrides['address_maps_link'] ?? null;
             $shipment->consignee_name = $overrides['consignee_name'] ??  $returned->guest->trade_name;
             $shipment->phone_number = $overrides['phone_number'] ?? $returned->guest->phone_number;
         } else {
+            $shipment->client()->associate($returned->client);
             $shipment->address_sub_text = $overrides['address_sub_text'] ?? $returned->client->address_pickup_text;
             $shipment->address_maps_link = $overrides['address_maps_link'] ?? $returned->client->address_pickup_maps;
             $shipment->consignee_name = $overrides['consignee_name'] ?? $returned->client->name;

@@ -47,6 +47,7 @@ trait GenerateWaybills
             $latestId = DB::table((new static)->getTable())->where('type', $type);
         $latestId = $latestId->max('waybill_index');
         $index = is_null($latestId) ? 0 : $latestId + 1;
+        dd($index);
         return [
             "index"   => $index,
             "waybill" => self::generateWaybill($index)

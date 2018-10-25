@@ -32,7 +32,10 @@ class ReturnedShipment extends Shipment
     public static function createFrom(Shipment $returned, $overrides = [])
     {
         $shipment = new static;
-        $shipment->waybill = $shipment->generateNextWaybill()['waybill'];
+        $waybill = $shipment->generateNextWaybill();
+        $shipment->waybill = $waybill['waybill'];
+        $shipment->waybill_index = $waybill['index'];
+
         $shipment->address()->associate($returned->address);
         $shipment->client()->associate($returned->client);
         $shipment->courier()->associate($returned->courier);

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property Carbon until
@@ -208,4 +209,15 @@ class Invoice extends Model
             ]);
         }
     }
+
+    public static function routes()
+    {
+        Route::get('accounting', "AccountingController@index")->name('accounting.index');
+        Route::post('accounting/invoice', "AccountingController@store")->name('accounting.store');
+        Route::get('accounting/invoice/{invoice}', "AccountingController@show")->name('accounting.invoice');
+        Route::get('accounting/goto', "AccountingController@goto")->name('accounting.goto');
+        Route::put('accounting/client/{invoice}', "AccountingController@markAsPaid")->name('accounting.paid');
+
+    }
+
 }

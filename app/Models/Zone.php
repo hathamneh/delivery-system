@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property integer id
@@ -57,4 +58,10 @@ class Zone extends Model
         return $this->hasMany(CustomZone::class, 'zone_id', 'id');
     }
 
+    public static function routes()
+    {
+        Route::resource('zones', "ZoneController");
+        Route::resource('zones/{zone}/address', "AddressController");
+        Route::put('zones/address/bulk', "AddressController@bulkUpdate")->name('addresses.bulkUpdate');
+    }
 }

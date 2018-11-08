@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property UserTemplate template
@@ -166,4 +167,11 @@ class User extends Authenticatable
         }
         return strtolower($string);
     }
+
+    public static function routes()
+    {
+        Route::resource('users/roles', "UserTemplatesController");
+        Route::resource('users', "UsersController");
+    }
+
 }

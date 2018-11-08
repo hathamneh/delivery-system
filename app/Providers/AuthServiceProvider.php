@@ -4,14 +4,18 @@ namespace App\Providers;
 
 use App\Client;
 use App\Courier;
+use App\Form;
 use App\Note;
 use App\Pickup;
+use App\Policies\FormPolicy;
 use App\Policies\PickupPolicy;
 use App\Policies\NotePolicy;
+use App\Policies\ServicePolicy;
 use App\Policies\ShipmentPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\CouriersPolicy;
 use App\Policies\ZonePolicy;
+use App\Service;
 use App\Shipment;
 use App\Zone;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -31,6 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Pickup::class => PickupPolicy::class,
         Note::class => NotePolicy::class,
         Zone::class => ZonePolicy::class,
+        Service::class => ServicePolicy::class,
+        Form::class => FormPolicy::class,
     ];
 
     /**

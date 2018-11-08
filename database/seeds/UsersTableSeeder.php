@@ -36,6 +36,7 @@ class UsersTableSeeder extends Seeder
             'mailing'   => \App\Role::create(['name' => 'mailing', 'default' => 1])->id,
             'settings'  => \App\Role::create(['name' => 'settings', 'default' => 3])->id,
             'logs'      => \App\Role::create(['name' => 'logs', 'default' => 2])->id,
+            'forms'     => \App\Role::create(['name' => 'forms', 'default' => 1])->id,
         ];
     }
 
@@ -62,6 +63,7 @@ class UsersTableSeeder extends Seeder
             $roles['mailing']   => ['value' => 4],
             $roles['settings']  => ['value' => 4],
             $roles['logs']      => ['value' => 4],
+            $roles['forms']      => ['value' => 4],
         ]);
         $out['employee'] = \App\UserTemplate::create([
             'name'        => "employee",

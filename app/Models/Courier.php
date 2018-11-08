@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property int id
@@ -80,7 +81,7 @@ class Courier extends Model implements Accountable
         if(is_null($user_template)) UserTemplate::default()->first();
 
         $user = new User;
-        $user->username = str_pad($this->name);
+        $user->username = str_pad($this->id,4,"0",STR_PAD_LEFT);
         $user->email = $this->email;
         $user->password = Hash::make($this->password);
         $user->template()->associate($user_template);
@@ -88,5 +89,10 @@ class Courier extends Model implements Accountable
         $user->save();
 
         return $user;
+    }
+
+    public static function routes()
+    {
+        Route::resource('couriers', "CouriersController");
     }
 }

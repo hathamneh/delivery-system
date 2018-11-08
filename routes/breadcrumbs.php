@@ -145,3 +145,13 @@ Breadcrumbs::for('accounting.invoice', function ($trail, \App\Invoice $invoice) 
     $trail->parent('home');
     $trail->push(trans('accounting.invoice'), route('accounting.invoice', [$invoice]));
 });
+
+
+Breadcrumbs::for('forms', function($trail) {
+    $trail->parent('home');
+    $trail->push(trans('forms.label'), route('forms.index'));
+});
+Breadcrumbs::for('forms.create', function($trail) {
+    $trail->parent('forms');
+    $trail->push(trans('forms.create'), route('forms.create'));
+});

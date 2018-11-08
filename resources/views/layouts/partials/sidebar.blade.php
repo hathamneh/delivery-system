@@ -17,20 +17,24 @@
                                 class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
                                 class="fa fa-angle-down arrow"></span></a>
                     <ul class="children collapse">
-                        @if(auth()->user()->isAuthorized('notes'))
+                        @can('index', \App\Note::class)
                             <li class="{{ request()->is('notes*') ? 'active' : '' }}"><a
                                         href="{{ route('notes.index')  }}"><i
                                             class="fas fa-file"></i>@lang('note.label')</a></li>
-                        @endif
-                        @if(auth()->user()->isAuthorized('zones'))
+                        @endcan
+                        @can('index', \App\Zone::class)
                             <li class="{{ request()->is('zones*') ? ' active' : '' }}"><a
                                         href="{{ route('zones.index') }}"><i
                                             class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
-                        @endif
-                        @if(auth()->user()->isAuthorized('services'))
+                        @endcan
+                        @can('index', \App\Service::class)
                             <li class="{{ request()->is('services*') }}"><a href="{{ route('services.index') }}"><i
                                             class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
-                        @endif
+                        @endcan
+                        @can('index', \App\Form::class)
+                            <li class="{{ request()->is('forms*') }}"><a href="{{ route('forms.index') }}"><i
+                                            class="fas fa-file"></i><span>@lang('forms.label')</span></a></li>
+                        @endcan
                     </ul>
                 </li>
             @endif

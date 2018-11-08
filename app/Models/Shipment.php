@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
@@ -533,7 +534,7 @@ class Shipment extends Model
 
     public function notifyFor(Status $status)
     {
-        if($this->is_guest) return;
+        if ($this->is_guest) return;
         switch ($status->name) {
             case "not_available":
                 $this->client->notify(new NotAvailableConsignee($this));
@@ -548,6 +549,23 @@ class Shipment extends Model
                 $this->client->notify(new CancelledShipment($this));
                 break;
         }
+    }
+
+    public static function routes()
+    {
+        Route::put('shipments/{shipment}/recalculate', "ShipmentController@recalculate")->name('shipments.recalculate');
+        Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
+        Route::get('shipments/create/{type?}', "ShipmentController@create")
+            ->name('shipments.create')
+            ->where('type', 'wizard|legacy');
+        Route::get('shipments/{shipment}/{tab?}', "ShipmentController@show")
+            ->name('shipments.show')
+            ->where('tab', 'summery|details|actions|status');
+        Route::resource('shipments', "ShipmentController")->except(['create', 'show']);
+
+        Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');
+        Route::put('shipments/{shipment}/delivery', "ShipmentController@updateDelivery")->name('shipments.delivery');
+
     }
 
 }

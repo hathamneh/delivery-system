@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property boolean private
@@ -32,5 +33,10 @@ class Note extends Model
     public function scopeTypePrivate(Builder $builder, User $user)
     {
         return $builder->where('user_id', $user->id)->where('private', true);
+    }
+
+    public static function routes()
+    {
+        Route::resource('notes', "NotesController");
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Route;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
@@ -213,5 +214,11 @@ class Pickup extends Model
     public function scopeUnpaid(Builder $query)
     {
         return $query->where('is_fees_paid', false);
+    }
+
+    public static function routes()
+    {
+        Route::put('pickups/{pickup}/actions', "PickupsController@actions")->name('pickups.actions');
+        Route::resource('pickups', "PickupsController");
     }
 }

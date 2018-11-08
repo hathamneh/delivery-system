@@ -6,6 +6,7 @@ use App\Interfaces\CanHaveShipment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class Service
@@ -46,5 +47,10 @@ class Service extends Model
         if ($client instanceof Client)
             return $this->customClients()->where('account_number', $client->account_number)->first() ?? false;
         return null;
+    }
+
+    public static function routes()
+    {
+        Route::resource('services', "ServicesController");
     }
 }

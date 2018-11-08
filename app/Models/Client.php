@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 /**
  * @property int account_number
@@ -334,5 +335,35 @@ class Client extends Model implements Accountable, CanHaveShipment
         return $statement[0]->Auto_increment;
     }
 
+    public static function routes()
+    {
+        Route::get('clients/create', "ClientsController@create")->name('clients.create');
+        Route::get('clients/{client}/edit/{section?}', "ClientsController@edit")->name('clients.edit');
+        Route::resource('clients', "ClientsController")->except(['show', 'create', 'edit']);
 
+        // clients custom services
+        Route::get('clients/{client}/services', "ClientServicesController@index")->name('clients.services.index');
+        Route::post('clients/{client}/services/{service}', "ClientServicesController@store")->name('clients.services.store');
+
+        // clients custom zones
+        Route::post('clients/{client}/zones', "ClientZonesController@store")->name('clients.zones.store');
+        Route::get('clients/{client}/zones', "ClientZonesController@index")->name('clients.zones.index');
+        Route::get('clients/{client}/zones/{zone}', "ClientZonesController@show")->name('clients.zones.show');
+        Route::put('clients/{client}/zones/{zone}', "ClientZonesController@update")->name('clients.zones.update');
+        Route::delete('clients/{client}/zones/{zone}', "ClientZonesController@destroy")->name('clients.zones.destroy');
+
+        // clients custom addresses
+        Route::put('clients/{client}/addresses/{address}', "CustomAddressesController@update")->name('clients.addresses.update');
+        Route::post('clients/{client}/addresses', "CustomAddressesController@store")->name('clients.addresses.store');
+        Route::post('clients/{client}/addresses/bulk', "CustomAddressesController@bulk")->name('clients.addresses.bulk');
+        Route::get('clients/{client}/zones/{zone}/addresses', "CustomAddressesController@index")->name('clients.addresses.index');
+        Route::delete('clients/{client}/addresses', "CustomAddressesController@bulkDestroy")->name('clients.addresses.bulkDestroy');
+        Route::delete('clients/{client}/addresses/{address}', "CustomAddressesController@destroy")->name('clients.addresses.destroy');
+
+        // clients tabs
+        Route::get('clients/{client}/{tab?}', "ClientsController@show")
+            ->name('clients.show')
+            ->where('tab', 'statistics|shipments|pickups');
+
+    }
 }

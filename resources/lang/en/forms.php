@@ -2,7 +2,8 @@
 
 return [
     'label' => 'Documents',
-    'create' => "New Documents",
+    'create' => "New Document",
+    'edit' => 'Edit Document',
     'save' => 'Save Document',
     'name' => 'Document Name',
     'description' => 'Document Description',

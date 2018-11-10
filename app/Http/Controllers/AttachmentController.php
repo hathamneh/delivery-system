@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class AttachmentController extends Controller
 {
@@ -23,5 +24,10 @@ class AttachmentController extends Controller
             ];
         }
         return back()->with($data);
+    }
+
+    public function download(Attachment $attachment)
+    {
+        return Response::download($attachment->path, $attachment->name);
     }
 }

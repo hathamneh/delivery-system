@@ -1,5 +1,6 @@
 <?php
 
+use App\Form;
 use App\Zone;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 
@@ -154,4 +155,8 @@ Breadcrumbs::for('forms', function($trail) {
 Breadcrumbs::for('forms.create', function($trail) {
     $trail->parent('forms');
     $trail->push(trans('forms.create'), route('forms.create'));
+});
+Breadcrumbs::for('forms.edit', function($trail, Form $form) {
+    $trail->parent('forms');
+    $trail->push(trans('forms.edit'), route('forms.edit', [$form]));
 });

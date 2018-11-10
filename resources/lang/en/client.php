@@ -49,6 +49,7 @@ return [
     ],
 
     'files' => 'Client Attachments',
+    'delete_attachment' => "Delete Attachment",
 
     'charged_for' => [
         'rejected' => 'Charged for rejected shipments',

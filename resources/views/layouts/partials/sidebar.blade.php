@@ -12,7 +12,7 @@
                             class="fas fa-desktop"></i><span>@lang("sidebar.dashboard")</span></a>
             </li>
             @if(auth()->user()->isAuthorizedAny(["notes", "services", "zones"]))
-                <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*') ? ' active' : '' }}">
+                <li class="nav-parent{{ request()->is('notes*', 'services*', 'zones*', 'forms*') ? ' active' : '' }}">
                     <a href="#"><i
                                 class="fas fa-rocket"></i><span>@lang('sidebar.extra')</span><span
                                 class="fa fa-angle-down arrow"></span></a>
@@ -28,11 +28,11 @@
                                             class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
                         @endcan
                         @can('index', \App\Service::class)
-                            <li class="{{ request()->is('services*') }}"><a href="{{ route('services.index') }}"><i
+                            <li class="{{ request()->is('services*') ? ' active' : '' }}"><a href="{{ route('services.index') }}"><i
                                             class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
                         @endcan
                         @can('index', \App\Form::class)
-                            <li class="{{ request()->is('forms*') }}"><a href="{{ route('forms.index') }}"><i
+                            <li class="{{ request()->is('forms*') ? ' active' : '' }}"><a href="{{ route('forms.index') }}"><i
                                             class="fas fa-file"></i><span>@lang('forms.label')</span></a></li>
                         @endcan
                     </ul>

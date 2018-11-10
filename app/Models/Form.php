@@ -25,6 +25,18 @@ class Form extends Model
         'path'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function (Form $instance) {
+            foreach ($instance->attachments as $attachment) {
+                /** @var Attachment $attachment */
+                $attachment->delete();
+            }
+        });
+    }
+
     public static function routes()
     {
         Route::resource('forms', "FormsController");

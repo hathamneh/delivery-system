@@ -31,9 +31,9 @@
         {{--endif;--}}
         <!-- BEGIN USER DROPDOWN -->
             <li class="dropdown" id="language-header">
-                <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                    <i class="icon-globe"></i>
-                    <span>@lang('common.name')</span>
+                <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="@lang('common.name')">
+                    <img src="{{ asset('/images/flags/'.(app()->getLocale() == 'ar' ? 'Jordan' : 'uk').'.png') }}"
+                         alt="@lang('common.name')" height="20">
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -44,7 +44,7 @@
                     </li>
                     <li>
                         <a href="?lang=en" data-lang="en"><img
-                                    src="{{ asset('/images/flags/usa.png') }}"
+                                    src="{{ asset('/images/flags/uk.png') }}"
                                     alt="flag-english">
                             <span>@lang('common.english')</span></a>
                     </li>

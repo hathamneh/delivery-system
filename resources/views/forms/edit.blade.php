@@ -2,11 +2,11 @@
 
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('forms.create') }}
+    {{ Breadcrumbs::render('forms.edit', $form) }}
 @endsection
 
 @section('pageTitle')
-    <i class='fa-file'></i> @lang("forms.create")
+    <i class='fa-file'></i> @lang("forms.edit"): {{ $form->name }}
 @endsection
 
 @section('content')
@@ -21,8 +21,9 @@
                 {!! $message  !!}
             @endcomponent
         @endforeach
-        <form action="{{ route('forms.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('forms.update', [$form]) }}" method="post" enctype="multipart/form-data">
             @csrf
+            @method('put')
             @include('forms.form')
         </form>
     </div>

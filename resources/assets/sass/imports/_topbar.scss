@@ -1004,8 +1004,11 @@
         -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.03);
         -moz-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.03);
         box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.03);
-        max-height: 80vh;
-        overflow-y: auto;
+        overflow: hidden;
+        .list-group {
+          max-height: 80vh;
+          overflow-y: auto;
+        }
       }
       > li {
         margin: 0 0.5rem;

@@ -8,6 +8,11 @@ require('./extra');
 require('./pickups');
 require('./suggestions');
 require('./shipments');
+import NotificationService from './notifications';
+
+new NotificationService({
+    url: "/ajax/notifications"
+});
 
 (function () {
     let shistory = document.querySelector(".shipment-history")

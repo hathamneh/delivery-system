@@ -26,9 +26,6 @@ class AddMinDeliveryCostToClients extends Migration
      */
     public function down()
     {
-        Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn('min_delivery_cost');
-            $table->dropColumn('max_returned_shipments');
-        });
+
     }
 }

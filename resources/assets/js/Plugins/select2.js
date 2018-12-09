@@ -37,6 +37,12 @@ function ajaxSelect2() {
                 ajax: {
                     url: '/api/suggest/clients',
                     dataType: 'json',
+                    data: function (params) {
+                        return {
+                            _token: window.token,
+                            ...params
+                        };
+                    },
                     processResults: function (data, params) {
                         var out = {
                             results: data.data,
@@ -154,6 +160,9 @@ function ajaxSelect2() {
             tags: true,
             ajax: {
                 url: '/api/suggest/shipments',
+                headers: {
+                    'X-CSRF-TOKEN': window.csrf_token,
+                },
                 processResults: function (data, params) {
                     var out = {
                         results: data.data,

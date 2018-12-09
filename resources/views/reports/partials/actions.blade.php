@@ -25,7 +25,7 @@
         </div>
     </form>
 </div>
-<div id="reportrange" class="btn btn-outline-secondary">
+<div id="reportrange" class="btn btn-outline-secondary" data-lifetime-range="true">
     <i class="fa fa-calendar"></i>&nbsp;
     <span></span> <i class="fa fa-caret-down"></i>
 </div>

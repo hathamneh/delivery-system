@@ -239,7 +239,7 @@ class Client extends Model implements Accountable, CanHaveShipment
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|Shipment
      */
     public function shipments()
     {

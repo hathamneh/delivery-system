@@ -6,6 +6,41 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
+
+    private $roles;
+
+    const ADMIN_ROLES = [
+        'shipments' => 4,
+        'clients'   => 4,
+        'couriers'  => 4,
+        'pickups'   => 4,
+        'notes'     => 4,
+        'zones'     => 4,
+        'services'  => 4,
+        'users'     => 4,
+        'roles'     => 4,
+        'mailing'   => 4,
+        'settings'  => 4,
+        'logs'      => 4,
+        'forms'     => 4,
+    ];
+
+    const DEFAULT_ROLES = [
+        'shipments' => 3,
+        'clients'   => 1,
+        'couriers'  => 1,
+        'pickups'   => 1,
+        'notes'     => 4,
+        'zones'     => 0,
+        'services'  => 0,
+        'users'     => 0,
+        'roles'     => 0,
+        'mailing'   => 0,
+        'settings'  => 0,
+        'logs'      => 0,
+        'forms'     => 0,
+    ];
+
     /**
      * Run the database seeds.
      *
@@ -13,9 +48,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $roles = $this->createRoles();
+        $this->createRoles();
 
-        $templates = $this->createTemplates($roles);
+        $templates = $this->createTemplates();
 
         $this->rootUser($templates['admin']);
 
@@ -23,7 +58,7 @@ class UsersTableSeeder extends Seeder
 
     public function createRoles()
     {
-        return [
+        $this->roles = [
             'shipments' => \App\Role::create(['name' => 'shipments', 'default' => 1])->id,
             'clients'   => \App\Role::create(['name' => 'clients', 'default' => 1])->id,
             'couriers'  => \App\Role::create(['name' => 'couriers', 'default' => 0])->id,
@@ -40,52 +75,40 @@ class UsersTableSeeder extends Seeder
         ];
     }
 
-    public function createTemplates($roles)
+    public function createTemplates()
     {
         $out = [];
-        $out['admin'] = \App\UserTemplate::create([
+        $out['admin'] = $this->createTemplate([
             'name'        => "admin",
             'description' => "Administrator",
             'default'     => false,
             'editable'    => false,
             'deletable'   => false,
-        ]);
-        $out['admin']->roles()->attach([
-            $roles['shipments'] => ['value' => 4],
-            $roles['clients']   => ['value' => 4],
-            $roles['couriers']  => ['value' => 4],
-            $roles['pickups']   => ['value' => 4],
-            $roles['notes']     => ['value' => 4],
-            $roles['zones']     => ['value' => 4],
-            $roles['services']  => ['value' => 4],
-            $roles['users']     => ['value' => 4],
-            $roles['roles']     => ['value' => 4],
-            $roles['mailing']   => ['value' => 4],
-            $roles['settings']  => ['value' => 4],
-            $roles['logs']      => ['value' => 4],
-            $roles['forms']      => ['value' => 4],
-        ]);
-        $out['employee'] = \App\UserTemplate::create([
+        ], self::ADMIN_ROLES);
+
+        $out['employee'] = $this->createTemplate([
             'name'        => "employee",
             'description' => "Employee",
             'default'     => true,
             'editable'    => true,
             'deletable'   => false,
-        ]);
-        $out['client'] = \App\UserTemplate::create([
+        ], self::DEFAULT_ROLES);
+
+        $out['client'] = $this->createTemplate([
             'name'        => "client",
             'description' => "Client",
             'default'     => false,
             'editable'    => true,
             'deletable'   => false,
-        ]);
-        $out['courier'] = \App\UserTemplate::create([
+        ], self::DEFAULT_ROLES);
+
+        $out['courier'] = $this->createTemplate([
             'name'        => "courier",
             'description' => "Courier",
             'default'     => false,
             'editable'    => true,
             'deletable'   => false,
-        ]);
+        ], self::DEFAULT_ROLES);
         return $out;
     }
 
@@ -98,5 +121,32 @@ class UsersTableSeeder extends Seeder
         $rootUser->remember_token = str_random(10);
         $rootUser->template()->associate($template);
         $rootUser->save();
+    }
+
+    /**
+     * @param array $attributes
+     * @param array $roles
+     * @return \App\UserTemplate
+     */
+    public function createTemplate($attributes, $roles)
+    {
+        /** @var \App\UserTemplate $adminTemplate */
+        $adminTemplate = \App\UserTemplate::create($attributes);
+        $adminTemplate->roles()->attach([
+            $this->roles['shipments'] => ['value' => $roles['shipments']],
+            $this->roles['clients']   => ['value' => $roles['clients']],
+            $this->roles['couriers']  => ['value' => $roles['couriers']],
+            $this->roles['pickups']   => ['value' => $roles['pickups']],
+            $this->roles['notes']     => ['value' => $roles['notes']],
+            $this->roles['zones']     => ['value' => $roles['zones']],
+            $this->roles['services']  => ['value' => $roles['services']],
+            $this->roles['users']     => ['value' => $roles['users']],
+            $this->roles['roles']     => ['value' => $roles['roles']],
+            $this->roles['mailing']   => ['value' => $roles['mailing']],
+            $this->roles['settings']  => ['value' => $roles['settings']],
+            $this->roles['logs']      => ['value' => $roles['logs']],
+            $this->roles['forms']     => ['value' => $roles['forms']],
+        ]);
+        return $adminTemplate;
     }
 }

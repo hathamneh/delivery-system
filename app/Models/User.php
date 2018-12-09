@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +17,11 @@ use Illuminate\Support\Facades\Route;
  * @property string password
  * @property Client client
  * @property Courier courier
+ * @property Collection unreadNotifications
+ * @property string api_token
+ * @method Builder notifications()
+ *
+ * @mixin Builder
  */
 class User extends Authenticatable
 {
@@ -26,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'api_token'
     ];
 
     /**
@@ -107,9 +114,9 @@ class User extends Authenticatable
 
     public function getDisplayNameAttribute()
     {
-        if($this->isClient())
+        if ($this->isClient())
             return $this->client->trade_name;
-        elseif($this->isCourier())
+        elseif ($this->isCourier())
             return $this->courier->name;
         else
             return $this->username;
@@ -173,5 +180,4 @@ class User extends Authenticatable
         Route::resource('users/roles', "UserTemplatesController");
         Route::resource('users', "UsersController");
     }
-
 }

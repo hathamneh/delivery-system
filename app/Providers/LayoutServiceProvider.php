@@ -15,15 +15,11 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function($view) {
+        view()->composer('*', function ($view) {
             if (Auth::check() && $view->getName() != 'auth.login') {
                 $displayName = auth()->user()->display_name;
-                $unread = Auth::user()->unreadNotifications;
-                $notys = Auth::user()->notifications()->latest()->limit(15)->get();
                 $view->with([
-                    'displayName'           => $displayName,
-                    'notificationsCount' => $unread->count() > 0 ? $unread->count() : "",
-                    'notifications'      => $notys
+                    'displayName'        => $displayName,
                 ]);
             }
         });

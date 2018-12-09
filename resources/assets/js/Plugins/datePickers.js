@@ -3,7 +3,7 @@ require('timepicker');
 import Lang from 'lang.js';
 import messages from '../lang';
 
-require('daterangepicker-custom');
+require('./src/daterangepicker');
 
 const lang = new Lang({messages});
 
@@ -135,26 +135,29 @@ let dateRangeLocale = {
         }
 
         if ($range.length) {
-            drpOptions.lifetimeRange = $range.data('lifetime-range') === "true";
+            drpOptions.lifetimeRange = isLifetime;
             drpOptions.opens = "left";
 
             // init date time range picker
             $range.daterangepicker(drpOptions, callback);
 
             $range.on('apply.daterangepicker', function (ev, picker) {
-                isLifetime = false;
-                let reportsDT = $('.reports-table.dataTable');
-                if (reportsDT.length) {
-                    let qs = window.getUrlVars();
+                let qs = window.getUrlVars();
+                isLifetime = picker.lifetimeRange;
+                if(!isLifetime) {
                     qs.start = picker.startDate.unix();
                     qs.end = picker.endDate.unix();
+                } else {
+                    if (qs.start) delete qs.start;
+                    if (qs.end) delete qs.end;
+                }
+
+                let reportsDT = $('.reports-table.dataTable');
+                if (reportsDT.length) {
                     window.history.pushState({}, window.title, "?" + to_qs(qs))
                     reportsDT.DataTable().ajax.reload();
                     callback(picker.startDate, picker.endDate);
                 } else {
-                    let qs = window.getUrlVars();
-                    qs.start = picker.startDate.unix();
-                    qs.end = picker.endDate.unix();
                     window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + window.to_qs(qs);
                 }
             });

@@ -1,52 +1,62 @@
 <?php
 
-namespace App\Providers;
+namespace App\Http\Controllers;
 
-use App\Notifications\LosingClient;
-use App\Notifications\LowDilveryCost;
-use App\Notifications\MaxRejectedShipments;
-use Carbon\Carbon;
-use Illuminate\Notifications\Notification;
 use Setting;
 use App\Client;
 use App\Notifications\LatePickup;
+use App\Notifications\LosingClient;
+use App\Notifications\LowDilveryCost;
+use App\Notifications\MaxRejectedShipments;
 use App\Pickup;
 use App\Shipment;
 use App\User;
 use App\UserTemplate;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\ServiceProvider;
 
-class NotificationServiceProvider extends ServiceProvider
+class NotificationsController extends Controller
 {
 
     protected $admins;
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function index(Request $request)
     {
-        $this->app->booted(function () {
-            try {
-                $this->admins = User::where('user_template_id', UserTemplate::where('name', 'admin')->first()->id)->get();
-                $this->latePickups();
-                $this->losingClients();
-            } catch (\Exception $e) {
-            }
-        });
+        /** @var User $user */
+        $user = $request->user();
+
+        /** @var Collection $unread */
+        $unreadCount = $user->unreadNotifications->count();
+        /** @var Collection $notys */
+        $notifications = $user->notifications()->latest()->limit(15)->get();
+        return [
+            'unreadCount' => $unreadCount,
+            'notifications'      => $notifications->map(function($item) { return $item->toArray(); })
+        ];
     }
 
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
+    public function refresh()
     {
-        //
+        try {
+            $this->admins = User::where('user_template_id', UserTemplate::where('name', 'admin')->first()->id)->get();
+            $this->latePickups();
+            $this->losingClients();
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function clear()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        foreach ($user->unreadNotifications as $unreadNotification) {
+            $unreadNotification->markAsRead();
+        }
     }
 
     public function latePickups()
@@ -88,6 +98,7 @@ class NotificationServiceProvider extends ServiceProvider
     {
         $clients = Client::all();
         foreach ($clients as $client) {
+            /** @var Client $client */
             if ($client->max_returned_shipments > 0) {
                 $returnedShipments = $client->shipments()->statusIn(['cancelled', 'rejected', 'returned'])
                     ->whereDate('created_at', '>=', Carbon::now()->startOfMonth())->count();

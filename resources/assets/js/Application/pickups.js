@@ -1,4 +1,5 @@
 import mixitup from 'mixitup';
+import axios from 'axios';
 
 (function ($) {
     var containerEl = document.querySelector('.pickups-list');

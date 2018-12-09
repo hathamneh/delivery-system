@@ -11,6 +11,11 @@ class NotePolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * @param User $user
+     * @param $ability
+     * @return bool
+     */
     public function before(User $user, $ability)
     {
         if ($user->isAdmin())
@@ -18,7 +23,7 @@ class NotePolicy
     }
 
     /**
-     * Determine whether the user can view all shipments.
+     * Determine whether the user can view all notes.
      *
      * @param  \App\User $user
      * @return boolean
@@ -29,7 +34,7 @@ class NotePolicy
     }
 
     /**
-     * Determine whether the user can view the shipment.
+     * Determine whether the user can view the note.
      *
      * @param  \App\User $user
      * @param Note $note
@@ -44,7 +49,7 @@ class NotePolicy
     }
 
     /**
-     * Determine whether the user can create shipments.
+     * Determine whether the user can create notes.
      *
      * @param  \App\User $user
      * @return mixed
@@ -55,7 +60,7 @@ class NotePolicy
     }
 
     /**
-     * Determine whether the user can update the shipment.
+     * Determine whether the user can update the note.
      *
      * @param  \App\User $user
      * @param Note $note
@@ -67,7 +72,7 @@ class NotePolicy
     }
 
     /**
-     * Determine whether the user can delete the shipment.
+     * Determine whether the user can delete the note.
      *
      * @param  \App\User $user
      * @param Note $note

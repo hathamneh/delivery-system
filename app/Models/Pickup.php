@@ -32,6 +32,8 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property boolean is_guest
  * @property string status_note
  * @mixin Builder
+ * @method static self pending()
+ * @method static self notAlerted()
  * @method static self unpaid()
  * @method static self today()
  */

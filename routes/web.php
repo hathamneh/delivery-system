@@ -51,4 +51,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('settings', "SettingsController");
     Route::get('emails', "MailingController@index")->name('emails.index');
 
+    Route::prefix('ajax')->group(function () {
+        Route::get('notifications/all', 'NotificationsController@index');
+        Route::get('notifications/refresh', 'NotificationsController@refresh');
+        Route::get('notifications/clear', 'NotificationsController@clear');
+    });
+
 });

@@ -4903,11 +4903,9 @@ i.bg-grey {
   background-size: contain;
 }
 
-.notification-item.unread {
-  background-color: #e0eaf7 !important;
-  i {
-    color: #777 !important;
-  }
+.notifications-list-footer {
+  background-color: #fff;
+  padding: .5rem;
 }
 
 .notification-item {
@@ -4919,6 +4917,12 @@ i.bg-grey {
   a {
     &:hover {
       background-color: transparent !important;
+    }
+  }
+  &.unread {
+    background-color: #e0eaf7 !important;
+    i {
+      color: #777 !important;
     }
   }
 }

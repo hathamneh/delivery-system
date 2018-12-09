@@ -18,9 +18,9 @@ class NotesController extends Controller
     {
         $tab = $request->get('tab', 'public');
         if($tab == 'public')
-            $notes = Note::typePublic()->get();
+            $notes = Note::wherePrivate(false)->get();
         elseif($tab == "private")
-            $notes = Note::typePrivate(Auth::user())->get();
+            $notes = Note::wherePrivate(true)->where('user_id', Auth::id())->get();
         return view('notes.index', [
             'tab' => $tab,
             'notes' => $notes
@@ -47,11 +47,12 @@ class NotesController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        $private =$request->get('type', "public") == "private";
+        $private = $request->get('private', "off") == "on";
         $user->notes()->create([
             'text' => $request->get('text', null),
             'private' => $private,
         ]);
+        return redirect()->route('notes.index');
     }
 
     /**

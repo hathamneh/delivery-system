@@ -5,15 +5,16 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = window.csrf_token;
 class NotificationService {
     url = "";
 
-    wrapepr = null;
+    wrapper = null;
     list = null;
     buttonMarkAllRead = null;
 
     constructor(props) {
         this.url = props.url;
-        this.wrapepr = document.querySelector('#notifications-header');
-        this.list = this.wrapepr.querySelector('.notifications-list');
-        this.buttonMarkAllRead = this.wrapepr.querySelector('.read-all');
+        this.wrapper = document.querySelector('#notifications-header');
+        this.count = this.wrapper.querySelector('.notifications-count');
+        this.list = this.wrapper.querySelector('.notifications-list');
+        this.buttonMarkAllRead = this.wrapper.querySelector('.read-all');
         this.addEventListeners();
         this.refreshAll()
     }
@@ -45,7 +46,7 @@ class NotificationService {
 
     getAll = () => {
         return axios.get(`${this.url}/all`).then(res => {
-            let items = [];
+            this.count.textContent = res.data.unreadCount;
             res.data.notifications.forEach(item => {
                 this.renderItem({
                     id: item.id,

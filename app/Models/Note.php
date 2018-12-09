@@ -18,6 +18,7 @@ class Note extends Model
     protected $fillable = [
         'text',
         'type',
+        'private'
     ];
 
     public function user()

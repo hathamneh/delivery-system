@@ -3,14 +3,35 @@
 
         @foreach($notes as $note)
             <div class="timeline-item" date-is='{{ $note->created_at->format("d-m-Y") }}'>
-                <h3 class="mt-0">{{ $note->created_at->toFormattedDateString() }}</h3>
+                <div class="d-flex align-items-center">
+                    <h3 class="my-0">{{ $note->created_at->toFormattedDateString() }}</h3>
+                    <div class="ml-auto">
+                        @can('update', $note)
+                            <a href="{{ route('notes.edit', [$note]) }}" class="btn btn-link"><i class="fa-edit"></i>
+                                Edit</a>
+                        @endcan
+                        @can('delete', $note)
+                            <button class="btn btn-link" type="button" data-toggle="modal"
+                                    data-target="#deleteNote-{{ $note->id }}"><i class="fa-trash"></i> Delete
+                            </button>
+                        @endcan
+                    </div>
+                </div>
                 <p class="font-weight-bold p-3 my-1 border border-info rounded">
                     {!! nl2br($note->text) !!}
                 </p>
                 <small class="text-muted">Created by {{ $note->user->username }}</small>
             </div>
+            @component('layouts.components.deleteItem', [
+                'name' => 'note',
+                'id' => $note->id,
+                'action' => route('notes.destroy', [$note]),
+            ])@endcomponent
         @endforeach
     </section>
+    <div class="my-3 mx-auto d-flex justify-content-center">
+        {{ $notes->links() }}
+    </div>
 @else
     <p class="p-5 text-muted text-center">No notes yet!</p>
 @endif

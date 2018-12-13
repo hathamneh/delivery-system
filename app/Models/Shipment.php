@@ -53,10 +53,11 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double total_price
  * @property boolean client_paid
  * @property boolean courier_cashed
- * @method static self statusIn(array $statuses)
+ * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
  * @method static self lodger(string $lodger)
  * @method static self unpaid()
+ * @method static self pending()
  * @method static self courierCashed(bool $value)
  * @mixin Builder
  */

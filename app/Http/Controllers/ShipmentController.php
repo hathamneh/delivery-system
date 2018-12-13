@@ -22,9 +22,21 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ShipmentController extends Controller
 {
+
+    /**
+     * @var ShipmentFilters
+     */
+    private $shipmentFilters;
+
+    public function __construct()
+    {
+        $this->shipmentFilters = new ShipmentFilters();
+    }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -33,7 +45,8 @@ class ShipmentController extends Controller
         $user = Auth::user();
 
         $type = $request->get('type', 'normal,guest');
-        $types = explode(",", $type);
+        $types = !empty($type) ? explode(",", $type) : ['normal', 'guest'];
+
         if ($user->isCourier())
             $shipments = $user->courier->shipments()->type($types)->today();
         elseif ($user->isClient())
@@ -41,15 +54,15 @@ class ShipmentController extends Controller
         else
             $shipments = Shipment::type($types);
 
-        $filters = $this->applyFilters($shipments, $request);
+        $filters = $this->shipmentFilters->applyFilters($shipments, $request);
 
         $shipments = $shipments->get();
 
         return view('shipments.index', [
-            'shipments'        => $shipments,
-            'statuses'         => Status::all(),
-            'applied'          => $filters,
-            'pageTitle'        => trans('shipment.label'),
+            'shipments' => $shipments,
+            'filtersData' => $this->shipmentFilters->filtersData(['types' => $types]),
+            'applied' => $filters,
+            'pageTitle' => trans('shipment.label'),
             'sidebarCollapsed' => true
         ]);
     }
@@ -69,13 +82,13 @@ class ShipmentController extends Controller
         $addresses = Address::all();
         $services = Service::all();
         $data = [
-            'statuses'              => $statuses,
-            'suggestedWaybill'      => $suggestedWaybill['waybill'],
+            'statuses' => $statuses,
+            'suggestedWaybill' => $suggestedWaybill['waybill'],
             'suggestedDeliveryDate' => $suggestedDeliveryDate->format('d/m/Y'),
-            'couriers'              => $couriers,
-            'addresses'             => $addresses,
-            'services'              => $services,
-            'pageTitle'             => trans('shipment.new')
+            'couriers' => $couriers,
+            'addresses' => $addresses,
+            'services' => $services,
+            'pageTitle' => trans('shipment.new')
         ];
         switch ($type) {
             case "legacy":
@@ -144,8 +157,8 @@ class ShipmentController extends Controller
     {
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
         $data = [
-            'shipment'  => $shipment->load('status'),
-            'tab'       => $tab,
+            'shipment' => $shipment->load('status'),
+            'tab' => $tab,
             'pageTitle' => trans('shipment.info'),
         ];
         if ($tab == "actions") {
@@ -170,12 +183,12 @@ class ShipmentController extends Controller
         $addresses = Address::all();
         $services = Service::all();
         return view('shipments.show', [
-            'shipment'  => $shipment,
-            'tab'       => 'edit',
-            'statuses'  => $statuses,
-            'couriers'  => $couriers,
+            'shipment' => $shipment,
+            'tab' => 'edit',
+            'statuses' => $statuses,
+            'couriers' => $couriers,
             'addresses' => $addresses,
-            'services'  => $services,
+            'services' => $services,
             'pageTitle' => trans('shipment.edit')
         ]);
     }
@@ -244,8 +257,8 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $request->validate([
-            'status'        => 'required',
-            'actual_paid'   => 'required_unless:status,consignee_rescheduled',
+            'status' => 'required',
+            'actual_paid' => 'required_unless:status,consignee_rescheduled',
             'delivery_date' => 'required_if:status,consignee_rescheduled'
         ]);
         $status = $request->get('status');
@@ -271,7 +284,7 @@ class ShipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param Shipment $shipment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Shipment $shipment)
@@ -323,36 +336,4 @@ class ShipmentController extends Controller
         return back();
     }
 
-    private function applyFilters(&$shipments, Request $request)
-    {
-        $filters = [
-            'scope' => [],
-            'client' => '',
-        ];
-
-        $filter_scope_raw = $request->get('scope', false);
-        if ($filter_scope_raw) {
-            $filters['scope'] = explode(',', $filter_scope_raw);
-            $or = false;
-            foreach ($filters['scope'] as $scope) {
-                if ($scope === "pending")
-                    $shipments = $shipments->pending();
-                elseif (Status::name($scope)->exists()) {
-                    $shipments = $shipments->statusIn([$scope], $or ? "or" : "and");
-                }
-                $or = true;
-            }
-        }
-
-        $filter_client = $request->get('client', false);
-        if ($filter_client) {
-            $filters['client'] = $filter_client;
-            if (!is_null(Client::find($filter_client)))
-                $shipments->where('client_account_number', '=', $filter_client);
-            if(!is_null($guest = Guest::whereNationalId($filter_client)->first()))
-                $shipments->where('client_account_number', '=', $guest->id);
-        }
-
-        return $filters;
-    }
 }

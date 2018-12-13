@@ -11,10 +11,7 @@
                 <div class="card-footer">
                     <div class="service-links">
                         @if($service->shipmentsCount())
-                            <span
-                               class="service-shipments btn btn-sm">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</span>
-                        @else
-                            <span class="service-shipments btn btn-sm">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</span>
+                            <a href="{{ route('shipments.index', ['service' => $service->id]) }}" class="service-shipments btn btn-sm">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</a>
                         @endif
                         <div class="btn-group">
                             <a href="{{ route('services.edit', [$service]) }}"

@@ -11,7 +11,7 @@
 @section('actions')
 
     <button class="btn btn-light shipments-filter-btn dropdown-toggle" type="button" data-toggle="popover" data-placement="bottom" data-html="true"
-            data-content='@include('shipments.partials.filter')' data-title="Filter Shipments">
+            data-content='@include('shipments.partials.filter', $filtersData)' data-title="Filter Shipments">
         <i class="fa-filter mr-2"></i> Filter
     </button>
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 /**
  * @property boolean private
+ * @property string text
  */
 class Note extends Model
 {

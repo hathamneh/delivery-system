@@ -12,15 +12,18 @@ class NotesController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $tab = $request->get('tab', 'public');
-        if($tab == 'public')
-            $notes = Note::wherePrivate(false)->get();
-        elseif($tab == "private")
-            $notes = Note::wherePrivate(true)->where('user_id', Auth::id())->get();
+        $notes = collect();
+        if ($tab == 'public')
+            $notes = Note::wherePrivate(false);
+        elseif ($tab == "private")
+            $notes = Note::wherePrivate(true)->where('user_id', Auth::id());
+        $notes = $notes->simplePaginate(15);
         return view('notes.index', [
             'tab' => $tab,
             'notes' => $notes
@@ -40,7 +43,7 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,13 +55,13 @@ class NotesController extends Controller
             'text' => $request->get('text', null),
             'private' => $private,
         ]);
-        return redirect()->route('notes.index');
+        return redirect()->route('notes.index', ['tab' => $request->get('tab', "public")]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Note  $note
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
     public function show(Note $note)
@@ -69,34 +72,44 @@ class NotesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Note  $note
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
     public function edit(Note $note)
     {
-        //
+        return view('notes.edit', [
+            'note' => $note
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Note  $note
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $note->text = $request->get('text', null);
+        $note->private = $request->get('private', "off") == "on";
+        $note->save();
+        return redirect()->route('notes.index', ['tab' => $request->get('tab', "public")]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Note  $note
+     * @param Request $request
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Note $note)
+    public function destroy(Request $request, Note $note)
     {
-        //
+        try {
+            $note->delete();
+        } catch (\Exception $e) {
+        }
+        return redirect()->route('notes.index', ['tab' => $request->get('tab', "public")]);
     }
 }

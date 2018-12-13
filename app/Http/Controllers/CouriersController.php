@@ -112,8 +112,9 @@ class CouriersController extends Controller
         $courier->category = $request->get('category');
         $courier->notes = $request->get('notes');
         $courier->zone()->associate($request->get('zone_id'));
-
         $courier->save();
+
+        $courier->uploadAttachments($request->file('courier_files'));
 
         return back();
     }

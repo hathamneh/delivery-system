@@ -104,7 +104,7 @@ import axios from 'axios';
     if (nationalId) {
         nationalId.addEventListener('change', e => {
             let val = e.target.value;
-            axios.get('/api/suggest/guest/' + val).then(res => {
+            axios.get('/ajax/suggest/guest/' + val).then(res => {
                 document.getElementById('guest_name').value = res.data.trade_name || "";
                 document.getElementById('client_name').value = res.data.trade_name || "";
                 document.getElementById('guest_country').value = res.data.country || "";

@@ -55,7 +55,7 @@
                                 data-bind="courier">
                             <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
                             @foreach($couriers as $courier)
-                                <option value="{{ $courier->id }}" data-subtext="{{ $courier->zone->name }}"
+                                <option value="{{ $courier->id }}" data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"
                                         {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
                             @endforeach
                         </select>

@@ -53,9 +53,9 @@ class Courier extends Model implements Accountable
             ->groupBy('shipments.id')->havingRaw("count(`shipments`.`id`) > $ShipmentsCountForSmiley");
     }
 
-    public function zone()
+    public function zones()
     {
-        return $this->belongsTo(Zone::class);
+        return $this->belongsToMany(Zone::class);
     }
 
     public function shipments()

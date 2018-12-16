@@ -118,7 +118,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                 <select name="courier_id" id="courier_id" class="form-control selectpicker" data-live-search="true" required>
                     <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
                     @foreach($couriers as $courier)
-                        <option data-subtext="{{ $courier->zone->name }}"
+                        <option data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"
                                 value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($pickup) && $pickup->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
                     @endforeach
                 </select>

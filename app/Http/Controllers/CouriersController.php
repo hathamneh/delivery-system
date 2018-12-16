@@ -54,11 +54,11 @@ class CouriersController extends Controller
         $courier->address = $request->get('address');
         $courier->category = $request->get('category');
         $courier->notes = $request->get('notes');
-        $courier->zone()->associate($request->get('zone_id'));
 
         $courier->save();
 
         $courier->createUser();
+        $courier->zones()->sync($request->get('zones', []));
         $courier->uploadAttachments($request->file('courier_files'));
 
         return redirect()->route('couriers.index')->with([
@@ -111,9 +111,10 @@ class CouriersController extends Controller
         $courier->address = $request->get('address');
         $courier->category = $request->get('category');
         $courier->notes = $request->get('notes');
-        $courier->zone()->associate($request->get('zone_id'));
-
         $courier->save();
+
+        $courier->zones()->sync($request->get('zones', []));
+        $courier->uploadAttachments($request->file('courier_files'));
 
         return back();
     }

@@ -29,12 +29,11 @@
                 <input type="email" name="email" id="email" value="{{ old('email') ?? $courier->email ?? "" }}"
                        placeholder="@lang('courier.email')" class="form-control">
             </div>
-            <div class="form-group col-sm-6">
-                <label for="zone_id" class="control-label">@lang('courier.zone') *</label>
-                <select name="zone_id" id="zone_id" class="form-control selectpicker" data-live-search="true" required>
-                    <option value="" disabled {{ old('zone_id') ?: 'selected' }}>@lang('common.select')</option>
+            <div class="form-group col-sm-12">
+                <label for="zones" class="control-label">@lang('courier.zone') *</label>
+                <select name="zones[]" id="zones" class="form-control selectpicker" data-live-search="true" multiple required>
                     @foreach($zones as $zone)
-                        <option {{ (old('zone_id') && old('zone_id') == $zone->id) || (isset($courier) && $courier->zone_id == $zone->id) ? 'selected' : "" }}
+                        <option {{ (old('zones') && in_array($zone->id, old('zones'))) || (isset($courier) && $courier->zones->contains($zone->id)) ? 'selected' : "" }}
                                 value="{{ $zone->id }}">{{ $zone->name }}</option>
                     @endforeach
                 </select>
@@ -67,6 +66,28 @@
                 </div>
             </div>
         </div>
+        @if(isset($courier) && $courier->attachments->count())
+            <ul class="list-group mb-3">
+                @foreach($courier->attachments as $attachment)
+                    <li class="list-group-item" data-id="{{ $attachment->id }}">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-file mr-2" style="font-size: 1.5rem"></i> {{ $attachment->name }}
+                            <div class="attachment__file-name">
+                            </div>
+                            <div class="attachment__actions ml-auto">
+                                <div class="btn-group">
+                                    <a href="{{ $attachment->url }}" class="btn btn-dark btn-sm"><i
+                                                class="fa-eye mr-1"></i> View</a>
+                                    <button type="button" class="btn btn-danger btn-sm delete-attachment"
+                                            data-toggle="modal" data-target="#deleteAttachment-{{ $attachment->id }}"><i
+                                                class="fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+            @endif
         <hr>
         <div class="form-row">
             <div class="form-group col-sm-12">

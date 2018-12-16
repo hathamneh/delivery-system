@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = window.csrf_token;
-const url = "/api/suggest/status/";
+const url = "/ajax/suggest/status/";
 
 (function () {
     let suggestionsTriggers = document.querySelectorAll('[data-status-suggest]');

@@ -35,7 +35,7 @@ function ajaxSelect2() {
             $this.select2({
                 theme: 'bootstrap4',
                 ajax: {
-                    url: '/api/suggest/clients',
+                    url: '/ajax/suggest/clients',
                     dataType: 'json',
                     data: function (params) {
                         return {
@@ -103,7 +103,7 @@ function ajaxSelect2() {
             $this.select2({
                 theme: 'bootstrap4',
                 ajax: {
-                    url: '/api/suggest/couriers',
+                    url: '/ajax/suggest/couriers',
                     dataType: 'json',
                     processResults: function (data, params) {
                         var out = {
@@ -159,7 +159,7 @@ function ajaxSelect2() {
             minimumInputLength: 9,
             tags: true,
             ajax: {
-                url: '/api/suggest/shipments',
+                url: '/ajax/suggest/shipments',
                 headers: {
                     'X-CSRF-TOKEN': window.csrf_token,
                 },

@@ -5,7 +5,7 @@ import axios from 'axios';
     if (nationalId) {
         nationalId.addEventListener('change', e => {
             let val = e.target.value;
-            axios.get('/api/suggest/guest/' + val).then(res => {
+            axios.get('/ajax/suggest/guest/' + val).then(res => {
                 document.getElementById('clientName').value = res.data.trade_name || "";
                 document.getElementById('clientCountry').value = res.data.country || "";
                 document.getElementById('clientCity').value = res.data.city || "";

@@ -55,6 +55,13 @@ Route::middleware('auth')->group(function () {
         Route::get('notifications/all', 'NotificationsController@index');
         Route::get('notifications/refresh', 'NotificationsController@refresh');
         Route::get('notifications/clear', 'NotificationsController@clear');
+
+        Route::get('suggest/shipments', "Api\SuggestController@shipments");
+        Route::get('suggest/clients', "Api\SuggestController@clients");
+        Route::get('suggest/guest/{national_id}', "Api\SuggestController@guests");
+        Route::get('suggest/couriers', "Api\SuggestController@couriers");
+        Route::get('suggest/status/{status}', "Api\SuggestController@statuses");
+
     });
 
 });

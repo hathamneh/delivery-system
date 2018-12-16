@@ -50,7 +50,7 @@ class Zone extends Model
 
     public function couriers()
     {
-        return $this->hasMany(Courier::class);
+        return $this->belongsToMany(Courier::class);
     }
 
     public function customZones()

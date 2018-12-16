@@ -1,2 +1,14 @@
-.container,.container-fluid{max-width:none;width:100%}@page{margin:5%}.invoice-table thead th{background-color:#aaa}
+.container-fluid, .container {
+  max-width: none;
+  width: 100%;
+}
+
+@page {
+  margin: 5%;
+}
+
+.invoice-table thead th {
+  background-color: #aaa;
+}
+
 /*# sourceMappingURL=print.css.map*/

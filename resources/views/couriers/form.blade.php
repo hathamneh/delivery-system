@@ -29,12 +29,11 @@
                 <input type="email" name="email" id="email" value="{{ old('email') ?? $courier->email ?? "" }}"
                        placeholder="@lang('courier.email')" class="form-control">
             </div>
-            <div class="form-group col-sm-6">
-                <label for="zone_id" class="control-label">@lang('courier.zone') *</label>
-                <select name="zone_id" id="zone_id" class="form-control selectpicker" data-live-search="true" required>
-                    <option value="" disabled {{ old('zone_id') ?: 'selected' }}>@lang('common.select')</option>
+            <div class="form-group col-sm-12">
+                <label for="zones" class="control-label">@lang('courier.zone') *</label>
+                <select name="zones[]" id="zones" class="form-control selectpicker" data-live-search="true" multiple required>
                     @foreach($zones as $zone)
-                        <option {{ (old('zone_id') && old('zone_id') == $zone->id) || (isset($courier) && $courier->zone_id == $zone->id) ? 'selected' : "" }}
+                        <option {{ (old('zones') && in_array($zone->id, old('zones'))) || (isset($courier) && $courier->zones->contains($zone->id)) ? 'selected' : "" }}
                                 value="{{ $zone->id }}">{{ $zone->name }}</option>
                     @endforeach
                 </select>
@@ -88,27 +87,6 @@
                     </li>
                 @endforeach
             </ul>
-            @foreach($courier->attachments as $attachment)
-                @component('bootstrap::modal',[
-                           'id' => 'deleteAttachment-'.$attachment->id
-                       ])
-                    @slot('title')
-                        @lang('courier.deleteAttachment')?
-                    @endslot
-                    Are you sure you want to delete this attachment
-                    @slot('footer')
-                        <button class="btn btn-outline-secondary"
-                                data-dismiss="modal">@lang('common.cancel')</button>
-                        <form action="{{ route('attachment.destroy', [$attachment->id]) }}" method="post">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <button class="btn btn-danger ml-auto" type="submit"><i
-                                        class="fa fa-trash"></i> @lang('courier.delete_attachment')
-                            </button>
-                        </form>
-                    @endslot
-                @endcomponent
-            @endforeach
             @endif
         <hr>
         <div class="form-row">

@@ -22,4 +22,8 @@
         <input type="text" name="bank[iban]" id="bank_iban" value="{{ $client->bank->iban ?? old('bank.iban') }}"
                placeholder="@lang('client.bank.iban')" class="form-control">
     </div>
+    <div class="form-group col-sm-6">
+        <input type="text" name="bank[swift_code]" id="swift_code" value="{{ $client->bank->swift_code ?? old('bank.swift_code') }}"
+               placeholder="@lang('client.bank.swift_code')" class="form-control">
+    </div>
 </div>

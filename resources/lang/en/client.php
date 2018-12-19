@@ -40,6 +40,7 @@ return [
         'account_number' => 'Bank Account Number',
         'holder_name' => 'Account Holder Name',
         'iban' => 'IBAN',
+        'swift_code' => 'Swift Code'
     ],
 
     'urls' => [

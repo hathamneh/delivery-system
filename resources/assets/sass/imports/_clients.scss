@@ -49,6 +49,8 @@
 
 .customZones {
   &-list {
+    overflow-y: auto;
+    max-height: 600px;
     .list-group-item {
       border-radius: 0 !important;
       border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
@@ -74,3 +76,4 @@
     background-color: #f4fbf2;
   }
 }
+

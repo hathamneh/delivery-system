@@ -92,3 +92,13 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-3 p-xs-0">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h3>Shipment Statuses</h3>
+            <canvas id="myChart" width="900" height="400"></canvas>
+        </div>
+    </div>
+</div>
+

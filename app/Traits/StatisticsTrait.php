@@ -48,12 +48,11 @@ trait StatisticsTrait
 
         $out = (object)[
             'shipments' => $this->shipmentsStats(),
-            'pickups'   => $this->pickupsStats(),
-            'dueFrom'   => $this->dueFromStats(),
-            'dueFor'    => $this->dueForStats(),
+            'pickups' => $this->pickupsStats(),
+            'dueFrom' => $this->dueFromStats(),
+            'dueFor' => $this->dueForStats(),
+            'statuses' => $this->statsStatuses(),
         ];
-        if($this instanceof Client)
-            $out['statuses']  = $this->statsStatuses();
         return $out;
     }
 
@@ -71,10 +70,10 @@ trait StatisticsTrait
         $ratio = $this->statsRatio($current, $previous);
 
         return [
-            'current'  => $current,
+            'current' => $current,
             'previous' => $previous,
-            'ratio'    => $ratio,
-            'state'    => $ratio > 0 ? "up" : "down"
+            'ratio' => $ratio,
+            'state' => $ratio > 0 ? "up" : "down"
         ];
     }
 
@@ -86,10 +85,10 @@ trait StatisticsTrait
         $ratio = $this->statsRatio($current, $previous);
 
         return [
-            'current'  => $current,
+            'current' => $current,
             'previous' => $previous,
-            'ratio'    => $ratio,
-            'state'    => $ratio > 0 ? "up" : "down"
+            'ratio' => $ratio,
+            'state' => $ratio > 0 ? "up" : "down"
         ];
     }
 
@@ -101,10 +100,10 @@ trait StatisticsTrait
         $ratio = $this->statsRatio($current, $previous);
 
         return [
-            'current'  => $current,
+            'current' => $current,
             'previous' => $previous,
-            'ratio'    => $ratio,
-            'state'    => $ratio > 0 ? "up" : "down"
+            'ratio' => $ratio,
+            'state' => $ratio > 0 ? "up" : "down"
         ];
     }
 
@@ -116,10 +115,10 @@ trait StatisticsTrait
         $ratio = $this->statsRatio($current, $previous);
 
         return [
-            'current'  => $current,
+            'current' => $current,
             'previous' => $previous,
-            'ratio'    => $ratio,
-            'state'    => $ratio > 0 ? "up" : "down"
+            'ratio' => $ratio,
+            'state' => $ratio > 0 ? "up" : "down"
         ];
     }
 

@@ -9,6 +9,7 @@ return [
     'created' => '<i class="fa-check-circle2"></i> Courier created successfully!',
     'edit' => 'Edit Courier',
     'delete' => 'Delete Courier',
+    'statistics' => "Courier Statistics",
 
     'name' => "Courier Name",
     'phone' => "Phone Number",

@@ -6,6 +6,7 @@ use App\Courier;
 use App\Http\Requests\StoreCourierRequest;
 use App\User;
 use App\Zone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CouriersController extends Controller
@@ -64,7 +65,7 @@ class CouriersController extends Controller
         return redirect()->route('couriers.index')->with([
             'alert' => (object)[
                 'type' => 'success',
-                'msg'  => trans('courier.created')
+                'msg' => trans('courier.created')
             ]
         ]);
     }
@@ -72,12 +73,18 @@ class CouriersController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param  \App\Courier $courier
      * @return \Illuminate\Http\Response
      */
-    public function show(Courier $courier)
+    public function show(Request $request, Courier $courier)
     {
-        //
+        $data = [
+            'courier' => $courier,
+            'tab' => "statistics",
+        ];
+        $this->appendStatsData($data, $courier, $request);
+        return view('couriers.show')->with($data);
     }
 
     /**
@@ -90,8 +97,9 @@ class CouriersController extends Controller
     {
         $zones = Zone::all();
         return view('couriers.edit', [
+            'tab' => "edit",
             'courier' => $courier,
-            'zones'   => $zones,
+            'zones' => $zones,
             'pageTitle' => trans('courier.edit')
         ]);
     }
@@ -129,18 +137,42 @@ class CouriersController extends Controller
     {
         $alert = $alert = (object)[
             'type' => 'success',
-            'msg'  => trans('courier.deleted')
+            'msg' => trans('courier.deleted')
         ];
         try {
             $courier->delete();
         } catch (\Exception $e) {
             $alert = (object)[
                 'type' => 'danger',
-                'msg'  => trans('courier.failed')
+                'msg' => trans('courier.failed')
             ];
         }
         return redirect()->route('couriers.index')->with([
             'alert' => $alert,
         ]);
+    }
+
+    protected function appendStatsData(array &$data, Courier $courier, Request $request)
+    {
+        $start_time = strtotime("-29 days");
+        $end_time = time();
+        $start = $request->get('start', $start_time);
+        $end = $request->get('end', $end_time);
+        $data['startDate'] = $start;
+        $data['endDate'] = $end;
+        try {
+            $begin = Carbon::createFromTimestamp($request->get('start', $start));
+            $until = Carbon::createFromTimestamp($request->get('end', $end));
+            $data['statistics'] = $courier->statistics($begin, $until);
+        } catch (\Exception $ex) {
+            $begin = Carbon::createFromTimestamp($start_time);
+            $until = Carbon::createFromTimestamp($end_time);
+            $data['statistics'] = $courier->statistics($begin, $until);
+            $data['alert'] = (object)[
+                'type' => 'danger',
+                'msg' => "Date range provided is invalid"
+            ];
+        }
+        $data['daterange'] = $begin->toFormattedDateString() . ' - ' . $until->toFormattedDateString();
     }
 }

@@ -9,10 +9,11 @@
 namespace App\Traits;
 
 
+use App\Client;
 use App\Status;
 use Carbon\Carbon;
 
-trait ClientStatistics
+trait StatisticsTrait
 {
 
     /**
@@ -50,8 +51,9 @@ trait ClientStatistics
             'pickups'   => $this->pickupsStats(),
             'dueFrom'   => $this->dueFromStats(),
             'dueFor'    => $this->dueForStats(),
-            'statuses'  => $this->statsStatuses(),
         ];
+        if($this instanceof Client)
+            $out['statuses']  = $this->statsStatuses();
         return $out;
     }
 
@@ -127,8 +129,8 @@ trait ClientStatistics
             if ($value1 == 0) return 0;
             return 100;
         }
-        $diff = $value1 - $value2;
-        $div = $diff / $value2;
+        $diff = floatval($value1) - floatval($value2);
+        $div = floatval($diff) / floatval($value2);
         return $div * 100;
     }
 

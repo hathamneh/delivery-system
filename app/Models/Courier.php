@@ -6,6 +6,7 @@ use App\Interfaces\Accountable;
 use App\Traits\CourierAccounting;
 use App\Traits\HasAttachmentsTrait;
 use App\Traits\PrepareAccounting;
+use App\Traits\StatisticsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 class Courier extends Model implements Accountable
 {
     use SoftDeletes, HasAttachmentsTrait;
-    use PrepareAccounting, CourierAccounting;
+    use PrepareAccounting, CourierAccounting, StatisticsTrait;
 
     protected $dates = ['deleted_at'];
 

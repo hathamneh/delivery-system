@@ -49,6 +49,10 @@
                         <td>{{ $courier->address}}</td>
                         <td>
                             <div class="btn-group">
+                                <a href="{{ route('couriers.show', ['courier'=>$courier->id]) }}"
+                                   data-toggle="tooltip"
+                                   class="btn btn-light btn-sm" title="@lang('courier.statistics')">
+                                    <i class="fa-tachometer-alt"></i></a>
                                 <a href="{{ route('reports.index', ['courier'=>$courier->id]) }}"
                                    data-toggle="tooltip"
                                    class="btn btn-light btn-sm" title="@lang('reports.label')">

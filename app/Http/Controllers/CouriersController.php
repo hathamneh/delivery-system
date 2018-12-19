@@ -82,6 +82,7 @@ class CouriersController extends Controller
         $data = [
             'courier' => $courier,
             'tab' => "statistics",
+            'pageTitle' => $courier->name,
         ];
         $this->appendStatsData($data, $courier, $request);
         return view('couriers.show')->with($data);

@@ -54,3 +54,18 @@
                placeholder="@lang('client.maps_placeholder')" class="form-control">
     </div>
 </div>
+<hr>
+<div class="form-row">
+    <div class="form-group col-sm-6">
+        <label for="sector" class="control-label">@lang('client.sector')</label>
+        <input type="text" name="sector" id="sector" value="{{ $client->sector ?? old('sector') }}"
+               placeholder="@lang('client.sector')" class="form-control">
+    </div>
+    <div class="form-group col-sm-6">
+        <label for="category" class="control-label">@lang('client.category') *</label>
+        <select name="category" id="category" required class="selectpicker form-control">
+            <option {{ (isset($client) && $client->category == 1) || (old('category') && old('category') == 1) ? 'selected' : '' }} value="1">@lang('client.online_store')</option>
+            <option {{ (isset($client) && $client->category == 2) || (old('category') && old('category') == 2) ? 'selected' : '' }} value="2">@lang('client.local_store')</option>
+        </select>
+    </div>
+</div>

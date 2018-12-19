@@ -206,14 +206,14 @@ class ClientsController extends Controller
         $client->email = $request->get('email', null);
         $client->address = $request->get('address', []);
         $client->urls = $request->get('urls', []);
+        $client->sector = $request->get('sector', null);
+        $client->category = $request->get('category', null);
     }
 
     public function saveAccountingData(Request $request, Client &$client)
     {
         $client->zone()->associate(Zone::findOrFail($request->get('zone_id', 0)));
         $client->pickup_address = $request->get('pickup_address', []);
-        $client->sector = $request->get('sector', null);
-        $client->category = $request->get('category', null);
         $client->bank = $request->get('bank', []);
     }
 

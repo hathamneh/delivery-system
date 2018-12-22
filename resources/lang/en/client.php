@@ -74,6 +74,7 @@ return [
     'personal' => "Personal",
     'accounting' => "Accounting",
     'attachments' => "Attachments",
+    'emails' => "Emails Options",
 
     'shipment' => "Shipment",
 

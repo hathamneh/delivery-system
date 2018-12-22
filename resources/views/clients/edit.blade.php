@@ -25,6 +25,10 @@
                            href="{{ route('clients.edit', [$client, 'accounting']) }}">@lang('client.accounting')</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ $section != 'emails' ?: 'active' }}" id="emails-tab"
+                           href="{{ route('clients.edit', [$client, 'emails']) }}">@lang('client.emails')</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ $section != 'attachments' ?: 'active' }}" id="attachments-tab"
                            href="{{ route('clients.edit', [$client, 'attachments']) }}">@lang('client.attachments')</a>
                     </li>

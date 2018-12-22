@@ -39,6 +39,8 @@
                     <hr>
                     @include('clients.form.urls')
                     <hr>
+                    @include('clients.form.emails')
+                    <hr>
                     <br>
                     <p>
                         <b>Attachments</b>

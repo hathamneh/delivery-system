@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Route;
  * @property object bank
  * @property object urls
  * @property string national_id
+ * @property boolean shipments_email_updates
  *
  * @property float min_delivery_cost
  * @property integer max_returned_shipments
@@ -101,7 +102,8 @@ class Client extends Model implements Accountable, CanHaveShipment
         'alerted',
         'max_returned_shipments',
         'min_delivery_cost',
-        'national_id'
+        'national_id',
+        'shipments_email_updates'
     ];
 
     public static function boot()

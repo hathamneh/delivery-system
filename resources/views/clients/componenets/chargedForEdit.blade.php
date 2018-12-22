@@ -39,7 +39,7 @@ if(!is_null($cf)) {
                        title="@lang('client.charged_for.percentage_value')" data-toggle="tooltip">
                     <input type="radio" name="chargedFor[{{ $status }}][type]" {{ $enabled ? '' : 'disabled' }}
                     id="charged_{{ $status }}_type" autocomplete="off" value="percentage" required
-                            {{ optional($cf)->type == 'percentage' || (old('chargedFor.'.$status.'.type') == "percentage") ? 'checked' : "" }}>
+                            {{ !$checked ? 'checked' : "" }}>
                     <i class="fa-percent"></i>
                 </label>
             </div>

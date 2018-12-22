@@ -77,6 +77,8 @@ class ClientsController extends Controller
 
         $this->savePersonalData($request, $client);
         $this->saveAccountingData($request, $client);
+        $this->saveEmailsSettings($request, $client);
+
         $client->push();
         $this->chargeFor($client, $request);
         $client->createUser();
@@ -190,6 +192,9 @@ class ClientsController extends Controller
                     ]);
                 if ($request->hasFile('client_files'))
                     $client->uploadAttachments($request->file('client_files'));
+                break;
+            case 'emails':
+                $this->saveEmailsSettings($request, $client);
                 break;
         }
         return back();
@@ -329,5 +334,10 @@ class ClientsController extends Controller
         $data['shipments'] = $shipmentsQuery->get();
         $data['filtersData'] = $this->shipmentFilters->filtersData();
         $data['applied'] = $filters;
+    }
+
+    private function saveEmailsSettings($request, Client &$client)
+    {
+        $client->shipments_email_updates = $request->get('shipments_email_updates', false) === 'on';
     }
 }

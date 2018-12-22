@@ -31,6 +31,7 @@
                         <tr>
                             <th>@lang('client.account_number')</th>
                             <th>@lang('client.trade_name')</th>
+                            <th>@lang('client.name')</th>
                             <th>@lang('client.phone')</th>
                             <th>@lang('client.bank.name')</th>
                             <th>@lang('client.password')</th>
@@ -43,6 +44,7 @@
                             <tr id="client-{{ $client->account_number }}" data-id="{{ $client->account_number }}">
                                 <td>{{ $client->account_number }}</td>
                                 <td>{{ $client->trade_name }}</td>
+                                <td>{{ $client->name }}</td>
                                 <td>{{ $client->phone_number }}</td>
                                 <td>{{ $client->bank_name }}</td>
                                 <td>{{ $client->password }}</td>

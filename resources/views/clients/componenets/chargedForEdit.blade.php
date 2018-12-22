@@ -1,7 +1,18 @@
 @php /** @var App\Client $client */
-$enabled = (isset($client) && $client->isChargedFor($status)) || old('chargedFor.'.$status.'.enabled') == "on";
+
 /** @var \App\ClientChargedFor $cf */
 $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($status)->first() : null;
+
+if(!is_null($cf)) {
+    $enabled =  $client->isChargedFor($status) || old('chargedFor.'.$status.'.enabled') == "on";
+    $checked = $cf->type != 'percentage' && (!is_null(old('chargedFor.'.$status.'.type') && old('charged.'.$status.'.type') != "percentage"));
+
+} else {
+    $enabled = $status === "rejected";
+    $checked = !($status === "rejected");
+    $defaultValue = $enabled ? "100" : "";
+}
+
 @endphp
 
 <fieldset class="form-fieldset fieldset-toggle">
@@ -17,10 +28,6 @@ $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($sta
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend btn-group-toggle" data-toggle="buttons">
-
-                @php
-                    $checked = optional($cf)->type != 'percentage' && (!is_null(old('chargedFor.'.$status.'.type') && old('charged.'.$status.'.type') != "percentage"));
-                @endphp
                 <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ $checked ? 'active' : '' }}"
                        title="@lang('client.charged_for.fixed_value')" data-toggle="tooltip">
                     <input type="radio" name="chargedFor[{{ $status }}][type]" {{ $enabled ? '' : 'disabled' }}
@@ -28,7 +35,7 @@ $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($sta
                             {{ $checked ? "checked" : "" }}>
                     <i class="fa-dollar-sign"></i>
                 </label>
-                <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ optional($cf)->type == 'percentage' ? 'active' : '' }}"
+                <label class="btn btn-outline-secondary {{ $enabled ? '' : 'disabled' }} {{ !$checked ? 'active' : '' }}"
                        title="@lang('client.charged_for.percentage_value')" data-toggle="tooltip">
                     <input type="radio" name="chargedFor[{{ $status }}][type]" {{ $enabled ? '' : 'disabled' }}
                     id="charged_{{ $status }}_type" autocomplete="off" value="percentage" required
@@ -39,7 +46,7 @@ $cf = isset($client) && !is_null($client) ? $client->chargedFor()->byStatus($sta
             <input type="number" step="0.01" class="form-control" {{ $enabled ? '' : 'disabled' }}
             placeholder="@lang('client.charged_for.value')" aria-label="" required
                    name="chargedFor[{{ $status }}][value]" id="charged_{{ $status }}_value"
-                   value="{{  optional($cf)->value ?? old('chargedFor.'.$status.'.value') }}">
+                   value="{{  optional($cf)->value ?? old('chargedFor.'.$status.'.value') ?? $defaultValue }}">
         </div>
 
     </div>

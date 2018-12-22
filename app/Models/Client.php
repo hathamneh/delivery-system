@@ -272,7 +272,9 @@ class Client extends Model implements Accountable, CanHaveShipment
     public function isChargedFor(string $statusName): bool
     {
         $cf = $this->chargedFor()->byStatus($statusName)->first();
-        return !is_null($cf) && $cf->enabled;
+        if (!is_null($cf))
+            return $cf->enabled;
+        return null;
     }
 
     public function resetAlert()

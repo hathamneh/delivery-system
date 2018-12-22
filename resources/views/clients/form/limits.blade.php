@@ -5,7 +5,7 @@
             @component('clients.componenets.limitItem', [
                 'name' => "min_delivery_cost",
                 'help' => "Minimum delivery cost per month.<br>Keep it 0 (zero) to disable",
-                'limit' => $client->limits->where('name', 'min_delivery_cost')->first()
+                'limit' => isset($client) ? $client->limits->where('name', 'min_delivery_cost')->first(): 0,
             ]) @endcomponent
         </fieldset>
     </div>
@@ -14,7 +14,7 @@
             @component('clients.componenets.limitItem', [
                 'name' => "max_returned_shipments",
                 'help' => "Maximum number of <b>cancelled</b> and <b>rejected</b> shipments.<br>Keep it 0 (zero) to disable",
-                'limit' => $client->limits->where('name', 'max_returned_shipments')->first()
+                'limit' => isset($client) ? $client->limits->where('name', 'max_returned_shipments')->first() : 0,
             ]) @endcomponent
         </fieldset>
     </div>

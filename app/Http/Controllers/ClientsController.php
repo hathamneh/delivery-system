@@ -16,6 +16,17 @@ use Illuminate\Http\Response;
 
 class ClientsController extends Controller
 {
+
+    /**
+     * @var ShipmentFilters
+     */
+    private $shipmentFilters;
+
+    public function __construct()
+    {
+        $this->shipmentFilters = new ShipmentFilters();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +39,7 @@ class ClientsController extends Controller
 
         $clients = Client::all();
         return view('clients.index', [
-            'clients'   => $clients,
+            'clients' => $clients,
             'pageTitle' => trans('client.label')
         ]);
     }
@@ -47,10 +58,10 @@ class ClientsController extends Controller
         $zones = Zone::all();
 
         return view('clients.create')->with([
-            'countries'           => $countries,
-            'zones'               => $zones,
+            'countries' => $countries,
+            'zones' => $zones,
             'next_account_number' => Client::nextAccountNumber(),
-            'pageTitle'           => trans('client.create')
+            'pageTitle' => trans('client.create')
         ]);
     }
 
@@ -85,11 +96,11 @@ class ClientsController extends Controller
     public function show(Client $client, Request $request, $tab = "statistics")
     {
         $data = [
-            'client'         => $client,
-            'tab'            => $tab,
-            'pageTitle'      => $client->trade_name,
+            'client' => $client,
+            'tab' => $tab,
+            'pageTitle' => $client->trade_name,
             'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount'   => $client->pickups()->count(),
+            'pickupsCount' => $client->pickups()->count(),
         ];
 
         switch ($tab) {
@@ -97,10 +108,20 @@ class ClientsController extends Controller
                 $this->appendStatsData($data, $client, $request);
                 break;
             case 'shipments':
-                $data['shipments'] = $client->shipments()->get();
+                $this->getShipmentsData($data, $client, $request);
                 break;
             case 'pickups':
-                $data['pickups'] = $client->pickups()->get();
+                $pickups = $client->pickups();
+                if($request->has('start')) {
+                    $startDate = Carbon::createFromTimestamp($request->get('start'));
+                    $pickups->whereDate('available_time_start', '>=', $startDate);
+                }
+                if($request->has('end')) {
+                    $endDate = Carbon::createFromTimestamp($request->get('end'));
+                    $pickups->whereDate('available_time_end', '<=', $endDate);
+                }
+
+                $data['pickups'] = $pickups->get();
                 $data['startDate'] = $data['endDate'] = false;
                 break;
             case 'zones':
@@ -125,14 +146,14 @@ class ClientsController extends Controller
     public function edit(Client $client, $section = 'personal')
     {
         $data = [
-            'client'         => $client,
-            'countries'      => \Countries::lookup(),
-            'zones'          => Zone::all(),
-            'pageTitle'      => trans('client.edit') . ' ' . $client->trade_name,
-            'tab'            => 'edit',
-            'section'        => $section,
+            'client' => $client,
+            'countries' => \Countries::lookup(),
+            'zones' => Zone::all(),
+            'pageTitle' => trans('client.edit') . ' ' . $client->trade_name,
+            'tab' => 'edit',
+            'section' => $section,
             'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount'   => $client->pickups()->count(),
+            'pickupsCount' => $client->pickups()->count(),
         ];
         return view('clients.edit', $data);
     }
@@ -164,7 +185,7 @@ class ClientsController extends Controller
                     'client_files.*' => 'required|file|max:5000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx',
                 ],
                     [
-                        'max'   => "The file cannot be greater than 5 MB",
+                        'max' => "The file cannot be greater than 5 MB",
                         'mimes' => "The file must be of type :values"
                     ]);
                 if ($request->hasFile('client_files'))
@@ -190,7 +211,7 @@ class ClientsController extends Controller
         return redirect()->route('clients.index')->with([
             'alert' => (object)[
                 'type' => 'success',
-                'msg'  => trans("client.deleted")
+                'msg' => trans("client.deleted")
             ]
         ]);
     }
@@ -291,9 +312,22 @@ class ClientsController extends Controller
             $data['statistics'] = $client->statistics($begin, $until);
             $data['alert'] = (object)[
                 'type' => 'danger',
-                'msg'  => "Date range provided is invalid"
+                'msg' => "Date range provided is invalid"
             ];
         }
         $data['daterange'] = $begin->toFormattedDateString() . ' - ' . $until->toFormattedDateString();
+    }
+
+    private function getShipmentsData(array &$data, Client $client, Request $request)
+    {
+        $shipmentsQuery = $client->shipments();
+        if($request->has('start'))
+            $shipmentsQuery->whereDate('delivery_date', '>=', Carbon::createFromTimestamp($request->get('start')));
+        if($request->has('end'))
+            $shipmentsQuery->whereDate('delivery_date', '<=', Carbon::createFromTimestamp($request->get('end')));
+        $filters = $this->shipmentFilters->applyFilters($shipmentsQuery, $request->get('filters', []));
+        $data['shipments'] = $shipmentsQuery->get();
+        $data['filtersData'] = $this->shipmentFilters->filtersData();
+        $data['applied'] = $filters;
     }
 }

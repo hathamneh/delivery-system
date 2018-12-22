@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\ShipmentFilters;
 use App\Notifications\CancelledShipment;
 use App\Notifications\ConsigneeRescheduled;
 use App\Notifications\NotAvailableConsignee;
@@ -59,6 +60,8 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static self unpaid()
  * @method static self pending()
  * @method static self courierCashed(bool $value)
+ * @method static self type(array $types)
+ * @method static self withFilters(array $filters, &$appliedFilters = [])
  * @mixin Builder
  */
 class Shipment extends Model
@@ -497,6 +500,11 @@ class Shipment extends Model
             ->orWhere("phone_number", "like", "%$term%")
             ->orWhere("shipment_value", "like", "%$term%")
             ->orWhere("actual_paid_by_consignee", "like", "%$term%");
+    }
+
+    public function scopeWithFilters(Builder $query, array $filters, &$appliedFilters = []) {
+        $appliedFilters = $this->applyFilters($query, $filters);
+        return $query;
     }
 
     /**

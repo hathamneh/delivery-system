@@ -1,5 +1,5 @@
 <div class="shipments-table">
-    <table class="table table-hover dataTable reports-table">
+    <table class="table table-hover dataTable">
         <thead>
         <tr>
             <th>@lang('shipment.waybill')</th>

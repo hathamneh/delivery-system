@@ -9,21 +9,25 @@
         </select>
     </div>
     <form action="{{ request()->getRequestUri() }}" method="get">
-        <div class="form-group">
-            <label for="filter_client">@lang('client.account_number') / @lang('client.national_id')</label>
-            <input type="text" class="form-control" name="client" id="filter_client" placeholder="Enter Value"
-                   value="{{ $applied['client'] }}">
-        </div>
+        @if(!isset($client))
+            <div class="form-group">
+                <label for="filter_client">@lang('client.account_number') / @lang('client.national_id')</label>
+                <input type="text" class="form-control" name="filters[client]" id="filter_client"
+                       placeholder="Enter Value"
+                       value="{{ $applied['client'] }}">
+            </div>
+        @endif
         <div class="form-group">
             <label for="filter_service">@lang('Service')</label>
-            <select name="service" id="filter_service" class="form-control">
+            <select name="filters[service]" id="filter_service" class="form-control">
                 <option value="">None</option>
                 @foreach($services as $service)
                     <option value="{{ $service->id }}" {{ $service->id === $applied['service'] ? "selected" : "" }}>{{ $service->name }}</option>
                 @endforeach
             </select>
         </div>
-        <input type="hidden" name="type" value="{{ join(',', $types) }}">
+        <input type="hidden" name="filters[scope]" value="{{ join(',', $applied['scope']) }}">
+        <input type="hidden" name="filters[type]" value="{{ join(',', $applied['types']) }}">
         <button class="btn btn-sm btn-secondary" type="submit">Apply</button>
     </form>
 </div>

@@ -41,27 +41,25 @@ class ShipmentController extends Controller
      */
     public function index(Request $request)
     {
+
         /** @var User $user */
         $user = Auth::user();
 
-        $type = $request->get('type', 'normal,guest');
-        $types = !empty($type) ? explode(",", $type) : ['normal', 'guest'];
-
         if ($user->isCourier())
-            $shipments = $user->courier->shipments()->type($types)->today();
+            $shipmentsQuery = $user->courier->shipments()->today();
         elseif ($user->isClient())
-            $shipments = $user->client->shipments()->type($types);
+            $shipmentsQuery = $user->client->shipments();
         else
-            $shipments = Shipment::type($types);
+            $shipmentsQuery = Shipment::query();
 
-        $filters = $this->shipmentFilters->applyFilters($shipments, $request);
-
-        $shipments = $shipments->get();
+        $requestFilters = $request->get('filters', []);
+        $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
+        $shipments = $shipmentsQuery->get();
 
         return view('shipments.index', [
             'shipments' => $shipments,
-            'filtersData' => $this->shipmentFilters->filtersData(['types' => $types]),
-            'applied' => $filters,
+            'filtersData' => $this->shipmentFilters->filtersData(),
+            'applied' => $appliedFilters,
             'pageTitle' => trans('shipment.label'),
             'sidebarCollapsed' => true
         ]);

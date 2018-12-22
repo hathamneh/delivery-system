@@ -3,6 +3,7 @@
 }
 
 .shipments-table table {
+  @extend .reports-table;
   font-size: 0.75rem;
   thead {
     font-size: 0.65rem;

@@ -103,7 +103,7 @@ new NotificationService({
             let filter_status = document.querySelector("#filter_status");
             if (!filter_status) return;
             $(filter_status).on('change', () => {
-                let input = document.querySelector('input[name="scope"]')
+                let input = document.querySelector('input[name="filters[scope]"]')
                 if (!input) return;
                 input.value = $(filter_status).val().join(',');
             });

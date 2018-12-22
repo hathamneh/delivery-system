@@ -24,8 +24,8 @@
 
     <div class="container mt-4">
         @includeWhen($tab == "statistics", "clients.statistics")
-        @includeWhen($tab == "shipments", "shipments.table")
-        @includeWhen($tab == "pickups", "pickups.pickups-list")
+        @includeWhen($tab == "shipments", "clients.shipments.index")
+        @includeWhen($tab == "pickups", "clients.pickups.index")
         @includeWhen($tab == "zones", "clients.zones.index")
         @includeWhen($tab == "services", "clients.services.index")
     </div>

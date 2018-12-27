@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'dashboard' => 'Dashboard',
-    'add_new'   => 'Add New',
-    "manage"    => "Management",
-    "settings"    => "Settings",
-    "logs"    => "Logs",
-    "extra"    => "Extra",
-    "users_roles" => "Users & Roles",
-    "reporting" => "Reporting",
+    'dashboard' => 'لوحة التحكم',
+    'add_new'   => 'إضافة جديد',
+    "manage"    => "الإدارة",
+    "settings"    => "الإعدادات",
+    "logs"    => "السجلات",
+    "extra"    => "المزيد",
+    "users_roles" => "المستخدمين والرتب",
+    "reporting" => "التقارير",
 ];

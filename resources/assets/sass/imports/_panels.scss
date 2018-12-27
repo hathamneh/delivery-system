@@ -88,6 +88,10 @@
     }
     i[class*='fa-'] {
       margin-right: 0.5rem;
+      .rtl & {
+        margin-right: 0;
+        margin-left: .5rem;
+      }
     }
   }
 }

@@ -4,6 +4,8 @@
     {{ method_field('put') }}
     @include("clients.form.personal")
     <hr>
+    @include('clients.form.zone')
+    <hr>
     @include('clients.form.urls')
     <hr>
     @include('clients.form.notesForCourier')

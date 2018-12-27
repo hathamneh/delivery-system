@@ -62,11 +62,18 @@
       @include media-breakpoint-down('sm') {
         margin-bottom: 0.75rem;
       }
+      .rtl & {
+        margin-right: 0;
+        margin-left: .5rem;
+      }
     }
     .btn, .dropdown-item {
       i + span {
         margin-left: 0.5rem;
-
+        .rtl & {
+          margin-left: 0;
+          margin-right: .5rem;
+        }
       }
     }
   }
@@ -380,7 +387,6 @@
   }
 
   h3 {
-    font-family: 'Open Sans', sans-serif;
     font-size: 15px;
     margin-bottom: 15px;
     margin-top: 25px;

@@ -176,6 +176,8 @@ class ClientsController extends Controller
             case 'personal':
                 $this->savePersonalData($request, $client);
                 $client->note_for_courier = $request->get('note_for_courier');
+                $client->zone()->associate(Zone::findOrFail($request->get('zone_id', 0)));
+                $client->pickup_address = $request->get('pickup_address', []);
                 $client->push();
                 break;
             case 'accounting':

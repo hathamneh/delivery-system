@@ -3,8 +3,7 @@
       method="post">
     {{ csrf_field() }}
     {{ method_field('put') }}
-    @include('clients.form.zone')
-    <hr>
+
     @include('clients.form.bank')
     <hr>
     @include('clients.form.chargedFor')

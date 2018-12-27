@@ -5,6 +5,8 @@
     @include("clients.form.personal")
     <hr>
     @include('clients.form.urls')
+    <hr>
+    @include('clients.form.notesForCourier')
     <button class="btn btn-primary"><i class="fa-save"></i> @lang('client.save')
     </button>
 

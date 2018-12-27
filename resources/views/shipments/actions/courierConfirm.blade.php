@@ -9,6 +9,16 @@
                 {{ $shipment->internal_notes ?? "No notes" }}
             </p>
         </div>
+
+        @if(!is_null($shipment->client->note_for_courier))
+            <div class="alert alert-light">
+                <b class="alert-heading">Note from client of this shipment</b>
+                <hr>
+                <p>
+                    {{ $shipment->client->note_for_courier ?? "No notes" }}
+                </p>
+            </div>
+        @endif
         <div class="alert alert-light">
             <b class="alert-heading">@lang('shipment.reference')</b>
             <hr>

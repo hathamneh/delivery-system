@@ -41,7 +41,6 @@
                     <hr>
                     @include('clients.form.emails')
                     <hr>
-                    <br>
                     <p>
                         <b>Attachments</b>
                     </p>
@@ -51,6 +50,8 @@
                         <label class="custom-file-label" for="client_files">Choose file</label>
                     </div>
 
+                    <hr>
+                    @include('clients.form.notesForCourier')
                 </div>
                 <div class="col-md-3">
                     <div class="custom-sticky-top">

@@ -1,6 +1,6 @@
 <div class="row">
     @if ($errors->any())
-        <div class="col-md-8">
+        <div class="col-md-8 mx-auto">
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)

@@ -88,4 +88,6 @@ return [
 
     'min_delivery_cost' => 'Min delivery cost',
     'max_returned_shipments' => 'Max NO. of returned',
+
+    'notes_for_courier' => "Notes for Courier"
 ];

@@ -78,6 +78,7 @@ class ClientsController extends Controller
         $this->savePersonalData($request, $client);
         $this->saveAccountingData($request, $client);
         $this->saveEmailsSettings($request, $client);
+        $client->note_for_courier = $request->get('note_for_courier');
 
         $client->push();
         $this->chargeFor($client, $request);
@@ -174,6 +175,7 @@ class ClientsController extends Controller
         switch ($section) {
             case 'personal':
                 $this->savePersonalData($request, $client);
+                $client->note_for_courier = $request->get('note_for_courier');
                 $client->push();
                 break;
             case 'accounting':

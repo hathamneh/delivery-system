@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSwiftCodeToClients extends Migration
+class AddNoteForCourierToClients extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddSwiftCodeToClients extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('swift_code')->nullable();
+            $table->string('note_for_courier')->nullable();
         });
     }
 

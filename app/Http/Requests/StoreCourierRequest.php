@@ -29,7 +29,7 @@ class StoreCourierRequest extends FormRequest
             'name'                 => 'required',
             'phone_number'         => [new PhoneNumber()],
             'email'                => 'nullable|email|unique:couriers',
-            'zone_id'              => 'required|exists:zones,id',
+            'zones'              => 'required',
             'category'             => [
                 'required',
                 Rule::in([1, 2]),

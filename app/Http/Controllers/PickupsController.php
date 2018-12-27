@@ -46,8 +46,19 @@ class PickupsController extends Controller
             $pickups = Pickup::whereDate('available_time_start', ">=", now()->subDays(2));
         }
 
-        if ($s)
-            $pickups->where('client_account_number', '=', $s);
+        if ($s) {
+            $type = $request->get('searchType', 'client');
+            if($type === "courier") {
+                $pickups->whereIn('courier_id', function($query) use ($s)
+                {
+                    $query->select("id")
+                        ->from('couriers')
+                        ->where("name", "LIKE", "%$s%");
+                });
+            } else {
+                $pickups->where('client_account_number', '=', $s);
+            }
+        }
         return view('pickups.index')->with([
             'pickups'   => $pickups->get(),
             'startDate' => $startDate,

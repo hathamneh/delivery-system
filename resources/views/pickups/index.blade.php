@@ -13,9 +13,25 @@
     <div class="header-action">
         <div class="pickups-search">
             <form action="{{ request()->getRequestUri() }}" method="get">
-                <input type="text" class="form-control" placeholder="Client Account Number" name="s"
-                       data-toggle-tooltip title="Search by Client Account Number" value="{{ $s ?? "" }}">
+                <div class="input-group">
+                    <div class="input-group-prepend btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-secondary active"
+                               title="@lang('client.label')" data-toggle="tooltip">
+                            <input type="radio" name="searchType"
+                            id="searchType_client" autocomplete="off" value="client" required checked>
+                            <i class="fa-user-tie"></i>
+                        </label>
+                        <label class="btn btn-outline-secondary"
+                               title="@lang('courier.label')" data-toggle="tooltip">
+                            <input type="radio" name="searchType"
+                            id="searchType_courier" autocomplete="off" value="courier" required>
+                            <i class="fa-truck"></i>
+                        </label>
+                    </div>
+                <input type="text" class="form-control" placeholder="Search" name="s"
+                       data-toggle-tooltip title="Search pickups" value="{{ $s ?? "" }}">
                 <button type="submit" class="search-submit"><i class="fa-search"></i></button>
+                </div>
             </form>
         </div>
     </div>

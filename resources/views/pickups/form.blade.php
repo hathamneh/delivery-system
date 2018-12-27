@@ -64,7 +64,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
         </div>
     </div>
 </div>
-<div class="card card-transparent">
+<div class="card card-transparent mb-3">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-12 form-group">

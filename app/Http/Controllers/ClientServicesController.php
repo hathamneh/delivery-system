@@ -15,11 +15,11 @@ class ClientServicesController extends Controller
         /** @var Client $client */
         $client = Client::find(\request('client'));
         View::share([
-            "pageTitle"   => "{$client->trade_name} - Custom Services",
+            "pageTitle"   => !is_null($client) ? "{$client->trade_name} - Custom Services" : "Custom Services",
             'tab'         => 'services',
             'client'      => $client,
-            'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount'   => $client->pickups()->count(),
+            'shipmentsCount' => !is_null($client) ? $client->shipments()->count() : 0,
+            'pickupsCount'   => !is_null($client) ? $client->pickups()->count() : 0,
             'services'       => Service::all(),
         ]);
     }

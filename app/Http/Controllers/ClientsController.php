@@ -6,6 +6,7 @@ use App\Client;
 use App\ClientChargedFor;
 use App\ClientLimit;
 use App\Http\Requests\StoreClientRequest;
+use App\PaymentMethod;
 use App\Shipment;
 use App\Status;
 use App\User;
@@ -56,10 +57,12 @@ class ClientsController extends Controller
 
         $countries = \Countries::lookup();
         $zones = Zone::all();
+        $paymentMethods = PaymentMethod::all();
 
         return view('clients.create')->with([
             'countries' => $countries,
             'zones' => $zones,
+            'paymentMethods' => $paymentMethods,
             'next_account_number' => Client::nextAccountNumber(),
             'pageTitle' => trans('client.create')
         ]);
@@ -78,6 +81,9 @@ class ClientsController extends Controller
         $this->savePersonalData($request, $client);
         $this->saveAccountingData($request, $client);
         $this->saveEmailsSettings($request, $client);
+        $client->zone()->associate(Zone::findOrFail($request->get('zone_id', 0)));
+        $client->pickup_address = $request->get('pickup_address', []);
+
         $client->note_for_courier = $request->get('note_for_courier');
 
         $client->push();
@@ -152,6 +158,7 @@ class ClientsController extends Controller
             'client' => $client,
             'countries' => \Countries::lookup(),
             'zones' => Zone::all(),
+            'paymentMethods' => PaymentMethod::all(),
             'pageTitle' => trans('client.edit') . ' ' . $client->trade_name,
             'tab' => 'edit',
             'section' => $section,
@@ -242,9 +249,11 @@ class ClientsController extends Controller
 
     public function saveAccountingData(Request $request, Client &$client)
     {
-        $client->zone()->associate(Zone::findOrFail($request->get('zone_id', 0)));
-        $client->pickup_address = $request->get('pickup_address', []);
         $client->bank = $request->get('bank', []);
+        if($request->has(['payment_method', 'payment_method_price'])) {
+            $client->paymentMethod()->associate($request->get('payment_method'));
+            $client->payment_method_price = $request->get('payment_method_price');
+        }
     }
 
     public function saveLimits(Request $request, Client &$client)

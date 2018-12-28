@@ -17,6 +17,7 @@ class CustomAddressesController extends Controller
     {
         /** @var Client $client */
         $client = Client::find(\request('client'));
+        if(is_null($client)) return;
         View::share([
             "pageTitle"   => "{$client->trade_name} - Custom Zone Addresses",
             'tab'         => 'zones',

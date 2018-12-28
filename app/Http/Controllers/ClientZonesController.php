@@ -16,13 +16,13 @@ class ClientZonesController extends Controller
         /** @var Client $client */
         $client = Client::find(\request('client'));
         View::share([
-            "pageTitle"   => "{$client->trade_name} - Custom Zones",
+            "pageTitle"   => !is_null($client) ? "{$client->trade_name} - Custom Zones" : "Custom Zones",
             'tab'         => 'zones',
             'client'      => $client,
-            'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount'   => $client->pickups()->count(),
-            'zones'       => Zone::whereNotIn('id', $client->customZones()->pluck('zone_id'))->get(),
-            'customZones' => $client->customZones()->get()
+            'shipmentsCount' => !is_null($client) ? $client->shipments()->count() : 0,
+            'pickupsCount'   => !is_null($client) ? $client->pickups()->count() : 0,
+            'zones'       => Zone::whereNotIn('id', !is_null($client) ? $client->customZones()->pluck('zone_id') : [])->get(),
+            'customZones' => !is_null($client) ? $client->customZones()->get() : null
         ]);
     }
 

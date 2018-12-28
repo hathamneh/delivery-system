@@ -89,5 +89,15 @@ return [
     'min_delivery_cost' => 'Min delivery cost',
     'max_returned_shipments' => 'Max NO. of returned',
 
-    'notes_for_courier' => "Notes for Courier"
+    'notes_for_courier' => "Notes for Courier",
+
+    'payment_method' => "Payment Method",
+    'payment_method_price' => "Payment Method Cost",
+    'payment_methods' => [
+        'cash' => "Cash",
+        'bank_deposit' => "Bank Deposit",
+        'bank_transfer' => "Bank Transfer",
+        'exchange_shop_transfer' => "Exchange Shop Transfer",
+        'zain_cash' => "Zain Cash",
+    ]
 ];

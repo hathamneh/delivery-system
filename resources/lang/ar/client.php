@@ -84,4 +84,14 @@ return [
 
     'min_delivery_cost' => 'أقل أجرة توصيل',
     'max_returned_shipments' => 'أعلى عدد شحنات مرتجعة',
+
+    'payment_method' => "طريقة الدفع",
+    'payment_method_price' => "تكلفة طريقة الدفع",
+    'payment_methods' => [
+        'cash' => "نقداً",
+        'bank_deposit' => "إيداع بنكي",
+        'bank_transfer' => "حوالة بنكية",
+        'exchange_shop_transfer' => "حوالة من محل صرافة",
+        'zain_cash' => "زين كاش",
+    ]
 ];

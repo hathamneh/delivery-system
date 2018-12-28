@@ -45,7 +45,8 @@ trait ClientAccounting
         $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
         $charged = [];
         foreach (['rejected', 'cancelled'] as $item) {
-            if ($this instanceof Client && $this->isChargedFor($item))
+            $isChargedFor = $this->isChargedFor($item);
+            if ($this instanceof Client && !is_null($isChargedFor) && $isChargedFor)
                 $charged[$item] = $this->chargedFor()->byStatus($item)->first();
             else
                 $charged[$item] = false;

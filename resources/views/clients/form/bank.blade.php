@@ -23,7 +23,24 @@
                placeholder="@lang('client.bank.iban')" class="form-control">
     </div>
     <div class="form-group col-sm-6">
-        <input type="text" name="bank[swift_code]" id="swift_code" value="{{ $client->bank->swift_code ?? old('bank.swift_code') }}"
+        <input type="text" name="bank[swift_code]" id="swift_code"
+               value="{{ $client->bank->swift_code ?? old('bank.swift_code') }}"
                placeholder="@lang('client.bank.swift_code')" class="form-control">
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-6">
+        <label for="payment_method">@lang('client.payment_method')</label>
+        <select name="payment_method" id="payment_method" class="form-control">
+            <option value=""
+                    disabled {{ empty(old('payment_method')) || !isset($client) ? 'selected' : '' }}>@lang('common.select')</option>
+            @foreach($paymentMethods as $paymentMethod)
+                <option value="{{ $paymentMethod->id }}" {{ isset($client) && $client->payment_method_id === $paymentMethod->id ? "selected" : "" }}>@lang('client.payment_methods.' . $paymentMethod->name)</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group col-sm-6">
+        <label for="payment_method_price">@lang('client.payment_method_price')</label>
+        <input type="number" step="any" class="form-control" name="payment_method_price" id="payment_method_price" placeholder="@lang('client.payment_method_price')"
+               value="{{ old('payment_method_price') ?? $client->payment_method_price ?? 0 }}">
     </div>
 </div>

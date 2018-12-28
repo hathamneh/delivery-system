@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
  * @property float pickup_fees
  * @property float total
  * @property float terms_applied
+ * @property float payment_method_price
  */
 class Invoice extends Model
 {
@@ -166,6 +167,13 @@ class Invoice extends Model
         return $this->pickups()->sum('pickup_fees');
     }
 
+    public function getPaymentMethodCostAttribute()
+    {
+        if($this->target instanceof Client)
+            return $this->target->payment_method_price;
+        return 0;
+    }
+
     public function getTotalAttribute()
     {
         $net = abs($this->due_from - $this->due_for);
@@ -175,6 +183,7 @@ class Invoice extends Model
         if($this->terms_applied)
             $net += $this->terms_applied;
 
+        $net += $this->payment_method_price;
         $net += $this->pickup_fees;
 
         return $net;

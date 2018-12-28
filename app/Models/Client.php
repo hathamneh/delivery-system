@@ -63,6 +63,10 @@ use Illuminate\Support\Facades\Route;
  * @property integer max_returned_shipments
  *
  * @property Collection attachments
+ * @property int payment_method_id
+ * @property PaymentMethod payment_method
+ * @property float payment_method_price
+ *
  * @mixin Builder
  */
 class Client extends Model implements Accountable, CanHaveShipment
@@ -229,6 +233,11 @@ class Client extends Model implements Accountable, CanHaveShipment
         return $this->hasMany(Pickup::class, 'client_account_number', 'account_number');
     }
 
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
     public function chargedFor()
     {
         return $this->hasMany(ClientChargedFor::class);
@@ -273,7 +282,7 @@ class Client extends Model implements Accountable, CanHaveShipment
      * @param string $statusName
      * @return bool
      */
-    public function isChargedFor(string $statusName): bool
+    public function isChargedFor(string $statusName)
     {
         $cf = $this->chargedFor()->byStatus($statusName)->first();
         if (!is_null($cf))

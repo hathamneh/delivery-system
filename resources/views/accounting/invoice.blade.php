@@ -65,6 +65,10 @@
                                     <th>@lang('accounting.invoice_period')</th>
                                     <td>{{ $invoice->period }}</td>
                                 </tr>
+                                <tr>
+                                    <th>@lang('client.payment_method')</th>
+                                    <td>@lang('client.payment_methods.'.$client->paymentMethod->name)</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -187,6 +191,12 @@
                     <th>@lang('accounting.pickups_fees')</th>
                     <td>
                         <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->pickup_fees) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>@lang('client.payment_method_price')</th>
+                    <td>
+                        <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->payment_method_price) }}
                     </td>
                 </tr>
                 </tbody>

@@ -237,6 +237,11 @@ class Shipment extends Model
         return $this->hasOne(ReturnedShipment::class, "returned_from", "id");
     }
 
+    public function isReturned()
+    {
+        return $this->returnedIn()->exists();
+    }
+
     /**
      * @param Builder $query
      * @param array $type

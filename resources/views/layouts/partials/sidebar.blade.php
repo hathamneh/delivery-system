@@ -28,11 +28,13 @@
                                             class="fas fa-map-marker-alt"></i><span>@lang('zone.label')</span></a></li>
                         @endcan
                         @can('index', \App\Service::class)
-                            <li class="{{ request()->is('services*') ? ' active' : '' }}"><a href="{{ route('services.index') }}"><i
+                            <li class="{{ request()->is('services*') ? ' active' : '' }}"><a
+                                        href="{{ route('services.index') }}"><i
                                             class="fas fa-handshake2"></i><span>@lang('service.label')</span></a></li>
                         @endcan
                         @can('index', \App\Form::class)
-                            <li class="{{ request()->is('forms*') ? ' active' : '' }}"><a href="{{ route('forms.index') }}"><i
+                            <li class="{{ request()->is('forms*') ? ' active' : '' }}"><a
+                                        href="{{ route('forms.index') }}"><i
                                             class="fas fa-file"></i><span>@lang('forms.label')</span></a></li>
                         @endcan
                     </ul>
@@ -86,7 +88,8 @@
                         </li>
 
                         @if(auth()->user()->isAdmin())
-                            <li class="{{ request()->is('pickups?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}"><a
+                            <li class="{{ request()->is('pickups?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}">
+                                <a
                                         href="{{ route('pickups.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp]) }}"><i
                                             class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a>
                             </li>
@@ -108,7 +111,7 @@
                                     href="{{ route('shipments.index') }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
                         <li class="{{ (\Request::is('shipments?scope=returned')) ? 'active' : '' }}"><a
-                                    href="{{ route('shipments.index', ['type' => 'returned']) }}"><i
+                                    href="{{ route('shipments.index', ['filters' => ['types' => 'returned']]) }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>
                         @if(auth()->user()->isAuthorized('shipments', \App\Role::UT_CREATE))
                             <li class="{{ (\Request::route()->getName() == 'shipments.create') ? 'active' : '' }}"><a

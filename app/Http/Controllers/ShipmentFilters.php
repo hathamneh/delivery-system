@@ -31,7 +31,6 @@ class ShipmentFilters
         foreach (array_keys($this->filters) as $filterKey) {
             $methodName = "apply" . ucfirst($filterKey) . "Filter";
             if (array_key_exists($filterKey, $appliedFilters) && method_exists($this, $methodName)) {
-                logger($methodName.'=====');
                 $this->$methodName($shipmentsQuery, $appliedFilters[$filterKey]);
             }
         }
@@ -94,8 +93,9 @@ class ShipmentFilters
      * @param Shipment $shipmentsQuery
      * @param string [$data]
      */
-    public function applyTypeFilter(&$shipmentsQuery, $data = 'normal,guest')
+    public function applyTypesFilter(&$shipmentsQuery, $data = null)
     {
+        if (is_null($data)) return;
 
         $types = !empty($data) ? explode(",", $data) : ['normal', 'guest'];
 

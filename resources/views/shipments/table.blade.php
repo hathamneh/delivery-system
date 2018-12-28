@@ -16,6 +16,7 @@
                 <th>@lang('shipment.delivery_cost')</th>
             @endif
             <th>@lang('shipment.actual_paid')</th>
+            <th>@lang('shipment.statuses.returned')?</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
                     <td>{{ fnumber($shipment->delivery_cost) }}</td>
                 @endif
                 <td>{{ fnumber($shipment->actual_paid_by_consignee) }}</td>
+                <td>{{ $shipment->isReturned() ? "Yes" : "No" }}</td>
             </tr>
         @endforeach
         </tbody>

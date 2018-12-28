@@ -142,6 +142,12 @@
                                             @endforeach
                                         </li>
                                     @endif
+                                    @if($shipment->client_paid)
+                                        <li><b>@lang('shipment.client_paid')</b></li>
+                                    @endif
+                                    @if($shipment->courier_cashed)
+                                        <li><b>@lang('shipment.courier_cashed')</b></li>
+                                    @endif
                                 </ul>
                             </div>
                         </td>

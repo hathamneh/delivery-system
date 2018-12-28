@@ -22,7 +22,7 @@ trait PrepareAccounting
     public function prepareTargetShipments($input)
     {
         if ($input instanceof Invoice)
-            return $input->shipments();
+            return $input->shipments()->unpaid();
         elseif (is_array($input) && count($input) == 2) {
             $start = $input[0];
             $end = $input[1];

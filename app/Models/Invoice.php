@@ -62,7 +62,7 @@ class Invoice extends Model
      */
     public function shipments()
     {
-        $shipments = Shipment::unpaid()->statusIn(['delivered', 'returned', 'rejected', 'cancelled'])
+        $shipments = Shipment::statusIn(['delivered', 'returned', 'rejected', 'cancelled'])
             ->whereBetween('delivery_date', [$this->from, $this->until]);
 
         if ($this->type == "client")

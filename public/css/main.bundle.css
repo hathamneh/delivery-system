@@ -31054,6 +31054,23 @@ a.pickup-toggle-details.collapsed i {
   display: none;
 }
 
+#shipmentClientInfo .collapsed .card-header::after {
+  -webkit-transform: translateY(-50%) rotateX(180deg);
+          transform: translateY(-50%) rotateX(180deg);
+}
+
+#shipmentClientInfo .collapsed .card-body {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#shipmentClientInfo .card-body {
+  overflow: hidden;
+  -webkit-transition: all .25s;
+  transition: all .25s;
+}
+
 .custom-control-label[for="custom_price"] {
   margin-bottom: 0.5rem;
 }

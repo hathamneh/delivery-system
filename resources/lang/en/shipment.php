@@ -12,10 +12,10 @@ return [
 
     'track_shipment'           => "Track Your Shipment",
     "enter_identifier"         => "Please Enter Shipment Waybill Number",
-    "detailsNote"              => "Please fill shipment details carefully:",
+    "detailsNote"              => "Please fill consignee's information carefully:",
     "delivery_details"         => "Delivery Details",
     "client_info"              => "Client Info",
-    "details"                  => "Shipment Details",
+    "details"                  => "Consignee's information",
     "service_type"             => "Service Type",
     "service_types"            => [
         "label"   => "Service Type",

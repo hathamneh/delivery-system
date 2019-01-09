@@ -63,10 +63,16 @@ import moment from 'moment';
         var $clientType = $("#shipmentClientInfo .custom-radio");
         $clientType.on('change', "[name='shipment_client[type]']", function () {
             var $this = $(this);
-            var $allInputs = $('#shipmentClientInfo').find('.card-body input, .card-body select');
-            var $myInputs = $this.closest('.card').find('.card-body input, .card-body select');
+            var $allCards = $('#shipmentClientInfo').find('.card');
+            var $allInputs = $allCards.find('.card-body input, .card-body select');
+            let selectPickers = $allInputs.filter('.selectpicker');
+            let $myCard = $this.closest('.card');
+            var $myInputs = $myCard.find('.card-body input, .card-body select');
             $allInputs.prop('disabled', true);
             $myInputs.prop('disabled', false);
+            selectPickers.selectpicker('refresh');
+            $allCards.addClass('collapsed');
+            $myCard.removeClass('collapsed');
         });
     }
 

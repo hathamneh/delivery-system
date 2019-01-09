@@ -15,7 +15,7 @@ return [
     "detailsNote"              => "Please fill shipment details carefully:",
     "delivery_details"         => "Delivery Details",
     "client_info"              => "Client Info",
-    "details"                  => "Shipment Details",
+    "details"                  => "Consignee's information",
     "service_type"             => "Service Type",
     "service_types"            => [
         "label"   => "Service Type",

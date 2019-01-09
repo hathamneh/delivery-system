@@ -15,6 +15,11 @@
         <i class="fa-filter mr-2"></i> Filter
     </button>
 
+    <div id="reportrange" class="btn btn-outline-secondary">
+        <i class="fa fa-calendar"></i>&nbsp;
+        <span></span> <i class="fa fa-caret-down"></i>
+    </div>
+
     @can('create', \App\Shipment::class)
         <a href="{{ route('shipments.create') }}" class="btn btn-info"><i
                     class="fa-plus-circle"></i> <span>@lang('shipment.new')</span>

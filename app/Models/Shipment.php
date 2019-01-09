@@ -127,7 +127,7 @@ class Shipment extends Model
     ];
 
     protected $dispatchesEvents = [
-        'saving'  => Events\ShipmentSaving::class,
+        'saving' => Events\ShipmentSaving::class,
         'created' => Events\ShipmentCreated::class,
     ];
 
@@ -375,10 +375,12 @@ class Shipment extends Model
     {
         if ($clientData['type'] == 'guest') {
             $guest = Guest::findOrCreateByNationalId($clientData['national_id'], [
-                'trade_name'   => $clientData['name'],
+                'trade_name' => $clientData['name'],
                 'phone_number' => $clientData['phone_number'],
-                'country'      => $clientData['country'] ?? "",
-                'city'         => $clientData['city'] ?? "",
+                'country' => $clientData['country'] ?? "",
+                'city' => $clientData['city'] ?? "",
+                'address_id' => $clientData['address_id'] ?? null,
+                'address_detailed' => $clientData['address_detailed'] ?? null,
             ]);
             $this->guest()->associate($guest);
         } else
@@ -507,7 +509,8 @@ class Shipment extends Model
             ->orWhere("actual_paid_by_consignee", "like", "%$term%");
     }
 
-    public function scopeWithFilters(Builder $query, array $filters, &$appliedFilters = []) {
+    public function scopeWithFilters(Builder $query, array $filters, &$appliedFilters = [])
+    {
         $appliedFilters = $this->applyFilters($query, $filters);
         return $query;
     }
@@ -549,7 +552,7 @@ class Shipment extends Model
     public function notifyFor(Status $status)
     {
         if ($this->is_guest) return;
-        if(!$this->client->shipments_email_updates) return;
+        if (!$this->client->shipments_email_updates) return;
         switch ($status->name) {
             case "not_available":
                 $this->client->notify(new NotAvailableConsignee($this));

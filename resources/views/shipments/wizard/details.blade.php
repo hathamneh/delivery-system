@@ -20,12 +20,6 @@ if(isset($shipment)) {
                 <div class="form-row">
 
                     <div class="form-group col-sm-6">
-                        <label for="waybill">@lang('shipment.waybill') *</label>
-                        <input type="number" name="waybill" id="waybill" class="form-control" data-bind="waybill"
-                               required placeholder="@lang('shipment.waybill')"
-                               value="{{ $suggestedWaybill ?? $shipment->waybill }}">
-                    </div>
-                    <div class="form-group col-sm-6">
                         <label for="deliveryDate">@lang('shipment.delivery_date') *</label>
                         <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
                                required placeholder="@lang('shipment.deliveryDate')" data-bind="delivery_date"

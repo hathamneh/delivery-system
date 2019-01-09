@@ -52,6 +52,11 @@ class ShipmentController extends Controller
         else
             $shipmentsQuery = Shipment::query();
 
+        if($request->has('start'))
+            $shipmentsQuery->whereDate('created_at', '>=', $request->get('start'));
+        if($request->has('end'))
+            $shipmentsQuery->whereDate('created_at', '<=', $request->get('end'));
+
         $requestFilters = $request->get('filters', []);
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
         $shipments = $shipmentsQuery->get();
@@ -60,7 +65,7 @@ class ShipmentController extends Controller
             'shipments' => $shipments,
             'filtersData' => $this->shipmentFilters->filtersData(),
             'applied' => $appliedFilters,
-            'pageTitle' => trans('shipment.label'),
+            'pageTitle' => trans('shipment.label') . " (" . $shipments->count() . ")",
             'sidebarCollapsed' => true
         ]);
     }

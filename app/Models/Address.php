@@ -47,6 +47,11 @@ class Address extends Model
         return $this->hasMany(Shipment::class);
     }
 
+    public function guests()
+    {
+        return $this->hasMany(Guest::class);
+    }
+
     public function customAddresses()
     {
         return $this->hasMany(CustomAddress::class, 'address_id', 'id');

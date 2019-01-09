@@ -17,6 +17,8 @@ use Illuminate\Support\Collection;
  * @property string city
  * @property string national_id
  * @property Collection[Shipments] shipments
+ * @property Address address
+ * @property string address_detailed
  * @mixin Builder
  */
 class Guest extends Model implements Accountable, CanHaveShipment
@@ -41,6 +43,11 @@ class Guest extends Model implements Accountable, CanHaveShipment
         return Pickup::where('client_national_id', '=', $this->national_id);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
     public function getPickupsAttribute()
     {
         return $this->pickups()->get();
@@ -50,7 +57,19 @@ class Guest extends Model implements Accountable, CanHaveShipment
     {
         /** @var static $guest */
         $guest = self::firstOrNew(['national_id' => $nationalId]);
-        $guest->fill($attributes);
+        list('trade_name' => $trade_name,
+            'phone_number' => $phone_number,
+            'country' => $country,
+            'city' => $city,
+            'address_id' => $address_id,
+            'address_detailed' => $address_detailed,
+            ) = $attributes;
+        $guest->trade_name = $trade_name;
+        $guest->phone_number = $phone_number;
+        $guest->country = $country;
+        $guest->city = $city;
+        $guest->address_detailed = $address_detailed;
+        $guest->address()->associate($address_id);
         $guest->save();
         return $guest;
     }

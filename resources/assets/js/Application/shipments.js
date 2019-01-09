@@ -7,8 +7,8 @@ import axios from 'axios';
             let val = e.target.value;
             axios.get('/ajax/suggest/guest/' + val).then(res => {
                 document.getElementById('clientName').value = res.data.trade_name || "";
-                document.getElementById('clientCountry').value = res.data.country || "";
-                document.getElementById('clientCity').value = res.data.city || "";
+                document.getElementById('clientCountry').value = res.data.country || "Jordan";
+                document.getElementById('clientCity').value = res.data.city || "Amman";
                 document.getElementById('clientPhone').value = res.data.phone_number || "";
             })
         });

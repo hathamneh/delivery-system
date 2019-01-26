@@ -13,4 +13,23 @@ import axios from 'axios';
             })
         });
     }
+
+    const shipmentsTable = document.querySelector('.shipments-table');
+    const assignCourierToggle = document.querySelector('[data-target="#assignCourierModal"]');
+    const assignCourierForm = document.querySelector('#assignCourierForm');
+    if (shipmentsTable && assignCourierToggle && assignCourierForm) {
+        shipmentsTable.addEventListener('change', e => {
+            assignCourierForm.querySelectorAll('input[name="shipments[]"]').forEach(elem => elem.parentNode.removeChild(elem))
+            let selectedIds = [];
+            shipmentsTable.querySelectorAll('tbody .custom-control-input:checked').forEach(item => {
+                let newNode = document.createElement('input')
+                newNode.name = "shipments[]";
+                newNode.type = "hidden";
+                newNode.value = item.value;
+                selectedIds.push(item.value);
+                assignCourierForm.appendChild(newNode)
+            })
+            assignCourierToggle.disabled = !selectedIds.length;
+        })
+    }
 })();

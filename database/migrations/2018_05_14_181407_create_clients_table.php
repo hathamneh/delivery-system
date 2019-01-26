@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -45,6 +46,7 @@ class CreateClientsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
         DB::statement("ALTER TABLE clients AUTO_INCREMENT = 10000;");
     }
 

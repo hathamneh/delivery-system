@@ -117,5 +117,7 @@ return [
     'toggle_client_paid'    => "Toggle Client Paid",
     'toggle_courier_cashed' => "Toggle Courier Cashed",
 
+    'assignCourier' => "<i class='fa fa-truck mr-2'></i> Assign Courier",
+
     'reference' => "Reference",
 ];

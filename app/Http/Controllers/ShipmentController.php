@@ -339,4 +339,20 @@ class ShipmentController extends Controller
         return back();
     }
 
+    public function assignCourier(Request $request)
+    {
+        $request->validate([
+            'courier' => 'required|exists:couriers,id',
+            'shipments' => 'required|array'
+        ]);
+        $courier = Courier::find($request->get('courier'));
+        $shipments = $request->get('shipments', []);
+        foreach ($shipments as $shipment_id) {
+            $shipment = Shipment::find($shipment_id);
+            if(is_null($shipment)) continue;
+            $shipment->courier()->associate($courier);
+            $shipment->push();
+        }
+        return redirect()->route('shipments.index');
+    }
 }

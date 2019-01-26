@@ -44,8 +44,8 @@
                                    value="{{ $suggestedWaybill ?? $shipment->waybill }}">
                         </div>
                         @include('shipments.wizard.clientInfo')
-                        @include('shipments.wizard.details')
                         @include('shipments.wizard.delivery')
+                        @include('shipments.wizard.details')
 
                         <div class="d-flex mt-4">
                             <div class="ml-auto text-right">

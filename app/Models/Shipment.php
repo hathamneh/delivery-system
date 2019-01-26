@@ -572,6 +572,7 @@ class Shipment extends Model
     public static function routes()
     {
         Route::put('shipments/{shipment}/recalculate', "ShipmentController@recalculate")->name('shipments.recalculate');
+        Route::put('shipments/assign-courier', "ShipmentController@assignCourier")->name('shipments.assignCourier');
         Route::get('shipments/returned', "ShipmentController@returned")->name('shipments.returned');
         Route::get('shipments/create/{type?}', "ShipmentController@create")
             ->name('shipments.create')

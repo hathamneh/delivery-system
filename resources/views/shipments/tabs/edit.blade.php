@@ -1,4 +1,4 @@
-<div class="container shipment-details">
+<div class="container-fluid shipment-details">
     <div class="row">
         @if($shipment->isEditable())
             <div class="col-md-2">

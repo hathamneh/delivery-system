@@ -101,6 +101,7 @@ class AccountingController extends Controller
             ]);
         } elseif ($invoice->type == "courier") {
             return view('accounting.courier', [
+                'shipments' => $shipments,
                 'courier' => $invoice->target,
                 'invoice' => $invoice
             ]);

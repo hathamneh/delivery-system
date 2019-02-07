@@ -55,6 +55,8 @@ class Invoice extends Model
      */
     public function getPeriodAttribute()
     {
+        if($this->from->diffInDays($this->until) === 0)
+            return $this->from->toFormattedDateString();
         return $this->from->toFormattedDateString() . " - " . $this->until->toFormattedDateString();
     }
 
@@ -176,7 +178,13 @@ class Invoice extends Model
 
     public function getTotalAttribute()
     {
-        $net = abs($this->due_from - $this->due_for);
+        if($this->target instanceof Courier) {
+            $dueForArr = $this->due_for;
+            $dueFor = $dueForArr['share'] + $dueForArr['promotion'];
+        } else {
+            $dueFor = $this->due_for;
+        }
+        $net = abs($this->due_from - $dueFor);
         if ($this->discount > 0) {
             $net -= $net * ($this->discount / 100);
         }

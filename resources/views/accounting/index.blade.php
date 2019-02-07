@@ -8,50 +8,95 @@
     <i class='fas fa-reports'></i> @lang("accounting.label")
 @endsection
 
+@section('actions')
+    <button class="btn btn-secondary" data-toggle="modal"
+            data-target="#newInvoiceModal"><i class="fa-plus-circle"></i> @lang('accounting.make_invoice')</button>
+@endsection
+
 @section('content')
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 mx-auto mb-3">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h3 class="m-0 font-weight-bold">@lang('accounting.find_invoice')</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('accounting.goto') }}">
-                            {{ csrf_field() }}
-                            <div class="form-row">
-                                <div class="col-sm-10">
-                                    <input type="number" name="invoice_number"
-                                           class="form-control {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
-                                           placeholder="@lang('accounting.invoice_no')">
-                                    @if ($errors->has('invoice_number'))
-                                        @foreach ($errors->get('invoice_number') as $message)
-                                            <small class="invalid-feedback">{{ $message }}</small>
-                                        @endforeach
-                                    @endif
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-dark w-100">Go <i class="fa-play ml-1"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 mx-auto">
-                <form action="{{ route('accounting.store') }}" method="post">
+            <div class="col-sm-6 mx-auto">
+                <form action="{{ route('accounting.goto') }}">
                     {{ csrf_field() }}
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <h3 class="m-0 font-weight-bold">@lang('accounting.make_invoice')</h3>
+                    <div class="form-row">
+                        <div class="col-auto d-flex align-items-center"><label
+                                    for="invoice_number">@lang('accounting.find_invoice')</label></div>
+                        <div class="col">
+                            <input type="number" name="invoice_number" id="invoice_number"
+                                   class="form-control {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
+                                   placeholder="@lang('accounting.invoice_no')">
+                            @if ($errors->has('invoice_number'))
+                                @foreach ($errors->get('invoice_number') as $message)
+                                    <small class="invalid-feedback">{{ $message }}</small>
+                                @endforeach
+                            @endif
                         </div>
-                        <div class="card-body">
+                        <div class="col-sm-2">
+                            <button class="btn btn-dark w-100">Go <i class="fa-play ml-1"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="invoices-table">
+            <h3>@lang('accounting.invoices')</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Period</th>
+                        <th>For</th>
+                        <th>Courier ID / Account Number / Nat. ID</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($invoices as $invoice)
+                        @php /** @var App\Invoice $invoice */ @endphp
+                        <tr>
+                            <td>{{ $invoice->id }}</td>
+                            <td>{{ $invoice->period }}</td>
+                            <td>{{ $invoice->type }}</td>
+                            @if($invoice->target instanceof \App\Client)
+                                <td>{{ $invoice->target->account_number }}</td>
+                            @elseif($invoice->target instanceof \App\Courier)
+                                <td>{{ $invoice->target->id }}</td>
+                            @elseif($invoice->target instanceof \App\Guest)
+                                <td>{{ $invoice->target->national_id }}</td>
+                            @endif
+                            <td><a href="{{ route('accounting.invoice', [$invoice]) }}" class="btn btn-outline-secondary">Execute</a></td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newInvoiceButton"
+             id="newInvoiceModal" aria-hidden="true">
+            <form action="{{ route('accounting.store') }}" method="post">
+                {{ csrf_field() }}
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">@lang('accounting.make_invoice')</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+
+
                             @if($errors->count() && $errors->has('national_id'))
 
-                                    <div class="alert alert-danger">
-                                        {{ $errors->get('national_id')[0] }}
-                                    </div>
+                                <div class="alert alert-danger">
+                                    {{ $errors->get('national_id')[0] }}
+                                </div>
                             @endif
                             <div class="form-row">
                                 <div class="form-group col-sm-12">
@@ -100,7 +145,8 @@
                                             </div>
                                             <div class="a-group">
                                                 <input type="text" name="national_id" id="national_id" disabled
-                                                       class="form-control" placeholder="@lang('client.national_id')">
+                                                       class="form-control"
+                                                       placeholder="@lang('client.national_id')">
                                             </div>
                                         </div>
                                     </div>
@@ -113,28 +159,31 @@
                                            class="form-control date-rangepicker" data-ranges="true">
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <label for="discount" class="control-label">@lang('accounting.discount')</label>
-                                    <input type="number" name="discount" id="discount" class="form-control" step="any"
+                                    <label for="discount"
+                                           class="control-label">@lang('accounting.discount')</label>
+                                    <input type="number" name="discount" id="discount" class="form-control"
+                                           step="any"
                                            value="0.00">
                                     <small class="form-text text-muted">@lang('accounting.discount_note')</small>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="card-footer d-flex align-items-center">
+
+                        <div class="modal-footer d-flex align-items-center">
                             <p class="m-0 text-muted">
-                                Generated invoices will be saved to the system, so you can get back to them later.
+                                Generated invoices will be saved to the system, so you can get back to them
+                                later.
                             </p>
                             <button class="btn btn-primary ml-auto">@lang('accounting.generate') <i
                                         class="ml-1 fa-play"></i></button>
                         </div>
                     </div>
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
 
     </div>
+
 @endsection
 
 @section('beforeBody')

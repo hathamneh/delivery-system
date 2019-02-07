@@ -26,7 +26,9 @@ class AccountingController extends Controller
     public function index()
     {
         /** @var Client $client */
-        return view('accounting.index');
+        return view('accounting.index')->with([
+            'invoices' => Invoice::all()
+        ]);
     }
 
     public function store(Request $request)

@@ -15,6 +15,10 @@
     @endif
 @endsection
 
+@section('actions')
+    <a href="{{ route('shipments.print', [$shipment]) }}" class="btn btn-outline-secondary"><i class="fa-print"></i> Print</a>
+@endsection
+
 @section('content')
     <nav class="nav inner-nav">
         <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'status']) }}"

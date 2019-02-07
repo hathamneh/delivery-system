@@ -45,11 +45,14 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 
 .select2-container--bootstrap4 {
   background-color: #fff;
+
   &.select2-container--disabled {
     background-color: #e9ecef;
+
     .select2-selection {
       cursor: default;
     }
+
     &.select2-container--focus {
       .select2-selection {
         border-color: #ced4da;
@@ -57,6 +60,7 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
       }
     }
   }
+
   .select2-dropdown {
     margin-top: -3px;
   }
@@ -66,10 +70,11 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
   .main-content {
     margin: 0;
   }
+
   .print-tools {
     padding: .5rem;
     margin: 0 auto;
-    background-color: rgba(220,220,220,.75);
+    background-color: rgba(220, 220, 220, .75);
     border-radius: 0 0 .5rem .5rem;
   }
 }
@@ -77,5 +82,60 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 @include media-breakpoint-down('sm') {
   .drp-calendar.right {
     display: none !important;
+  }
+}
+
+.shipments-print {
+  .table {
+    margin-bottom: 0;
+    table-layout: fixed;
+  }
+
+  th, td {
+    padding: .5rem .75rem;
+    vertical-align: middle;
+  }
+  .divider {
+    font-weight: bold;
+    text-align: center;
+    background-color: $light;
+    border-bottom: 3px solid #ddd;
+    padding-top: 1.5rem;
+  }
+
+  .shipment-client_name {
+    font-size: 1.5rem;
+  }
+}
+
+.coc {
+  &-title {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: .5rem;
+  }
+
+  &-body {
+    font-size: .6rem;
+    column-count: 2;
+    line-height: 1.1;
+
+    p {
+      line-height: 1.1;
+      margin-bottom: 0;
+    }
+
+    ol {
+      list-style-position: inside;
+    }
+
+    li {
+      margin: .2rem 0;
+    }
+
+    b {
+      margin-bottom: .2rem;
+      display: inline-block;
+    }
   }
 }

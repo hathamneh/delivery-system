@@ -39,4 +39,7 @@ return [
     'percentage' => "Percentage",
     'print' => "Print",
     'confirmation' => "Are you sure?",
+
+    'yes' => 'Yes',
+    'no' => 'No',
 ];

@@ -7,6 +7,7 @@ use App\Client;
 use App\Courier;
 use App\Guest;
 use App\Http\Requests\StoreShipmentRequest;
+use App\Policies\ShipmentPolicy;
 use App\ReturnedShipment;
 use App\Service;
 use App\Shipment;
@@ -173,6 +174,13 @@ class ShipmentController extends Controller
         return view('shipments.show', $data);
     }
 
+    public function print(Shipment $shipment)
+    {
+        return view('shipments.print')->with([
+            'shipment' => $shipment
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -261,7 +269,7 @@ class ShipmentController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'actual_paid' => 'required_unless:status,consignee_rescheduled',
+            'actual_paid' => 'required_if:status,delivered,rejected',
             'delivery_date' => 'required_if:status,consignee_rescheduled'
         ]);
         $status = $request->get('status');
@@ -270,6 +278,8 @@ class ShipmentController extends Controller
             $shipment->actual_paid_by_consignee = $request->get('actual_paid');
         } else {
             $newStatus = Status::name($status)->first();
+            logger($status);
+            logger($newStatus);
             if (!is_null($newStatus)) {
                 $shipment->status()->associate($newStatus);
                 if ($newStatus->name == "consignee_rescheduled") {

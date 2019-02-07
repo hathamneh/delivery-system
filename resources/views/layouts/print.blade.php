@@ -15,7 +15,7 @@
 
 <!-- BEGIN BODY -->
 <body class="@lang('common.dir') print-layout">
-<div class="d-flex sticky-top">
+<div class="d-flex">
     <div class="btn-group print-tools">
         <a href="javascript:" onclick="window.history.back()" class="btn btn-secondary btn-sm d-print-none"><i
                     class="fa-chevron-left mr-2"></i> @lang('common.back')</a>

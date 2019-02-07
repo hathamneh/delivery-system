@@ -39561,4 +39561,57 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
   }
 }
 
+.shipments-print .table {
+  margin-bottom: 0;
+  table-layout: fixed;
+}
+
+.shipments-print th, .shipments-print td {
+  padding: .5rem .75rem;
+  vertical-align: middle;
+}
+
+.shipments-print .divider {
+  font-weight: bold;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-bottom: 3px solid #ddd;
+  padding-top: 1.5rem;
+}
+
+.shipments-print .shipment-client_name {
+  font-size: 1.5rem;
+}
+
+.coc-title {
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: .5rem;
+}
+
+.coc-body {
+  font-size: .6rem;
+  -webkit-column-count: 2;
+          column-count: 2;
+  line-height: 1.1;
+}
+
+.coc-body p {
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+.coc-body ol {
+  list-style-position: inside;
+}
+
+.coc-body li {
+  margin: .2rem 0;
+}
+
+.coc-body b {
+  margin-bottom: .2rem;
+  display: inline-block;
+}
+
 /*# sourceMappingURL=main.bundle.css.map*/

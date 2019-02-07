@@ -134,18 +134,7 @@
                                     <li><b>@lang('accounting.consignee_info')
                                             :</b> {{ $shipment->consignee_name }}
                                         , {{ $shipment->phone_number }} , {{ $shipment->address->name }}</li>
-                                    @if($shipment->services->count())
-                                        <li><b>@lang('accounting.extra_services'):</b>
-                                            @foreach($shipment->services as $service)
-                                                @php /** @var \App\Service $service */ @endphp
-                                                <span class="invoice__service-item">({{ $service->name }}
-                                                    , @if ($custom_service = $service->customFor($client))
-                                                        {{ fnumber($custom_service->pivot->price) }}
-                                                    @else {{ fnumber($service->price) }} @endif
-                                                    )</span>
-                                            @endforeach
-                                        </li>
-                                    @endif
+                                    @include('shipments.print.services')
                                     @if($shipment->client_paid)
                                         <li><b>@lang('shipment.client_paid')</b></li>
                                     @endif

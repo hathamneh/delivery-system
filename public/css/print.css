@@ -11,4 +11,8 @@
   background-color: #aaa;
 }
 
+.shipments-print td {
+  vertical-align: middle;
+}
+
 /*# sourceMappingURL=print.css.map*/

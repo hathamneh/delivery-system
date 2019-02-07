@@ -585,6 +585,7 @@ class Shipment extends Model
         Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');
         Route::put('shipments/{shipment}/delivery', "ShipmentController@updateDelivery")->name('shipments.delivery');
 
+        Route::get('shipments/{shipment}/print', "ShipmentController@print")->name('shipments.print');
     }
 
 }

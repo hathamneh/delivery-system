@@ -49,7 +49,8 @@
                         <th>No.</th>
                         <th>Period</th>
                         <th>For</th>
-                        <th>Courier ID / Account Number / Nat. ID</th>
+                        <th></th>
+                        <th>Created At</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -59,14 +60,17 @@
                         <tr>
                             <td>{{ $invoice->id }}</td>
                             <td>{{ $invoice->period }}</td>
-                            <td>{{ $invoice->type }}</td>
-                            @if($invoice->target instanceof \App\Client)
-                                <td>{{ $invoice->target->account_number }}</td>
-                            @elseif($invoice->target instanceof \App\Courier)
-                                <td>{{ $invoice->target->id }}</td>
-                            @elseif($invoice->target instanceof \App\Guest)
-                                <td>{{ $invoice->target->national_id }}</td>
-                            @endif
+                            <td>
+                                <span class="badge badge-secondary mr-2 text-capitalize">{{ $invoice->type }}</span>
+                                @if($invoice->target instanceof \App\Client)
+                                    {{ $invoice->target->trade_name }} (Account No.: {{ $invoice->target->account_number }})
+                                @elseif($invoice->target instanceof \App\Courier)
+                                    {{ $invoice->target->name }}
+                                @elseif($invoice->target instanceof \App\Guest)
+                                    {{ $invoice->target->name }} (Nat. ID: {{ $invoice->target->national_id }})
+                                @endif
+                            </td>
+                            <td>{{ $invoice->created_at }}</td>
                             <td><a href="{{ route('accounting.invoice', [$invoice]) }}" class="btn btn-outline-secondary">Execute</a></td>
                         </tr>
                     @endforeach

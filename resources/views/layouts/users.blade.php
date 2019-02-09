@@ -6,7 +6,7 @@
                 aria-expanded="false">
             <i class="fa-users"></i> @lang('user.label')
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{ route('users.index') }}">@lang('user.all')</a>
             @foreach($templates as $template)
                 <a class="dropdown-item"
@@ -21,7 +21,7 @@
                 aria-expanded="false">
             <i class="fa-plus"></i> @lang('common.new')
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{ route('users.create') }}"><i
                         class="fa-user-plus"></i>@lang('user.add_new')</a>
             <a class="dropdown-item" href="{{ route('roles.create') }}"><i

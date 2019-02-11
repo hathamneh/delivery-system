@@ -43,13 +43,12 @@
         <div class="invoices-table">
             <h3>@lang('accounting.invoices')</h3>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table dataTable table-hover">
                     <thead>
                     <tr>
-                        <th>No.</th>
+                        <th>Invoice No.</th>
                         <th>Period</th>
                         <th>For</th>
-                        <th></th>
                         <th>Created At</th>
                         <th></th>
                     </tr>

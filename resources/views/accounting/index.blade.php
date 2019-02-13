@@ -50,6 +50,8 @@
                         <th>Period</th>
                         <th>For</th>
                         <th>Created At</th>
+                        <th>Marked as Paid At</th>
+                        <th>Admin Marked as Paid</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -62,7 +64,8 @@
                             <td>
                                 <span class="badge badge-secondary mr-2 text-capitalize">{{ $invoice->type }}</span>
                                 @if($invoice->target instanceof \App\Client)
-                                    {{ $invoice->target->trade_name }} (Account No.: {{ $invoice->target->account_number }})
+                                    {{ $invoice->target->trade_name }} (Account
+                                    No.: {{ $invoice->target->account_number }})
                                 @elseif($invoice->target instanceof \App\Courier)
                                     {{ $invoice->target->name }}
                                 @elseif($invoice->target instanceof \App\Guest)
@@ -70,7 +73,10 @@
                                 @endif
                             </td>
                             <td>{{ $invoice->created_at }}</td>
-                            <td><a href="{{ route('accounting.invoice', [$invoice]) }}" class="btn btn-outline-secondary">Execute</a></td>
+                            <td>{{ $invoice->decision_date ?? "Not Paid" }}</td>
+                            <td>{{ $invoice->decisionBy ? $invoice->decisionBy->username : "" }}</td>
+                            <td><a href="{{ route('accounting.invoice', [$invoice]) }}"
+                                   class="btn btn-outline-secondary">View</a></td>
                         </tr>
                     @endforeach
                     </tbody>

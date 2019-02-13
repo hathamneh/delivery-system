@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Route;
  * @property float total
  * @property float terms_applied
  * @property float payment_method_price
+ * @property Carbon decision_date
+ * @property User decisionBy
  */
 class Invoice extends Model
 {
@@ -33,11 +36,13 @@ class Invoice extends Model
         'until',
         'discount',
         'notes',
+        'decision_date'
     ];
 
     protected $dates = [
         'from',
-        'until'
+        'until',
+        'decision_date'
     ];
 
     /**
@@ -75,6 +80,16 @@ class Invoice extends Model
         elseif ($this->type == "guest")
             return $shipments->where('client_account_number', $this->target->id);
         return $shipments;
+    }
+
+    public function decisionBy()
+    {
+        return $this->belongsTo(User::class, 'decision_by', 'id');
+    }
+
+    public function scopeForClientsAndGuests($query)
+    {
+        return $query->whereIn('type', ['client', 'guest']);
     }
 
     /**
@@ -215,6 +230,7 @@ class Invoice extends Model
                 'client_paid' => true
             ]);
         }
+        $this->setDecided();
     }
 
     public function markAsCourierCashed()
@@ -225,6 +241,15 @@ class Invoice extends Model
                 'courier_cashed' => true
             ]);
         }
+        $this->setDecided();
+    }
+
+    public function setDecided()
+    {
+        $this->decision_date = now();
+        $user = Auth::user();
+        $this->decisionBy()->associate($user);
+        $this->save();
     }
 
     public static function routes()

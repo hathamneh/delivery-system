@@ -12,7 +12,7 @@
             <th>@lang('client.trade_name')</th>
             <th>@lang('client.name')</th>
             <th>@lang('shipment.client_account_number')</th>
-            <th>@lang('shipment.create_at')</th>
+            <th>@lang('shipment.created_at')</th>
             <th>@lang('shipment.consignee_name')</th>
             <th>@lang('shipment.phone_number')</th>
             <th>@lang('shipment.address_sub_text')</th>

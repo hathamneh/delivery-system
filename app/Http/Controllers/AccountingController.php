@@ -27,7 +27,7 @@ class AccountingController extends Controller
     {
         /** @var Client $client */
         return view('accounting.index')->with([
-            'invoices' => Invoice::all()
+            'invoices' => Invoice::forClientsAndGuests()->get()
         ]);
     }
 

@@ -146,6 +146,15 @@ Breadcrumbs::for('accounting.invoice', function ($trail, \App\Invoice $invoice) 
     $trail->parent('home');
     $trail->push(trans('accounting.invoice'), route('accounting.invoice', [$invoice]));
 });
+Breadcrumbs::for('inventory.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('inventory.today'), route('inventory.index'));
+});
+
+Breadcrumbs::for('inventory.couriers', function ($trail) {
+    $trail->parent('home');
+    $trail->push(trans('inventory.couriers'), route('inventory.courier'));
+});
 
 
 Breadcrumbs::for('forms', function($trail) {

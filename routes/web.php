@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     \App\Invoice::routes();
 
+    \App\Inventory::routes();
+
     \App\Form::routes();
 
     Route::get('reports', "ReportingController@index")->name('reports.index');

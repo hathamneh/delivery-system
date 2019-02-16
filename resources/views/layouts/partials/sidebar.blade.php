@@ -137,6 +137,20 @@
                                         class="fa-money-bill-alt2"></i> @lang('accounting.label')</a></li>
                     </ul>
                 </li>
+                <li class="nav-parent{{ request()->is('inventory*') ? ' active' : '' }}">
+                    <a href="#"><i
+                                class="fa-clipboard2"></i><span>@lang('sidebar.inventory')</span><span
+                                class="fa fa-angle-down arrow"></span></a>
+                    <ul class="children collapse">
+                        <li class="{{ (\Request::route()->getName() == 'inventory.index') ? 'active' : '' }}"><a
+                                    href="{{ route('inventory.index') }}"><i
+                                        class="fa-clipboard2"></i> @lang('inventory.today')</a></li>
+
+                        <li class="{{ (\Request::route()->getName() == 'inventory.courier') ? 'active' : '' }}"><a
+                                    href="{{ route('inventory.courier') }}"><i
+                                        class="fa-truck"></i> @lang('inventory.couriers')</a></li>
+                    </ul>
+                </li>
             @endif
 
             @if(auth()->user()->isAdmin())

@@ -53,9 +53,9 @@ class ShipmentController extends Controller
         else
             $shipmentsQuery = Shipment::query();
 
-        if($request->has('start'))
+        if ($request->has('start'))
             $shipmentsQuery->whereDate('created_at', '>=', $request->get('start'));
-        if($request->has('end'))
+        if ($request->has('end'))
             $shipmentsQuery->whereDate('created_at', '<=', $request->get('end'));
 
         $requestFilters = $request->get('filters', []);
@@ -216,21 +216,26 @@ class ShipmentController extends Controller
     {
         $tab = $request->get('tab');
         switch ($tab) {
-            case "details":
+            case "delivery":
                 $this->addShipmentDetails($shipment, $request);
                 if ($request->has('services')) {
                     $shipment->attachServices($request->get('services'));
-
                 }
                 $shipment->save();
                 return redirect()->route("shipments.edit", ['shipment' => $shipment]);
                 break;
-            case "delivery":
+            case "details":
                 $this->addDeliveryDetails($shipment, $request);
-                if ($request->get('address_from_zones') != $shipment->address_id)
-                    $shipment->address()->associate(Address::findOrFail($request->get('address_from_zones')));
-                if ($request->get('courier') != $shipment->courier_id)
-                    $shipment->courier()->associate(Courier::findOrFail($request->get('courier')));
+                try {
+                    if ($request->get('address_from_zones') != $shipment->address_id)
+                        $shipment->address()->associate(Address::findOrFail($request->get('address_from_zones')));
+                } catch (\Exception $e) {
+                }
+                try {
+                    if ($request->get('courier') != $shipment->courier_id)
+                        $shipment->courier()->associate(Courier::findOrFail($request->get('courier')));
+                } catch (\Exception $e) {
+                }
                 $shipment->save();
                 return redirect()->route("shipments.edit", ['shipment' => $shipment]);
                 break;
@@ -312,24 +317,37 @@ class ShipmentController extends Controller
 
     protected function addShipmentDetails(Shipment &$shipment, Request $request)
     {
-        $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
-        if ($newDeliveryDate != $shipment->delivery_date)
-            $shipment->delivery_date = $newDeliveryDate;
-        $shipment->package_weight = $request->get('package_weight');
-        $shipment->pieces = $request->get('pieces');
-        $shipment->shipment_value = $request->get('shipment_value');
+        if ($request->has('delivery_date')) {
+            $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
+            if ($newDeliveryDate != $shipment->delivery_date)
+                $shipment->delivery_date = $newDeliveryDate;
+        }
+        if ($request->has('package_weight'))
+            $shipment->package_weight = $request->get('package_weight');
+        if ($request->has('pieces'))
+            $shipment->pieces = $request->get('pieces');
+        if ($request->has('shipment_value'))
+            $shipment->shipment_value = $request->get('shipment_value');
     }
 
     protected function addDeliveryDetails(Shipment &$shipment, Request $request)
     {
-        $shipment->internal_notes = $request->get('internal_notes');
-        $shipment->consignee_name = $request->get('consignee_name');
-        $shipment->phone_number = $request->get('phone_number');
-        $shipment->address_maps_link = $request->get('address_maps_link');
-        $shipment->address_sub_text = $request->get('address_sub_text');
-        $shipment->service_type = $request->get('service_type');
-        $shipment->delivery_cost_lodger = $request->get('delivery_cost_lodger');
-        $shipment->reference = $request->get('reference');
+        if ($request->has('internal_notes'))
+            $shipment->internal_notes = $request->get('internal_notes');
+        if ($request->has('consignee_name'))
+            $shipment->consignee_name = $request->get('consignee_name');
+        if ($request->has('phone_number'))
+            $shipment->phone_number = $request->get('phone_number');
+        if ($request->has('address_maps_link'))
+            $shipment->address_maps_link = $request->get('address_maps_link');
+        if ($request->has('address_sub_text'))
+            $shipment->address_sub_text = $request->get('address_sub_text');
+        if ($request->has('service_type'))
+            $shipment->service_type = $request->get('service_type');
+        if ($request->has('delivery_cost_lodger'))
+            $shipment->delivery_cost_lodger = $request->get('delivery_cost_lodger');
+        if ($request->has('reference'))
+            $shipment->reference = $request->get('reference');
     }
 
     /**
@@ -359,7 +377,7 @@ class ShipmentController extends Controller
         $shipments = $request->get('shipments', []);
         foreach ($shipments as $shipment_id) {
             $shipment = Shipment::find($shipment_id);
-            if(is_null($shipment)) continue;
+            if (is_null($shipment)) continue;
             $shipment->courier()->associate($courier);
             $shipment->push();
         }

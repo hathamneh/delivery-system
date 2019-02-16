@@ -9,4 +9,5 @@ return [
     "extra"    => "Extra",
     "users_roles" => "Users & Roles",
     "reporting" => "Reporting",
+    "inventory" => "Inventory"
 ];

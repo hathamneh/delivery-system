@@ -46,7 +46,12 @@ class NotificationService {
 
     getAll = () => {
         return axios.get(`${this.url}/all`).then(res => {
-            this.count.textContent = res.data.unreadCount;
+            if (res.data.unreadCount) {
+                this.count.classList.add('d-none');
+                this.count.textContent = res.data.unreadCount;
+            } else {
+                this.count.classList.add('d-none');
+            }
             res.data.notifications.forEach(item => {
                 this.renderItem({
                     id: item.id,

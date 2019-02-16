@@ -76,14 +76,13 @@
                             <td>{{ $invoice->decision_date ?? "Not Paid" }}</td>
                             <td>{{ $invoice->decisionBy ? $invoice->decisionBy->username : "" }}</td>
                             <td><a href="{{ route('accounting.invoice', [$invoice]) }}"
-                                   class="btn btn-outline-secondary">View</a></td>
+                                   class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center">View <i class="fa-arrow-right ml-2"></i></a></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-
 
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newInvoiceButton"
              id="newInvoiceModal" aria-hidden="true">

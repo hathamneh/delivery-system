@@ -290,7 +290,7 @@ class Shipment extends Model
      */
     public function scopePending($query)
     {
-        $statuses = Status::where('pending', true)->pluck('id');
+        $statuses = Status::whereJsonContains('groups', ['pending'])->pluck('id');
         return $query->whereIn('status_id', $statuses)->upcoming();
     }
 

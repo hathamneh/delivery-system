@@ -43,7 +43,7 @@ if(isset($shipment)) {
                     <div class="form-group col-sm-6">
                         <label for="shipment_value">@lang('shipment.shipment_value')</label>
                         <input type="number" name="shipment_value" id="shipment_value" class="form-control"
-                               placeholder="@lang('shipment.shipment_value')" step="0.01" min="0"
+                               placeholder="@lang('shipment.shipment_value')" step="0.01" min="0" required
                                data-bind="shipment_value"
                                value="{{ isset($shipment) ? $shipment->shipment_value : old("shipment_value") }}">
                     </div>
@@ -53,7 +53,8 @@ if(isset($shipment)) {
                             <select name="status" id="status" class="form-control selectpicker" data-live-search="true"
                                     data-bind="status">
                                 @foreach($statuses as $status)
-                                    <option value="{{ $status->id }}" {{ old('status') == $status->id ? "selected" : "" }}>@lang("shipment.statuses.".$status->name)</option>
+                                    <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
+                                            value="{{ $status->id }}" {{ old('status') == $status->id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
                                 @endforeach
                             </select>
                         </div>

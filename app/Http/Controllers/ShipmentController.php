@@ -159,6 +159,8 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment, $tab = "status")
     {
+        /** @var User $user */
+        $user = auth()->user();
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
         $data = [
             'shipment' => $shipment->load('status'),
@@ -167,6 +169,10 @@ class ShipmentController extends Controller
         ];
         if ($tab == "actions") {
             $data['statuses'] = Status::all();
+            $notDeliveredStatuses = Status::whereJsonContains("groups", ['in_transit'])->whereJsonDoesntContain('groups', ['pending']);
+            if($user->isCourier())
+                $notDeliveredStatuses->whereJsonContains("groups", ['courier']);
+            $data['not_delivered_statuses'] = $notDeliveredStatuses->get();
             $data['returned_statuses'] = Status::whereIn('name', ['rejected', 'cancelled'])->get();
         } elseif ($tab == "status") {
             $data['log'] = Activity::forSubject($shipment)->get();

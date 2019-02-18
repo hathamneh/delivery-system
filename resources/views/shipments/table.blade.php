@@ -26,7 +26,7 @@
             <th>@lang('shipment.external_notes')</th>
             <th>@lang('shipment.client_paid')</th>
             <th>@lang('shipment.courier_cashed')</th>
-            <th>@lang('shipment.statuses.returned')?</th>
+            <th>@lang('shipment.statuses.returned.name')?</th>
         </tr>
         </thead>
         <tbody>
@@ -52,7 +52,11 @@
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ fnumber($shipment->shipment_value) }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ trans('shipment.service_types.' . $shipment->service_type) }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->services->pluck('name')->implode(',') }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ trans('shipment.statuses.' . $shipment->status->name) }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">
+                    <div data-toggle="tooltip" title="{{ trans("shipment.statuses.{$shipment->status->name}.description") }}">
+                    {{ trans("shipment.statuses.{$shipment->status->name}.name") }}
+                    </div>
+                </td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->internal_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->external_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->courier_cashed ? "Yes" : "No" }}</td>

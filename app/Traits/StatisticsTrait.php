@@ -145,7 +145,7 @@ trait StatisticsTrait
         $statuses = Status::get(['id', 'name']);
         foreach ($statuses as $status) {
             $shipments = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange);
-            $out['labels'][] = '"' . trans("shipment.statuses." . $status->name) . '"';
+            $out['labels'][] = '"' . trans("shipment.statuses.{$status->name}.name") . '"';
             if ($this->statsShipmentsCount > 0) {
                 $count = $shipments->whereStatusId($status->id)->count();
                 //$out['values'][] = round(100 * ($count / $this->statsShipmentsCount), 2);

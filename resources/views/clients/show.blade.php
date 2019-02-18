@@ -22,7 +22,7 @@
 @section('content')
     @include('clients.componenets.client-tabs')
 
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         @includeWhen($tab == "statistics", "clients.statistics")
         @includeWhen($tab == "shipments", "clients.shipments.index")
         @includeWhen($tab == "pickups", "clients.pickups.index")

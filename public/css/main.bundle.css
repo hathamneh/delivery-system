@@ -25780,6 +25780,10 @@ body.rtl .layout-options .img-sidebar-right {
   padding: .5rem;
 }
 
+.dataTable_empty {
+  padding: 22px 0;
+}
+
 .sidebar {
   background-color: #2b2e33;
   left: 0;

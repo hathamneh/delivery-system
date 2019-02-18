@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6 mx-auto mb-4">
-                    <div class="status-{{ $shipment->status->group }}">
+                    <div class="status-{{ $shipment->status->groups[0] }}">
                         <div class="shipment-lifecycle">
                             <div class="steps-circles">
                                 <div class="step-wrapper">
@@ -26,10 +26,10 @@
                             </div>
                         </div>
                         <div class="shipment-status">
-                            <span>{{ trans("shipment.statuses.".$shipment->status->name) }}</span>
+                            <span>{{ trans("shipment.statuses.{$shipment->status->name}.name") }}</span>
                         </div>
                     </div>
-                    <p class="status-description">{{ $shipment->status->description }}</p>
+                    <p class="status-description">{{ trans("shipment.statuses.{$shipment->status->name}.description") }}</p>
                 </div>
             </div>
         </div>

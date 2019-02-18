@@ -3,15 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use PhpParser\Builder;
+use \Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Status
  * @package App
  * @property string name
- * @property string description
- * @property SubStatus sub_statuses
- * @property array suggested_reasons
+ * @property array groups
+ * @property array options
  * @property integer id
  * @method static Status name(string $name)
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -19,8 +18,19 @@ use PhpParser\Builder;
 class Status extends Model
 {
 
+    protected $attributes = [
+        'options' => "[]",
+    ];
+
     protected $casts = [
-        'suggested_reasons' => 'array',
+        'options' => 'array',
+        'groups' => 'array',
+    ];
+
+    protected $fillable = [
+        "name",
+        "groups",
+        "options",
     ];
 
     public function subStatuses()
@@ -50,9 +60,22 @@ class Status extends Model
         return $query->where('name', $name);
     }
 
+    /**
+     * @param Builder $query
+     * @param array $groups
+     * @param bool $not
+     */
+    public function scopeGroup(Builder $query, array $groups, bool $not = false)
+    {
+        if($not)
+            $query->whereJsonDoesntContain('groups', $groups);
+        else
+            $query->whereJsonContains('groups', $groups);
+    }
+
     public function identifiableName()
     {
-        return trans("shipment.statuses." . $this->name);
+        return trans("shipment.statuses.{$this->name}.name");
     }
 
 }

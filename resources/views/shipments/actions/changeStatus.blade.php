@@ -7,10 +7,11 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="status">@lang('shipment.status')</label>
-                <select name="status" id="status" class="selectpicker form-control" data-status-suggest>
+                <select name="status" id="status" class="selectpicker form-control" data-status-suggest data-live-search="true">
                     @foreach($statuses as $status)
                         @if($status->name != "returned")
-                            <option value="{{ $status->name }}" {{ $shipment->status_id == $status->id ? "selected" : "" }}>@lang('shipment.statuses.'.$status->name)</option>
+                            <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
+                                    value="{{ $status->name }}" {{ $shipment->status_id == $status->id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
                         @endif
                     @endforeach
                 </select>

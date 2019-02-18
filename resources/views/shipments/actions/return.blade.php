@@ -37,7 +37,8 @@
             <label for="original_status">@lang('shipment.change_original_status')</label>
             <select name="original_status" id="original_status" class="selectpicker form-control">
                 @foreach($returned_statuses as $status)
-                    <option value="{{ $status->id }}" {{ $status->id == $shipment->status_id ? "selected" : "" }}>@lang('shipment.statuses.'.$status->name)</option>
+                    <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
+                            value="{{ $status->id }}" {{ $status->id == $shipment->status_id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
                 @endforeach
             </select>
         </div>

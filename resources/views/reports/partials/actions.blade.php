@@ -13,7 +13,7 @@
                 <div class="dropdown-menu" aria-labelledby="changeStatusDropdown">
                     @foreach($statuses as $status)
                         <button name="status" type="submit" class="dropdown-item"
-                                value="{{ $status->id }}">@lang('shipment.statuses.'.$status->name)</button>
+                                value="{{ $status->id }}">@lang("shipment.statuses.{$status->name}.name")</button>
                     @endforeach
                 </div>
             </div>

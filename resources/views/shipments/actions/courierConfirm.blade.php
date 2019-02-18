@@ -49,8 +49,9 @@
     <div class="border rounded border-success flex-fill mx-auto py-5 mt-3 d-flex align-items-center flex-column justify-content-center w-100"
          style="max-width: 250px;">
         <div class="text-center">Current State</div>
-        <div class="text-center" style="font-size: 1.3rem; font-weight: 700;">
-            @lang('shipment.statuses.'.$shipment->status->name)
+        <div class="text-center" style="font-size: 1.3rem; font-weight: 700;" data-toggle="tooltip"
+             title="@lang("shipment.statuses.{$shipment->status->name}.description")">
+            @lang("shipment.statuses.{$shipment->status->name}.name")
         </div>
     </div>
 </div>
@@ -103,53 +104,48 @@
 
         <div class="form-group delivery-reasons">
             <b class="mb-3 d-block">Why it isn't delivered?</b>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="rejected" name="status" value="rejected" required data-status-suggest
-                       class="custom-control-input" data-message="We're sorry for that, Please provide some details">
-                <label class="custom-control-label" for="rejected">Rejected</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="not_available" name="status" value="not_available" required
-                       class="custom-control-input" data-status-suggest
-                       data-message="We're sorry for wasting your time, Kindly provide some details">
-                <label class="custom-control-label" for="not_available">Not Available</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="cancelled" name="status" value="cancelled" required
-                       class="custom-control-input" data-status-suggest
-                       data-message="We're sorry for wasting your time, Kindly provide some details">
-                <label class="custom-control-label" for="cancelled">Cancelled</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="failed" name="status" value="failed" required
-                       class="custom-control-input" data-status-suggest
-                       data-message="We're sorry for wasting your time, Kindly provide some details">
-                <label class="custom-control-label" for="failed">Failed</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" id="consignee_rescheduled" name="status" value="consignee_rescheduled" required
-                       class="custom-control-input" data-status-suggest
-                       data-message="Kindly inform us about the requested time and any additional details">
-                <label class="custom-control-label" for="consignee_rescheduled">Consignee Rescheduled</label>
-            </div>
+            <select name="status" id="notDeliveredStatus" class="selectpicker form-control">
+                <option selected disabled>@lang('common.select')</option>
+                @foreach($not_delivered_statuses as $status)
+                    @php /** @var \App\Status $status */ @endphp
+                    <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
+                            value="{{ $status->name }}">@lang("shipment.statuses.{$status->name}.name")</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="step-2" style="display: none;">
-            <div class="message font-weight-bold mb-4 text-danger"></div>
+            <div class="message font-weight-bold mb-4 text-danger">Please provide some details</div>
 
-            <div class="form-group actualPaid-input">
+            <div class="form-group actualPaid-input rejected">
                 <label for="actual_paid">How much did the consignee pay?</label>
                 <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
                        placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery }}">
             </div>
 
-            <div class="form-group deliveryDate-input" style="display: none;">
+            <div class="form-group deliveryDate-input rescheduled" style="display: none;">
                 <label for="delivery_date">When the new delivery date?</label>
                 <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
                        placeholder="@lang('shipment.delivery_date')">
             </div>
 
-            <div class="form-group">
+            @foreach($not_delivered_statuses as $status)
+                @php /** @var \App\Status $status */ @endphp
+                @if(isset($status->options['select']))
+                    @foreach($status->options['select'] as $name => $choices)
+                        <div class="form-group {{ $status->name }}">
+                            <label for="{{ $status->name . "_" . $name }}">@lang("shipment.statuses_options.{$name}")</label>
+                            <select class="selectpicker form-control" name="{{ $name }}" id="{{ $status->name . "_" . $name }}">
+                                @foreach($choices as $choice)
+                                    <option value="{{ $choice }}">{{ $choice }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+                @endif
+            @endforeach
+
+            <div class="form-group all">
                 <label for="external_notes">Do you have any notes?
                     <small class="text-muted">(Optional)</small>
                 </label>

@@ -18,33 +18,18 @@ new NotificationService({
     let shistory = document.querySelector(".shipment-history")
     if (shistory) shistory.scrollTo(0, 0);
 
-    let deliveryReasons = document.querySelectorAll('.delivery-reasons input[type=radio]');
-    if (deliveryReasons.length) {
-        deliveryReasons.forEach(item => {
-            item.addEventListener('change', () => {
-                let step2 = document.querySelector('.delivery-failed-form .step-2');
-                if (item.checked) {
-                    step2.querySelector('.message').textContent = item.dataset.message;
-                    step2.style.display = "block";
-                }
-                let crInput = step2.querySelector('.deliveryDate-input');
-                let apInput = step2.querySelector('.actualPaid-input');
-                let suggInput = step2.querySelector('.suggestions');
-                crInput.style.display = "none";
-                crInput.querySelector('input').disabled = true;
-                apInput.style.display = "none";
-                apInput.querySelector('input').disabled = true;
-                suggInput.style.display = "none";
-                if (item.value === "consignee_rescheduled") {
-                    crInput.querySelector('input').disabled = false;
-                    crInput.style.display = "block";
-                } else if (item.value === "rejected") {
-                    apInput.style.display = "block";
-                    apInput.querySelector('input').disabled = false;
-                } else if (item.value === 'not_available') {
-                    suggInput.style.display = "block";
-                }
-            });
+    let deliveryReasons = document.querySelector('.delivery-reasons select#notDeliveredStatus');
+    if (deliveryReasons) {
+        deliveryReasons.addEventListener('change', () => {
+            let step2 = document.querySelector('.delivery-failed-form .step-2');
+            let selectedStatus = deliveryReasons.value;
+            step2.style.display = "block";
+
+            step2.querySelectorAll('.form-group:not(.all)').forEach(item => {
+                item.style.display = "none";
+                if (item.classList.contains(selectedStatus))
+                    item.style.display = 'block';
+            })
         });
     }
 

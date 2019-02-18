@@ -13,114 +13,130 @@ class StatusesSeeder extends Seeder
     public function run()
     {
         \App\Status::create([
-            'name'              => "picked_up",
-            'description'       => "Shipment Picked Up",
-            'group'             => "processing",
-            'unpaid'            => false,
-            'pending'           => false,
-            'courier_dashboard' => false,
+            'name'    => "picked_up",
+            'groups'  => ["processing"],
+            'options' => [],
         ]);
         \App\Status::create([
-            'name'              => "received",
-            'description'       => "Received at operation facility",
-            'group'             => "processing",
-            'unpaid'            => false,
-            'pending'           => true,
-            'courier_dashboard' => true,
-        ]);
-        \App\Status::create([
-            'name'              => "out_for_delivery",
-            'description'       => "Shipment on its way to consignee",
-            'group'             => "in_transit",
-            'unpaid'            => false,
-            'pending'           => true,
-            'courier_dashboard' => true,
-        ]);
-        \App\Status::create([
-            'name'              => "consignee_rescheduled",
-            'description'       => "The consignee has rescheduled receiving the shipment",
-            'group'             => "in_transit",
-            'suggested_reasons' => [
-                'Insufficient Amount',
-                'Not Ready to receive shipment',
-                'To be collected from office',
+            'name'    => "received",
+            'groups'  => ["processing", "returned", "pending"],
+            'options' => [
+                'set_branch' => true
             ],
-            'unpaid'            => false,
-            'pending'           => true,
-            'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'              => "not_available",
-            'description'       => "The consignee is not available to receive the shipment",
-            'group'             => "in_transit",
-            'suggested_reasons' => [
-                'SMS Sent',
-                'Mobile switched off',
-                'No Answer',
-                'No Coverage',
-                'Incorrect Number',
-                'Blocked',
-                'Transferred Calls',
+            'name'    => "departed",
+            'groups'  => ["processing", "returned", "pending"],
+            'options' => [
+                'set_branch' => true
             ],
-            'unpaid'            => false,
-            'pending'           => true,
-            'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'              => "cancelled",
-            'description'       => "Shipment has been cancelled",
-            'group'             => "in_transit",
-            'suggested_reasons' => [
-                "Requested by sender",
-                "Consignee is not expecting the shipment",
-                "Consignee informed sender for cancellation",
+            'name'    => "collect_from_office",
+            'groups'  => ["in_transit", "returned", "pending"],
+            'options' => [
+                'set_branch' => true
             ],
-            'unpaid'            => false,
-            'pending'           => false,
-            'courier_dashboard' => true,
         ]);
         \App\Status::create([
-            'name'              => "rejected",
-            'group'             => "in_transit",
-            'description'       => "Shipment has been rejected",
-            'suggested_reasons' => [
-                "Incorrect / missing item",
-                "Price issue",
-                "Damaged",
-                "Insufficient money",
-                "Refused to pay"
+            'name'    => "collected_from_office",
+            'groups'  => ["delivered", "returned"],
+            'options' => [
+                'set_branch' => true
             ],
-            'unpaid'            => true,
-            'pending'           => false,
-            'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'              => "failed",
-            'group'             => "in_transit",
-            'description'       => "Delivery Failed",
-            'suggested_reasons' => [
-                "Bad weather conditions",
-                "Unreachable destination"
+            'name'    => "out_for_delivery",
+            'groups'  => ["in_transit", "returned", "pending"],
+            'options' => [],
+        ]);
+        \App\Status::create([
+            'name'    => "ready",
+            'groups'  => ["processing", "courier", "returned", "pending"],
+            'options' => [
+                'set_time' => true
             ],
-            'unpaid'            => false,
-            'pending'           => false,
-            'courier_dashboard' => false,
         ]);
         \App\Status::create([
-            'name'              => "delivered",
-            'group'             => "delivered",
-            'description'       => "Shipment has delivered to consignee successfully",
-            'unpaid'            => true,
-            'pending'           => false,
-            'courier_dashboard' => true,
+            'name'    => "rescheduled",
+            'groups'  => ["in_transit", "courier", "returned"],
+            'options' => [
+                'select'            => [
+                    'rescheduled_by' => ['By Consignee', 'By Sender', 'By Kangaroo'],
+                    'reason'         => ['Insufficient Amount', 'Not Ready to receive shipment', 'To be collected from office']
+                ],
+                'set_delivery_date' => true
+            ]
         ]);
         \App\Status::create([
-            'name'              => "returned",
-            'group'             => "in_transit",
-            'description'       => "Consignee has returned the shipment to sender",
-            'unpaid'            => true,
-            'pending'           => false,
-            'courier_dashboard' => true,
+            'name'    => "not_available",
+            'groups'  => ["in_transit", "courier", "returned"],
+            'options' => [
+                'select' => [
+                    'reason' => [
+                        "Transferred calls",
+                        "Number blocked",
+                        "No answer",
+                        "Incorrect number",
+                        "Invalid number",
+                        "Number disconnected",
+                        "No signal/coverage",
+                        "Mobile switched off",
+                    ],
+                ],
+            ]
+        ]);
+        \App\Status::create([
+            'name'    => "cancelled",
+            'groups'  => ["in_transit", "courier"],
+            'options' => [
+                'select' => [
+                    'reason' => [
+                        "Sender cancelled the shipment",
+                        "Consignee is not expecting the shipment",
+                        "Consignee wants to amend order before delivery",
+                        "Consignee changed his/her mind"
+                    ],
+                ]
+            ]
+        ]);
+        \App\Status::create([
+            'name'    => "rejected",
+            'groups'  => ["in_transit", "courier", "returned"],
+            'options' => [
+                'select' => [
+                    'reason' => [
+                        "Consignee didn't answer on arrival",
+                        "Consignee cancelled on arrival",
+                        "Consignee's mobile is switched off on arrival",
+                        "Incorrect/missing item",
+                        "Price issue",
+                        "Damaged",
+                        "Insufficient money",
+                        "Consignee refused to pay",
+                        "Consignee is not expecting shipment",
+                        "Consignee mobile is transferred",
+                        "Consignee wanted to receive shipment before paying",
+                    ]
+                ]
+            ]
+        ]);
+        \App\Status::create([
+            'name'    => "failed",
+            'groups'  => ["in_transit", "courier", "returned"],
+            'options' => [
+                'select' => [
+                    'reason' => [
+                        "Bad weather conditions",
+                        "Unreachable destination"
+                    ],
+                ],
+            ],
+        ]);
+        \App\Status::create([
+            'name'    => "delivered",
+            'groups'  => ["delivered", "courier"],
+            'options' => [],
         ]);
     }
 }

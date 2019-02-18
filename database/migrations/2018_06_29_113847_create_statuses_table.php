@@ -16,12 +16,8 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
-            $table->string('group');
-            $table->string('suggested_reasons')->nullable();
-            $table->boolean('unpaid');
-            $table->boolean('pending');
-            $table->boolean('courier_dashboard');
+            $table->json('groups');
+            $table->json("options");
             $table->timestamps();
         });
     }

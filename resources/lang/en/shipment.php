@@ -106,7 +106,8 @@ return [
             "description" => "Has been collected from office"],
     ],
     "statuses_options"         => [
-        "reason" => "Reason"
+        "reason"         => "Reason",
+        "rescheduled_by" => "Rescheduled By"
     ],
     'consignee_name'           => "Consignee Name",
     'phone_number'             => "Phone Number",

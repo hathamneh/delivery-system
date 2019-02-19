@@ -9,11 +9,12 @@
 
         <div class="form-group">
             <label for="name">@lang('branch.name')</label>
-            <input type="text" name="name" id="name" class="form-control" placeholder="@lang("branch.name")">
+            <input type="text" name="name" id="name" class="form-control" required placeholder="@lang("branch.name")">
         </div>
         <div class="form-group">
             <label for="address">@lang('branch.address')</label>
-            <textarea name="address" id="address" class="form-control" placeholder="@lang("branch.address")"></textarea>
+            <textarea name="address" id="address" class="form-control" required
+                      placeholder="@lang("branch.address")"></textarea>
         </div>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
@@ -67,12 +68,12 @@
 
                                 <div class="form-group">
                                     <label for="name">@lang('branch.name')</label>
-                                    <input type="text" name="name" id="name" class="form-control"
+                                    <input type="text" name="name" id="name" class="form-control" required
                                            placeholder="@lang("branch.name")" value="{{ $branch->name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="address">@lang('branch.address')</label>
-                                    <textarea name="address" id="address" class="form-control"
+                                    <textarea name="address" id="address" class="form-control" required
                                               placeholder="@lang("branch.address")">{{ $branch->address }}</textarea>
                                 </div>
                                 <div class="custom-control custom-checkbox">

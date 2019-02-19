@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Branch;
 use Setting;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class SettingsController extends Controller
     public function index()
     {
         return view('settings.index')->with([
-            'tab' => $this->tab
+            'tab' => $this->tab,
+            'branches' => Branch::all()
         ]);
     }
 
@@ -53,7 +55,9 @@ class SettingsController extends Controller
             case 'accounting':
                 $this->accountingSettings($request);
                 break;
-
+            case 'branches':
+                $this->createBranch($request);
+                break;
         }
 
         return back()->with([
@@ -90,10 +94,9 @@ class SettingsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
@@ -146,4 +149,5 @@ class SettingsController extends Controller
         }
         Setting::save();
     }
+
 }

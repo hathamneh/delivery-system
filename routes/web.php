@@ -51,6 +51,12 @@ Route::middleware('auth')->group(function () {
     Route::put('reports', "ReportingController@update")->name('reports.update');
 
     Route::resource('settings', "SettingsController");
+    Route::put('settings', "SettingsController@update");
+
+    Route::post('branches', "BranchController@store")->name('branches.store');
+    Route::put('branches/{branch}', "BranchController@update")->name('branches.update');
+    Route::delete('branches/{branch}', "BranchController@destroy")->name('branches.destroy');
+
     Route::get('emails', "MailingController@index")->name('emails.index');
 
     Route::prefix('ajax')->group(function () {

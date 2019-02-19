@@ -18,6 +18,9 @@
         <a href="{{ route('settings.index', ['tab'=>'accounting']) }}"
            class="{{ $tab != "accounting" ?: "active" }}"><i class="fa-info-circle"></i> @lang('settings.accounting.label')
         </a>
+        <a href="{{ route('settings.index', ['tab'=>'branches']) }}"
+           class="{{ $tab != "branches" ?: "active" }}"><i class="fa-info-circle"></i> @lang('branch.label')
+        </a>
     </nav>
     <div class="container-fluid">
         @includeif('settings.tabs.' . $tab)

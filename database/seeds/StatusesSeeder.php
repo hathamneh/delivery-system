@@ -128,7 +128,9 @@ class StatusesSeeder extends Seeder
                 'select' => [
                     'reason' => [
                         "Bad weather conditions",
-                        "Unreachable destination"
+                        "Unreachable destination",
+                        "Incomplete address",
+                        "No phone number"
                     ],
                 ],
             ],
@@ -137,6 +139,29 @@ class StatusesSeeder extends Seeder
             'name'    => "delivered",
             'groups'  => ["delivered", "courier"],
             'options' => [],
+        ]);
+
+
+        \App\Status::create([
+            'name'    => "on_hold",
+            'groups'  => ["processing", "returned"],
+            'options' => [
+                'select' => [
+                    'reason' => [
+                        "Consignee rescheduled",
+                        "Kangaroo rescheduled",
+                        "Sender rescheduled",
+                        "Consignee cancelled shipment, awaiting sender's instructions",
+                        "Consignee rejected shipment, awaiting sender's instructions",
+                        "Consignee not available, awaiting sender's instructions",
+                        "Delivery failed",
+                        "Consignee asked to collect shipment from office",
+                        "Incomplete address, awaiting admin instructions",
+                        "No phone number, awaiting admin instructions",
+                        "Consignee contacted to set delivery address"
+                    ],
+                ],
+            ],
         ]);
     }
 }

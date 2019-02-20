@@ -99,15 +99,21 @@ return [
             "name"        => "Not Available",
             "description" => "The consignee is not available to receive the shipment"],
         'collect_from_office'   => [
-            "name"        => "Collect From Office",
+            "name"        => "Office Collection",
             "description" => "Consignee asked to collect shipment from office"],
         'collected_from_office' => [
             "name"        => "Collected From Office",
             "description" => "Has been collected from office"],
     ],
+    "status_groups" => [
+        "processing" => "Processing",
+        "in_transit" => "In Transit",
+        "delivered" => "Delivered"
+    ],
     "statuses_options"         => [
         "reason"         => "Reason",
-        "rescheduled_by" => "Rescheduled By"
+        "rescheduled_by" => "Rescheduled By",
+        "set_branch"     => "Set Branch"
     ],
     'consignee_name'           => "Consignee Name",
     'phone_number'             => "Phone Number",

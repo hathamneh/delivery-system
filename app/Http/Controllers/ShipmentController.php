@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Branch;
 use App\Client;
 use App\Courier;
 use App\Guest;
@@ -60,13 +61,13 @@ class ShipmentController extends Controller
 
         $requestFilters = $request->get('filters', []);
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
-        $shipments = $shipmentsQuery->get();
+        $shipments      = $shipmentsQuery->get();
 
         return view('shipments.index', [
-            'shipments' => $shipments,
-            'filtersData' => $this->shipmentFilters->filtersData(),
-            'applied' => $appliedFilters,
-            'pageTitle' => trans('shipment.label') . " (" . $shipments->count() . ")",
+            'shipments'        => $shipments,
+            'filtersData'      => $this->shipmentFilters->filtersData(),
+            'applied'          => $appliedFilters,
+            'pageTitle'        => trans('shipment.label') . " (" . $shipments->count() . ")",
             'sidebarCollapsed' => true
         ]);
     }
@@ -79,20 +80,20 @@ class ShipmentController extends Controller
      */
     public function create($type = "legacy")
     {
-        $suggestedWaybill = (new Shipment)->generateNextWaybill();
+        $suggestedWaybill      = (new Shipment)->generateNextWaybill();
         $suggestedDeliveryDate = $this->suggestedDeliveryDate();
-        $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
-        $couriers = Courier::all();
-        $addresses = Address::all();
-        $services = Service::all();
-        $data = [
-            'statuses' => $statuses,
-            'suggestedWaybill' => $suggestedWaybill['waybill'],
+        $statuses              = Status::whereIn('name', ['picked_up', 'received'])->get();
+        $couriers              = Courier::all();
+        $addresses             = Address::all();
+        $services              = Service::all();
+        $data                  = [
+            'statuses'              => $statuses,
+            'suggestedWaybill'      => $suggestedWaybill['waybill'],
             'suggestedDeliveryDate' => $suggestedDeliveryDate->format('d/m/Y'),
-            'couriers' => $couriers,
-            'addresses' => $addresses,
-            'services' => $services,
-            'pageTitle' => trans('shipment.new')
+            'couriers'              => $couriers,
+            'addresses'             => $addresses,
+            'services'              => $services,
+            'pageTitle'             => trans('shipment.new')
         ];
         switch ($type) {
             case "legacy":
@@ -115,7 +116,7 @@ class ShipmentController extends Controller
     {
 
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
-        $clientData = $request->get('shipment_client');
+        $clientData       = $request->get('shipment_client');
 
         $shipment = new Shipment;
         if ($clientData['type'] == 'guest') {
@@ -160,20 +161,25 @@ class ShipmentController extends Controller
     public function show(Shipment $shipment, $tab = "status")
     {
         /** @var User $user */
-        $user = auth()->user();
+        $user     = auth()->user();
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
-        $data = [
-            'shipment' => $shipment->load('status'),
-            'tab' => $tab,
+        $data     = [
+            'shipment'  => $shipment->load('status'),
+            'tab'       => $tab,
             'pageTitle' => trans('shipment.info'),
         ];
         if ($tab == "actions") {
-            $data['statuses'] = Status::all();
-            $notDeliveredStatuses = Status::whereJsonContains("groups", ['in_transit'])->whereJsonDoesntContain('groups', ['pending']);
-            if($user->isCourier())
+            $data['statuses'] = [
+                'processing' => Status::group(["processing"])->get(),
+                'in_transit' => Status::group(["in_transit"])->get(),
+                'delivered'  => Status::group(["delivered"])->get(),
+            ];
+            $notDeliveredStatuses     = Status::whereJsonContains("groups", ['in_transit'])->whereJsonDoesntContain('groups', ['pending']);
+            if ($user->isCourier())
                 $notDeliveredStatuses->whereJsonContains("groups", ['courier']);
             $data['not_delivered_statuses'] = $notDeliveredStatuses->get();
-            $data['returned_statuses'] = Status::whereIn('name', ['rejected', 'cancelled'])->get();
+            $data['returned_statuses']      = Status::whereIn('name', ['rejected', 'cancelled'])->get();
+            $data['branches']      = Branch::all();
         } elseif ($tab == "status") {
             $data['log'] = Activity::forSubject($shipment)->get();
         }
@@ -195,17 +201,17 @@ class ShipmentController extends Controller
      */
     public function edit(Shipment $shipment)
     {
-        $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
-        $couriers = Courier::all();
+        $statuses  = Status::whereIn('name', ['picked_up', 'received'])->get();
+        $couriers  = Courier::all();
         $addresses = Address::all();
-        $services = Service::all();
+        $services  = Service::all();
         return view('shipments.show', [
-            'shipment' => $shipment,
-            'tab' => 'edit',
-            'statuses' => $statuses,
-            'couriers' => $couriers,
+            'shipment'  => $shipment,
+            'tab'       => 'edit',
+            'statuses'  => $statuses,
+            'couriers'  => $couriers,
             'addresses' => $addresses,
-            'services' => $services,
+            'services'  => $services,
             'pageTitle' => trans('shipment.edit')
         ]);
     }
@@ -249,7 +255,7 @@ class ShipmentController extends Controller
                 $status = Status::name($request->get('status'))->first();
                 $shipment->status()->associate($status);
                 if ($status->name = 'consignee_rescheduled') {
-                    $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
+                    $newDeliveryDate         = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
                     $shipment->delivery_date = $newDeliveryDate;
                 }
                 $shipment->status_notes = $request->get('status_notes');
@@ -264,7 +270,7 @@ class ShipmentController extends Controller
 
     public function makeReturn(Request $request, Shipment $shipment)
     {
-        $new = ReturnedShipment::createFrom($shipment, [
+        $new    = ReturnedShipment::createFrom($shipment, [
             'delivery_date' => Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'))
         ]);
         $status = Status::findOrFail($request->get('original_status'));
@@ -279,9 +285,9 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $request->validate([
-            'status' => 'required',
-            'actual_paid' => 'required_if:status,delivered,rejected',
-            'delivery_date' => 'required_if:status,consignee_rescheduled'
+            'status'        => 'required',
+            'actual_paid'   => 'required_if:status,delivered,rejected',
+            'delivery_date' => 'required_if:status,rescheduled'
         ]);
         $status = $request->get('status');
         if ($status == "delivered") {
@@ -289,18 +295,28 @@ class ShipmentController extends Controller
             $shipment->actual_paid_by_consignee = $request->get('actual_paid');
         } else {
             $newStatus = Status::name($status)->first();
-            logger($status);
-            logger($newStatus);
             if (!is_null($newStatus)) {
                 $shipment->status()->associate($newStatus);
-                if ($newStatus->name == "consignee_rescheduled") {
+                if ($newStatus->name == "rescheduled") {
                     $shipment->delivery_date = Carbon::createFromFormat('d/m/Y', $request->get('delivery_date'));
                 }
                 $shipment->actual_paid_by_consignee = $request->get('actual_paid');
             }
         }
-        $shipment->status_notes = $request->get('external_notes');
-        $shipment->external_notes = $request->get('external_notes');
+        if($request->has('branch')) {
+            $branch = Branch::find($request->get('branch'));
+            $shipment->branch()->associate($branch);
+        }
+        $status_notes = "";
+        if ($request->has("notes")) {
+            $notes = $request->get("notes");
+            foreach ($notes as $name => $value) {
+                $status_notes .= strtoupper(trans("shipment.statuses_options.$name")) . ": " . $value . "\n";
+            }
+        }
+        $status_notes             .= $request->get('external_notes');
+        $shipment->status_notes   = $status_notes;
+        $shipment->external_notes = $status_notes;
         $shipment->save();
         return back();
     }
@@ -376,10 +392,10 @@ class ShipmentController extends Controller
     public function assignCourier(Request $request)
     {
         $request->validate([
-            'courier' => 'required|exists:couriers,id',
+            'courier'   => 'required|exists:couriers,id',
             'shipments' => 'required|array'
         ]);
-        $courier = Courier::find($request->get('courier'));
+        $courier   = Courier::find($request->get('courier'));
         $shipments = $request->get('shipments', []);
         foreach ($shipments as $shipment_id) {
             $shipment = Shipment::find($shipment_id);

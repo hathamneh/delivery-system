@@ -49,10 +49,13 @@
     <div class="border rounded border-success flex-fill mx-auto py-5 mt-3 d-flex align-items-center flex-column justify-content-center w-100"
          style="max-width: 250px;">
         <div class="text-center">Current State</div>
-        <div class="text-center" style="font-size: 1.3rem; font-weight: 700;" data-toggle="tooltip"
+        <div class="text-center mb-3" style="font-size: 1.3rem; font-weight: 700;" data-toggle="tooltip"
              title="@lang("shipment.statuses.{$shipment->status->name}.description")">
             @lang("shipment.statuses.{$shipment->status->name}.name")
         </div>
+        <small class="text-center text-muted">
+            {!! nl2br($shipment->status_notes) !!}
+        </small>
     </div>
 </div>
 @component('bootstrap::modal',[
@@ -104,7 +107,8 @@
 
         <div class="form-group delivery-reasons">
             <b class="mb-3 d-block">Why it isn't delivered?</b>
-            <select name="status" id="notDeliveredStatus" class="selectpicker form-control">
+            <select name="status" id="notDeliveredStatus" class="selectpicker form-control status-changer"
+                    data-target="#reasonsStep2">
                 <option selected disabled>@lang('common.select')</option>
                 @foreach($not_delivered_statuses as $status)
                     @php /** @var \App\Status $status */ @endphp
@@ -114,7 +118,7 @@
             </select>
         </div>
 
-        <div class="step-2" style="display: none;">
+        <div class="step-2" id="reasonsStep2" style="display: none;">
             <div class="message font-weight-bold mb-4 text-danger">Please provide some details</div>
 
             <div class="form-group actualPaid-input rejected">
@@ -123,19 +127,23 @@
                        placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery }}">
             </div>
 
-            <div class="form-group deliveryDate-input rescheduled" style="display: none;">
-                <label for="delivery_date">When the new delivery date?</label>
-                <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
-                       placeholder="@lang('shipment.delivery_date')">
-            </div>
-
             @foreach($not_delivered_statuses as $status)
                 @php /** @var \App\Status $status */ @endphp
+
+                @if(isset($status->options['set_delivery_date']))
+                    <div class="form-group deliveryDate-input {{ $status->name }}">
+                        <label for="delivery_date">When the new delivery date?</label>
+                        <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
+                               placeholder="@lang('shipment.delivery_date')">
+                    </div>
+                @endif
+
                 @if(isset($status->options['select']))
                     @foreach($status->options['select'] as $name => $choices)
                         <div class="form-group {{ $status->name }}">
                             <label for="{{ $status->name . "_" . $name }}">@lang("shipment.statuses_options.{$name}")</label>
-                            <select class="selectpicker form-control" name="{{ $name }}" id="{{ $status->name . "_" . $name }}">
+                            <select class="selectpicker form-control" name="notes[{{ $name }}]"
+                                    id="{{ $status->name . "_" . $name }}">
                                 @foreach($choices as $choice)
                                     <option value="{{ $choice }}">{{ $choice }}</option>
                                 @endforeach
@@ -143,7 +151,9 @@
                         </div>
                     @endforeach
                 @endif
+
             @endforeach
+
 
             <div class="form-group all">
                 <label for="external_notes">Do you have any notes?

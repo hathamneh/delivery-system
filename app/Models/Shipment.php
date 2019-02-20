@@ -54,6 +54,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double total_price
  * @property boolean client_paid
  * @property boolean courier_cashed
+ * @property Branch branch
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
  * @method static self lodger(string $lodger)
@@ -227,6 +228,11 @@ class Shipment extends Model
     public function services()
     {
         return $this->belongsToMany(Service::class, 'service_shipment', 'shipment_id', 'service_id')->withPivot('price');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     /**

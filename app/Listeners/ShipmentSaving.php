@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Branch;
 use App\Shipment;
 use App\Status;
 use Illuminate\Queue\InteractsWithQueue;
@@ -67,11 +68,26 @@ class ShipmentSaving
             case "failed":
                 $activityItem->log('Failed to deliver the shipment');
                 break;
-            case "consignee_rescheduled":
-                $activityItem->log('Consignee has rescheduled the delivery of the shipment until ' . $this->shipment->delivery_date->toFormattedDateString());
+            case "rescheduled":
+                $activityItem->log('Rescheduled the delivery of the shipment until ' . $this->shipment->delivery_date->toFormattedDateString());
                 break;
             case "delivered":
                 $activityItem->log('Shipment delivered successfully!');
+                break;
+            case "collected_from_office":
+                $branch = Branch::find($this->shipment->branch_id)->name ?? "";
+                $activityItem->log("Shipment has been collected from {$branch} office by the consignee");
+                break;
+            case "collect_from_office":
+                $branch = Branch::find($this->shipment->branch_id)->name ?? "";
+                $activityItem->log("To be collected from {$branch} office");
+                break;
+            case "departed":
+                $newBranch = Branch::find($this->shipment->branch_id)->name ?? "";
+                $activityItem->log("Shipment has been departed to {$newBranch}");
+                break;
+            case "ready":
+                $activityItem->log("Shipment is now ready to be delivered");
                 break;
         }
     }

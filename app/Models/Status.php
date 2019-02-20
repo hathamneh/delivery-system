@@ -12,7 +12,7 @@ use \Illuminate\Database\Eloquent\Builder;
  * @property array groups
  * @property array options
  * @property integer id
- * @method static Status name(string $name)
+ * @method static Builder name(string $name)
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Status extends Model

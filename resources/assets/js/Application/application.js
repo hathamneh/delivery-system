@@ -18,20 +18,33 @@ new NotificationService({
     let shistory = document.querySelector(".shipment-history")
     if (shistory) shistory.scrollTo(0, 0);
 
-    let deliveryReasons = document.querySelector('.delivery-reasons select#notDeliveredStatus');
-    if (deliveryReasons) {
-        deliveryReasons.addEventListener('change', () => {
-            let step2 = document.querySelector('.delivery-failed-form .step-2');
-            let selectedStatus = deliveryReasons.value;
-            step2.style.display = "block";
+    let statusChangers = document.querySelectorAll('.status-changer');
+    statusChangers.forEach(statusChanger => {
+        statusChanger.addEventListener('change', e => {
+            let targetSelector = e.target.dataset.target;
+            if (!targetSelector) return;
+            let target = document.querySelector(targetSelector);
+            let selectedStatus = e.target.value;
+            target.style.display = "block";
 
-            step2.querySelectorAll('.form-group:not(.all)').forEach(item => {
+            target.querySelectorAll('.form-group:not(.all)').forEach(item => {
                 item.style.display = "none";
-                if (item.classList.contains(selectedStatus))
+                item.querySelectorAll('input, select').forEach(input => {
+                    if (input.name[0] !== "_") input.name = "_" + input.name;
+                    if (input.tagName.toLowerCase() === "input")
+                        input.type = "hidden"
+                });
+                if (item.classList.contains(selectedStatus)) {
                     item.style.display = 'block';
+                    item.querySelectorAll('input, select').forEach(input => {
+                        if (input.name[0] === "_") input.name = input.name.substr(1);
+                        if (input.tagName.toLowerCase() === "input")
+                            input.type = "text"
+                    });
+                }
             })
         });
-    }
+    })
 
 
     let pickupStates = document.querySelectorAll('.pickup-statuses input[type=radio]');
@@ -96,17 +109,17 @@ new NotificationService({
 
     }
 
-
-    $("select#status, select#original_status").on('change', function () {
-        let val = $(this).val();
-        let $container = $(this).closest('form');
-        let $newDeliveryDate = $container.find(".newDeliveryDate-input");
-        if (val === 'consignee_rescheduled')
-            $newDeliveryDate.show();
-        else
-            $newDeliveryDate.hide();
-
-    });
+    //
+    // $("select#status, select#original_status").on('change', function () {
+    //     let val = $(this).val();
+    //     let $container = $(this).closest('form');
+    //     let $newDeliveryDate = $container.find(".newDeliveryDate-input");
+    //     if (val === 'consignee_rescheduled')
+    //         $newDeliveryDate.show();
+    //     else
+    //         $newDeliveryDate.hide();
+    //
+    // });
 })();
 
 

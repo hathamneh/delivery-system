@@ -104,6 +104,9 @@ return [
         'collected_from_office' => [
             "name"        => "Collected From Office",
             "description" => "Has been collected from office"],
+        'customs' => [
+            "name"        => "Customs office",
+            "description" => "Customs Office Processing"],
     ],
     "status_groups" => [
         "processing" => "Processing",

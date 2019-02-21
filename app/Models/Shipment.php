@@ -57,6 +57,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Branch branch
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
+ * @method static self statusGroups(array $status_groups)
  * @method static self lodger(string $lodger)
  * @method static self unpaid()
  * @method static self pending()
@@ -128,7 +129,7 @@ class Shipment extends Model
     ];
 
     protected $dispatchesEvents = [
-        'saving' => Events\ShipmentSaving::class,
+        'saving'  => Events\ShipmentSaving::class,
         'created' => Events\ShipmentCreated::class,
     ];
 
@@ -216,7 +217,7 @@ class Shipment extends Model
     public function getAddressAttribute()
     {
         $address = $this->address()->first();
-        $custom = $address->customFor($this->client);
+        $custom  = $address->customFor($this->client);
         if (!is_null($custom))
             return $custom;
         return $address;
@@ -307,7 +308,7 @@ class Shipment extends Model
     public function scopeCourierDashboard($query)
     {
         $todayDate = Carbon::now()->toDateString();
-        $statuses = Status::where('courier_dashboard', true)->pluck('id');
+        $statuses  = Status::where('courier_dashboard', true)->pluck('id');
         return $query->whereIn('status_id', $statuses)
             ->whereDate('delivery_date', '=', $todayDate);
     }
@@ -340,6 +341,11 @@ class Shipment extends Model
         return $this->status->is($status);
     }
 
+    public function isStatusGroup($group)
+    {
+        return in_array($group, $this->status->groups);
+    }
+
     /**
      * @param Builder $query
      * @param array $statuses
@@ -349,6 +355,18 @@ class Shipment extends Model
     public function scopeStatusIn(Builder $query, array $statuses, string $boolean = 'and')
     {
         $status_ids = Status::whereIn('name', $statuses)->pluck('id');
+        return $query->whereIn('status_id', $status_ids, $boolean);
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $status_groups
+     * @param string $boolean
+     * @return Builder
+     */
+    public function scopeStatusGroups(Builder $query, array $status_groups, string $boolean = 'and')
+    {
+        $status_ids = Status::group($status_groups)->pluck('id');
         return $query->whereIn('status_id', $status_ids, $boolean);
     }
 
@@ -381,11 +399,11 @@ class Shipment extends Model
     {
         if ($clientData['type'] == 'guest') {
             $guest = Guest::findOrCreateByNationalId($clientData['national_id'], [
-                'trade_name' => $clientData['name'],
-                'phone_number' => $clientData['phone_number'],
-                'country' => $clientData['country'] ?? "",
-                'city' => $clientData['city'] ?? "",
-                'address_id' => $clientData['address_id'] ?? null,
+                'trade_name'       => $clientData['name'],
+                'phone_number'     => $clientData['phone_number'],
+                'country'          => $clientData['country'] ?? "",
+                'city'             => $clientData['city'] ?? "",
+                'address_id'       => $clientData['address_id'] ?? null,
                 'address_detailed' => $clientData['address_detailed'] ?? null,
             ]);
             $this->guest()->associate($guest);
@@ -404,9 +422,9 @@ class Shipment extends Model
         else
             $this->price_of_address = $this->address->scheduled_price;
 
-        $zone = $this->address->zone;
-        $this->base_weight_of_zone = $zone->base_weight;
-        $this->charge_per_unit_of_zone = $zone->charge_per_unit;
+        $zone                              = $this->address->zone;
+        $this->base_weight_of_zone         = $zone->base_weight;
+        $this->charge_per_unit_of_zone     = $zone->charge_per_unit;
         $this->extra_fees_per_unit_of_zone = $zone->extra_fees_per_unit;
     }
 
@@ -417,7 +435,7 @@ class Shipment extends Model
     {
         if ($this->package_weight > $this->base_weight_of_zone) {
             $extra_weight = $this->package_weight - $this->base_weight_of_zone;
-            $units = ceil($extra_weight / $this->charge_per_unit_of_zone);
+            $units        = ceil($extra_weight / $this->charge_per_unit_of_zone);
             return $units * $this->extra_fees_per_unit_of_zone;
         }
         return 0;
@@ -503,8 +521,8 @@ class Shipment extends Model
      */
     public function scopeSearch(Builder $query, string $term)
     {
-        $statuses = Status::where("name", "like", "%$term%")->pluck('id');
-        $couriers = Courier::where("name", "like", "%$term%")->pluck('id');
+        $statuses  = Status::where("name", "like", "%$term%")->pluck('id');
+        $couriers  = Courier::where("name", "like", "%$term%")->pluck('id');
         $addresses = Address::where("name", "like", "%$term%")->pluck('id');
         return $query->whereIn("status_id", $statuses)
             ->orWhere("waybill", "like", "%$term%")

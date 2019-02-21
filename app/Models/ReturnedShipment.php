@@ -39,7 +39,7 @@ class ReturnedShipment extends Shipment
         $shipment->address()->associate($returned->address);
 
         $shipment->courier()->associate($returned->courier);
-        $shipment->status()->associate(Status::name('returned')->first());
+        $shipment->status()->associate(Status::name('received')->first());
 
         $shipment->delivery_date = $overrides['delivery_date'] ?? $returned->delivery_date;
 

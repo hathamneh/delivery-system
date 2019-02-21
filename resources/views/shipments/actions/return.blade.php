@@ -35,12 +35,32 @@
 
         <div class="form-group">
             <label for="original_status">@lang('shipment.change_original_status')</label>
-            <select name="original_status" id="original_status" class="selectpicker form-control">
+            <select name="original_status" id="original_status" class="selectpicker form-control status-changer"
+                    data-target="#returnStep2">
+                <option value="" disabled selected>@lang("common.select")</option>
                 @foreach($returned_statuses as $status)
                     <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
-                            value="{{ $status->id }}" {{ $status->id == $shipment->status_id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
+                            value="{{ $status->name }}">@lang("shipment.statuses.{$status->name}.name")</option>
                 @endforeach
             </select>
+        </div>
+        <div id="returnStep2" style="display: none;">
+            @foreach($returned_statuses as $status)
+                @if(isset($status->options['select']))
+                    @foreach($status->options['select'] as $name => $choices)
+                        <div class="form-group {{ $status->name }}">
+                            <label for="{{ $status->name . "_" . $name }}">@lang("shipment.statuses_options.{$name}")</label>
+                            <select class="selectpicker form-control"
+                                    name="_notes[{{ $name }}]"
+                                    id="{{ $status->name . "_" . $name }}">
+                                @foreach($choices as $choice)
+                                    <option value="{{ $choice }}">{{ $choice }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+                @endif
+            @endforeach
         </div>
         <div class="form-group statusNotes-field">
             <label for="status_notes">@lang('shipment.status_notes')

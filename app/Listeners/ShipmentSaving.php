@@ -43,6 +43,7 @@ class ShipmentSaving
     {
         $original = Status::find($this->shipment->getOriginal('status_id'));
         $new = Status::find($this->shipment->status_id);
+        if(is_null($new)) return;
         $activityItem = activity()
             ->performedOn($this->shipment)
             ->causedBy(auth()->user());

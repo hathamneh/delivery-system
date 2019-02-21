@@ -12,6 +12,9 @@ class StatusesSeeder extends Seeder
      */
     public function run()
     {
+
+        \App\Status::truncate();
+
         \App\Status::create([
             'name'    => "picked_up",
             'groups'  => ["processing"],
@@ -33,7 +36,7 @@ class StatusesSeeder extends Seeder
         ]);
         \App\Status::create([
             'name'    => "collect_from_office",
-            'groups'  => ["in_transit", "returned", "pending"],
+            'groups'  => ["in_transit", "returned", "pending", "courier"],
             'options' => [
                 'set_branch' => true
             ],
@@ -52,7 +55,7 @@ class StatusesSeeder extends Seeder
         ]);
         \App\Status::create([
             'name'    => "ready",
-            'groups'  => ["processing", "courier", "returned", "pending"],
+            'groups'  => ["in_transit", "courier", "returned", "pending"],
             'options' => [
                 'set_time' => true
             ],
@@ -135,16 +138,23 @@ class StatusesSeeder extends Seeder
                 ],
             ],
         ]);
+
         \App\Status::create([
             'name'    => "delivered",
             'groups'  => ["delivered", "courier"],
             'options' => [],
         ]);
 
+        \App\Status::create([
+            'name'    => "customs",
+            'groups'  => ["processing"],
+            'options' => [],
+        ]);
+
 
         \App\Status::create([
             'name'    => "on_hold",
-            'groups'  => ["processing", "returned"],
+            'groups'  => ["in_transit", "returned"],
             'options' => [
                 'select' => [
                     'reason' => [

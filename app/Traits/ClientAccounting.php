@@ -33,8 +33,9 @@ trait ClientAccounting
         if (is_null($this->targetShipments) && !($this->targetShipments = $this->prepareTargetShipments($input))) return false;
 
         // ( DONE ) shipments
+        /** @var Shipment $shipments */
         $shipments = clone $this->targetShipments;
-        $shipments = $shipments->statusIn(['delivered', 'returned'])->lodger('client')->get();
+        $shipments = $shipments->statusGroups(['delivered'])->lodger('client')->get();
         foreach ($shipments as $shipment) {
             /** @var  Shipment $shipment */
             $sum += $shipment->delivery_cost;
@@ -117,7 +118,7 @@ trait ClientAccounting
         $shipments = $this->targetShipments->whereDate('created_at', '>=', now()->startOfMonth())->get();
         $counts = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
         $totalDeliveryCostInMonth = $shipments->reduce(function ($total, Shipment $current) use ($counts) {
-            if ($current->isStatus('delivered')) $counts['delivered']++;
+            if ($current->isStatusGroup('delivered')) $counts['delivered']++;
             elseif ($current->isStatus('cancelled')) $counts['cancelled']++;
             elseif ($current->isStatus('rejected')) $counts['rejected']++;
             return $total + $current->delivery_cost;

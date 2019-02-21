@@ -141,7 +141,7 @@ class StatusesSeeder extends Seeder
 
         \App\Status::create([
             'name'    => "delivered",
-            'groups'  => ["delivered", "courier"],
+            'groups'  => ["delivered", "courier", "returned"],
             'options' => [],
         ]);
 

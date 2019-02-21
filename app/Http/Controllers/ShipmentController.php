@@ -169,10 +169,23 @@ class ShipmentController extends Controller
             'pageTitle' => trans('shipment.info'),
         ];
         if ($tab == "actions") {
+            $processing = ["processing"];
+            $in_transit = ["in_transit"];
+            $delivered = ["delivered"];
+            if($user->isCourier()) {
+                $processing[] = "courier";
+                $in_transit[] = "courier";
+                $delivered[] = "courier";
+            }
+            if($shipment->type == "returned") {
+                $processing[] = "returned";
+                $in_transit[] = "returned";
+                $delivered[] = "returned";
+            }
             $data['statuses']     = [
-                'processing' => Status::group($user->isCourier() ? ["processing", "courier"] : ["processing"])->get(),
-                'in_transit' => Status::group($user->isCourier() ? ["in_transit", "courier"] : ["in_transit"])->get(),
-                'delivered'  => Status::group($user->isCourier() ? ["delivered", "courier"] : ["delivered"])->get(),
+                'processing' => Status::group($processing)->get(),
+                'in_transit' => Status::group($in_transit)->get(),
+                'delivered'  => Status::group($delivered)->get(),
             ];
             $notDeliveredStatuses = Status::whereJsonContains("groups", ['in_transit'])->whereJsonDoesntContain('groups', ['pending']);
             if ($user->isCourier())

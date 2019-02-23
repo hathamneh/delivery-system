@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +84,16 @@ class Courier extends Model implements Accountable
     public function user()
     {
         return $this->hasOne(User::class, 'identifier', 'id');
+    }
+
+    public function scopeOpenAccount($builder)
+    {
+        $statuses = Status::name(['delivered', 'collected_from_office', 'cancelled', 'rejected'])->pluck('id');
+        return $builder->join('shipments', function($join) use ($statuses) {
+            $join->on('shipments.courier_id', 'couriers.id')
+                ->whereDate('shipments.delivery_date', now()->startOfDay())
+                ->whereNotIn('shipments.status_id', $statuses);
+        })->select("couriers.*");
     }
 
     public function createUser()

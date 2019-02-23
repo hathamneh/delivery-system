@@ -19,9 +19,11 @@ class CouriersController extends Controller
     public function index()
     {
         $couriers = Courier::all();
+        $openedAccountCouriers = Courier::openAccount()->get();
         return view('couriers.index')->with([
             'couriers' => $couriers,
-            'pageTitle' => trans('courier.label')
+            'pageTitle' => trans('courier.label'),
+            'openedAccountCouriers' => $openedAccountCouriers
         ]);
     }
 

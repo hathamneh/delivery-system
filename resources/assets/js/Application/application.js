@@ -109,17 +109,17 @@ new NotificationService({
 
     }
 
-    //
-    // $("select#status, select#original_status").on('change', function () {
-    //     let val = $(this).val();
-    //     let $container = $(this).closest('form');
-    //     let $newDeliveryDate = $container.find(".newDeliveryDate-input");
-    //     if (val === 'consignee_rescheduled')
-    //         $newDeliveryDate.show();
-    //     else
-    //         $newDeliveryDate.hide();
-    //
-    // });
+    const statisticsNav = document.querySelectorAll('.statistics-nav .nav-link');
+    const statisticsBox = document.querySelector('.widget-infobox');
+    if(statisticsNav.length && statisticsBox) {
+        statisticsNav.forEach(item => item.addEventListener('click', (e) => {
+            e.preventDefault();
+            statisticsNav.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            let value = item.dataset.value;
+            statisticsBox.setAttribute('data-show', value);
+        }))
+    }
 })();
 
 

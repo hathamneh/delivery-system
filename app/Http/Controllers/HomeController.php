@@ -45,13 +45,26 @@ class HomeController extends Controller
         return [
             'title' => "Admin Dashboard",
             'statistics' => [
-                'pending'   => Shipment::today()->pending()->count(),
-                'received'  => Shipment::today()->statusIs('received')->count(),
-                'delivered' => Shipment::today()->statusIs('delivered')->count(),
-                'returned'  => Shipment::today()->statusIs('returned')->count(),
-                'pickups'   => Pickup::today()->count(),
-                'clients'   => Client::count(),
-                'couriers'  => Courier::count(),
+                'normal'   => [
+                    'today' =>  Shipment::today()->type(["normal"])->count(),
+                    'lifetime' =>  Shipment::type(["normal"])->count(),
+                ],
+                'returned'   => [
+                    'today' =>  Shipment::today()->type(["returned"])->count(),
+                    'lifetime' =>  Shipment::type(["returned"])->count(),
+                ],
+                'pickups'   => [
+                    'today' => Pickup::today()->count(),
+                    'lifetime' => Pickup::count(),
+                ],
+                'clients'   => [
+                    'today' => Client::createdToday()->count(),
+                    'lifetime' => Client::count()
+                ],
+                'couriers'  => [
+                    'today' => Courier::createdToday()->count(),
+                    'lifetime' => Courier::count()
+                ],
             ]
         ];
     }

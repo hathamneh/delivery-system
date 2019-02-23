@@ -67,6 +67,8 @@ use Illuminate\Support\Facades\Route;
  * @property PaymentMethod payment_method
  * @property float payment_method_price
  *
+ * @method static self createdToday()
+ *
  * @mixin Builder
  */
 class Client extends Model implements Accountable, CanHaveShipment
@@ -221,6 +223,11 @@ class Client extends Model implements Accountable, CanHaveShipment
     public function scopeNotAlerted(Builder $query)
     {
         return $query->where('alerted', false);
+    }
+
+    public function scopeCreatedToday(Builder $builder)
+    {
+        return $builder->whereDate('created_at', ">", now()->startOfDay());
     }
 
     public function zone()

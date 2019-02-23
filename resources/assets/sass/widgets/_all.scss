@@ -255,6 +255,36 @@
 
 .widget-infobox {
 
+  .stat-value {
+    position: relative;
+    height: 30px;
+  }
+  .lifetime, .today {
+    position: absolute;
+    transition: all .5s;
+  }
+
+  &[data-show="today"] {
+    .today {
+      visibility: visible;
+      opacity: 1;
+    }
+    .lifetime {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+  &[data-show="lifetime"] {
+    .lifetime {
+      visibility: visible;
+      opacity: 1;
+    }
+    .today {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
   .infobox {
     background: #ffffff;
     float: left;

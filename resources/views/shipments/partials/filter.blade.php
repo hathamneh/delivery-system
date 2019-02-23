@@ -27,7 +27,7 @@
             </select>
         </div>
         <input type="hidden" name="filters[scope]" value="{{ join(',', $applied['scope']) }}">
-        <input type="hidden" name="filters[type]" value="{{ join(',', $applied['types']) }}">
+        <input type="hidden" name="filters[types]" value="{{ join(',', $applied['types']) }}">
         <button class="btn btn-sm btn-secondary" type="submit">Apply</button>
     </form>
 </div>

@@ -7,6 +7,7 @@ use App\Traits\CourierAccounting;
 use App\Traits\HasAttachmentsTrait;
 use App\Traits\PrepareAccounting;
 use App\Traits\StatisticsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Route;
  * @property Collection[Attachment] attachments
  * @property User user
  * @property string email
+ *
+ * @method static self createdToday()
+ *
+ * @mixin Builder
  */
 class Courier extends Model implements Accountable
 {
@@ -53,6 +58,12 @@ class Courier extends Model implements Accountable
             ->where('shipments.delivery_date', ">", $thirtyDaysBefore)
             ->groupBy('shipments.id')->havingRaw("count(`shipments`.`id`) > $ShipmentsCountForSmiley");
     }
+
+    public function scopeCreatedToday(Builder $builder)
+    {
+        return $builder->whereDate('created_at', ">", now()->startOfDay());
+    }
+
 
     public function zones()
     {

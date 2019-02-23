@@ -61,6 +61,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static self lodger(string $lodger)
  * @method static self unpaid()
  * @method static self pending()
+ * @method static self today()
  * @method static self courierCashed(bool $value)
  * @method static self type(array $types)
  * @method static self withFilters(array $filters, &$appliedFilters = [])
@@ -300,6 +301,7 @@ class Shipment extends Model
         $statuses = Status::whereJsonContains('groups', ['pending'])->pluck('id');
         return $query->whereIn('status_id', $statuses)->upcoming();
     }
+
 
     /**
      * @param $query

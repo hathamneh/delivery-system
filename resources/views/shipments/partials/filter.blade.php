@@ -4,7 +4,9 @@
         <select id="filter_status" class="form-control select2 w-100" multiple data-style="popover-select2"
                 data-placeholder="Choose status">
             @foreach($statuses as $status)
-                <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
+                @php /** @var \App\Status $status */ @endphp
+                <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
+                >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})</option>
             @endforeach
         </select>
     </div>

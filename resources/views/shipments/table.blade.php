@@ -1,5 +1,5 @@
 <div class="shipments-table">
-    <table class="table table-hover dataTable table-selectable">
+    <table class="table table-hover {{ isset($dataTable) && $dataTable == false ?: "dataTable" }} table-selectable">
         <thead>
         <tr>
             <th>
@@ -32,7 +32,7 @@
         <tbody>
         @foreach($shipments as $shipment)
             @php /** @var \App\Shipment $shipment */ @endphp
-            <tr title="Open shipment details">
+            <tr title="Open shipment details" data-id="{{ $shipment->id }}">
                 <td>
                     <div class="custom-control custom-checkbox" title="@lang('common.select')">
                         <input type="checkbox" class="custom-control-input" value="{{ $shipment->id }}" id="select_{{ $shipment->id }}">
@@ -59,8 +59,8 @@
                 </td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->internal_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->external_notes }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->courier_cashed ? "Yes" : "No" }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client_paid ? "Yes" : "No" }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->courier_cashed ? "Yes" : "No" }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->isReturned() ? "Yes" : "No" }}</td>
             </tr>
         @endforeach

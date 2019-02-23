@@ -1,5 +1,4 @@
-@php /** @var \App\Shipment $shipment */ @endphp
-<form action="{{ route("shipments.delivery", ['shipment' => $shipment]) }}" method="post" class=" mt-4">
+<form action="{{ $formAction }}" method="post" class=" mt-4">
     {{ csrf_field() }}
     {{ method_field('PUT') }}
     <fieldset class="shipment-actions-fieldset">
@@ -29,7 +28,7 @@
                     <div class="form-group col-md-6 delivered rejected collected_from_office">
                         <label for="actual_paid">How much did the consignee pay ?</label>
                         <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
-                               placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery }}">
+                               placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery ?? "" }}">
                     </div>
 
                     @php $setBranchStatuses = ""; @endphp

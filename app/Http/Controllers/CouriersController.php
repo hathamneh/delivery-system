@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Branch;
 use App\Courier;
 use App\Http\Requests\StoreCourierRequest;
+use App\Status;
 use App\User;
 use App\Zone;
 use Carbon\Carbon;
@@ -19,11 +21,11 @@ class CouriersController extends Controller
     public function index()
     {
         $couriers = Courier::all();
-        $openedAccountCouriers = Courier::openAccount()->get();
+        $haveWorkTodayCouriers = Courier::haveWorkToday()->get();
         return view('couriers.index')->with([
             'couriers' => $couriers,
             'pageTitle' => trans('courier.label'),
-            'openedAccountCouriers' => $openedAccountCouriers
+            'haveWorkTodayCouriers' => $haveWorkTodayCouriers
         ]);
     }
 
@@ -177,5 +179,40 @@ class CouriersController extends Controller
             ];
         }
         $data['daterange'] = $begin->toFormattedDateString() . ' - ' . $until->toFormattedDateString();
+    }
+
+    public function inventory(Request $request, Courier $courier)
+    {
+        $data = [
+            'shipments' => $courier->shipments()->untilToday()->get(),
+            'courier' => $courier,
+            "pageHeadingClass" => "reporting-heading",
+            'branches' => Branch::all(),
+            'statuses' => $this->getStatuses(),
+            'statuses_keyed' => Status::all()->keyBy('name')->all(),
+            'pageTitle'        => trans('inventory.couriers'),
+            'sidebarCollapsed' => true
+        ];
+
+        return view("couriers.inventory")->with($data);
+    }
+
+    public function getStatuses()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $processing = ["processing"];
+        $in_transit = ["in_transit"];
+        $delivered = ["delivered"];
+        if($user->isCourier()) {
+            $processing[] = "courier";
+            $in_transit[] = "courier";
+            $delivered[] = "courier";
+        }
+        return [
+            'processing' => Status::group($processing)->get(),
+            'in_transit' => Status::group($in_transit)->get(),
+            'delivered'  => Status::group($delivered)->get(),
+        ];
     }
 }

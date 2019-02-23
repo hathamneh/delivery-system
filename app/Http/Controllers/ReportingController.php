@@ -52,8 +52,7 @@ class ReportingController extends Controller
         $result = false;
         switch ($action) {
             case "changeStatus":
-                $status = $request->get('status');
-                $result = $this->bulkChangeStatus($shipments, $status);
+                $result = $this->bulkChangeStatus($request, $shipments);
                 break;
             case "clientPaid":
                 $result = $this->bulkClientPaid($shipments);
@@ -71,12 +70,17 @@ class ReportingController extends Controller
         ]);
     }
 
-    public function bulkChangeStatus(array $shipments, int $status)
+    public function bulkChangeStatus(Request $request, array $shipments)
     {
-        if (!Status::where('id', $status)->exists())
-            return false;
-        $shipmentsTable = (new Shipment)->getTable();
-        return DB::table($shipmentsTable)->whereIn('id', $shipments)->update(array('status_id' => $status));
+        $shipmentsController = new ShipmentController();
+        $i = 0;
+        foreach ($shipments as $shipment) {
+            try {
+                $shipmentsController->updateDelivery($request, Shipment::findOrFail($shipment));
+                $i++;
+            } catch (\Exception $e) {}
+        }
+        return $i;
     }
 
     /**

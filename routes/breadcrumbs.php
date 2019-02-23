@@ -89,6 +89,10 @@ Breadcrumbs::for('couriers.create', function ($trail) {
     $trail->parent('couriers');
     $trail->push(trans('courier.create'), route('couriers.create'));
 });
+Breadcrumbs::for('couriers.show', function ($trail, \App\Courier $courier) {
+    $trail->parent('couriers');
+    $trail->push($courier->name, route('couriers.show', [$courier]));
+});
 
 
 Breadcrumbs::for('pickups', function ($trail) {

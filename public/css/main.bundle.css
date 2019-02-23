@@ -25768,20 +25768,334 @@ body.rtl .layout-options .img-sidebar-right {
           box-shadow: 0 -5px 7px rgba(125, 125, 125, 0.2);
 }
 
-.shipments-table table {
+.reporting-heading {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -90px;
+  -webkit-transition: top 0.5s;
+  transition: top 0.5s;
+  z-index: 88;
+}
+
+.reports-actions {
+  background-color: #343a40;
+  margin: 0 0.5rem;
+  padding: 0 .5rem 0 1rem;
+  border-radius: 0.25rem;
+  -webkit-box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
+          box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
+  -webkit-transition: all .25s;
+  transition: all .25s;
+}
+
+.reports-actions .actions-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.reports-actions .selection-indicator {
+  margin-right: 0.5rem;
+  color: #f8f9fa;
+}
+
+.reports-actions.disabled {
+  opacity: 0.25;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background-color: #999;
+}
+
+.reports-filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.reports-filters .form-group.row {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 0.5rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reports-filters .form-group.row label {
+  margin-bottom: 0;
+}
+
+.reports-container {
+  margin-top: 1rem;
+}
+
+.reports-table, .shipments-table table, .open-account-couriers table {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
+          box-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
+}
+
+.reports-table .custom-checkbox label, .shipments-table table .custom-checkbox label, .open-account-couriers table .custom-checkbox label {
+  display: block;
+}
+
+.reports-table thead th, .shipments-table table thead th, .open-account-couriers table thead th, .reports-table tbody td, .shipments-table table tbody td, .open-account-couriers table tbody td {
+  vertical-align: middle;
+}
+
+.reports-table thead, .shipments-table table thead, .open-account-couriers table thead {
+  background-color: #319db5;
+  color: #fff;
+}
+
+.reports-table thead .sorting:before, .shipments-table table thead .sorting:before, .open-account-couriers table thead .sorting:before, .reports-table thead .sorting:after, .shipments-table table thead .sorting:after, .open-account-couriers table thead .sorting:after, .reports-table thead .sorting_asc:before, .shipments-table table thead .sorting_asc:before, .open-account-couriers table thead .sorting_asc:before, .reports-table thead .sorting_asc:after, .shipments-table table thead .sorting_asc:after, .open-account-couriers table thead .sorting_asc:after, .reports-table thead .sorting_desc:before, .shipments-table table thead .sorting_desc:before, .open-account-couriers table thead .sorting_desc:before, .reports-table thead .sorting_desc:after, .shipments-table table thead .sorting_desc:after, .open-account-couriers table thead .sorting_desc:after, .reports-table thead .sorting_asc_disabled:before, .shipments-table table thead .sorting_asc_disabled:before, .open-account-couriers table thead .sorting_asc_disabled:before, .reports-table thead .sorting_asc_disabled:after, .shipments-table table thead .sorting_asc_disabled:after, .open-account-couriers table thead .sorting_asc_disabled:after, .reports-table thead .sorting_desc_disabled:before, .shipments-table table thead .sorting_desc_disabled:before, .open-account-couriers table thead .sorting_desc_disabled:before, .reports-table thead .sorting_desc_disabled:after, .shipments-table table thead .sorting_desc_disabled:after, .open-account-couriers table thead .sorting_desc_disabled:after {
+  bottom: 50% !important;
+  -webkit-transform: translateY(50%);
+          transform: translateY(50%);
+}
+
+.reports-table tbody, .shipments-table table tbody, .open-account-couriers table tbody {
+  background-color: #fff;
+}
+
+.reports-table tbody tr:first-child td, .shipments-table table tbody tr:first-child td, .open-account-couriers table tbody tr:first-child td {
+  border-top: none;
+}
+
+.reports-table tbody tr td, .shipments-table table tbody tr td, .open-account-couriers table tbody tr td {
+  border-top: 1px solid #efefef !important;
+}
+
+.reports-table tbody tr.selected, .shipments-table table tbody tr.selected, .open-account-couriers table tbody tr.selected {
+  background-color: #ffeabc !important;
+  color: #000 !important;
+}
+
+.reports-table tbody tr.selected td, .shipments-table table tbody tr.selected td, .open-account-couriers table tbody tr.selected td {
+  border-top-color: #e8cf97 !important;
+}
+
+.reports-table tbody tr.even, .shipments-table table tbody tr.even, .open-account-couriers table tbody tr.even {
+  background-color: rgba(150, 150, 150, 0.05);
+}
+
+.reports-table tbody tr.even.selected, .shipments-table table tbody tr.even.selected, .open-account-couriers table tbody tr.even.selected {
+  background-color: #f5e1b6 !important;
+}
+
+.reports-table .status-column, .shipments-table table .status-column, .open-account-couriers table .status-column {
+  background-color: rgba(0, 56, 120, 0.07);
+}
+
+.reports-table.table-hover tbody tr:hover, .shipments-table table.table-hover tbody tr:hover, .open-account-couriers table.table-hover tbody tr:hover {
+  background-color: rgba(0, 56, 82, 0.1);
+}
+
+.reports-table.table-hover tbody tr:hover .custom-control-input:not(:checked) ~ .custom-control-label:before, .shipments-table table.table-hover tbody tr:hover .custom-control-input:not(:checked) ~ .custom-control-label:before, .open-account-couriers table.table-hover tbody tr:hover .custom-control-input:not(:checked) ~ .custom-control-label:before {
+  background-color: #fff;
+}
+
+.reports-table.table-hover tbody tr.selected:hover, .shipments-table table.table-hover tbody tr.selected:hover, .open-account-couriers table.table-hover tbody tr.selected:hover {
+  background-color: rgba(255, 234, 188, 0.6);
+}
+
+.reports-table.table-hover tbody tr.selected .custom-control-input:checked ~ .custom-control-label:before, .shipments-table table.table-hover tbody tr.selected .custom-control-input:checked ~ .custom-control-label:before, .open-account-couriers table.table-hover tbody tr.selected .custom-control-input:checked ~ .custom-control-label:before {
+  background-color: #ffc23d;
+}
+
+.dt-top label {
+  margin-bottom: 0;
+}
+
+.dt-buttons {
+  float: none !important;
+}
+
+.dataTables_processing {
+  -webkit-box-shadow: 0 0 120px #0b4e5d;
+          box-shadow: 0 0 120px #0b4e5d;
+}
+
+.card-paper.card {
+  border-radius: 0;
+  -webkit-box-shadow: 3px 3px 4px rgba(150, 150, 150, 0.25);
+          box-shadow: 3px 3px 4px rgba(150, 150, 150, 0.25);
+  margin: auto;
+}
+
+.invoice-logo img {
+  height: 85px;
+}
+
+.invoice table {
+  width: 100%;
+}
+
+.invoice-top-meta {
+  text-align: right;
+}
+
+.invoice__company-details {
+  padding: 1rem;
+}
+
+.invoice-table {
+  margin-top: 1rem;
+  border-color: #9aa3a7 !important;
+  width: 100%;
+}
+
+.invoice-table td, .invoice-table th {
+  padding: 0.4rem 0.35rem;
+  vertical-align: middle;
+  font-size: 0.8rem;
+  border-color: #9aa3a7 !important;
+}
+
+.invoice-table th {
+  background-color: #f4f6f7;
+}
+
+.invoice-table td.light-bg {
+  background-color: #f8fafb;
+}
+
+.invoice ul.operational-details {
+  list-style: none;
+  display: inline-block;
+}
+
+.invoice ul.operational-details li {
+  display: inline-block;
+  padding: 0.25rem;
+  margin-right: 0.2rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.invoice__summery-table td, .invoice__summery-table th {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  border: none;
+}
+
+.invoice__summery-table tbody td, .invoice__summery-table tbody th {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.invoice__summery-table td {
+  text-align: right;
+  font-weight: bold;
+}
+
+.invoice__summery-table tfoot tr {
+  background-color: #f4f6f7;
+}
+
+.invoice__summery-table tfoot tr td {
+  font-size: 1.1rem;
+}
+
+.invoice__statement-table {
+  width: 50%;
+  padding: 0.75rem 0;
+}
+
+.invoice__statement-table table {
+  border: 1px solid #9aa3a7;
+  padding: 0.75rem;
+  height: 100%;
+}
+
+.invoice__statement-table tr td, .invoice__statement-table tr th {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.invoice__statement-table tr td {
+  border-right: 1px solid #9aa3a7;
+}
+
+.invoice__statement-table tr th {
+  border-left: 1px solid #9aa3a7;
+}
+
+.invoice__statement-table tr:last-child td, .invoice__statement-table tr:last-child th {
+  border-bottom: none;
+}
+
+.invoice__statement-table td, .invoice__statement-table th {
+  padding: 0.25rem 0.5rem;
+}
+
+.invoice__statement-table th {
+  width: 35%;
+}
+
+table tbody td.dataTables_empty {
+  padding: 2.5rem 1rem;
+}
+
+.shipments-table table, .open-account-couriers table {
   font-size: 0.75rem;
 }
 
-.shipments-table table thead {
+.shipments-table table thead, .open-account-couriers table thead {
   font-size: 0.65rem;
 }
 
-.shipments-table table tbody tr td {
+.shipments-table table tbody tr td, .open-account-couriers table tbody tr td {
   padding: .5rem;
 }
 
 .dataTable_empty {
   padding: 22px 0;
+}
+
+.open-account-couriers table thead {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.open-account-couriers table tbody tr td {
+  padding: 1rem .5rem;
+}
+
+.open-account-couriers .open {
+  background-color: #f4c0c5;
+}
+
+.open-account-couriers .table-key {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 20px;
+}
+
+.open-account-couriers .table-key .box {
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #6c757d;
+}
+
+.inventory-summery-table th {
+  width: 25%;
+}
+
+.inventory-summery-table td, .inventory-summery-table th {
+  padding: .5rem .75rem;
+  font-size: .8rem;
 }
 
 .sidebar {
@@ -31364,281 +31678,6 @@ a.pickup-toggle-details.collapsed i {
 
 .service-shipments {
   margin-right: auto;
-}
-
-.reporting-heading {
-  position: -webkit-sticky;
-  position: sticky;
-  top: -90px;
-  -webkit-transition: top 0.5s;
-  transition: top 0.5s;
-  z-index: 88;
-}
-
-.reports-actions {
-  background-color: #343a40;
-  margin: 0 0.5rem;
-  padding: 0 .5rem 0 1rem;
-  border-radius: 0.25rem;
-  -webkit-box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
-          box-shadow: rgba(100, 100, 100, 0.75) 0 0 45px;
-  -webkit-transition: all .25s;
-  transition: all .25s;
-}
-
-.reports-actions .actions-content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.reports-actions .selection-indicator {
-  margin-right: 0.5rem;
-  color: #f8f9fa;
-}
-
-.reports-actions.disabled {
-  opacity: 0.25;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  background-color: #999;
-}
-
-.reports-filters {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.reports-filters .form-group.row {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  margin-right: 0.5rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.reports-filters .form-group.row label {
-  margin-bottom: 0;
-}
-
-.reports-container {
-  margin-top: 1rem;
-}
-
-.reports-table, .shipments-table table {
-  font-size: 0.75rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  -webkit-box-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
-          box-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
-}
-
-.reports-table .custom-checkbox label, .shipments-table table .custom-checkbox label {
-  display: block;
-}
-
-.reports-table thead th, .shipments-table table thead th, .reports-table tbody td, .shipments-table table tbody td {
-  vertical-align: middle;
-}
-
-.reports-table thead, .shipments-table table thead {
-  background-color: #319db5;
-  color: #fff;
-}
-
-.reports-table thead .sorting:before, .shipments-table table thead .sorting:before, .reports-table thead .sorting:after, .shipments-table table thead .sorting:after, .reports-table thead .sorting_asc:before, .shipments-table table thead .sorting_asc:before, .reports-table thead .sorting_asc:after, .shipments-table table thead .sorting_asc:after, .reports-table thead .sorting_desc:before, .shipments-table table thead .sorting_desc:before, .reports-table thead .sorting_desc:after, .shipments-table table thead .sorting_desc:after, .reports-table thead .sorting_asc_disabled:before, .shipments-table table thead .sorting_asc_disabled:before, .reports-table thead .sorting_asc_disabled:after, .shipments-table table thead .sorting_asc_disabled:after, .reports-table thead .sorting_desc_disabled:before, .shipments-table table thead .sorting_desc_disabled:before, .reports-table thead .sorting_desc_disabled:after, .shipments-table table thead .sorting_desc_disabled:after {
-  bottom: 50% !important;
-  -webkit-transform: translateY(50%);
-          transform: translateY(50%);
-}
-
-.reports-table tbody, .shipments-table table tbody {
-  background-color: #fff;
-}
-
-.reports-table tbody tr:first-child td, .shipments-table table tbody tr:first-child td {
-  border-top: none;
-}
-
-.reports-table tbody tr td, .shipments-table table tbody tr td {
-  border-top: 1px solid #efefef !important;
-}
-
-.reports-table tbody tr.selected, .shipments-table table tbody tr.selected {
-  background-color: #ffeabc !important;
-  color: #000 !important;
-}
-
-.reports-table tbody tr.selected td, .shipments-table table tbody tr.selected td {
-  border-top-color: #e8cf97 !important;
-}
-
-.reports-table tbody tr.even, .shipments-table table tbody tr.even {
-  background-color: rgba(150, 150, 150, 0.05);
-}
-
-.reports-table tbody tr.even.selected, .shipments-table table tbody tr.even.selected {
-  background-color: #f5e1b6 !important;
-}
-
-.reports-table .status-column, .shipments-table table .status-column {
-  background-color: rgba(0, 56, 120, 0.07);
-}
-
-.reports-table.table-hover tbody tr:hover, .shipments-table table.table-hover tbody tr:hover {
-  background-color: rgba(0, 56, 82, 0.1);
-}
-
-.reports-table.table-hover tbody tr:hover .custom-control-input:not(:checked) ~ .custom-control-label:before, .shipments-table table.table-hover tbody tr:hover .custom-control-input:not(:checked) ~ .custom-control-label:before {
-  background-color: #fff;
-}
-
-.reports-table.table-hover tbody tr.selected:hover, .shipments-table table.table-hover tbody tr.selected:hover {
-  background-color: rgba(255, 234, 188, 0.6);
-}
-
-.reports-table.table-hover tbody tr.selected .custom-control-input:checked ~ .custom-control-label:before, .shipments-table table.table-hover tbody tr.selected .custom-control-input:checked ~ .custom-control-label:before {
-  background-color: #ffc23d;
-}
-
-.dt-top label {
-  margin-bottom: 0;
-}
-
-.dt-buttons {
-  float: none !important;
-}
-
-.dataTables_processing {
-  -webkit-box-shadow: 0 0 120px #0b4e5d;
-          box-shadow: 0 0 120px #0b4e5d;
-}
-
-.card-paper.card {
-  border-radius: 0;
-  -webkit-box-shadow: 3px 3px 4px rgba(150, 150, 150, 0.25);
-          box-shadow: 3px 3px 4px rgba(150, 150, 150, 0.25);
-  margin: auto;
-}
-
-.invoice-logo img {
-  height: 85px;
-}
-
-.invoice table {
-  width: 100%;
-}
-
-.invoice-top-meta {
-  text-align: right;
-}
-
-.invoice__company-details {
-  padding: 1rem;
-}
-
-.invoice-table {
-  margin-top: 1rem;
-  border-color: #9aa3a7 !important;
-  width: 100%;
-}
-
-.invoice-table td, .invoice-table th {
-  padding: 0.4rem 0.35rem;
-  vertical-align: middle;
-  font-size: 0.8rem;
-  border-color: #9aa3a7 !important;
-}
-
-.invoice-table th {
-  background-color: #f4f6f7;
-}
-
-.invoice-table td.light-bg {
-  background-color: #f8fafb;
-}
-
-.invoice ul.operational-details {
-  list-style: none;
-  display: inline-block;
-}
-
-.invoice ul.operational-details li {
-  display: inline-block;
-  padding: 0.25rem;
-  margin-right: 0.2rem;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-}
-
-.invoice__summery-table td, .invoice__summery-table th {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem;
-  border: none;
-}
-
-.invoice__summery-table tbody td, .invoice__summery-table tbody th {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.invoice__summery-table td {
-  text-align: right;
-  font-weight: bold;
-}
-
-.invoice__summery-table tfoot tr {
-  background-color: #f4f6f7;
-}
-
-.invoice__summery-table tfoot tr td {
-  font-size: 1.1rem;
-}
-
-.invoice__statement-table {
-  width: 50%;
-  padding: 0.75rem 0;
-}
-
-.invoice__statement-table table {
-  border: 1px solid #9aa3a7;
-  padding: 0.75rem;
-  height: 100%;
-}
-
-.invoice__statement-table tr td, .invoice__statement-table tr th {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.invoice__statement-table tr td {
-  border-right: 1px solid #9aa3a7;
-}
-
-.invoice__statement-table tr th {
-  border-left: 1px solid #9aa3a7;
-}
-
-.invoice__statement-table tr:last-child td, .invoice__statement-table tr:last-child th {
-  border-bottom: none;
-}
-
-.invoice__statement-table td, .invoice__statement-table th {
-  padding: 0.25rem 0.5rem;
-}
-
-.invoice__statement-table th {
-  width: 35%;
-}
-
-table tbody td.dataTables_empty {
-  padding: 2.5rem 1rem;
 }
 
 #timeline {

@@ -26,6 +26,12 @@ use Illuminate\Support\Facades\Route;
  * @property float payment_method_price
  * @property Carbon decision_date
  * @property User decisionBy
+ *
+ * @method static self open(string $boolean = "and", bool $not = false)
+ * @method static self closed(string $boolean = "and")
+ * @method static self closedToday(string $boolean = "and")
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Invoice extends Model
 {
@@ -50,8 +56,8 @@ class Invoice extends Model
      */
     public function setPeriodAttribute($value)
     {
-        $dates = explode(' - ', $value);
-        $this->from = Carbon::createFromFormat('M d, Y', $dates[0])->startOfDay();
+        $dates       = explode(' - ', $value);
+        $this->from  = Carbon::createFromFormat('M d, Y', $dates[0])->startOfDay();
         $this->until = Carbon::createFromFormat('M d, Y', $dates[1])->endOfDay();
     }
 
@@ -60,7 +66,7 @@ class Invoice extends Model
      */
     public function getPeriodAttribute()
     {
-        if($this->from->diffInDays($this->until) === 0)
+        if ($this->from->diffInDays($this->until) === 0)
             return $this->from->toFormattedDateString();
         return $this->from->toFormattedDateString() . " - " . $this->until->toFormattedDateString();
     }
@@ -90,6 +96,21 @@ class Invoice extends Model
     public function scopeForClientsAndGuests($query)
     {
         return $query->whereIn('type', ['client', 'guest']);
+    }
+
+    public function scopeOpen($query, string $boolean = "and", bool $not = false)
+    {
+        return $query->whereNull("decision_date", $boolean, $not);
+    }
+
+    public function scopeClosed($query, string $boolean = "and")
+    {
+        return $query->open($boolean, true);
+    }
+
+    public function scopeClosedToday($builder, string $boolean = "and")
+    {
+        return $builder->whereDate("decision_date", ">=", now()->startOfDay(), $boolean);
     }
 
     /**
@@ -168,7 +189,7 @@ class Invoice extends Model
 
     public function getTermsAppliedAttribute()
     {
-        if($this->target instanceof Client)
+        if ($this->target instanceof Client)
             return $this->target->extraTermsApplied($this);
         return false;
 
@@ -186,16 +207,16 @@ class Invoice extends Model
 
     public function getPaymentMethodCostAttribute()
     {
-        if($this->target instanceof Client)
+        if ($this->target instanceof Client)
             return $this->target->payment_method_price;
         return 0;
     }
 
     public function getTotalAttribute()
     {
-        if($this->target instanceof Courier) {
+        if ($this->target instanceof Courier) {
             $dueForArr = $this->due_for;
-            $dueFor = $dueForArr['share'] + $dueForArr['promotion'];
+            $dueFor    = $dueForArr['share'] + $dueForArr['promotion'];
         } else {
             $dueFor = $this->due_for;
         }
@@ -203,7 +224,7 @@ class Invoice extends Model
         if ($this->discount > 0) {
             $net -= $net * ($this->discount / 100);
         }
-        if($this->terms_applied)
+        if ($this->terms_applied)
             $net += $this->terms_applied;
 
         $net += $this->payment_method_price;
@@ -247,7 +268,7 @@ class Invoice extends Model
     public function setDecided()
     {
         $this->decision_date = now();
-        $user = Auth::user();
+        $user                = Auth::user();
         $this->decisionBy()->associate($user);
         $this->save();
     }

@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
  * @property string email
  *
  * @method static self createdToday()
+ * @method static self haveWorkToday()
  *
  * @mixin Builder
  */
@@ -52,7 +53,7 @@ class Courier extends Model implements Accountable
 
     public function scopeHaveSmiley($query)
     {
-        $thirtyDaysBefore = date("d-m-Y", strtotime("- 30 days"));
+        $thirtyDaysBefore        = date("d-m-Y", strtotime("- 30 days"));
         $ShipmentsCountForSmiley = intval(Setting::get("promotion_requirement")->value) ?? 30;
 
         return $query->leftJoin('shipments', 'couriers.id', '=', 'shipments.courier_id')
@@ -71,6 +72,9 @@ class Courier extends Model implements Accountable
         return $this->belongsToMany(Zone::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|Shipment
+     */
     public function shipments()
     {
         return $this->hasMany(Shipment::class);
@@ -86,14 +90,32 @@ class Courier extends Model implements Accountable
         return $this->hasOne(User::class, 'identifier', 'id');
     }
 
-    public function scopeOpenAccount($builder)
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|Invoice
+     */
+    public function invoices()
     {
-        $statuses = Status::name(['delivered', 'collected_from_office', 'cancelled', 'rejected'])->pluck('id');
-        return $builder->join('shipments', function($join) use ($statuses) {
-            $join->on('shipments.courier_id', 'couriers.id')
-                ->whereDate('shipments.delivery_date', now()->startOfDay())
-                ->whereNotIn('shipments.status_id', $statuses);
-        })->select("couriers.*");
+        return $this->hasMany(Invoice::class, 'target', 'id');
+    }
+
+    public function scopeHaveWorkToday(Builder $builder)
+    {
+        return $builder->whereExists(function (\Illuminate\Database\Query\Builder $query) {
+            $query->select(DB::raw(1))
+                ->from('shipments')
+                ->whereColumn('shipments.courier_id', '=', 'couriers.id')
+                ->whereDate('shipments.delivery_date', '>=', now()->startOfDay());
+        })->whereExists(function (\Illuminate\Database\Query\Builder $query) {
+            $query->select(DB::raw(1))
+                ->from('invoices')
+                ->whereColumn('invoices.target', '=', 'couriers.id')
+                ->where('invoices.type', '=', 'courier');
+        }, "or")->select('couriers.*');
+    }
+
+    public function iOpenAccount()
+    {
+        return $this->shipments()->whereDate('delivery_date', "<=", now()->endOfDay())->courierCashed(false)->exists();
     }
 
     public function createUser()
@@ -101,11 +123,11 @@ class Courier extends Model implements Accountable
         if (!is_null($this->user)) return $this->user;
 
         $user_template = UserTemplate::where('name', 'courier')->first();
-        if(is_null($user_template)) UserTemplate::default()->first();
+        if (is_null($user_template)) UserTemplate::default()->first();
 
-        $user = new User;
-        $user->username = str_pad($this->id,4,"0",STR_PAD_LEFT);
-        $user->email = $this->email;
+        $user           = new User;
+        $user->username = str_pad($this->id, 4, "0", STR_PAD_LEFT);
+        $user->email    = $this->email;
         $user->password = Hash::make($this->password);
         $user->template()->associate($user_template);
         $user->courier()->associate($this);
@@ -117,5 +139,6 @@ class Courier extends Model implements Accountable
     public static function routes()
     {
         Route::resource('couriers', "CouriersController");
+        Route::get('couriers/{courier}/shipments', "CouriersController@inventory")->name("couriers.inventory");
     }
 }

@@ -62,6 +62,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static self unpaid()
  * @method static self pending()
  * @method static self today()
+ * @method static self untilToday()
  * @method static self courierCashed(bool $value)
  * @method static self type(array $types)
  * @method static self withFilters(array $filters, &$appliedFilters = [])
@@ -330,6 +331,11 @@ class Shipment extends Model
     {
         return $query->whereDate('delivery_date', '>=', Carbon::today()->startOfDay())
             ->whereDate('delivery_date', "<=", Carbon::today()->endOfDay());
+    }
+
+    public function scopeUntilToday(Builder $query)
+    {
+        return $query->whereDate('delivery_date', '<=', now()->endOfDay());
     }
 
     public function isStatus($status)

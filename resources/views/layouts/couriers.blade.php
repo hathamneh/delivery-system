@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('actions')
+    @yield('actionsFirst')
     <a href="{{ route('couriers.index') }}" class="btn btn-light">
         <i class="fa-truck"></i> @lang('courier.label')
     </a>

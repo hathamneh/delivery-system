@@ -8,6 +8,16 @@
     <i class='fa-user-tie'></i> {{ $courier->name }}
 @endsection
 
+@section('actionsFirst')
+    @if($tab == "statistics")
+        <div id="reportrange" class="btn btn-outline-secondary" data-start-date="{{ $startDate}}"
+             data-end-date="{{ $endDate}}" data-lifetime-range="false">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    @endif
+@endsection
+
 @section('content')
 
     <div class="container-fluid mt-4">

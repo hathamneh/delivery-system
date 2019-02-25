@@ -1,5 +1,5 @@
 <div class="row overview-cards">
-    <div class="col-md-3">
+    <div class="col-md-{{ isset($statistics->achievement) ? "2" : "3" }}">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('shipment.label')</h3>
@@ -11,13 +11,33 @@
                                 class="fa-arrow-{{ $statistics->shipments['state'] }}"></i> {{ $statistics->shipments['ratio'] }}
                         %
                     </div>
-                    <small class="previous-value">(Previous period: {{ $statistics->shipments['previous'] }})</small>
+                    <small class="previous-value">(Previous period: {{ $statistics->shipments['previous'] }}
+                        )
+                    </small>
                 </div>
             </div>
 
         </div>
     </div>
-    <div class="col-md-3">
+    @if(isset($statistics->achievement))
+        <div class="col-md-2">
+            <div class="card overview-cards-item">
+                <div class="card-header d-flex">
+                    <h3 class="card-title">@lang('courier.achievement')</h3>
+                </div>
+                <div class="card-body">
+                    <div class="current-value">{{ $statistics->achievement['current'] }}</div>
+                    <div class="overview-meta">
+                        <small class="previous-value">(Previous
+                            period: {{ $statistics->achievement['previous'] }})
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @endif
+    <div class="col-md-{{ isset($statistics->achievement) ? "2" : "3" }}">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('pickup.label')</h3>

@@ -55,6 +55,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property boolean client_paid
  * @property boolean courier_cashed
  * @property Branch branch
+ * @property Carbon created_at
  * @property User createdBy
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)

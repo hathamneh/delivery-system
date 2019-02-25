@@ -10,8 +10,12 @@ namespace App\Traits;
 
 
 use App\Client;
+use App\Shipment;
 use App\Status;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 trait StatisticsTrait
 {
@@ -48,77 +52,77 @@ trait StatisticsTrait
 
         $out = (object)[
             'shipments' => $this->shipmentsStats(),
-            'pickups' => $this->pickupsStats(),
-            'dueFrom' => $this->dueFromStats(),
-            'dueFor' => $this->dueForStats(),
-            'statuses' => $this->statsStatuses(),
+            'pickups'   => $this->pickupsStats(),
+            'dueFrom'   => $this->dueFromStats(),
+            'dueFor'    => $this->dueForStats(),
+            'statuses'  => $this->statsStatuses(),
         ];
         return $out;
     }
 
     public function prepareDateRanges(Carbon $begin, Carbon $until)
     {
-        $this->statsPeriod = $period = $until->diffInDays($begin);
-        $this->statsCurrentRange = [$begin, $until];
+        $this->statsPeriod        = $period = $until->diffInDays($begin);
+        $this->statsCurrentRange  = [$begin, $until];
         $this->statsPreviousRange = [$begin->copy()->subDays($period), $until->copy()->subDays($period)];
     }
 
     public function shipmentsStats()
     {
         $this->statsShipmentsCount = $current = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange)->count();
-        $previous = $this->shipments()->whereBetween('created_at', $this->statsPreviousRange)->count();
-        $ratio = $this->statsRatio($current, $previous);
+        $previous                  = $this->shipments()->whereBetween('created_at', $this->statsPreviousRange)->count();
+        $ratio                     = $this->statsRatio($current, $previous);
 
         return [
-            'current' => $current,
+            'current'  => $current,
             'previous' => $previous,
-            'ratio' => $ratio,
-            'state' => $ratio > 0 ? "up" : "down"
+            'ratio'    => $ratio,
+            'state'    => $ratio > 0 ? "up" : "down"
         ];
     }
 
     public function pickupsStats()
     {
 
-        $current = $this->pickups()->whereBetween('created_at', $this->statsCurrentRange)->count();
+        $current  = $this->pickups()->whereBetween('created_at', $this->statsCurrentRange)->count();
         $previous = $this->pickups()->whereBetween('created_at', $this->statsPreviousRange)->count();
-        $ratio = $this->statsRatio($current, $previous);
+        $ratio    = $this->statsRatio($current, $previous);
 
         return [
-            'current' => $current,
+            'current'  => $current,
             'previous' => $previous,
-            'ratio' => $ratio,
-            'state' => $ratio > 0 ? "up" : "down"
+            'ratio'    => $ratio,
+            'state'    => $ratio > 0 ? "up" : "down"
         ];
     }
 
     public function dueForStats()
     {
 
-        $current = $this->dueFor($this->statsCurrentRange);
+        $current  = $this->dueFor($this->statsCurrentRange);
         $previous = $this->dueFor($this->statsPreviousRange);
-        $ratio = $this->statsRatio($current, $previous);
+        $ratio    = $this->statsRatio($current, $previous);
 
         return [
-            'current' => $current,
+            'current'  => $current,
             'previous' => $previous,
-            'ratio' => $ratio,
-            'state' => $ratio > 0 ? "up" : "down"
+            'ratio'    => $ratio,
+            'state'    => $ratio > 0 ? "up" : "down"
         ];
     }
 
     public function dueFromStats()
     {
 
-        $current = $this->dueFrom($this->statsCurrentRange);
+        $current  = $this->dueFrom($this->statsCurrentRange);
         $previous = $this->dueFrom($this->statsPreviousRange);
-        $ratio = $this->statsRatio($current, $previous);
+        $ratio    = $this->statsRatio($current, $previous);
 
         return [
-            'current' => $current,
+            'current'  => $current,
             'previous' => $previous,
-            'ratio' => $ratio,
-            'state' => $ratio > 0 ? "up" : "down"
+            'ratio'    => $ratio,
+            'state'    => $ratio > 0 ? "up" : "down"
         ];
     }
 
@@ -129,7 +133,7 @@ trait StatisticsTrait
             return 100;
         }
         $diff = floatval($value1) - floatval($value2);
-        $div = floatval($diff) / floatval($value2);
+        $div  = floatval($diff) / floatval($value2);
         return $div * 100;
     }
 
@@ -138,22 +142,35 @@ trait StatisticsTrait
      */
     public function statsStatuses()
     {
-        $out = [
-            'labels' => [],
-            'values' => [],
-        ];
+        $labels   = [];
+        $stats    = [];
         $statuses = Status::get(['id', 'name']);
         foreach ($statuses as $status) {
-            $shipments = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange);
-            $out['labels'][] = '"' . trans("shipment.statuses.{$status->name}.name") . '"';
-            if ($this->statsShipmentsCount > 0) {
-                $count = $shipments->whereStatusId($status->id)->count();
-                //$out['values'][] = round(100 * ($count / $this->statsShipmentsCount), 2);
-                $out['values'][] = $count;
-
-            } else
-                $out['values'][] = 0;
+            $stats[$status->name] = [
+                'label' => trans("shipment.statuses.{$status->name}.name"),
+                'data'  => []
+            ];
         }
+        $period    = new \DatePeriod($this->statsCurrentRange[0], CarbonInterval::day(), $this->statsCurrentRange[1]);
+        $shipments = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange)->get();
+        foreach ($period as $dt) {
+            $date     = new Carbon($dt);
+            $labels[] = '"' . $date->format("m/d") . '"';
+            /** @var Builder $shipments */
+            foreach ($statuses as $status) {
+                /** @var Collection $selected */
+                $selected = $shipments->where('status_id', '=', $status->id)
+                    ->where('created_at', '>=',$date->startOfDay())
+                    ->where('created_at', '<=', $date->endOfDay());
+                $stats[$status->name]['data'][] = $selected->count();
+            }
+        }
+
+
+        $out = [
+            'labels' => $labels,
+            'values' => $stats,
+        ];
         return $out;
     }
 }

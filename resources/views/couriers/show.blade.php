@@ -10,49 +10,29 @@
 
 @section('content')
 
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         @include('layouts.partials.overviewStats')
     </div>
 @endsection
 
 @section('beforeBody')
     <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
+                @foreach($statistics->statuses['values'] as $status => $values)
+        var ctx = document.getElementById("{{ $status }}Chart").getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
             data: {
                 labels: [{!! implode(',',$statistics->statuses['labels'])  !!}],
-                datasets: [{
-                    label: '@lang('client.statusesPercentage')',
-                    data: [{!! implode(',', $statistics->statuses['values']) !!}],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 70, 64, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(100, 255, 64, 0.2)',
-                        'rgba(50, 50, 50, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 50, 64, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(50, 225, 64, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: "{{ $values['label'] }}",
+                        data: {!! json_encode(array_values($values['data'])) !!}
+                    },
+                ]
             },
             options: {
                 scales: {
-                    xAxes: [{
+                    yAxes: [{
                         display: true,
                         ticks: {
                             min: 0,
@@ -63,5 +43,7 @@
                 },
             }
         });
+        @endforeach
+
     </script>
 @endsection

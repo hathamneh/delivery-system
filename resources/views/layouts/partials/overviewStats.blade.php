@@ -93,12 +93,34 @@
     </div>
 </div>
 
-<div class="container mt-3 p-xs-0">
+<div class="container-fluid mt-3 p-xs-0">
+    <h3>Shipment Statuses</h3>
     <div class="row">
-        <div class="col-md-10 mx-auto">
-            <h3>Shipment Statuses</h3>
-            <canvas id="myChart" width="900" height="400"></canvas>
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                @php $i = 0; @endphp
+                @foreach($statistics->statuses['values'] as $status => $values)
+                    <a class="nav-link {{ $i++ > 0 ?: "show active" }}" id="v-pills-{{ $status }}-tab"
+                       data-toggle="pill" href="#v-pills-{{ $status }}"
+                       role="tab" aria-controls="v-pills-{{ $status }}"
+                       aria-selected="true">{{ $values['label'] }}</a>
+                @endforeach
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                @php $i = 0; @endphp
+                @foreach($statistics->statuses['values'] as $status => $values)
+                    <div class="tab-pane fade {{ $i++ > 0 ?: "show active" }}" id="v-pills-{{ $status }}"
+                         role="tabpanel"
+                         aria-labelledby="v-pills-{{ $status }}-tab">
+                        <canvas id="{{ $status }}Chart" width="900" height="400"></canvas>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
+
+
 </div>
 

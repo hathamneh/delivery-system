@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-    @include("couriers.tabs")
 
     <div class="container mt-4">
         @include('layouts.partials.overviewStats')

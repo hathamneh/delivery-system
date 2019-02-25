@@ -12,7 +12,8 @@
             <th>@lang('client.trade_name')</th>
             <th>@lang('client.name')</th>
             <th>@lang('shipment.client_account_number')</th>
-            <th>@lang('shipment.created_at')</th>
+            <th>@lang('shipment.created_on')</th>
+            <th>@lang('shipment.created_by')</th>
             <th>@lang('shipment.consignee_name')</th>
             <th>@lang('shipment.phone_number')</th>
             <th>@lang('shipment.address_sub_text')</th>
@@ -44,6 +45,7 @@
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->is_guest ? "GUEST" : $shipment->client->name }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->is_guest ? $shipment->guest->national_id : $shipment->client_account_number }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->created_at->format("M d, Y - h:i A") }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ optional($shipment->createdBy)->username }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->consignee_name }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->phone_number }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->address_sub_text }}</td>

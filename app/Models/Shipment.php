@@ -55,6 +55,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property boolean client_paid
  * @property boolean courier_cashed
  * @property Branch branch
+ * @property User createdBy
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
  * @method static self statusGroups(array $status_groups)
@@ -153,6 +154,14 @@ class Shipment extends Model
                 $instance->notifyFor($newStatus);
             }
         });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|User
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     /**

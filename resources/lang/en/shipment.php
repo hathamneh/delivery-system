@@ -10,7 +10,8 @@ return [
     'updated' => "{0} Nothing updated|{1} <i class='fa-check-circle2'></i> One shipment updated successfully.|[2,*] <i class='fa-check-circle2'></i> :value shipments updated successfully.",
     'info'    => "Shipment Info",
 
-    'created_at' => 'Created At',
+    'created_on' => 'Created On',
+    'created_by' => 'Created By',
 
     'track_shipment'           => "Track Your Shipment",
     "enter_identifier"         => "Please Enter Shipment Waybill Number",

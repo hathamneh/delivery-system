@@ -18,7 +18,7 @@ class ShipmentCollection extends JsonResource
             'id'                       => $this->id,
             'client_account_number'    => $this->client_account_number,
             'status'                   => [
-                'display' => trans("shipment.statuses." . $this->status->name),
+                'display' => trans("shipment.statuses.{$this->status->name}.name"),
                 "value"   => $this->status_id
             ],
             'waybill'                  => $this->waybill,

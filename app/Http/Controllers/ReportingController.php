@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Branch;
 use App\Client;
 use App\Courier;
 use App\Http\Resources\ReportCollection;
@@ -28,11 +29,29 @@ class ReportingController extends Controller
 
     public function index(Request $request)
     {
+        $user     = auth()->user();
+
         $data = [];
         if ($request->has('client'))
             $data['client'] = Client::find((int)$request->get('client'));
         if ($request->has('courier'))
             $data['courier'] = Courier::find((int)$request->get('courier'));
+        $processing = ["processing"];
+        $in_transit = ["in_transit"];
+        $delivered = ["delivered"];
+        if($user->isCourier()) {
+            $processing[] = "courier";
+            $in_transit[] = "courier";
+            $delivered[] = "courier";
+        }
+
+        $data['statuses']     = [
+            'processing' => Status::group($processing)->get(),
+            'in_transit' => Status::group($in_transit)->get(),
+            'delivered'  => Status::group($delivered)->get(),
+        ];
+        $data['branches']               = Branch::all();
+
         return view('reports.index', $data);
     }
 

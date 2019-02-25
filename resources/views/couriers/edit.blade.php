@@ -10,7 +10,6 @@
 @endsection
 
 @section('content')
-    @include("couriers.tabs")
     <div class="container mt-5">
         <form action="{{ route('couriers.update', ['courier' => $courier]) }}" method="post"
               enctype="multipart/form-data">

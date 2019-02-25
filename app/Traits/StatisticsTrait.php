@@ -167,7 +167,7 @@ trait StatisticsTrait
                 'data'  => []
             ];
         }
-        $period    = new \DatePeriod($this->statsCurrentRange[0], CarbonInterval::day(), $this->statsCurrentRange[1]);
+        $period    = new \DatePeriod($this->statsCurrentRange[0], CarbonInterval::day(), $this->statsCurrentRange[1]->addDay());
         $shipments = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange)->get();
         foreach ($period as $dt) {
             $date     = new Carbon($dt);

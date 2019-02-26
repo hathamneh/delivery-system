@@ -26,10 +26,10 @@
                     <h3 class="card-title">@lang('courier.achievement')</h3>
                 </div>
                 <div class="card-body">
-                    <div class="current-value">{{ $statistics->achievement['current'] }}</div>
+                    <div class="current-value">{{ $statistics->achievement['current'] }}%</div>
                     <div class="overview-meta">
                         <small class="previous-value">(Previous
-                            period: {{ $statistics->achievement['previous'] }})
+                            period: {{ $statistics->achievement['previous'] }}%)
                         </small>
                     </div>
                 </div>

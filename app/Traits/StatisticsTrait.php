@@ -92,8 +92,8 @@ trait StatisticsTrait
         $deliveredShipmentsPrevious = $allPrevious->where('status_id', Status::name('delivered')->first()->id)->count();
 
         return [
-            'current'  => $allCurrent->count() ? round(100 * $deliveredShipmentsCurrent / $allCurrent->count(), 1) : 0,
-            'previous' => $allPrevious->count() ? round(100 * $deliveredShipmentsPrevious / $allPrevious->count(), 1) : 0,
+            'current'  => $allCurrent->count() ? round(100 * $deliveredShipmentsCurrent / $allCurrent->count(), 2) : 0,
+            'previous' => $allPrevious->count() ? round(100 * $deliveredShipmentsPrevious / $allPrevious->count(), 2) : 0,
         ];
     }
 

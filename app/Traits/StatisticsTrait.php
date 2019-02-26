@@ -60,7 +60,7 @@ trait StatisticsTrait
         ];
         if ($this instanceof Courier)
             $out['achievement'] = $this->achievementStats();
-        return (object) $out;
+        return (object)$out;
     }
 
     public function prepareDateRanges(Carbon $begin, Carbon $until)
@@ -86,14 +86,14 @@ trait StatisticsTrait
 
     public function achievementStats()
     {
-        $allCurrent        = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange)->get();
-        $allPrevious       = $this->shipments()->whereBetween('created_at', $this->statsPreviousRange)->get();
-        $deliveredShipmentsCurrent = $allCurrent->where('status_id', Status::name('delivered')->first()->id)->count();
+        $allCurrent                 = $this->shipments()->whereBetween('created_at', $this->statsCurrentRange)->get();
+        $allPrevious                = $this->shipments()->whereBetween('created_at', $this->statsPreviousRange)->get();
+        $deliveredShipmentsCurrent  = $allCurrent->where('status_id', Status::name('delivered')->first()->id)->count();
         $deliveredShipmentsPrevious = $allPrevious->where('status_id', Status::name('delivered')->first()->id)->count();
 
         return [
-            'current'  => $allCurrent->count() ? $deliveredShipmentsCurrent / $allCurrent->count() : 0,
-            'previous' => $allPrevious->count() ? $deliveredShipmentsPrevious / $allPrevious->count() : 0,
+            'current'  => $allCurrent->count() ? round(100 * $deliveredShipmentsCurrent / $allCurrent->count(), 1) : 0,
+            'previous' => $allPrevious->count() ? round(100 * $deliveredShipmentsPrevious / $allPrevious->count(), 1) : 0,
         ];
     }
 

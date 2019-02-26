@@ -1,5 +1,5 @@
 <div class="row overview-cards">
-    <div class="col-md-{{ isset($statistics->achievement) ? "2" : "3" }}">
+    <div class="col">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('shipment.label')</h3>
@@ -20,7 +20,7 @@
         </div>
     </div>
     @if(isset($statistics->achievement))
-        <div class="col-md-2">
+        <div class="col">
             <div class="card overview-cards-item">
                 <div class="card-header d-flex">
                     <h3 class="card-title">@lang('courier.achievement')</h3>
@@ -37,7 +37,7 @@
             </div>
         </div>
     @endif
-    <div class="col-md-{{ isset($statistics->achievement) ? "2" : "3" }}">
+    <div class="col">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('pickup.label')</h3>
@@ -55,7 +55,7 @@
 
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('accounting.due_for')</h3>
@@ -90,7 +90,7 @@
 
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col">
         <div class="card overview-cards-item">
             <div class="card-header d-flex">
                 <h3 class="card-title">@lang('accounting.due_from')</h3>

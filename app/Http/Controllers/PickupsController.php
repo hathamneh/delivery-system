@@ -42,8 +42,6 @@ class PickupsController extends Controller
             $startDate = Carbon::createFromTimestamp($request->get('start'));
             $endDate = Carbon::createFromTimestamp($request->get('end'));
             $pickups->whereDate('available_time_start', '>=', $startDate)->whereDate('available_time_end', '<=', $endDate);
-        } else {
-            $pickups = Pickup::whereDate('available_time_start', ">=", now()->subDays(2));
         }
 
         if ($s) {
@@ -60,7 +58,7 @@ class PickupsController extends Controller
             }
         }
         return view('pickups.index')->with([
-            'pickups'   => $pickups->get(),
+            'pickups'   => $pickups->simplePaginate(),
             'startDate' => $startDate,
             'endDate'   => $endDate,
             's'         => $s

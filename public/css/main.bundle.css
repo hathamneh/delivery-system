@@ -29649,29 +29649,24 @@ table tbody td.dataTables_empty {
 }
 
 .widget-infobox .lifetime, .widget-infobox .today {
-  position: absolute;
   -webkit-transition: all .5s;
   transition: all .5s;
 }
 
 .widget-infobox[data-show="today"] .today {
-  visibility: visible;
-  opacity: 1;
+  display: block;
 }
 
 .widget-infobox[data-show="today"] .lifetime {
-  visibility: hidden;
-  opacity: 0;
+  display: none;
 }
 
 .widget-infobox[data-show="lifetime"] .lifetime {
-  visibility: visible;
-  opacity: 1;
+  display: block;
 }
 
 .widget-infobox[data-show="lifetime"] .today {
-  visibility: hidden;
-  opacity: 0;
+  display: none;
 }
 
 .widget-infobox .infobox {

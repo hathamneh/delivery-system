@@ -68,3 +68,7 @@
         @endif
     </div>
 </div>
+
+<div class="d-flex justify-content-center">
+    {{ $pickups->links() }}
+</div>

@@ -13,43 +13,86 @@
 
 <div class="widget-infobox" data-show="today">
     @isset($statistics['normal'])
-        <a href="{{ route('shipments.index', ['filters[types]' => 'normal']) }}" class="infobox">
+        <a href="{{ route('shipments.index', [
+            'filters[types]' => 'normal',
+            'start' => now()->startOfDay()->timestamp,
+            'end' => now()->endOfDay()->timestamp,
+        ]) }}" class="infobox today">
             <div class="left">
                 <i class="fa fa-shipment bg-blue"></i>
             </div>
             <div class="right">
                 <div class="stat-value">
-                    <span class="today pull-left">{{ $statistics['normal']['today'] }}</span>
-                    <span class="lifetime pull-left">{{ $statistics['normal']['lifetime'] }}</span>
+                    <span class="pull-left">{{ $statistics['normal']['today'] }}</span>
+                </div>
+                <div class="txt">@lang('shipment.label')</div>
+            </div>
+        </a>
+        <a href="{{ route('shipments.index', [
+            'filters[types]' => 'normal'
+        ]) }}" class="infobox lifetime">
+            <div class="left">
+                <i class="fa fa-shipment bg-blue"></i>
+            </div>
+            <div class="right">
+                <div class="stat-value">
+                    <span class="pull-left">{{ $statistics['normal']['lifetime'] }}</span>
                 </div>
                 <div class="txt">@lang('shipment.label')</div>
             </div>
         </a>
     @endisset
     @isset($statistics['returned'])
-        <a href="{{ route('shipments.index', ['filters[types]' => 'returned']) }}" class="infobox">
+        <a href="{{ route('shipments.index', ['filters[types]' => 'returned',
+            'start' => now()->startOfDay()->timestamp,
+            'end' => now()->endOfDay()->timestamp,]) }}" class="infobox today">
             <div class="left">
                 <i class="fa fa-shipment bg-red"></i>
             </div>
             <div class="right">
                 <div class="stat-value">
-                    <span class="c-pink today pull-left">{{ $statistics['returned']['today'] }}</span>
-                    <span class="lifetime pull-left">{{ $statistics['returned']['lifetime'] }}</span>
+                    <span class="c-pink pull-left">{{ $statistics['returned']['today'] }}</span>
+                </div>
+                <div class="txt">@lang('shipment.returned')</div>
+            </div>
+        </a>
+        <a href="{{ route('shipments.index', ['filters[types]' => 'returned']) }}" class="infobox lifetime">
+            <div class="left">
+                <i class="fa fa-shipment bg-red"></i>
+            </div>
+            <div class="right">
+                <div class="stat-value">
+                    <span class="pull-left">{{ $statistics['returned']['lifetime'] }}</span>
                 </div>
                 <div class="txt">@lang('shipment.returned')</div>
             </div>
         </a>
     @endisset
     @isset($statistics['pickups'])
-        <a href="{{ route('pickups.index') }}" class="infobox">
+        <a href="{{ route('pickups.index', [
+            'start' => now()->startOfDay()->timestamp,
+            'end' => now()->endOfDay()->timestamp,
+        ]) }}" class="infobox today">
             <div class="left">
                 <i class="fa-shopping-bag bg-orange"></i>
             </div>
             <div class="right">
                 <div class="clearfix">
                     <div class="stat-value">
-                        <span class="c-red today pull-left">{{ $statistics['pickups']['today'] }}</span>
-                        <span class="c-red lifetime pull-left">{{ $statistics['pickups']['lifetime'] }}</span>
+                        <span class="c-red pull-left">{{ $statistics['pickups']['today'] }}</span>
+                    </div>
+                    <div class="txt">Pickups</div>
+                </div>
+            </div>
+        </a>
+        <a href="{{ route('pickups.index') }}" class="infobox lifetime">
+            <div class="left">
+                <i class="fa-shopping-bag bg-orange"></i>
+            </div>
+            <div class="right">
+                <div class="clearfix">
+                    <div class="stat-value">
+                        <span class="c-red pull-left">{{ $statistics['pickups']['lifetime'] }}</span>
                     </div>
                     <div class="txt">Pickups</div>
                 </div>

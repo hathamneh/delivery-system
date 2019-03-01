@@ -120,6 +120,7 @@
                 <tr>
                     <th>@lang('client.payment_method_price')</th>
                     <td>
+                        <b>(@lang('client.payment_methods.'.$client->paymentMethod->name))</b>
                         <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->payment_method_price ?? 0) }}
                     </td>
                 </tr>

@@ -109,7 +109,7 @@
                             <div class="form-row">
                                 <div class="form-group col-sm-12">
                                     <div class="form-row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="custom-control custom-radio form-group">
                                                 <input type="radio" id="type_client" name="type"
                                                        class="custom-control-input"
@@ -125,25 +125,7 @@
                                                 ]) @endcomponent
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="custom-control custom-radio form-group">
-                                                <input type="radio" id="type_courier" name="type"
-                                                       class="custom-control-input"
-                                                       value="courier">
-                                                <label class="custom-control-label"
-                                                       for="type_courier">@lang('accounting.for_courier')</label>
-                                            </div>
-                                            <div class="couriers-group">
-                                                @component('couriers.search-courier-input',[
-                                                    'name' => 'courier_id',
-                                                    'placeholder' => trans('accounting.courier_name'),
-                                                    'value' => old('for'),
-                                                    'text' => "",
-                                                    "disabled" => true
-                                                ]) @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="custom-control custom-radio form-group">
                                                 <input type="radio" id="type_national_id" name="type"
                                                        class="custom-control-input"

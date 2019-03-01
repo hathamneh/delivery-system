@@ -24,7 +24,7 @@
         <tr>
             <td rowspan="2" class="separator-bottom">{{ ++$i }}</td>
             <td>{{ $shipment->waybill }}</td>
-            <td>@lang("shipment.statuses.".$shipment->status->name)</td>
+            <td>@lang("shipment.statuses.{$shipment->status->name}.name")</td>
             <td>{{ $shipment->delivery_date->toFormattedDateString() }}</td>
             <td>{{ $shipment->address->zone->name }}</td>
             <td>@lang("accounting.service_types.".$shipment->service_type)</td>

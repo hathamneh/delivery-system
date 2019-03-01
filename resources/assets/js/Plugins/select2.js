@@ -12,6 +12,7 @@ window.inputSelect = () => {
                     minimumInputLength: $(this).data('minimumInputLength') ? $(this).data('minimumInputLength') : -1,
                     minimumResultsForSearch: $(this).data('search') ? -1 : 1,
                     dropdownCssClass: $(this).data('style') ? $(this).data('style') : '',
+                    dropdownParent: $(this).closest('.modal-body').length ? $(this).closest('.modal-body') : $('body')
                     //containerCssClass: $(this).data('container-class') ? $(this).data('container-class') : ''
                 });
             });
@@ -53,6 +54,7 @@ function ajaxSelect2() {
                 allowClear: true,
                 placeholder: $this.data('placeholder'),
                 minimumInputLength: 5,
+                dropdownParent: $(this).closest('.modal-body').length ? $(this).closest('.modal-body') : $('body'),
                 escapeMarkup: function (markup) {
                     return markup;
                 },
@@ -60,7 +62,7 @@ function ajaxSelect2() {
                     var markup = data.text;
                     if (data.name && data.trade_name)
                         markup = '<div class="client-suggestion">' +
-                            '<b>' + data.name + '</b> - '+ data.zone +'<br>' +
+                            '<b>' + data.name + '</b> - ' + data.zone + '<br>' +
                             '<small>' + data.text + ' (' + data.trade_name + ')</small>' +
                             '</div>'
                     return markup;
@@ -114,6 +116,7 @@ function ajaxSelect2() {
                 },
                 allowClear: true,
                 placeholder: $this.data('placeholder'),
+                dropdownParent: $(this).closest('.modal-body').length ? $(this).closest('.modal-body') : $('body'),
                 escapeMarkup: function (markup) {
                     return markup;
                 },
@@ -158,6 +161,7 @@ function ajaxSelect2() {
             theme: 'bootstrap4',
             minimumInputLength: 9,
             tags: true,
+            dropdownParent: $(this).closest('.modal-body').length ? $(this).closest('.modal-body') : $('body'),
             ajax: {
                 url: '/ajax/suggest/shipments',
                 headers: {

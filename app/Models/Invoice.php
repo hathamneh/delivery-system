@@ -205,7 +205,7 @@ class Invoice extends Model
         return $this->pickups()->sum('pickup_fees');
     }
 
-    public function getPaymentMethodCostAttribute()
+    public function getPaymentMethodPriceAttribute()
     {
         if ($this->target instanceof Client)
             return $this->target->payment_method_price;

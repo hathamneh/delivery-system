@@ -23,19 +23,21 @@
             </div>
         @endif
 
-        @if(isset($haveWorkTodayCouriers) && $haveWorkTodayCouriers->count())
-            <div class="card border-warning bg-light">
-                <div class="card-header text-black border-warning">
-                    <span class="font-weight-bold">Couriers Have Work Today</span>
-                </div>
-                <div class="card-body">
-                    @include("couriers.open-account-table")
+        @if(auth()->user()->isAdmin())
+            @if(isset($haveWorkTodayCouriers) && $haveWorkTodayCouriers->count())
+                <div class="card border-warning bg-light">
+                    <div class="card-header text-black border-warning">
+                        <span class="font-weight-bold">Couriers Have Work Today</span>
+                    </div>
+                    <div class="card-body">
+                        @include("couriers.open-account-table")
 
+                    </div>
                 </div>
-            </div>
 
-            <h3 class="font-weight-bold">@lang('courier.all')</h3>
-        @endif()
+                <h3 class="font-weight-bold">@lang('courier.all')</h3>
+            @endif
+        @endif
         @include("couriers.table")
 
     </div>

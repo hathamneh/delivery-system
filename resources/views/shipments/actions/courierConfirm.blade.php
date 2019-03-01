@@ -12,7 +12,7 @@
 
         @if(!is_null($shipment->client->note_for_courier))
             <div class="alert alert-light">
-                <b class="alert-heading">Note from client of this shipment</b>
+                <b class="alert-heading">Note from client</b>
                 <hr>
                 <p>
                     {{ $shipment->client->note_for_courier ?? "No notes" }}

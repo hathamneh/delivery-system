@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Courier;
 use App\Guest;
+use App\Http\Middleware\IsAdmin;
 use App\Invoice;
 use App\Shipment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
@@ -17,6 +19,8 @@ class AccountingController extends Controller
 
     public function __construct()
     {
+        $this->middleware('admin');
+
         View::share([
             "pageTitle"        => "Accounting",
             'sidebarCollapsed' => true,
@@ -25,6 +29,7 @@ class AccountingController extends Controller
 
     public function index()
     {
+
         /** @var Client $client */
         return view('accounting.index')->with([
             'invoices' => Invoice::forClientsAndGuests()->get()
@@ -45,28 +50,28 @@ class AccountingController extends Controller
         ]);
 
 
-        $type = $request->get('type');
+        $type   = $request->get('type');
         $target = null;
         if ($type == "client")
             $target = $request->get('client_account_number');
         elseif ($type == 'courier')
             $target = $request->get('courier_id');
         elseif ($type == 'national_id') {
-            $nationalId = $request->get('national_id');
+            $nationalId   = $request->get('national_id');
             $targetObject = $this->getTargetByNationalId($nationalId);
-            if(!is_null($targetObject)) {
+            if (!is_null($targetObject)) {
                 $target = $targetObject->getKey();
                 if ($targetObject instanceof Client)
                     $type = "client";
                 elseif ($targetObject instanceof Guest)
                     $type = "guest";
             } else {
-                return back()->withErrors(['national_id' =>"No client/guest found with provided national ID."]);
+                return back()->withErrors(['national_id' => "No client/guest found with provided national ID."]);
             }
         }
 
 
-        $invoice = new Invoice([
+        $invoice         = new Invoice([
             'type'     => $type,
             'target'   => $target,
             'discount' => $request->get('discount'),
@@ -95,7 +100,7 @@ class AccountingController extends Controller
                 'client'    => $invoice->target,
                 'invoice'   => $invoice
             ]);
-        } elseif($invoice->type == "guest") {
+        } elseif ($invoice->type == "guest") {
             return view('accounting.guestInvoice')->with([
                 'shipments' => $shipments,
                 'client'    => $invoice->target,
@@ -104,8 +109,8 @@ class AccountingController extends Controller
         } elseif ($invoice->type == "courier") {
             return view('accounting.courier', [
                 'shipments' => $shipments,
-                'courier' => $invoice->target,
-                'invoice' => $invoice
+                'courier'   => $invoice->target,
+                'invoice'   => $invoice
             ]);
         }
         return abort(404);
@@ -130,9 +135,9 @@ class AccountingController extends Controller
 
     public function getTargetByNationalId($nationalId)
     {
-        if(Client::where('national_id', $nationalId)->exists())
+        if (Client::where('national_id', $nationalId)->exists())
             return Client::where('national_id', $nationalId)->first();
-        if(Guest::where('national_id', $nationalId)->exists())
+        if (Guest::where('national_id', $nationalId)->exists())
             return Guest::where('national_id', $nationalId)->first();
         return null;
     }

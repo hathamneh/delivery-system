@@ -29,6 +29,8 @@ class ReportingController extends Controller
 
     public function index(Request $request)
     {
+        if(!auth()->user()->isAdmin()) abort(401, "Unauthorized");
+
         $user     = auth()->user();
 
         $data = [];
@@ -61,6 +63,7 @@ class ReportingController extends Controller
      */
     public function update(Request $request)
     {
+        if(!auth()->user()->isAdmin()) abort(401, "Unauthorized");
 
         $action = $this->getAction($request);
         if (!$action || !is_string($action)) throw new \BadMethodCallException("No action is provided");
@@ -91,6 +94,7 @@ class ReportingController extends Controller
 
     public function bulkChangeStatus(Request $request, array $shipments)
     {
+
         $shipmentsController = new ShipmentController();
         $i = 0;
         foreach ($shipments as $shipment) {

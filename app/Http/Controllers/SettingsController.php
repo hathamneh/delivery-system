@@ -13,6 +13,8 @@ class SettingsController extends Controller
 
     public function __construct(Request $request)
     {
+        $this->middleware('admin');
+
         $this->tab = $request->get('tab', "company");
 
     }

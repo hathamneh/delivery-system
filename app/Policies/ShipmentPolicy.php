@@ -13,7 +13,7 @@ class ShipmentPolicy
 
     public function before(User $user, $ability)
     {
-        if($user->isAdmin())
+        if ($user->isAdmin())
             return true;
     }
 
@@ -37,7 +37,11 @@ class ShipmentPolicy
      */
     public function view(User $user, Shipment $shipment)
     {
-        return $user->client->account_number == $shipment->client->account_number ?? false;
+        if ($user->isClient())
+            return $user->client->account_number == $shipment->client->account_number ?? false;
+        elseif ($user->isCourier())
+            return $user->courier->id == $shipment->courier->id ?? false;
+
     }
 
     /**

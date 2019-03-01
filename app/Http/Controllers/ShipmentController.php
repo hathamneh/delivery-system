@@ -40,15 +40,17 @@ class ShipmentController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('index', Shipment::class);
 
         /** @var User $user */
         $user = Auth::user();
 
         if ($user->isCourier())
-            $shipmentsQuery = $user->courier->shipments()->today();
+            $shipmentsQuery = $user->courier->shipments()->untilToday();
         elseif ($user->isClient())
             $shipmentsQuery = $user->client->shipments();
         else
@@ -58,6 +60,7 @@ class ShipmentController extends Controller
             $shipmentsQuery->whereDate('created_at', '>=', $request->get('start'));
         if ($request->has('end'))
             $shipmentsQuery->whereDate('created_at', '<=', $request->get('end'));
+
 
         $requestFilters = $request->get('filters', []);
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
@@ -77,9 +80,12 @@ class ShipmentController extends Controller
      *
      * @param string $type
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create($type = "legacy")
     {
+        $this->authorize('create', Shipment::class);
+
         $suggestedWaybill      = (new Shipment)->generateNextWaybill();
         $suggestedDeliveryDate = $this->suggestedDeliveryDate();
         $statuses              = Status::whereIn('name', ['picked_up', 'received'])->get();
@@ -114,6 +120,7 @@ class ShipmentController extends Controller
      */
     public function store(StoreShipmentRequest $request)
     {
+        $this->authorize('create', Shipment::class);
 
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
         $clientData       = $request->get('shipment_client');
@@ -157,9 +164,12 @@ class ShipmentController extends Controller
      * @param Shipment $shipment
      * @param string $tab
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Shipment $shipment, $tab = "status")
     {
+        $this->authorize('view', $shipment);
+
         /** @var User $user */
         $user     = auth()->user();
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
@@ -171,16 +181,16 @@ class ShipmentController extends Controller
         if ($tab == "actions") {
             $processing = ["processing"];
             $in_transit = ["in_transit"];
-            $delivered = ["delivered"];
-            if($user->isCourier()) {
+            $delivered  = ["delivered"];
+            if ($user->isCourier()) {
                 $processing[] = "courier";
                 $in_transit[] = "courier";
-                $delivered[] = "courier";
+                $delivered[]  = "courier";
             }
-            if($shipment->type == "returned") {
+            if ($shipment->type == "returned") {
                 $processing[] = "returned";
                 $in_transit[] = "returned";
-                $delivered[] = "returned";
+                $delivered[]  = "returned";
             }
             $data['statuses']     = [
                 'processing' => Status::group($processing)->get(),
@@ -199,8 +209,15 @@ class ShipmentController extends Controller
         return view('shipments.show', $data);
     }
 
+    /**
+     * @param Shipment $shipment
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function print(Shipment $shipment)
     {
+        $this->authorize('view', $shipment);
+
         return view('shipments.print')->with([
             'shipment' => $shipment
         ]);
@@ -211,9 +228,12 @@ class ShipmentController extends Controller
      *
      * @param Shipment $shipment
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Shipment $shipment)
     {
+        $this->authorize('update', $shipment);
+
         $statuses  = Status::whereIn('name', ['picked_up', 'received'])->get();
         $couriers  = Courier::all();
         $addresses = Address::all();
@@ -236,9 +256,12 @@ class ShipmentController extends Controller
      * @param Shipment $shipment
      * @param string $tab
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Shipment $shipment)
     {
+        $this->authorize('update', $shipment);
+
         $tab = $request->get('tab');
         switch ($tab) {
             case "delivery":
@@ -281,8 +304,16 @@ class ShipmentController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param Shipment $shipment
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function makeReturn(Request $request, Shipment $shipment)
     {
+        $this->authorize('update', $shipment);
+
         $request->validate([
             "status" => "required,exists:statuses,name"
         ]);
@@ -306,8 +337,16 @@ class ShipmentController extends Controller
         return redirect()->route('shipments.show', ['shipment' => $new]);
     }
 
+    /**
+     * @param Request $request
+     * @param Shipment $shipment
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function updateDelivery(Request $request, Shipment $shipment)
     {
+        $this->authorize('update', $shipment);
+
         $request->validate([
             'status'        => 'required',
             'actual_paid'   => 'required_if:status,delivered,rejected,collected_from_office',
@@ -350,9 +389,12 @@ class ShipmentController extends Controller
      *
      * @param Shipment $shipment
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Shipment $shipment)
     {
+        $this->authorize('destroy', $shipment);
+
         try {
             $shipment->delete();
         } catch (\Exception $e) {
@@ -413,8 +455,15 @@ class ShipmentController extends Controller
         return back();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function assignCourier(Request $request)
     {
+        $this->authorize('update');
+
         $request->validate([
             'courier'   => 'required|exists:couriers,id',
             'shipments' => 'required|array'

@@ -76,11 +76,18 @@ class HomeController extends Controller
         return [
             'title' => "Courier Dashboard",
             'statistics' => [
-                'pending'   => $courier->shipments()->today()->pending()->count(),
-                'received'  => $courier->shipments()->today()->statusIs('received')->count(),
-                'delivered' => $courier->shipments()->today()->statusIs('delivered')->count(),
-                'returned'  => $courier->shipments()->today()->statusIs('returned')->count(),
-                'pickups'   => $courier->pickups()->today()->count(),
+                'normal'   => [
+                    'today' =>  $courier->shipments()->today()->type(["normal"])->count(),
+                    'lifetime' =>  $courier->shipments()->type(["normal"])->count(),
+                ],
+                'returned'   => [
+                    'today' =>  $courier->shipments()->today()->type(["returned"])->count(),
+                    'lifetime' =>  $courier->shipments()->type(["returned"])->count(),
+                ],
+                'pickups'   => [
+                    'today' => $courier->pickups()->today()->count(),
+                    'lifetime' => $courier->pickups()->count(),
+                ],
             ]
         ];
     }

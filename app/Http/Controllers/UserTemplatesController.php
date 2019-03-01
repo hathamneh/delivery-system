@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\UserTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class UserTemplatesController extends Controller
 {
@@ -13,6 +14,9 @@ class UserTemplatesController extends Controller
     {
         $this->middleware('admin');
 
+        View::share([
+            'pageTitle' => trans('user.roles.label')
+        ]);
     }
 
     /**
@@ -36,7 +40,7 @@ class UserTemplatesController extends Controller
     {
         return view('users.roles.create')->with([
             'templates' => UserTemplate::all(),
-            'roles' => Role::all()
+            'roles'     => Role::all()
         ]);
     }
 
@@ -49,7 +53,7 @@ class UserTemplatesController extends Controller
     public function store(Request $request)
     {
         /** @var UserTemplate $ut */
-        $ut = UserTemplate::create($request->toArray());
+        $ut         = UserTemplate::create($request->toArray());
         $manyToMany = [];
         foreach ($request->get('roles', []) as $role => $value) {
             $manyToMany[$role] = ['value' => $value];
@@ -81,7 +85,7 @@ class UserTemplatesController extends Controller
         $userTemplate->load('roles');
         return view('users.roles.edit')->with([
             'templates' => UserTemplate::all(),
-            'ut' => $userTemplate
+            'ut'        => $userTemplate
         ]);
     }
 

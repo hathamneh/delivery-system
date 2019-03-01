@@ -48,6 +48,7 @@ class ConsigneeRescheduled extends Notification
     {
         return (new MailMessage)
             ->subject("The consignee has rescheduled receiving the shipment - Kangaroo Delivery")
+            ->cc($this->shipment->client->secondary_emails)
             ->markdown('notifications.mail', [
                 'tmpl'     => 'consignee-rescheduled',
                 'client'   => $notifiable,

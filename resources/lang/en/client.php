@@ -24,6 +24,9 @@ return [
     'address_sub' => 'Sub-Address',
     'address_maps' => 'Address on Google Maps',
 
+    'secondary_emails' => 'Secondary Emails',
+    'secondary_emails_help' => 'Enter one email in each line...',
+
     'maps_placeholder' => 'http://maps.google.com/...',
 
     'zone' => 'Client Zone',

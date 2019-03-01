@@ -206,6 +206,7 @@ class ClientsController extends Controller
                 break;
             case 'emails':
                 $this->saveEmailsSettings($request, $client);
+                $client->push();
                 break;
         }
         return back();
@@ -352,5 +353,6 @@ class ClientsController extends Controller
     private function saveEmailsSettings($request, Client &$client)
     {
         $client->shipments_email_updates = $request->get('shipments_email_updates', false) === 'on';
+        $client->secondary_emails = $request->get('secondary_emails', null);
     }
 }

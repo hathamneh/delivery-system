@@ -42,6 +42,7 @@ class ClientCreated extends Notification
     {
         return (new MailMessage)
             ->subject("Welcome to Kangaroo Delivery")
+            ->cc($this->shipment->client->secondary_emails)
             ->markdown('notifications.mail', [
                 'client' => $notifiable,
                 'tmpl'   => 'client-created',

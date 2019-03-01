@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
  * @property string password
  * @property string phone_number
  * @property string email
+ * @property string secondary_emails
  *
  * @property User user
  * @property Zone zone
@@ -90,6 +91,7 @@ class Client extends Model implements Accountable, CanHaveShipment
         'password',
         'phone_number',
         'email',
+        'secondary_emails',
         'address_country',
         'address_city',
         'address_sub',
@@ -127,10 +129,10 @@ class Client extends Model implements Accountable, CanHaveShipment
     {
         return (object)[
             'country' => $this->address_country,
-            'city' => $this->address_city,
-            'sub' => $this->address_sub,
-            'maps' => $this->address_maps,
-            'full' => $this->address_sub . "\n\r" . $this->address_country . ", " . $this->address_city
+            'city'    => $this->address_city,
+            'sub'     => $this->address_sub,
+            'maps'    => $this->address_maps,
+            'full'    => $this->address_sub . "\n\r" . $this->address_country . ", " . $this->address_city
         ];
     }
 
@@ -145,20 +147,20 @@ class Client extends Model implements Accountable, CanHaveShipment
     public function getBankAttribute()
     {
         return (object)[
-            'name' => $this->bank_name,
+            'name'           => $this->bank_name,
             'account_number' => $this->bank_account_number,
-            'holder_name' => $this->bank_holder_name,
-            'iban' => $this->bank_iban,
-            'swift_code' => $this->swift_code,
-            'full' => $this->bank_name . " - " . $this->bank_holder_name . '<br>' . $this->bank_account_number
+            'holder_name'    => $this->bank_holder_name,
+            'iban'           => $this->bank_iban,
+            'swift_code'     => $this->swift_code,
+            'full'           => $this->bank_name . " - " . $this->bank_holder_name . '<br>' . $this->bank_account_number
         ];
     }
 
     public function getUrlsAttribute()
     {
         return (object)[
-            'website' => $this->url_website,
-            'facebook' => $this->url_facebook,
+            'website'   => $this->url_website,
+            'facebook'  => $this->url_facebook,
             'instagram' => $this->url_instagram,
         ];
     }
@@ -166,9 +168,9 @@ class Client extends Model implements Accountable, CanHaveShipment
     public function setAddressAttribute($val)
     {
         $this->address_country = isset($val['country']) ? $val['country'] : $this->address_country;
-        $this->address_city = isset($val['city']) ? $val['city'] : $this->address_city;
-        $this->address_sub = isset($val['sub']) ? $val['sub'] : $this->address_sub;
-        $this->address_maps = isset($val['maps']) ? $val['maps'] : $this->address_maps;
+        $this->address_city    = isset($val['city']) ? $val['city'] : $this->address_city;
+        $this->address_sub     = isset($val['sub']) ? $val['sub'] : $this->address_sub;
+        $this->address_maps    = isset($val['maps']) ? $val['maps'] : $this->address_maps;
     }
 
     public function setPickupAddressAttribute($val)
@@ -179,11 +181,11 @@ class Client extends Model implements Accountable, CanHaveShipment
 
     public function setBankAttribute($val)
     {
-        $this->bank_name = isset($val['name']) ? $val['name'] : $this->bank_name;
+        $this->bank_name           = isset($val['name']) ? $val['name'] : $this->bank_name;
         $this->bank_account_number = isset($val['account_number']) ? $val['account_number'] : $this->bank_account_number;
-        $this->bank_holder_name = isset($val['holder_name']) ? $val['holder_name'] : $this->bank_holder_name;
-        $this->bank_iban = isset($val['iban']) ? $val['iban'] : $this->bank_iban;
-        $this->swift_code = isset($val['swift_code']) ? $val['swift_code'] : $this->swift_code;
+        $this->bank_holder_name    = isset($val['holder_name']) ? $val['holder_name'] : $this->bank_holder_name;
+        $this->bank_iban           = isset($val['iban']) ? $val['iban'] : $this->bank_iban;
+        $this->swift_code          = isset($val['swift_code']) ? $val['swift_code'] : $this->swift_code;
     }
 
     public function setUrlsAttribute($val)
@@ -196,6 +198,11 @@ class Client extends Model implements Accountable, CanHaveShipment
             $this->url_instagram = $val['instagram'];
     }
 
+    public function getSecondaryEmailsAttribute()
+    {
+        return explode('\r\n', $this->attributes['secondary_emails']);
+    }
+
 
     public function createUser()
     {
@@ -204,9 +211,9 @@ class Client extends Model implements Accountable, CanHaveShipment
         $user_template = UserTemplate::where('name', 'client')->first();
         if (is_null($user_template)) UserTemplate::default()->first();
 
-        $user = new User;
+        $user           = new User;
         $user->username = $this->account_number;
-        $user->email = $this->email;
+        $user->email    = $this->email;
         $user->password = Hash::make($this->password);
         $user->template()->associate($user_template);
         $user->client()->associate($this);

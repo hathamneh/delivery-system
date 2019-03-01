@@ -14,6 +14,7 @@ return [
     'select'                     => '-- Select --',
     'new'                        => 'New',
     'delete'                     => 'Delete',
+    'add'                        => 'Add',
 
     'back' => "Back",
 
@@ -36,10 +37,10 @@ return [
     'actions'   => "Actions",
     "selectAll" => "Select All",
 
-    'percentage' => "Percentage",
-    'print' => "Print",
+    'percentage'   => "Percentage",
+    'print'        => "Print",
     'confirmation' => "Are you sure?",
 
     'yes' => 'Yes',
-    'no' => 'No',
+    'no'  => 'No',
 ];

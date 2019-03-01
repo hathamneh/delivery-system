@@ -48,6 +48,7 @@ class NotAvailableConsignee extends Notification
     {
         return (new MailMessage)
             ->subject("The consignee is not available to receive the shipment - Kangaroo Delivery")
+            ->cc($this->shipment->client->secondary_emails)
             ->markdown('notifications.mail', [
                 'tmpl'     => 'not-available-consignee',
                 'client'   => $notifiable,

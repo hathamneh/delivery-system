@@ -23,7 +23,6 @@ class RolesSeeder extends Seeder
         'documents' => 4,
         'settings'  => 4,
         'logs'      => 4,
-        'forms'     => 4,
     ];
 
     const DEFAULT_ROLES = [
@@ -41,7 +40,6 @@ class RolesSeeder extends Seeder
         'documents' => 0,
         'settings'  => 0,
         'logs'      => 0,
-        'forms'     => 0,
     ];
 
 
@@ -78,7 +76,6 @@ class RolesSeeder extends Seeder
             'documents' => \App\Role::create(['name' => 'documents', 'default' => 0])->id,
             'settings'  => \App\Role::create(['name' => 'settings', 'default' => 3])->id,
             'logs'      => \App\Role::create(['name' => 'logs', 'default' => 2])->id,
-            'forms'     => \App\Role::create(['name' => 'forms', 'default' => 1])->id,
         ];
     }
 
@@ -145,7 +142,6 @@ class RolesSeeder extends Seeder
             $this->roles['documents'] => ['value' => $roles['documents']],
             $this->roles['settings']  => ['value' => $roles['settings']],
             $this->roles['logs']      => ['value' => $roles['logs']],
-            $this->roles['forms']     => ['value' => $roles['forms']],
         ]);
         return $adminTemplate;
     }

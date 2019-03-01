@@ -8,6 +8,7 @@ use App\Courier;
 use App\Http\Resources\ReportCollection;
 use App\Shipment;
 use App\Status;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +30,9 @@ class ReportingController extends Controller
 
     public function index(Request $request)
     {
-        if(!auth()->user()->isAdmin()) abort(401, "Unauthorized");
-
-        $user     = auth()->user();
+        /** @var User $user */
+        $user = auth()->user();
+        $user->isAuthorized('reporting');
 
         $data = [];
         if ($request->has('client'))
@@ -40,19 +41,19 @@ class ReportingController extends Controller
             $data['courier'] = Courier::find((int)$request->get('courier'));
         $processing = ["processing"];
         $in_transit = ["in_transit"];
-        $delivered = ["delivered"];
-        if($user->isCourier()) {
+        $delivered  = ["delivered"];
+        if ($user->isCourier()) {
             $processing[] = "courier";
             $in_transit[] = "courier";
-            $delivered[] = "courier";
+            $delivered[]  = "courier";
         }
 
-        $data['statuses']     = [
+        $data['statuses'] = [
             'processing' => Status::group($processing)->get(),
             'in_transit' => Status::group($in_transit)->get(),
             'delivered'  => Status::group($delivered)->get(),
         ];
-        $data['branches']               = Branch::all();
+        $data['branches'] = Branch::all();
 
         return view('reports.index', $data);
     }
@@ -63,13 +64,15 @@ class ReportingController extends Controller
      */
     public function update(Request $request)
     {
-        if(!auth()->user()->isAdmin()) abort(401, "Unauthorized");
+        /** @var User $user */
+        $user = auth()->user();
+        $user->isAuthorized('reporting');
 
         $action = $this->getAction($request);
         if (!$action || !is_string($action)) throw new \BadMethodCallException("No action is provided");
 
         $shipments_raw = $request->get('shipments', "");
-        $shipments = explode(",", $shipments_raw);
+        $shipments     = explode(",", $shipments_raw);
 
         $result = false;
         switch ($action) {
@@ -96,12 +99,13 @@ class ReportingController extends Controller
     {
 
         $shipmentsController = new ShipmentController();
-        $i = 0;
+        $i                   = 0;
         foreach ($shipments as $shipment) {
             try {
                 $shipmentsController->updateDelivery($request, Shipment::findOrFail($shipment));
                 $i++;
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
         return $i;
     }
@@ -144,13 +148,13 @@ class ReportingController extends Controller
     public function makeReport(Request $request)
     {
         $columns = $request->get('columns', false);
-        $order = $request->get('order', false);
-        $client = $request->get('client', false);
-        $search = $request->get('search', false);
+        $order   = $request->get('order', false);
+        $client  = $request->get('client', false);
+        $search  = $request->get('search', false);
         $courier = $request->get('courier', false);
-        $length = $request->get("length", 15);
-        $from = $request->get('from', false);
-        $until = $request->get('until', false);
+        $length  = $request->get("length", 15);
+        $from    = $request->get('from', false);
+        $until   = $request->get('until', false);
 
         $query = Shipment::query();
         if ($client)
@@ -162,10 +166,10 @@ class ReportingController extends Controller
             $query->search($search['value']);
         }
 
-        if($from) {
+        if ($from) {
             $query->whereDate("delivery_date", ">=", Carbon::createFromTimestamp($from), "or");
         }
-        if($until) {
+        if ($until) {
             $query->whereDate("delivery_date", "<=", Carbon::createFromTimestamp($until), "and");
         }
 
@@ -173,7 +177,7 @@ class ReportingController extends Controller
             $orderOnCollectin = [];
             foreach ($order as $item) {
                 if ($item['column'] == 0) continue;
-                $colName = $columns[$item['column']]["name"];
+                $colName   = $columns[$item['column']]["name"];
                 $direction = $item['dir'];
                 if ($this->isColName($colName))
                     $query->orderBy($colName, $direction);
@@ -183,10 +187,10 @@ class ReportingController extends Controller
             }
 
         }
-        $start = $request->get("start", 0);
-        $page = floor($start / $length) + 1;
+        $start     = $request->get("start", 0);
+        $page      = floor($start / $length) + 1;
         $paginated = $query->paginate($length, ['*'], null, $page);
-        $result = new ReportCollection($paginated);
+        $result    = new ReportCollection($paginated);
 
 
         if (isset($orderOnCollectin) && count($orderOnCollectin)) {
@@ -197,7 +201,7 @@ class ReportingController extends Controller
                     $sorted = $result->sortByDesc($name);
             }
             $paginatedAgain = new LengthAwarePaginator($sorted, $paginated->total(), $length, $page);
-            $result = new ReportCollection($paginatedAgain);
+            $result         = new ReportCollection($paginatedAgain);
         }
 
         return response()->json($result->toArray($request));

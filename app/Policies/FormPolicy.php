@@ -25,7 +25,7 @@ class FormPolicy
      */
     public function index(User $user)
     {
-        return $user->isAuthorized('forms', Role::UT_READ);
+        return $user->isAuthorized('documents', Role::UT_READ);
     }
 
     /**
@@ -37,7 +37,7 @@ class FormPolicy
      */
     public function view(User $user, Form $form)
     {
-        return $user->isAuthorized('forms', Role::UT_READ);
+        return $user->isAuthorized('documents', Role::UT_READ);
     }
 
     /**
@@ -48,7 +48,7 @@ class FormPolicy
      */
     public function create(User $user)
     {
-        return $user->isAuthorized('shipments', Role::UT_CREATE);
+        return $user->isAuthorized('documents', Role::UT_CREATE);
     }
 
     /**
@@ -60,7 +60,7 @@ class FormPolicy
      */
     public function update(User $user, Form $form)
     {
-        return $user->isAuthorized('forms', Role::UT_UPDATE);
+        return $user->isAuthorized('documents', Role::UT_UPDATE);
     }
 
     /**
@@ -72,6 +72,6 @@ class FormPolicy
      */
     public function delete(User $user, Form $form)
     {
-        return $user->isAuthorized(' forms', Role::UT_DELETE);
+        return $user->isAuthorized('documents', Role::UT_DELETE);
     }
 }

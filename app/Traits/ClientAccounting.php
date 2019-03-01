@@ -44,7 +44,7 @@ trait ClientAccounting
         // ( CONFLICT ) shipments
         $shipments = clone $this->targetShipments;
         $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
-        $charged = [];
+        $charged   = [];
         foreach (['rejected', 'cancelled'] as $item) {
             $isChargedFor = $this->isChargedFor($item);
             if ($this instanceof Client && !is_null($isChargedFor) && $isChargedFor)
@@ -97,7 +97,7 @@ trait ClientAccounting
 
     public function extraTermsApplied($input)
     {
-        $minimumDeliveryCostCheck = $this->minimumDeliveryCostCheck($input) ?? 0;
+        $minimumDeliveryCostCheck      = $this->minimumDeliveryCostCheck($input) ?? 0;
         $maximumReturnedShipmentsCheck = $this->maximumReturnedShipmentsCheck($input) ?? 0;
         return $minimumDeliveryCostCheck + $maximumReturnedShipmentsCheck;
     }
@@ -115,20 +115,34 @@ trait ClientAccounting
         $limit = $this->limits()->where('name', 'min_delivery_cost')->first();
         if ($limit->value == 0) return false;
 
-        $shipments = $this->targetShipments->whereDate('created_at', '>=', now()->startOfMonth())->get();
-        $counts = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
-        $totalDeliveryCostInMonth = $shipments->reduce(function ($total, Shipment $current) use ($counts) {
-            if ($current->isStatusGroup('delivered')) $counts['delivered']++;
-            elseif ($current->isStatus('cancelled')) $counts['cancelled']++;
-            elseif ($current->isStatus('rejected')) $counts['rejected']++;
+        $shipments                = $this->targetShipments->whereDate('created_at', '>=', now()->startOfMonth())->get();
+        $totals                   = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
+        $counts                   = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
+        $totalDeliveryCostInMonth = $shipments->reduce(function ($total, Shipment $current) use ($counts, $totals) {
+            if ($current->isStatusGroup('delivered')) {
+                $counts['delivered']++;
+                $totals['delivered'] += $current->delivery_cost;
+            } elseif ($current->isStatus('cancelled')) {
+                $counts['cancelled']++;
+                $totals['cancelled'] += $current->delivery_cost;
+            } elseif ($current->isStatus('rejected')) {
+                $counts['rejected']++;
+                $totals['rejected'] += $current->delivery_cost;
+            }
             return $total + $current->delivery_cost;
         }, 0);
 
         $sum = 0;
         if ($totalDeliveryCostInMonth < $limit->value) {
-            if (in_array('delivered', $limit->appliedOn)) $sum += $counts['delivered'] * $limit->penalty;
-            if (in_array('cancelled', $limit->appliedOn)) $sum += $counts['cancelled'] * $limit->penalty;
-            if (in_array('rejected', $limit->appliedOn)) $sum += $counts['rejected'] * $limit->penalty;
+            if (in_array('delivered', $limit->appliedOn)) {
+                $sum += $limit->type === "percentage" ? $totals['delivered'] * ($limit->penalty / 100) : $counts['delivered'] * $limit->penalty;
+            }
+            if (in_array('cancelled', $limit->appliedOn)) {
+                $sum += $limit->type === "percentage" ? $totals['cancelled'] * ($limit->penalty / 100) : $counts['cancelled'] * $limit->penalty;
+            }
+            if (in_array('rejected', $limit->appliedOn)) {
+                $sum += $limit->type === "percentage" ? $totals['rejected'] * ($limit->penalty / 100) : $counts['rejected'] * $limit->penalty;
+            }
         }
         return $sum;
     }

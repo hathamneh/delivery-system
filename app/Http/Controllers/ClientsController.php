@@ -273,6 +273,7 @@ class ClientsController extends Controller
             $limit->value = $itemData['value'];
             $limit->appliedOn = $itemData['target'] ?? [];
             $limit->penalty = $itemData['penalty'];
+            $limit->type = $itemData['type'];
             $limit->save();
         }
     }

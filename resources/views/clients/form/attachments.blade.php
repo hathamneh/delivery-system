@@ -29,6 +29,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="p-3">
+                    @if($attachment->type === "pdf")
+                        <object data="{{ $attachment->url }}" type="application/pdf" width="100%" height="550">
+                            <a href="{{ $attachment->url }}" class="btn btn-info">Download PDF</a>
+                        </object>
+                    @else
+                        <div>
+                            <a href="{{ $attachment->url }}" class="btn btn-link">{{ $attachment->name }}</a>
+                        </div>
+                    @endif
+                </div>
             </li>
         @endforeach
     </ul>

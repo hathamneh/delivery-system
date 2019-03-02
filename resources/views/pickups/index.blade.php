@@ -43,7 +43,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         @foreach ($errors->all() as $message)
             @component('bootstrap::alert', [
                 'type' => "danger",

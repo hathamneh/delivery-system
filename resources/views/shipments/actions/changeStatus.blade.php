@@ -25,10 +25,20 @@
             <div id="statusNotes" class="col-sm-12" style="display: none;">
                 <div class="form-row">
 
-                    <div class="form-group col-md-6 delivered rejected collected_from_office">
+                    <div class="form-group col-md-6 delivered">
                         <label for="actual_paid">How much did the consignee pay ?</label>
-                        <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
-                               placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery ?? "" }}">
+                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid" class="form-control"
+                               required
+                               placeholder="@lang('shipment.actual_paid')" min="{{ $shipment->cash_on_delivery ?? "" }}"
+                               max="{{ $shipment->cash_on_delivery ?? "" }}">
+                    </div>
+
+                    <div class="form-group col-md-6 rejected collected_from_office">
+                        <label for="actual_paid">How much did the consignee pay ?</label>
+                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid" class="form-control"
+                               required
+                               placeholder="@lang('shipment.actual_paid')" min="0"
+                               max="{{ $shipment->cash_on_delivery ?? "" }}">
                     </div>
 
                     @php $setBranchStatuses = ""; @endphp
@@ -42,7 +52,7 @@
                             @if(isset($status->options['set_delivery_date']))
                                 <div class="form-group col-6 deliveryDate-input {{ $status->name }}">
                                     <label for="delivery_date">When the new delivery date?</label>
-                                    <input type="text" name="delivery_date" id="delivery_date"
+                                    <input type="text" data-type="text" name="delivery_date" id="delivery_date"
                                            class="form-control datetimepicker"
                                            placeholder="@lang('shipment.delivery_date')">
                                 </div>

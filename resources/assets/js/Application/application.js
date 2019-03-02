@@ -39,7 +39,7 @@ new NotificationService({
                     item.querySelectorAll('input, select').forEach(input => {
                         if (input.name[0] === "_") input.name = input.name.substr(1);
                         if (input.tagName.toLowerCase() === "input")
-                            input.type = "text"
+                            input.type = input.dataset.type;
                     });
                 }
             })

@@ -16,7 +16,6 @@ class PickupStatusesRelationship extends Migration
         Schema::table('pickups', function (Blueprint $table) {
             $table->dropColumn('status');
             $table->unsignedInteger('pickup_status_id')->default(1);
-            $table->foreign('pickup_status_id')->references('id')->on('pickup_statuses');
         });
     }
 

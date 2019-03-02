@@ -31693,6 +31693,7 @@ a.pickup-toggle-details.collapsed i {
 #timeline .timeline-item.highlight p.border {
   border-color: #ff0081 !important;
   border-width: 2px !important;
+  background-color: #f8f8f8;
 }
 
 #timeline .timeline-item p {

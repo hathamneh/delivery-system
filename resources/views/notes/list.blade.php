@@ -2,10 +2,14 @@
     <section id="timeline">
 
         @foreach($notes as $note)
-            <div class="timeline-item" date-is='{{ $note->created_at->format("d-m-Y") }}'>
+            <div class="timeline-item {{ $note->isRead() ?: "highlight" }}"
+                 date-is='{{ $note->created_at->format("d-m-Y") }}'>
                 <div class="d-flex align-items-center">
                     <h3 class="my-0">{{ $note->created_at->toFormattedDateString() }}</h3>
                     <div class="ml-auto">
+                        @if(!$note->isRead())
+                            <a href="{{ route('notes.show', [$note]) }}" class="btn btn-link"><i class="fa-check"></i> Mark as Read</a>
+                        @endif
                         @can('update', $note)
                             <a href="{{ route('notes.edit', [$note]) }}" class="btn btn-link"><i class="fa-edit"></i>
                                 Edit</a>
@@ -17,7 +21,7 @@
                         @endcan
                     </div>
                 </div>
-                <p class="font-weight-bold p-3 my-1 border border-info rounded">
+                <p class="p-3 my-1 border {{ $note->isRead() ? "border-info" : "font-weight-bold" }} rounded">
                     {!! nl2br($note->text) !!}
                 </p>
                 <small class="text-muted">Created by {{ $note->user->username }}</small>

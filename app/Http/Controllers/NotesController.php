@@ -6,6 +6,7 @@ use App\Note;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NotesController extends Controller
 {
@@ -18,15 +19,14 @@ class NotesController extends Controller
     public function index(Request $request)
     {
         $tab = $request->get('tab', 'public');
-        $notes = collect();
+        $notes = Note::latest();
         if ($tab == 'public')
-            $notes = Note::wherePrivate(false);
+            $notes->wherePrivate(false);
         elseif ($tab == "private")
-            $notes = Note::wherePrivate(true)->where('user_id', Auth::id());
-        $notes = $notes->simplePaginate(15);
+            $notes->wherePrivate(true)->where('user_id', Auth::id());
         return view('notes.index', [
             'tab' => $tab,
-            'notes' => $notes
+            'notes' => $notes->simplePaginate(15)
         ]);
     }
 
@@ -66,7 +66,8 @@ class NotesController extends Controller
      */
     public function show(Note $note)
     {
-        //
+        $note->read()->attach(auth()->user());
+        return back();
     }
 
     /**

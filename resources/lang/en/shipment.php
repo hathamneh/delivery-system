@@ -105,14 +105,14 @@ return [
         'collected_from_office' => [
             "name"        => "Collected From Office",
             "description" => "Has been collected from office"],
-        'customs' => [
+        'customs'               => [
             "name"        => "Customs office",
             "description" => "Customs Office Processing"],
     ],
-    "status_groups" => [
+    "status_groups"            => [
         "processing" => "Processing",
         "in_transit" => "In Transit",
-        "delivered" => "Delivered"
+        "delivered"  => "Delivered"
     ],
     "statuses_options"         => [
         "reason"         => "Reason",
@@ -128,6 +128,7 @@ return [
     'select_multi_service'     => "You can select multiple services...",
 
     'log'                    => "Shipment Lifecycle",
+    'client_notes'           => "Client Notes",
     'internal_notes'         => "Notes for Courier",
     'external_notes'         => "Notes from Courier",
     'price_of_address'       => "Price Of Address",

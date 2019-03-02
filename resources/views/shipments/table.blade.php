@@ -23,6 +23,7 @@
             <th>@lang('shipment.service_types.label')</th>
             <th>@lang('shipment.extra_services')</th>
             <th>@lang('shipment.status')</th>
+            <th>@lang('shipment.client_notes')</th>
             <th>@lang('shipment.internal_notes')</th>
             <th>@lang('shipment.external_notes')</th>
             <th>@lang('shipment.client_paid')</th>
@@ -59,6 +60,7 @@
                     {{ trans("shipment.statuses.{$shipment->status->name}.name") }}
                     </div>
                 </td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client->note_for_courier }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->internal_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->external_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client_paid ? "Yes" : "No" }}</td>

@@ -58,7 +58,7 @@ class PickupsController extends Controller
             'endDate'         => $endDate,
             's'               => $s,
             'statuses'        => $statuses,
-            'statusesOptions' => $this->statusesOptions($statuses),
+            'statusesOptions' => self::statusesOptions($statuses),
         ]);
     }
 
@@ -237,7 +237,7 @@ class PickupsController extends Controller
         return back();
     }
 
-    public function statusesOptions(Collection $statuses)
+    public static function statusesOptions(Collection $statuses)
     {
         $completed = $setAvailableTime = $setAddress = $select = $notesRequired = [];
         foreach ($statuses as $status) {

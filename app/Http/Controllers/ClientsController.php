@@ -7,6 +7,7 @@ use App\ClientChargedFor;
 use App\ClientLimit;
 use App\Http\Requests\StoreClientRequest;
 use App\PaymentMethod;
+use App\PickupStatus;
 use App\Shipment;
 use App\Status;
 use App\User;
@@ -40,7 +41,7 @@ class ClientsController extends Controller
 
         $clients = Client::all();
         return view('clients.index', [
-            'clients' => $clients,
+            'clients'   => $clients,
             'pageTitle' => trans('client.label')
         ]);
     }
@@ -55,16 +56,16 @@ class ClientsController extends Controller
     {
         $this->authorize('create', Client::class);
 
-        $countries = \Countries::lookup();
-        $zones = Zone::all();
+        $countries      = \Countries::lookup();
+        $zones          = Zone::all();
         $paymentMethods = PaymentMethod::all();
 
         return view('clients.create')->with([
-            'countries' => $countries,
-            'zones' => $zones,
-            'paymentMethods' => $paymentMethods,
+            'countries'           => $countries,
+            'zones'               => $zones,
+            'paymentMethods'      => $paymentMethods,
             'next_account_number' => Client::nextAccountNumber(),
-            'pageTitle' => trans('client.create')
+            'pageTitle'           => trans('client.create')
         ]);
     }
 
@@ -105,11 +106,11 @@ class ClientsController extends Controller
     public function show(Client $client, Request $request, $tab = "statistics")
     {
         $data = [
-            'client' => $client,
-            'tab' => $tab,
-            'pageTitle' => $client->trade_name,
+            'client'         => $client,
+            'tab'            => $tab,
+            'pageTitle'      => $client->trade_name,
             'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount' => $client->pickups()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
         ];
 
         switch ($tab) {
@@ -121,25 +122,28 @@ class ClientsController extends Controller
                 break;
             case 'pickups':
                 $pickups = $client->pickups();
-                if($request->has('start')) {
+                if ($request->has('start')) {
                     $startDate = Carbon::createFromTimestamp($request->get('start'));
                     $pickups->whereDate('available_time_start', '>=', $startDate);
                 }
-                if($request->has('end')) {
+                if ($request->has('end')) {
                     $endDate = Carbon::createFromTimestamp($request->get('end'));
                     $pickups->whereDate('available_time_end', '<=', $endDate);
                 }
 
-                $data['pickups'] = $pickups->get();
-                $data['startDate'] = $data['endDate'] = false;
+                $statuses                = PickupStatus::all();
+                $data['pickups']         = $pickups->simplePaginate();
+                $data['statuses']        = $statuses;
+                $data['statusesOptions'] = PickupsController::statusesOptions($statuses);
+                $data['startDate']       = $data['endDate'] = false;
                 break;
             case 'zones':
-                $data['zones'] = Zone::all();
+                $data['zones']       = Zone::all();
                 $data['customZones'] = $client->customZones()->get();
                 break;
             case 'edit':
                 $data['countries'] = \Countries::lookup();
-                $data['zones'] = Zone::all();
+                $data['zones']     = Zone::all();
                 break;
         }
         return view('clients.show', $data);
@@ -155,15 +159,15 @@ class ClientsController extends Controller
     public function edit(Client $client, $section = 'personal')
     {
         $data = [
-            'client' => $client,
-            'countries' => \Countries::lookup(),
-            'zones' => Zone::all(),
+            'client'         => $client,
+            'countries'      => \Countries::lookup(),
+            'zones'          => Zone::all(),
             'paymentMethods' => PaymentMethod::all(),
-            'pageTitle' => trans('client.edit') . ' ' . $client->trade_name,
-            'tab' => 'edit',
-            'section' => $section,
+            'pageTitle'      => trans('client.edit') . ' ' . $client->trade_name,
+            'tab'            => 'edit',
+            'section'        => $section,
             'shipmentsCount' => $client->shipments()->count(),
-            'pickupsCount' => $client->pickups()->count(),
+            'pickupsCount'   => $client->pickups()->count(),
         ];
         return view('clients.edit', $data);
     }
@@ -198,7 +202,7 @@ class ClientsController extends Controller
                     'client_files.*' => 'required|file|max:5000|mimes:jpg,jpeg,png,gif,pdf,doc,docx,xsl,xslx',
                 ],
                     [
-                        'max' => "The file cannot be greater than 5 MB",
+                        'max'   => "The file cannot be greater than 5 MB",
                         'mimes' => "The file must be of type :values"
                     ]);
                 if ($request->hasFile('client_files'))
@@ -228,7 +232,7 @@ class ClientsController extends Controller
         return redirect()->route('clients.index')->with([
             'alert' => (object)[
                 'type' => 'success',
-                'msg' => trans("client.deleted")
+                'msg'  => trans("client.deleted")
             ]
         ]);
     }
@@ -236,22 +240,22 @@ class ClientsController extends Controller
 
     public function savePersonalData(Request $request, Client &$client)
     {
-        $client->trade_name = $request->trade_name;
-        $client->national_id = $request->national_id;
-        $client->password = User::generatePassword();
-        $client->name = $request->name;
+        $client->trade_name   = $request->trade_name;
+        $client->national_id  = $request->national_id;
+        $client->password     = User::generatePassword();
+        $client->name         = $request->name;
         $client->phone_number = $request->get('phone_number', null);
-        $client->email = $request->get('email', null);
-        $client->address = $request->get('address', []);
-        $client->urls = $request->get('urls', []);
-        $client->sector = $request->get('sector', null);
-        $client->category = $request->get('category', null);
+        $client->email        = $request->get('email', null);
+        $client->address      = $request->get('address', []);
+        $client->urls         = $request->get('urls', []);
+        $client->sector       = $request->get('sector', null);
+        $client->category     = $request->get('category', null);
     }
 
     public function saveAccountingData(Request $request, Client &$client)
     {
         $client->bank = $request->get('bank', []);
-        if($request->has(['payment_method', 'payment_method_price'])) {
+        if ($request->has(['payment_method', 'payment_method_price'])) {
             $client->paymentMethod()->associate($request->get('payment_method'));
             $client->payment_method_price = $request->get('payment_method_price');
         }
@@ -270,10 +274,10 @@ class ClientsController extends Controller
             if (!count($itemData)) continue;
 
 //            dd($itemData);
-            $limit->value = $itemData['value'];
+            $limit->value     = $itemData['value'];
             $limit->appliedOn = $itemData['target'] ?? [];
-            $limit->penalty = $itemData['penalty'];
-            $limit->type = $itemData['type'];
+            $limit->penalty   = $itemData['penalty'];
+            $limit->type      = $itemData['type'];
             $limit->save();
         }
     }
@@ -281,10 +285,10 @@ class ClientsController extends Controller
 
     private function chargeFor(Client $client, Request $request)
     {
-        $chargedForItems = $request->get('chargedFor', []);
-        $savedStatuses = $client->chargedForStatuses();
+        $chargedForItems  = $request->get('chargedFor', []);
+        $savedStatuses    = $client->chargedForStatuses();
         $receivedStatuses = array_keys($chargedForItems);
-        $toDelete = array_diff($savedStatuses, $receivedStatuses);
+        $toDelete         = array_diff($savedStatuses, $receivedStatuses);
 
         foreach ($toDelete as $item) {
             /** @var ClientChargedFor $cf */
@@ -307,8 +311,8 @@ class ClientsController extends Controller
                 $chargedFor->client()->associate($client);
             }
             $chargedFor->enabled = $item['enabled'] == "on";
-            $chargedFor->type = $item['type'];
-            $chargedFor->value = $item['value'];
+            $chargedFor->type    = $item['type'];
+            $chargedFor->value   = $item['value'];
             $chargedFor->save();
         }
 
@@ -316,23 +320,23 @@ class ClientsController extends Controller
 
     protected function appendStatsData(array &$data, Client $client, Request $request)
     {
-        $start_time = strtotime("-29 days");
-        $end_time = time();
-        $start = $request->get('start', $start_time);
-        $end = $request->get('end', $end_time);
+        $start_time        = strtotime("-29 days");
+        $end_time          = time();
+        $start             = $request->get('start', $start_time);
+        $end               = $request->get('end', $end_time);
         $data['startDate'] = $start;
-        $data['endDate'] = $end;
+        $data['endDate']   = $end;
         try {
-            $begin = Carbon::createFromTimestamp($request->get('start', $start));
-            $until = Carbon::createFromTimestamp($request->get('end', $end));
+            $begin              = Carbon::createFromTimestamp($request->get('start', $start));
+            $until              = Carbon::createFromTimestamp($request->get('end', $end));
             $data['statistics'] = $client->statistics($begin, $until);
         } catch (\Exception $ex) {
-            $begin = Carbon::createFromTimestamp($start_time);
-            $until = Carbon::createFromTimestamp($end_time);
+            $begin              = Carbon::createFromTimestamp($start_time);
+            $until              = Carbon::createFromTimestamp($end_time);
             $data['statistics'] = $client->statistics($begin, $until);
-            $data['alert'] = (object)[
+            $data['alert']      = (object)[
                 'type' => 'danger',
-                'msg' => "Date range provided is invalid"
+                'msg'  => "Date range provided is invalid"
             ];
         }
         $data['daterange'] = $begin->toFormattedDateString() . ' - ' . $until->toFormattedDateString();
@@ -341,19 +345,19 @@ class ClientsController extends Controller
     private function getShipmentsData(array &$data, Client $client, Request $request)
     {
         $shipmentsQuery = $client->shipments();
-        if($request->has('start'))
+        if ($request->has('start'))
             $shipmentsQuery->whereDate('delivery_date', '>=', Carbon::createFromTimestamp($request->get('start')));
-        if($request->has('end'))
+        if ($request->has('end'))
             $shipmentsQuery->whereDate('delivery_date', '<=', Carbon::createFromTimestamp($request->get('end')));
-        $filters = $this->shipmentFilters->applyFilters($shipmentsQuery, $request->get('filters', []));
-        $data['shipments'] = $shipmentsQuery->get();
+        $filters             = $this->shipmentFilters->applyFilters($shipmentsQuery, $request->get('filters', []));
+        $data['shipments']   = $shipmentsQuery->get();
         $data['filtersData'] = $this->shipmentFilters->filtersData();
-        $data['applied'] = $filters;
+        $data['applied']     = $filters;
     }
 
     private function saveEmailsSettings($request, Client &$client)
     {
         $client->shipments_email_updates = $request->get('shipments_email_updates', false) === 'on';
-        $client->secondary_emails = $request->get('secondary_emails', null);
+        $client->secondary_emails        = $request->get('secondary_emails', null);
     }
 }

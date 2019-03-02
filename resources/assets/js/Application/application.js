@@ -47,52 +47,6 @@ new NotificationService({
     })
 
 
-    let pickupStates = document.querySelectorAll('.pickup-statuses input[type=radio]');
-    if (pickupStates.length) {
-        pickupStates.forEach(item => {
-            item.addEventListener('change', () => {
-                let step2 = item.closest('.pickup-actions-form').querySelector('.step-2');
-                let reasonsInput = step2.querySelector('.reasons-input');
-                let notesTextArea = reasonsInput.querySelector('textarea');
-                let suggestions = reasonsInput.querySelector('.suggestions');
-                let newtimeInput = step2.querySelector('.newTime-input');
-                let actualPackagesInput = step2.querySelector('.actualPackages-input');
-                let prepaid_cash = step2.querySelector('.prepaid_cash-input');
-                suggestions.style.display = "none";
-                newtimeInput.style.display = "none";
-                newtimeInput.querySelector('input').disabled = true;
-                actualPackagesInput.style.display = "none";
-                actualPackagesInput.querySelector('input').disabled = true;
-                prepaid_cash.style.display = "none";
-                prepaid_cash.querySelector('input').disabled = true;
-
-                if (item.value === "client_rescheduled") {
-                    let originalTime = item.dataset.originalTime;
-                    newtimeInput.style.display = "block";
-                    newtimeInput.querySelector('input').disabled = false;
-                    notesTextArea.value = `Rescheduled (Original: ${originalTime})`;
-
-                } else if (item.value === "declined_not_available") {
-                    suggestions.style.display = "block";
-                    notesTextArea.value = "";
-
-                } else if (item.value === "declined_client") {
-                    notesTextArea.value = "Cancelled by client";
-
-                } else if (item.value === "declined_dispatcher") {
-                    notesTextArea.value = "Cancelled by dispatcher";
-
-                } else if (item.value === "completed") {
-                    actualPackagesInput.style.display = "block";
-                    actualPackagesInput.querySelector('input').disabled = false;
-                    prepaid_cash.style.display = "block";
-                    prepaid_cash.querySelector('input').disabled = false;
-                    notesTextArea.value = "";
-                }
-            });
-        });
-    }
-
     let filtersBtn = document.querySelector('.shipments-filter-btn');
     if (filtersBtn) {
 

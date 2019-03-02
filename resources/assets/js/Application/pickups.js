@@ -113,4 +113,34 @@ import axios from 'axios';
             })
         });
     }
+
+    let pickupStates = document.querySelector('.pickup-statuses select[name="status"]');
+    if (pickupStates) {
+        pickupStates.addEventListener('change', e => {
+            let target = pickupStates.closest('.pickup-actions-form').querySelector('.step-2');
+            if (!target) return;
+            let selectedStatus = e.target.value;
+            target.style.display = "block";
+
+            target.querySelectorAll('.form-group:not(.all)').forEach(item => {
+                item.style.display = "none";
+                item.querySelectorAll('input, select').forEach(input => {
+                    if (input.name[0] !== "_") input.name = "_" + input.name;
+                    if (input.tagName.toLowerCase() === "input") {
+                        input.type = "hidden"
+                    }
+                });
+                if (item.classList.contains(selectedStatus)) {
+                    item.style.display = 'block';
+                    item.querySelectorAll('input, select').forEach(input => {
+                        if (input.name[0] === "_") input.name = input.name.substr(1);
+                        if (input.tagName.toLowerCase() === "input")
+                            input.type = input.dataset.type;
+                    });
+                }
+            })
+
+        });
+    }
+
 })(jQuery);

@@ -4,9 +4,6 @@
                         'id' => $pickup->id,
                         'action' => route('pickups.destroy', [$pickup])
                     ])@endcomponent
-
-
-
 @endcan
 @if(auth()->user()->isCourier() || auth()->user()->isAdmin())
     @component('bootstrap::modal',[
@@ -20,97 +17,74 @@
             {{ method_field('put') }}
 
             <div class="form-group pickup-statuses">
-                <b class="mb-3 d-block">Please choose:</b>
-                <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="completed-{{ $pickup->id }}" name="status" value="completed" required
-                           class="custom-control-input">
-                    <label class="custom-control-label"
-                           for="completed-{{ $pickup->id }}">@lang('pickup.completed')</label>
-                </div>
-                <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="declined_client-{{ $pickup->id }}" name="status" value="declined_client"
-                           required
-                           class="custom-control-input">
-                    <label class="custom-control-label" for="declined_client-{{ $pickup->id }}">@lang('pickup.declined')
-                        -
-                        Cancelled by client</label>
-                </div>
-                <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="declined_dispatcher-{{ $pickup->id }}" name="status"
-                           value="declined_dispatcher"
-                           required
-                           class="custom-control-input">
-                    <label class="custom-control-label"
-                           for="declined_dispatcher-{{ $pickup->id }}">@lang('pickup.declined') -
-                        Cancelled by dispatcher</label>
-                </div>
-                <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="declined_not_available-{{ $pickup->id }}" name="status"
-                           value="declined_not_available" required
-                           class="custom-control-input">
-                    <label class="custom-control-label"
-                           for="declined_not_available-{{ $pickup->id }}">@lang('pickup.declined') - Client not
-                        available</label>
-                </div>
-                <div class="custom-control custom-radio mb-3">
-                    <input type="radio" id="client_rescheduled-{{ $pickup->id }}" name="status"
-                           value="client_rescheduled"
-                           required
-                           data-original-time="{{ $pickup->available_day }} from {{ $pickup->time_start }} to {{ $pickup->time_end }}"
-                           class="custom-control-input"
-                           data-message="Kindly inform us about the requested time and any additional details">
-                    <label class="custom-control-label" for="client_rescheduled-{{ $pickup->id }}">Client
-                        rescheduled</label>
-                </div>
+                <label for="status" class="d-block">Change the status of the pickup:</label>
+                <select name="status" id="status" class="form-control">
+                    <option disabled selected>@lang('common.select')</option>
+                    @foreach($statuses as $status)
+                        @php /** @var \App\PickupStatus $status */ @endphp
+                        <option value="{{ $status->name }}">@lang("pickup.statuses.{$status->name}")</option>
+                    @endforeach
+                </select>
             </div>
 
-            <div class="step-2">
-                <div class="form-group prepaid_cash-input" style="display: none;">
-                    <label for="prepaid_cash">@lang('How much did he pay?')</label>
-                    <small class="form-control-feedback text-danger">This must match the value agreed on with the
-                        customer.
-                    </small>
-                    <input type="number" step="any" name="prepaid_cash" id="prepaid_cash" class="form-control" required
-                           placeholder="Please enter a value" min="{{ $pickup->prepaid_cash }}" max="{{ $pickup->prepaid_cash }}">
-                </div>
-                <div class="form-group actualPackages-input" style="display: none;">
+            <div class="step-2" style="display: none;">
+                @if($pickup->is_guest)
+                    <div class="form-group {{ implode(' ', $statusesOptions['completed']) }}">
+                        <label for="prepaid_cash">@lang('How much did he pay?')</label>
+                        <small class="form-control-feedback text-danger">This must match the value agreed on with the
+                            customer.
+                        </small>
+                        <input type="number" data-type="number" step="any" name="prepaid_cash" id="prepaid_cash" class="form-control"
+                               required
+                               placeholder="Please enter a value" min="{{ $pickup->prepaid_cash }}"
+                               max="{{ $pickup->prepaid_cash }}">
+                    </div>
+                @endif
+                <div class="form-group {{ implode(' ', $statusesOptions['completed']) }}">
                     <label for="actualPackages-{{ $pickup->id }}">@lang('pickup.actual_packages_number')</label>
-                    <input type="number" name="actualPackages" id="actualPackages-{{ $pickup->id }}"
+                    <input type="number" data-type="number" name="actualPackages" id="actualPackages-{{ $pickup->id }}"
                            class="form-control" required min="1" placeholder="Please enter a value">
                 </div>
-                <div class="newTime-input" style="display: none;">
-                    <div class="row">
-                        <div class="form-group col-sm-12">
-                            <label for="available_day-{{ $pickup->id }}">@lang('pickup.available_time')</label>
-                            <input type="text" name="available_day" id="available_day-{{ $pickup->id }}"
-                                   value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
-                                   class="form-control datetimepicker">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="time_start-{{ $pickup->id }}">From:</label>
-                            <input type="text" name="time_start" id="time_start-{{ $pickup->id }}"
-                                   value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
-                                   class="form-control timepicker">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="time_end-{{ $pickup->id }}">To:</label>
-                            <input type="text" name="time_end" id="time_end-{{ $pickup->id }}"
-                                   value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
-                                   class="form-control timepicker">
-                        </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 {{ implode(' ', $statusesOptions['setAvailableTime']) }}">
+                        <label for="available_day-{{ $pickup->id }}">@lang('pickup.available_time')</label>
+                        <input type="text" data-type="text" name="available_day" id="available_day-{{ $pickup->id }}"
+                               value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
+                               class="form-control datetimepicker">
+                    </div>
+                    <div class="form-group col-6 {{ implode(' ', $statusesOptions['setAvailableTime']) }}">
+                        <label for="time_start-{{ $pickup->id }}">From:</label>
+                        <input type="text" data-type="text" name="time_start" id="time_start-{{ $pickup->id }}"
+                               value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
+                               class="form-control timepicker">
+                    </div>
+                    <div class="form-group col-6 {{ implode(' ', $statusesOptions['setAvailableTime']) }}">
+                        <label for="time_end-{{ $pickup->id }}">To:</label>
+                        <input type="text" data-type="text" name="time_end" id="time_end-{{ $pickup->id }}"
+                               value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
+                               class="form-control timepicker">
                     </div>
                 </div>
-                <div class="form-group reasons-input">
+                <div class="row">
+                    @foreach($statusesOptions['select'] as $status)
+                        @foreach($status->options['select'] as $name => $choices)
+                            <div class="form-group col-12 {{ $status->name }}">
+                                <label for="{{ $status->name . "_" . $name }}">@lang("shipment.statuses_options.{$name}")</label>
+                                <select class="form-control"
+                                        name="_{{ $name }}"
+                                        id="{{ $status->name . "_" . $name }}">
+                                    @foreach($choices as $choice)
+                                        <option value="{{ $choice }}">{{ $choice }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
+                <div class="form-group all">
                     <label for="reasons-{{ $pickup->id }}">@lang('pickup.external_notes'):</label>
-                    <textarea name="reasons" id="reasons-{{ $pickup->id }}" class="form-control"
-                              data-target-for="statusSuggs"
+                    <textarea name="notes" id="notes-{{ $pickup->id }}" class="form-control"
                               placeholder="@lang('pickup.external_notes')"></textarea>
-                    <div class="suggestions" id="statusSuggs" style="display: none;">
-                        <button type="button" class="suggestions-item">No answer</button>
-                        <button type="button" class="suggestions-item">Mobile switched off</button>
-                        <button type="button" class="suggestions-item">No coverage</button>
-                        <button type="button" class="suggestions-item">Transferred calls</button>
-                    </div>
                 </div>
             </div>
 

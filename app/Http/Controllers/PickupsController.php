@@ -6,8 +6,10 @@ use App\Client;
 use App\Courier;
 use App\Guest;
 use App\Pickup;
+use App\PickupStatus;
 use App\Shipment;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
@@ -33,35 +35,30 @@ class PickupsController extends Controller
     {
         $s = $request->get('s', false);
 
-        $pickups = Pickup::latest('available_time_start');
+        $pickups   = Pickup::latest('available_time_start');
         $startDate = $endDate = false;
         if (Auth::user()->isCourier()) {
             $pickups = Pickup::latest('available_time_start');
             $pickups->today()->where('courier_id', Auth::user()->courier->id);
         } elseif ($request->has('start') && $request->has('end')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
-            $endDate = Carbon::createFromTimestamp($request->get('end'));
+            $endDate   = Carbon::createFromTimestamp($request->get('end'));
             $pickups->whereDate('available_time_start', '>=', $startDate)->whereDate('available_time_end', '<=', $endDate);
         }
 
         if ($s) {
-            $type = $request->get('searchType', 'client');
-            if($type === "courier") {
-                $pickups->whereIn('courier_id', function($query) use ($s)
-                {
-                    $query->select("id")
-                        ->from('couriers')
-                        ->where("name", "LIKE", "%$s%");
-                });
-            } else {
-                $pickups->where('client_account_number', '=', $s);
-            }
+            $pickups->search($s, $request->get('searchType', 'client'));
         }
+
+        $statuses = PickupStatus::all();
+
         return view('pickups.index')->with([
-            'pickups'   => $pickups->simplePaginate(),
-            'startDate' => $startDate,
-            'endDate'   => $endDate,
-            's'         => $s
+            'pickups'         => $pickups->simplePaginate(),
+            'startDate'       => $startDate,
+            'endDate'         => $endDate,
+            's'               => $s,
+            'statuses'        => $statuses,
+            'statusesOptions' => $this->statusesOptions($statuses),
         ]);
     }
 
@@ -107,13 +104,13 @@ class PickupsController extends Controller
 
         $pickup->fill($request->toArray());
 
-        $day = $request->get('available_day');
-        $start = $request->get('time_start');
-        $end = $request->get('time_end');
-        $startDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
-        $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+        $day                          = $request->get('available_day');
+        $start                        = $request->get('time_start');
+        $end                          = $request->get('time_end');
+        $startDate                    = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
+        $endDate                      = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
         $pickup->available_time_start = $startDate;
-        $pickup->available_time_end = $endDate;
+        $pickup->available_time_end   = $endDate;
         $pickup->save();
 
         $waybills = $request->get('waybills', []);
@@ -166,13 +163,14 @@ class PickupsController extends Controller
     {
         $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
         $pickup->fill($request->toArray());
-        $day = $request->get('available_day');
-        $start = $request->get('time_start');
-        $end = $request->get('time_end');
+        $day       = $request->get('available_day');
+        $start     = $request->get('time_start');
+        $end       = $request->get('time_end');
         $startDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
-        $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+        $endDate   = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+
         $pickup->available_time_start = $startDate;
-        $pickup->available_time_end = $endDate;
+        $pickup->available_time_end   = $endDate;
         $pickup->save();
 
         return redirect()->route('pickups.index');
@@ -201,47 +199,62 @@ class PickupsController extends Controller
     public function actions(Request $request, Pickup $pickup)
     {
         $request->validate([
-            'status'         => 'required',
-            'available_day'  => 'required_if:status,client_rescheduled',
-            'time_start'     => 'required_if:status,client_rescheduled',
-            'time_end'       => 'required_if:status,client_rescheduled',
-            'actualPackages' => 'required_if:status,completed'
+            'status'         => 'required|exists:pickup_statuses,name',
+            'available_day'  => 'required_if:status,rescheduled,ready',
+            'time_start'     => 'required_if:status,rescheduled,ready',
+            'time_end'       => 'required_if:status,rescheduled,ready',
+            'actualPackages' => 'required_if:status,completed',
         ]);
 
-        $status = $request->get('status');
-        switch ($status) {
-            case "client_rescheduled":
-                $day = $request->get('available_day');
-                $start = $request->get('time_start');
-                $end = $request->get('time_end');
+        $status = PickupStatus::name($request->get('status'))->first();
+        $pickup->pickupStatus()->associate($status);
+        $pickup->status_note            = $request->get('reason', "");
+        $pickup->notes_external         = $request->get('notes', "");
+        $pickup->actual_packages_number = null;
+        switch ($status->name) {
+            case "rescheduled":
+                $pickup->status_note = $request->get('rescheduled_by', "");
+            case "ready":
+                $day       = $request->get('available_day');
+                $start     = $request->get('time_start');
+                $end       = $request->get('time_end');
                 $startDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $start);
-                $endDate = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+                $endDate   = Carbon::createFromFormat("j/n/Y h:ia", $day . " " . $end);
+
                 $pickup->available_time_start = $startDate;
-                $pickup->available_time_end = $endDate;
-                $pickup->status_note = "Rescheduled";
-                $pickup->status = "pending";
-                $pickup->actual_packages_number = null;
-                $pickup->notes_external = $request->get('reasons');
+                $pickup->available_time_end   = $endDate;
                 break;
             case "completed":
+                if($request->get('prepaid_cash') !== $pickup->prepaid_cash)
+                    return back()->withErrors([
+                        "Prepaid cash provided is wrong!"
+                    ]);
                 $pickup->actual_packages_number = $request->get('actualPackages');
-                $pickup->notes_external = $request->get('reasons');
-                $pickup->status_note = "";
-                $pickup->status = $status;
-                break;
-            case "declined_client":
-                $pickup->status_note = "Cancelled by client";
-            case "declined_dispatcher":
-                $pickup->status_note = "Cancelled by dispatcher";
-            case "declined_not_available":
-                $pickup->status_note = "Client not available";
-                $pickup->actual_packages_number = null;
-                $pickup->notes_external = $request->get('reasons');
-                $pickup->status = $status;
                 break;
         }
         $pickup->save();
 
         return back();
+    }
+
+    public function statusesOptions(Collection $statuses)
+    {
+        $completed = $setAvailableTime = $setAddress = $select = $notesRequired = [];
+        foreach ($statuses as $status) {
+            /** @var PickupStatus $status */
+            if (isset($status->options['set_address']) && $status->options['set_address']) $setAddress[] = $status->name;
+            if (isset($status->options['set_available_time']) && $status->options['set_available_time']) $setAvailableTime[] = $status->name;
+            if (isset($status->options['notes_required']) && $status->options['notes_required']) $notesRequired[] = $status->name;
+            if ((isset($status->options['prepaid_cash']) && $status->options['prepaid_cash'])
+                || isset($status->options['actual_packages']) && $status->options['actual_packages']) $completed[] = $status->name;
+            if (isset($status->options['select']) && $status->options['select']) $select[] = $status;
+        }
+        return [
+            'completed'        => $completed,
+            'setAvailableTime' => $setAvailableTime,
+            'setAddress'       => $setAddress,
+            'notesRequired'    => $notesRequired,
+            'select'           => $select,
+        ];
     }
 }

@@ -44,6 +44,15 @@
 
 @section('content')
     <div class="container">
-        @component('pickups.pickups-list', ['pickups' => $pickups]) @endcomponent
+        @foreach ($errors->all() as $message)
+            @component('bootstrap::alert', [
+                'type' => "danger",
+                'dismissible' => true,
+                'animate' => true,
+               ])
+                {!! $message  !!}
+            @endcomponent
+        @endforeach
+        @component('pickups.pickups-list', ['pickups' => $pickups, 'statuses' => $statuses, 'statusesOptions' => $statusesOptions]) @endcomponent
     </div>
 @endsection

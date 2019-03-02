@@ -5,24 +5,14 @@
                aria-selected="true" data-filter="all"><span>@lang('pickup.all')</span>
                 <span class="badge badge-light ml-2"></span></a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="pending-tab" data-toggle="tab" href="#" role="tab" data-filter=".pickup-pending"
-               data-mixitup-control
-               aria-selected="false"><i class="fa-clock"></i><span>@lang('pickup.pending')</span>
-                <span class="badge badge-light ml-2"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="declined-tab" data-toggle="tab" href="#" role="tab"
-               data-filter="[class*=pickup-declined]" data-mixitup-control
-               aria-selected="false"><i class="fa-minus-circle"></i><span>@lang('pickup.cancelled')</span>
-                <span class="badge badge-light ml-2"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="completed-tab" data-toggle="tab" href="#" role="tab"
-               data-filter=".pickup-completed" data-mixitup-control
-               aria-selected="false"><i class="fa-check-circle2"></i><span>@lang('pickup.completed')</span>
-                <span class="badge badge-light ml-2"></span></a>
-        </li>
+        @foreach($statuses as $status)
+            <li class="nav-item">
+                <a class="nav-link" id="{{ $status->name }}-tab" data-toggle="tab" href="#" role="tab" data-filter=".pickup-{{ $status->name }}"
+                   data-mixitup-control
+                   aria-selected="false"><span>@lang("pickup.statuses.{$status->name}")</span>
+                    <span class="badge badge-light ml-2"></span></a>
+            </li>
+        @endforeach
     </ul>
 </div>
 <div class="my-3">
@@ -30,7 +20,7 @@
         @if($pickups->count())
             @foreach($pickups as $pickup)
                 <?php /** @var \App\Pickup $pickup */ ?>
-                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->status }} {{ auth()->user()->isCourier() ? "layout-2" : "" }}"
+                <div class="col-md-4 col-sm-6 mix pickup-item pickup-{{ $pickup->pickupStatus->name }} {{ auth()->user()->isCourier() ? "layout-2" : "" }}"
                      style="max-height: 200px;min-width: 250px">
                     <div class="card {{ $pickup->statusContext('card') }}">
                         <div class="card-body">

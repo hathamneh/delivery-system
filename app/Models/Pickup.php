@@ -21,7 +21,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string pickup_address_maps
  * @property string notes_internal
  * @property string notes_external
- * @property string status
+ * @property PickupStatus pickupStatus
  * @property string phone_number
  * @property Client client
  * @property Courier courier
@@ -31,11 +31,14 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property string client_national_id
  * @property boolean is_guest
  * @property string status_note
+ * @property float prepaid_cash
  * @mixin Builder
  * @method static self pending()
  * @method static self notAlerted()
  * @method static self unpaid()
+ * @method static self status(string|array $status, string $boolean = 'and', bool $not = false)
  * @method static self today()
+ * @method static self search(string $term, string $type)
  */
 class Pickup extends Model
 {
@@ -43,13 +46,12 @@ class Pickup extends Model
 
     protected $revisionEnabled = true;
     protected $revisionCleanup = true;
-    protected $historyLimit = 75; // Stop tracking revisions after 75 changes have been made.
+    protected $historyLimit    = 75; // Stop tracking revisions after 75 changes have been made.
 
 
     protected $dates = ['deleted_at', 'available_time_start', 'available_time_end'];
 
     protected $fillable = [
-        'status',
         'available_time_start',
         'available_time_end',
         'available_time',
@@ -71,11 +73,11 @@ class Pickup extends Model
         'status_note'
     ];
 
-    protected $dispatchesEvents = [
+    protected $dispatchesEvents        = [
         'saving' => Events\PickupSaving::class,
     ];
     protected $availableDateTimeFormat = 'M d, Y g:i A';
-    protected $availableTimeFormat = 'g:i A';
+    protected $availableTimeFormat     = 'g:i A';
 
     public function shipments()
     {
@@ -87,9 +89,14 @@ class Pickup extends Model
         return $this->belongsTo(Client::class, 'client_account_number', 'account_number');
     }
 
+    public function PickupStatus()
+    {
+        return $this->belongsTo(PickupStatus::class);
+    }
+
     public function getClientAttribute()
     {
-        if($this->is_guest)
+        if ($this->is_guest)
             return Guest::whereNationalId($this->client_national_id)->first();
         else
             return $this->client()->first();
@@ -100,9 +107,10 @@ class Pickup extends Model
         return $this->belongsTo(Courier::class);
     }
 
-    public function scopePending($query)
+    public function scopePending(Builder $query, $boolean = 'and')
     {
-        return $query->where('status', 'pending');
+        $pendingIds = PickupStatus::name(['rejected', 'completed'], $boolean, true)->pluck('id');
+        return $query->whereIn('status_id', $pendingIds);
     }
 
     public function scopeToday(Builder $query)
@@ -111,14 +119,30 @@ class Pickup extends Model
             ->whereDate('available_time_end', '<=', Carbon::today()->endOfDay());
     }
 
-    public function scopeCompleted($query)
+    public function scopeSearch(Builder $query, string $term, string $type)
     {
-        return $query->where('status', 'completed');
+        if ($type === "courier") {
+            $query->whereIn('courier_id', function (Builder $whereQuery) use ($term) {
+                $whereQuery->select("id")
+                    ->from('couriers')
+                    ->where("name", "LIKE", "%$term%");
+            });
+        } else {
+            $query->where('client_account_number', '=', $term);
+        }
     }
 
-    public function scopeDeclined($query)
+    /**
+     * @param Builder $query
+     * @param string|array $status
+     * @param string $boolean
+     * @param bool $not
+     * @return Builder
+     */
+    public function scopeStatus(Builder $query, $status, $boolean = 'and', $not = false)
     {
-        return $query->where('status', 'declined');
+        $statusIds = PickupStatus::name($status, $boolean, $not)->pluck('id');
+        return $query->whereIn('pickup_status_id', $statusIds);
     }
 
     public function scopeNotAlerted($query)
@@ -154,8 +178,7 @@ class Pickup extends Model
 
     public function statusContext($context = null)
     {
-
-        switch ($this->status) {
+        switch ($this->pickupStatus->name) {
             case "completed":
                 switch ($context) {
                     case 'card':
@@ -165,14 +188,12 @@ class Pickup extends Model
                     default:
                         return "success";
                 }
-            case 'declined_client':
-            case 'declined_dispatcher':
-            case 'declined_not_available':
+            case 'rejected':
                 switch ($context) {
                     case 'card':
                         return "border-danger";
                     case 'text':
-                        return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>' . trans('pickup.declined') . '</span>' .
+                        return '<small class="text-danger"><i class="fa-minus-circle"></i> <span>' . trans("pickup.statuses.rejected") . '</span>' .
                             ' - ' . $this->status_note .
                             '</small>';
                     default:
@@ -183,8 +204,8 @@ class Pickup extends Model
                     case 'card':
                         return "";
                     case 'text':
-                        return '<small><i class="fa-clock"></i> <span>' . trans('pickup.pending') . '</span>' .
-                            (is_null($this->status_note)? '' : ' - ' . $this->status_note) .
+                        return '<small><i class="fa-clock"></i> <span>' . trans("pickup.statuses.{$this->pickupStatus->name}") . '</span>' .
+                            ' - ' . $this->status_note .
                             '</small>';
                     default:
                         return "";
@@ -195,9 +216,9 @@ class Pickup extends Model
     public function generateIdentifier($length = 6)
     {
         while (true) {
-            $characters = '0123456789AEFHIOKLQRVXZ'; /* 85K POSSIBLE COMBINATIONS ONLY  !! */
+            $characters       = '0123456789AEFHIOKLQRVXZ'; /* 85K POSSIBLE COMBINATIONS ONLY  !! */
             $charactersLength = strlen($characters);
-            $randomString = '';
+            $randomString     = '';
             for ($i = 0; $i < $length; $i++) {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }

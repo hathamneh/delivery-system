@@ -15,10 +15,14 @@ use App\Guest;
 use App\Invoice;
 use App\Shipment;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 trait ClientAccounting
 {
 
+    /**
+     * @var Shipment|Builder
+     */
     protected $targetShipments = null;
 
     /**
@@ -56,7 +60,7 @@ trait ClientAccounting
             /** @var  Shipment $shipment */
             $status = $shipment->status->name;
             if ($charged[$status]) {
-                $sum += abs($shipment->actual_paid_by_consignee - $charged[$status]->compute($shipment->delivery_cost));
+                $sum += $charged[$status]->compute($shipment->delivery_cost);
             }
         }
         return $sum;
@@ -73,11 +77,10 @@ trait ClientAccounting
         // prepare the shipments we want to work with, exit if no valid shipments
         if (is_null($this->targetShipments) && !($this->targetShipments = $this->prepareTargetShipments($input))) return false;
 
-        // Actual paid by consignee for delivered shipments
-        $sum += $this->targetShipments->statusIs("delivered")->sum('actual_paid_by_consignee');
+        $sum += $this->targetShipments->statusIs("delivered")->orWhere(function (Builder $query) {
+            return $query->statusIn(["rejected", "cancelled"])->lodger('client');
+        })->sum('actual_paid_by_consignee');
 
-        // Actual paid by consignee fro conflicts only if the lodger is the client
-        $sum += $this->targetShipments->statusIn(["rejected", "returned"])->lodger('client')->sum('actual_paid_by_consignee');
         return $sum;
     }
 

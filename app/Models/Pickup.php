@@ -122,13 +122,19 @@ class Pickup extends Model
     public function scopeSearch(Builder $query, string $term, string $type)
     {
         if ($type === "courier") {
-            $query->whereIn('courier_id', function (Builder $whereQuery) use ($term) {
+            $query->whereIn('courier_id', function ($whereQuery) use ($term) {
                 $whereQuery->select("id")
                     ->from('couriers')
                     ->where("name", "LIKE", "%$term%");
             });
         } else {
-            $query->where('client_account_number', '=', $term);
+            $query->whereIn('client_account_number', function ($whereQuery) use ($term) {
+                $whereQuery->select('account_number')
+                    ->from('clients')
+                    ->where('account_number', '=', $term)
+                    ->orWhere('name', 'LIKE', "%$term%")
+                    ->orWhere('trade_name', 'LIKE', "%$term%");
+            });
         }
     }
 

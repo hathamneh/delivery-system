@@ -5,6 +5,9 @@
             @php /** @var \Spatie\Activitylog\Models\Activity $activity */ @endphp
             <li class="list-group-item">
                 <small class="history-date">{{ $activity->created_at->toDayDateTimeString() }}</small>
+                @if(auth()->user()->isAdmin())
+                    <small>By {{ optional($activity->causer)->username }}</small>
+                @endif
                 <div class="font-weight-bold py-2">{{ $activity->description }}</div>
             </li>
         @endforeach

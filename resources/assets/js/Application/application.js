@@ -1,3 +1,4 @@
+require('../polyfills');
 require("./toggleFullScreen");
 require("./preloader");
 require("./sidebarMenu");

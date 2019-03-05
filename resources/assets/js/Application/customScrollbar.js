@@ -1,5 +1,5 @@
-require('imports-loader?define=>false!jquery-mousewheel/jquery.mousewheel')($)
-require('imports-loader?define=>false!malihu-custom-scrollbar-plugin')($)
+require('imports-loader?define=>false!jquery-mousewheel/jquery.mousewheel')($);
+require('../Plugins/src/jquery.mCustomScrollbar');
 /****  Custom Scrollbar  ****/
 
 /* Create Custom Scroll for elements like Portlets or Dropdown menu */

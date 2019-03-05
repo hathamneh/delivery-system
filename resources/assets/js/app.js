@@ -1,3 +1,4 @@
+require('@babel/polyfill');
 require('./bootstrap');
 require('./utils');
 require('./Application/application');

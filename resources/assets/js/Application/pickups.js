@@ -71,7 +71,7 @@ import axios from 'axios';
         });
     }
 
-    let isGuestRadios = document.getElementsByName('is_guest');
+    let isGuestRadios = document.querySelectorAll('[name="is_guest"]');
     let guestInputs = ['guest_name', 'client_national_id', 'guest_country', 'guest_city', 'prepaid_cash'];
     isGuestRadios.forEach(radio => {
         radio.addEventListener('change', e => {

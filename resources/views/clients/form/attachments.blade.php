@@ -22,23 +22,14 @@
                     <div class="attachment__actions ml-auto">
                         <div class="btn-group">
                             <a href="{{ $attachment->url }}" class="btn btn-dark btn-sm"><i
+                                        class="fa-eye mr-1"></i> View</a>
+                            <a href="{{ route('attachment.download', [$attachment]) }}" class="btn btn-outline-dark btn-sm"><i
                                         class="fa-download mr-1"></i> Download</a>
                             <button type="button" class="btn btn-danger btn-sm delete-attachment"
                                     data-toggle="modal" data-target="#deleteAttachment-{{ $attachment->id }}"><i
                                         class="fa-trash"></i></button>
                         </div>
                     </div>
-                </div>
-                <div class="p-3">
-                    @if($attachment->type === "pdf")
-                        <object data="{{ $attachment->url }}" type="application/pdf" width="100%" height="550">
-                            <a href="{{ $attachment->url }}" class="btn btn-info">Download PDF</a>
-                        </object>
-                    @else
-                        <div>
-                            <a href="{{ $attachment->url }}" class="btn btn-link">{{ $attachment->name }}</a>
-                        </div>
-                    @endif
                 </div>
             </li>
         @endforeach

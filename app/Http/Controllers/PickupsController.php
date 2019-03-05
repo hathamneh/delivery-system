@@ -203,7 +203,7 @@ class PickupsController extends Controller
             'available_day'  => 'required_if:status,rescheduled,ready',
             'time_start'     => 'required_if:status,rescheduled,ready',
             'time_end'       => 'required_if:status,rescheduled,ready',
-            'actualPackages' => 'required_if:status,completed',
+            'actualPackages' => 'required_if:status,collected',
         ]);
 
         $status = PickupStatus::name($request->get('status'))->first();
@@ -224,7 +224,7 @@ class PickupsController extends Controller
                 $pickup->available_time_start = $startDate;
                 $pickup->available_time_end   = $endDate;
                 break;
-            case "completed":
+            case "collected":
                 if($request->get('prepaid_cash') !== $pickup->prepaid_cash)
                     return back()->withErrors([
                         "Prepaid cash provided is wrong!"

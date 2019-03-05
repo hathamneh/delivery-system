@@ -15,9 +15,6 @@ class PickupStatusesSeeder extends Seeder
         \App\PickupStatus::truncate();
 
         \App\PickupStatus::create([
-            'name' => "collected"
-        ]);
-        \App\PickupStatus::create([
             'name'    => "ready",
             'options' => [
                 'set_available_time' => true
@@ -103,8 +100,9 @@ class PickupStatusesSeeder extends Seeder
                 ],
             ]
         ]);
+
         \App\PickupStatus::create([
-            'name'    => "completed",
+            'name' => "collected",
             'options' => [
                 'prepaid_cash'    => true,
                 'actual_packages' => true

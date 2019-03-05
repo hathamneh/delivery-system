@@ -147,7 +147,7 @@ class Invoice extends Model
     public function pickups()
     {
         $pickups = Pickup::unpaid()
-            ->status('completed')
+            ->status('collected')
             ->whereBetween('updated_at', [$this->from, $this->until]);
 
         if ($this->type == "client")

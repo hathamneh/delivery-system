@@ -109,7 +109,7 @@ class Pickup extends Model
 
     public function scopePending(Builder $query, $boolean = 'and')
     {
-        $pendingIds = PickupStatus::name(['rejected', 'completed'], $boolean, true)->pluck('id');
+        $pendingIds = PickupStatus::name(['rejected', 'collected'], $boolean, true)->pluck('id');
         return $query->whereIn('status_id', $pendingIds);
     }
 
@@ -179,12 +179,12 @@ class Pickup extends Model
     public function statusContext($context = null)
     {
         switch ($this->pickupStatus->name) {
-            case "completed":
+            case "collected":
                 switch ($context) {
                     case 'card':
                         return "border-success";
                     case 'text':
-                        return '<small class="text-success"><i class="fa-check-circle2"></i> <span>' . trans('pickup.completed') . '</span></small>';
+                        return '<small class="text-success"><i class="fa-check-circle2"></i> <span>' . trans('pickup.statuses.collected') . '</span></small>';
                     default:
                         return "success";
                 }

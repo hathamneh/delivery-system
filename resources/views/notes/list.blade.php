@@ -5,7 +5,7 @@
             <div class="timeline-item {{ $note->isRead() ?: "highlight" }}"
                  date-is='{{ $note->created_at->format("d-m-Y") }}'>
                 <div class="d-flex align-items-center">
-                    <h3 class="my-0">{{ $note->created_at->toFormattedDateString() }}</h3>
+                    <h3 class="my-0">{{ $note->created_at->toDayDateTimeString() }}</h3>
                     <div class="ml-auto">
                         @if(!$note->isRead())
                             <a href="{{ route('notes.show', [$note]) }}" class="btn btn-link"><i class="fa-check"></i> Mark as Read</a>

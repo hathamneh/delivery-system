@@ -5,8 +5,13 @@
                 data-placeholder="Choose status">
             @foreach($statuses as $status)
                 @php /** @var \App\Status $status */ @endphp
-                <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
-                >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})</option>
+                @if(in_array('returned',$applied['types']) && !in_array('returned', $status->groups))
+                    @continue
+                @endif
+                    <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
+                    >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})
+                    </option>
+
             @endforeach
         </select>
     </div>

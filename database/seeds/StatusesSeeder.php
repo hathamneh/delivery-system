@@ -98,7 +98,8 @@ class StatusesSeeder extends Seeder
                         "Sender cancelled the shipment",
                         "Consignee is not expecting the shipment",
                         "Consignee wants to amend order before delivery",
-                        "Consignee changed his/her mind"
+                        "Consignee changed his/her mind",
+                        "Repeated shipment"
                     ],
                 ]
             ]

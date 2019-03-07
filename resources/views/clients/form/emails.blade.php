@@ -14,9 +14,9 @@
             <div class="col-12">
                 <label for="secondary_emails">@lang("client.secondary_emails")</label>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12">
                 <textarea name="secondary_emails" id="secondary_emails" class="form-control"
-                placeholder="@lang("client.secondary_emails_help")">{!! isset($client) ? implode("\n", $client->secondary_emails) : "" !!}</textarea>
+                placeholder="@lang("client.secondary_emails_help")">{!! isset($client) ? implode(",", $client->secondary_emails) : "" !!}</textarea>
             </div>
         </div>
     </div>

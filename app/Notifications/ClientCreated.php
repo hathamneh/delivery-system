@@ -40,13 +40,17 @@ class ClientCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject("Welcome to Kangaroo Delivery")
-            ->cc($this->shipment->client->secondary_emails)
+        $mail = new MailMessage;
+        $mail->subject("Welcome to Kangaroo Delivery")
             ->markdown('notifications.mail', [
                 'client' => $notifiable,
                 'tmpl'   => 'client-created',
             ]);
+
+        if (!empty($this->shipment->client->secondary_emails))
+            $mail->cc($this->shipment->client->secondary_emails);
+
+        return $mail;
     }
 
     /**

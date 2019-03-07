@@ -90,12 +90,12 @@
                     </div>
 
                     <div class="form-group col-md-12 statusNotes-field all">
-                        <label for="status_notes">@lang('shipment.status_notes')
+                        <label for="status_notes">@lang('shipment.extra_notes')
                             <small class="text-muted">(Optional)</small>
                         </label>
                         <textarea name="status_notes" id="status_notes" class="form-control"
                                   data-target-for="statusSuggs" rows="4"
-                                  placeholder="@lang('shipment.status_notes')"></textarea>
+                                  placeholder="@lang('shipment.extra_notes')"></textarea>
                     </div>
                 </div>
             </div>

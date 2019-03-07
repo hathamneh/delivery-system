@@ -46,16 +46,19 @@ class RejectedShipment extends Notification
      */
     public function toMail($notifiable)
     {
-        $message = new MailMessage;
-        $message
-            ->subject("Rejected Shipment - Kangaroo Delivery")
-            ->cc($this->shipment->client->secondary_emails)
+        $mail = new MailMessage;
+        $mail->subject("Rejected Shipment - Kangaroo Delivery")
             ->markdown('notifications.mail', [
                 'tmpl'     => 'rejected-shipment',
                 'client'   => $notifiable,
                 'shipment' => $this->shipment
             ]);
-        return $message;
+
+        if (count($this->shipment->client->secondary_emails))
+            $mail->cc($this->shipment->client->secondary_emails);
+
+        return $mail;
+
     }
 
     /**

@@ -140,6 +140,7 @@ return [
     'change_status_manually' => "Change Status Manually",
     "sub_status"             => "Sub Status",
     "status_notes"           => "Reasons for this status",
+    "extra_notes"            => "Extra Notes",
     "summery"                => "Shipment Summery",
     "returned"               => "Returned Shipments",
     "return"                 => "Return Shipment",

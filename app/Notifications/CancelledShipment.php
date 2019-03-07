@@ -46,14 +46,16 @@ class CancelledShipment extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject("Shipment has been Cancelled - Kangaroo Delivery")
-            ->cc($this->shipment->client->secondary_emails)
+        $mail =new MailMessage;
+        $mail->subject("Shipment has been Cancelled - Kangaroo Delivery")
             ->markdown('notifications.mail', [
                 'tmpl'     => 'cancelled-shipment',
                 'client'   => $notifiable,
                 'shipment' => $this->shipment
             ]);
+        if(!empty($this->shipment->client->secondary_emails))
+            $mail->cc($this->shipment->client->secondary_emails);
+        return $mail;
     }
 
     /**

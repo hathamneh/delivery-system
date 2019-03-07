@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
  * @property string password
  * @property string phone_number
  * @property string email
- * @property string secondary_emails
+ * @property string|array secondary_emails
  *
  * @property User user
  * @property Zone zone
@@ -198,9 +198,26 @@ class Client extends Model implements Accountable, CanHaveShipment
             $this->url_instagram = $val['instagram'];
     }
 
+    public function setSecondaryEmailsAttribute($value)
+    {
+        if (is_null($value) || empty(trim($value))) {
+            $this->secondary_emails = "";
+        } else {
+            $emails    = explode(',', trim($value));
+            $validated = [];
+            foreach ($emails as $email) {
+                if (filter_var(trim($email), FILTER_VALIDATE_EMAIL))
+                    $validated[] = trim($email);
+            }
+            $this->secondary_emails = implode(',', $validated);
+        }
+    }
+
     public function getSecondaryEmailsAttribute()
     {
-        return explode('\r\n', $this->attributes['secondary_emails']);
+        if(is_null($this->attributes['secondary_emails']) || empty($this->attributes['secondary_emails']))
+            return [];
+        return explode(',', $this->attributes['secondary_emails']);
     }
 
 

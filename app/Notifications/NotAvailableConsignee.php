@@ -30,7 +30,7 @@ class NotAvailableConsignee extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -41,25 +41,29 @@ class NotAvailableConsignee extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject("The consignee is not available to receive the shipment - Kangaroo Delivery")
-            ->cc($this->shipment->client->secondary_emails)
+        $mail = new MailMessage;
+        $mail->subject("The consignee is not available to receive the shipment - Kangaroo Delivery")
             ->markdown('notifications.mail', [
                 'tmpl'     => 'not-available-consignee',
                 'client'   => $notifiable,
                 'shipment' => $this->shipment
             ]);
+
+        if (!empty($this->shipment->client->secondary_emails))
+            $mail->cc($this->shipment->client->secondary_emails);
+
+        return $mail;
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

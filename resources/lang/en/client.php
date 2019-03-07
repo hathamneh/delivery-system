@@ -25,7 +25,7 @@ return [
     'address_maps' => 'Address on Google Maps',
 
     'secondary_emails' => 'Secondary Emails',
-    'secondary_emails_help' => 'Enter one email in each line...',
+    'secondary_emails_help' => 'Separate emails with comas (e.g: mail@example.com,another@mail.com )...',
 
     'maps_placeholder' => 'http://maps.google.com/...',
 

@@ -49,33 +49,35 @@ class PickupSaving
         $activityItem = activity()
             ->performedOn($this->pickup)
             ->causedBy(auth()->user());
+        $extraNotes   = $this->pickup->status_notes;
+
         switch ($new->name) {
             case "ready":
-                $activityItem->log('Pickup is ready');
+                $activityItem->log('Pickup is ready' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "rescheduled":
-                $activityItem->log('Pick up time has been rescheduled to ' . $this->pickup->available_time);
+                $activityItem->log('Pick up time has been rescheduled to ' . $this->pickup->available_time . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "pass_to_office":
-                $activityItem->log('Client will pass the pickup to the office');
+                $activityItem->log('Client will pass the pickup to the office' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "rejected":
-                $activityItem->log('Pickup has been rejected');
+                $activityItem->log('Pickup has been rejected' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "cancelled":
-                $activityItem->log('Pickup has been cancelled');
+                $activityItem->log('Pickup has been cancelled' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "not_available":
-                $activityItem->log('Client is not available to pick up');
+                $activityItem->log('Client is not available to pick up' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "failed":
-                $activityItem->log('Pick up has failed');
+                $activityItem->log('Pick up has failed' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "on_hold":
-                $activityItem->log('Pickup is on hold');
+                $activityItem->log('Pickup is on hold' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "collected":
-                $activityItem->log('Pickup has been collected');
+                $activityItem->log('Pickup has been collected' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
         }
     }

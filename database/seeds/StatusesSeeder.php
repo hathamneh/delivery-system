@@ -65,8 +65,7 @@ class StatusesSeeder extends Seeder
             'groups'  => ["in_transit", "courier", "returned"],
             'options' => [
                 'select'            => [
-                    'rescheduled_by' => ['By Consignee', 'By Sender', 'By Kangaroo'],
-                    'reason'         => ['Insufficient Amount', 'Not Ready to receive shipment', 'To be collected from office']
+                    'rescheduled_by' => ['By Consignee', 'By Sender', 'By Kangaroo']
                 ],
                 'set_delivery_date' => true
             ]

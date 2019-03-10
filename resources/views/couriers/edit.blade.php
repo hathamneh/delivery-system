@@ -2,11 +2,11 @@
 
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('couriers') }}
+    {{ Breadcrumbs::render('couriers.edit', $courier) }}
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> @lang("courier.label")
+    <i class='fa-user-tie'></i> @lang("courier.edit")
 @endsection
 
 @section('content')

@@ -61,9 +61,9 @@
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client->note_for_courier }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->internal_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->external_notes }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client_paid ? "Yes" : "No" }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->courier_cashed ? "Yes" : "No" }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->isReturned() ? "Yes" : "No" }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{!! $shipment->client_paid ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>' !!}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{!! $shipment->courier_cashed ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>' !!}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{!! $shipment->isReturned() ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>' !!}</td>
             </tr>
         @endforeach
         </tbody>

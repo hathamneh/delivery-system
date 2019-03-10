@@ -94,6 +94,11 @@ Breadcrumbs::for('couriers.show', function ($trail, \App\Courier $courier) {
     $trail->push($courier->name, route('couriers.show', [$courier]));
 });
 
+Breadcrumbs::for('couriers.edit', function ($trail, \App\Courier $courier) {
+    $trail->parent('couriers');
+    $trail->push($courier->name, route('couriers.edit', [$courier]));
+});
+
 
 Breadcrumbs::for('pickups', function ($trail) {
     $trail->parent('home');

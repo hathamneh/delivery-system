@@ -34,7 +34,9 @@
                             <th>@lang('client.name')</th>
                             <th>@lang('client.phone')</th>
                             <th>@lang('client.bank.name')</th>
-                            <th>@lang('client.password')</th>
+                            @if(auth()->user()->isAdmin())
+                                <th>@lang('client.password')</th>
+                            @endif
                             <th>@lang('common.actions')</th>
                         </tr>
                         </thead>
@@ -47,7 +49,9 @@
                                 <td>{{ $client->name }}</td>
                                 <td>{{ $client->phone_number }}</td>
                                 <td>{{ $client->bank_name }}</td>
-                                <td>{{ $client->password }}</td>
+                                @if(auth()->user()->isAdmin())
+                                    <td>{{ $client->password }}</td>
+                                @endif
                                 <td>
                                     <div class="d-flex">
                                         <div class="btn-group">

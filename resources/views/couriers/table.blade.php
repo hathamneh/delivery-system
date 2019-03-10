@@ -5,7 +5,9 @@
             <th>@lang('courier.id')</th>
             <th>@lang('courier.name')</th>
             <th>@lang('courier.username')</th>
-            <th>@lang('courier.password')</th>
+            @if(auth()->user()->isAdmin())
+                <th>@lang('courier.password')</th>
+            @endif
             <th>@lang('courier.phone')</th>
             <th>@lang('courier.zone')</th>
             <th>@lang('courier.address')</th>
@@ -19,7 +21,9 @@
                 <td>{{ $courier->id }}</td>
                 <td>{{ $courier->name }}</td>
                 <td>{{ $courier->user->username }}</td>
-                <td>{{ $courier->password }}</td>
+                @if(auth()->user()->isAdmin())
+                    <td>{{ $courier->password }}</td>
+                @endif
                 <td>{{ $courier->phone_number }}</td>
                 <td>{{ $courier->zones->count() ? $courier->zones->pluck('name')->implode(',') : '' }}</td>
                 <td>{{ $courier->address}}</td>
@@ -37,7 +41,8 @@
                            data-toggle="tooltip"
                            class="btn btn-light btn-sm" title="@lang('courier.edit')">
                             <i class="fa fa-edit"></i></a>
-                        <button class="btn btn-light btn-sm" type="button" data-toggle-tooltip title="@lang('courier.delete')"
+                        <button class="btn btn-light btn-sm" type="button" data-toggle-tooltip
+                                title="@lang('courier.delete')"
                                 data-toggle="modal" data-target="#deleteCourier-{{ $courier->id }}">
                             <i class="fa fa-trash"></i>
                         </button>

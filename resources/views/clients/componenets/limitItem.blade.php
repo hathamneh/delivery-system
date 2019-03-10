@@ -1,6 +1,6 @@
 @php
     /** @var \App\ClientLimit $limit */
-        $checked = isset($limit) ? $limit->type != 'percentage' && (!is_null(old($name . '.type') && old($name . '.type') != "percentage")) : true;
+        $checked = isset($limit) && $limit instanceOf \App\ClientLimit ? $limit->type != 'percentage' && (!is_null(old($name . '.type') && old($name . '.type') != "percentage")) : true;
 @endphp
 
 <div class="form-group">

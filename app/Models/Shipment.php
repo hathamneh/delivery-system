@@ -144,8 +144,9 @@ class Shipment extends Model
     {
         parent::boot();
 
-        static::creating(function ($instance) {
+        static::creating(function (Shipment $instance) {
             $instance->type = static::$waybill_type ?? "normal";
+            $instance->createdBy()->associate(auth()->user());
         });
 
         static::saving(function (self $instance) {

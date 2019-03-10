@@ -31,6 +31,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                     </label>
                 </div>
                 <div class="guest-inputs form-row form-inline">
+
                     <div class="col-sm-6 form-group mb-2" {!! $is_guest ?: 'style="display:none;"' !!}>
                         <label for="client_national_id" class="mr-2">@lang('client.national_id')</label>
                         <input type="text" name="client_national_id" id="client_national_id" required
@@ -58,6 +59,25 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                                class="form-control flex-fill" {{ $is_guest ?: "disabled" }}
                                value="{{ $pickup->guest_city ?? old('guest_city') }}"
                                placeholder="@lang('shipment.client.city')">
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label for="guest_clientAddress">@lang('client.address')</label>
+                        <select name="guest_address_id" id="guest_clientAddress" class="form-control selectpicker"
+                                data-live-search="true" {{ $is_guest ?: "disabled" }}>
+                            <option value="" disabled {{ old('shipment_client.address_id') ?: "selected" }}>@lang('common.select')</option>
+                            @foreach($addresses as $address)
+                                <option value="{{ $address->id }}" data-subtext="{{ $address->zone->name }}"
+                                        {{ old('shipment_client.address_id') == $address->id ? "selected" : "" }}>{{ $address->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="guest_clientAddressDetailed">@lang('pickup.address_text')</label>
+                        <input type="text" name="guest_address_detailed" id="guest_clientAddressDetailed"
+                               class="form-control" {{ $is_guest ?: "disabled" }}
+                               value="{{ old("guest_address_detailed") ?? "" }}"
+                               placeholder="@lang('pickup.address_text')">
                     </div>
                 </div>
             </div>

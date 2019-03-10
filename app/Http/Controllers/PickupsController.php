@@ -90,8 +90,10 @@ class PickupsController extends Controller
                 Guest::findOrCreateByNationalId($request->get('client_national_id'), [
                     'trade_name'    => $request->get('guest_name'),
                     'phone_number'  => $request->get('phone_number'),
-                    'guest_country' => $request->get('guest_country'),
-                    'guest_city'    => $request->get('guest_city'),
+                    'country' => $request->get('guest_country'),
+                    'city'    => $request->get('guest_city'),
+                    'address_id'    => $request->get('guest_address_id'),
+                    'address_detailed'    => $request->get('guest_address_detailed'),
                 ]);
             } else {
                 $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
@@ -99,6 +101,7 @@ class PickupsController extends Controller
             $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
 
         } catch (\Exception $exception) {
+            logger($exception->getTraceAsString());
             return $exception->getMessage();
         }
 

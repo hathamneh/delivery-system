@@ -25,7 +25,7 @@ return [
         "rejected" => "Rejected",
         "cancelled" => "Cancelled",
         "not_available" => "Client is not available",
-        "failed" => "Delivery failed",
+        "failed" => "Pickup failed",
         "on_hold" => "On hold",
         "completed" => "Completed",
     ],

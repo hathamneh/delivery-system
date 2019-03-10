@@ -124,7 +124,7 @@
             <div class="form-group actualPaid-input rejected">
                 <label for="actual_paid">How much did the consignee pay?</label>
                 <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
-                       placeholder="@lang('shipment.actual_paid')" min="0" max="{{ $shipment->cash_on_delivery }}">
+                       placeholder="@lang('shipment.actual_paid')" min="0">
             </div>
 
             @foreach($not_delivered_statuses as $status)

@@ -27,7 +27,8 @@
 
                     <div class="form-group col-md-6 delivered">
                         <label for="actual_paid">How much did the consignee pay ?</label>
-                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid" class="form-control"
+                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
+                               class="form-control"
                                required
                                placeholder="@lang('shipment.actual_paid')" min="{{ $shipment->cash_on_delivery ?? "" }}"
                                max="{{ $shipment->cash_on_delivery ?? "" }}">
@@ -35,10 +36,10 @@
 
                     <div class="form-group col-md-6 rejected collected_from_office">
                         <label for="actual_paid">How much did the consignee pay ?</label>
-                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid" class="form-control"
+                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
+                               class="form-control"
                                required
-                               placeholder="@lang('shipment.actual_paid')" min="0"
-                               max="{{ $shipment->cash_on_delivery ?? "" }}">
+                               placeholder="@lang('shipment.actual_paid')" min="0">
                     </div>
 
                     @php $setBranchStatuses = ""; @endphp

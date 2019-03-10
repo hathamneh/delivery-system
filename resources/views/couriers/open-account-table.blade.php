@@ -14,7 +14,7 @@
         <tbody>
         @foreach($haveWorkTodayCouriers as $courier)
             <?php /** @var \App\Courier $courier */ ?>
-            <tr id="client-{{ $courier->id }}" class="{{ $courier->iOpenAccount() ? "open" : "closed" }}"
+            <tr id="client-{{ $courier->id }}" class="{{ $courier->isOpenAccount() ? "open" : "closed" }}"
                 data-id="{{ $courier->id }}" data-href="{{ route('couriers.inventory', [$courier]) }}">
                 <td>{{ $courier->id }}</td>
                 <td>{{ $courier->name }}</td>

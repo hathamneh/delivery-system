@@ -104,7 +104,9 @@ class Courier extends Model implements Accountable
             $query->select(DB::raw(1))
                 ->from('shipments')
                 ->whereColumn('shipments.courier_id', '=', 'couriers.id')
-                ->whereDate('shipments.delivery_date', '>=', now()->startOfDay());
+                ->whereDate('shipments.delivery_date', '<=', now()->endOfDay())
+                ->whereNotIn('status_id', Status::name(['delivered', 'collected'])->pluck('id'))
+                ->orWhere('courier_cashed', false);
         })->whereExists(function (\Illuminate\Database\Query\Builder $query) {
             $query->select(DB::raw(1))
                 ->from('invoices')
@@ -113,7 +115,7 @@ class Courier extends Model implements Accountable
         }, "or")->select('couriers.*');
     }
 
-    public function iOpenAccount()
+    public function isOpenAccount()
     {
         return $this->shipments()->whereDate('delivery_date', "<=", now()->endOfDay())->courierCashed(false)->exists();
     }

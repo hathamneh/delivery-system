@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Client;
 use App\Courier;
 use App\Guest;
@@ -70,8 +71,10 @@ class PickupsController extends Controller
     public function create()
     {
         $couriers = Courier::all();
+        $addresses = Address::all();
         return view('pickups.create')->with([
             'couriers'  => $couriers,
+            'addresses'  => $addresses,
             'pageTitle' => trans('pickup.create')
         ]);
     }

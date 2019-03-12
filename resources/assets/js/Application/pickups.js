@@ -72,7 +72,7 @@ import axios from 'axios';
     }
 
     let isGuestRadios = document.querySelectorAll('[name="is_guest"]');
-    let guestInputs = ['guest_name', 'client_national_id', 'guest_country', 'guest_city', 'prepaid_cash'];
+    let guestInputs = ['guest_name', 'client_national_id', 'guest_country', 'guest_city', 'prepaid_cash', 'guest_clientAddress', 'guest_clientAddressDetailed'];
     isGuestRadios.forEach(radio => {
         radio.addEventListener('change', e => {
             if (e.target.value === "1") {
@@ -83,6 +83,8 @@ import axios from 'axios';
                         item.closest('.form-group').style.display = 'block';
                     else
                         item.closest('.form-group').style.display = 'flex';
+                    if(id === 'guest_clientAddress')
+                        $(item).selectpicker('refresh');
                 });
                 let clientAccNum = document.getElementById('client_account_number');
                 clientAccNum.disabled = true;
@@ -92,6 +94,8 @@ import axios from 'axios';
                     let item = document.getElementById(id);
                     item.disabled = true;
                     item.closest('.form-group').style.display = 'none';
+                    if(id === 'guest_clientAddress')
+                        $(item).selectpicker('refresh');
                 });
                 let clientAccNum = document.getElementById('client_account_number');
                 clientAccNum.disabled = false;

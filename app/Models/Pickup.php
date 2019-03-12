@@ -74,7 +74,8 @@ class Pickup extends Model
     ];
 
     protected $dispatchesEvents        = [
-        'saving' => Events\PickupSaving::class,
+        'created' => Events\PickupCreated::class,
+        'saving'  => Events\PickupSaving::class,
     ];
     protected $availableDateTimeFormat = 'M d, Y g:i A';
     protected $availableTimeFormat     = 'g:i A';

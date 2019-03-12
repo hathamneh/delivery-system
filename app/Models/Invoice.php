@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
  * @property float due_for
  * @property float due_from
  * @property float pickup_fees
+ * @property float pickups_prepaid_cash
  * @property float total
  * @property float terms_applied
  * @property float payment_method_price
@@ -203,6 +204,13 @@ class Invoice extends Model
     public function getPickupFeesAttribute()
     {
         return $this->pickups()->sum('pickup_fees');
+    }
+
+    public function getPickupsPrepaidCashAttribute()
+    {
+        if ($this->target instanceof Client)
+            return $this->target->pickupCashCollected($this);
+        return 0;
     }
 
     public function getPaymentMethodPriceAttribute()

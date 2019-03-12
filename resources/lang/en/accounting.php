@@ -58,4 +58,6 @@ return [
     "generate" => "Generate",
 
     'client_payment' => 'Payment',
+
+    'prepaid_cash' => 'Cash Collected on Pickup'
 ];

@@ -118,6 +118,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>@lang('accounting.prepaid_cash')</th>
+                    <td>
+                        <span class="currency">@lang('common.jod')</span>{{ fnumber($invoice->pickups_prepaid_cash) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>@lang('client.payment_method_price')</th>
                     <td>
                         <b>(@lang('client.payment_methods.'.$client->paymentMethod->name))</b>

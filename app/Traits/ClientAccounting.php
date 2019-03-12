@@ -13,6 +13,7 @@ use App\Client;
 use App\ClientLimit;
 use App\Guest;
 use App\Invoice;
+use App\Pickup;
 use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +25,11 @@ trait ClientAccounting
      * @var Shipment|Builder
      */
     protected $targetShipments = null;
+
+    /**
+     * @var Pickup|Builder
+     */
+    protected $targetPickups = null;
 
     /**
      * @param Invoice|array $input
@@ -103,6 +109,13 @@ trait ClientAccounting
         $minimumDeliveryCostCheck      = $this->minimumDeliveryCostCheck($input) ?? 0;
         $maximumReturnedShipmentsCheck = $this->maximumReturnedShipmentsCheck($input) ?? 0;
         return $minimumDeliveryCostCheck + $maximumReturnedShipmentsCheck;
+    }
+
+    public function pickupCashCollected($input)
+    {
+        if (is_null($this->targetPickups) && !($this->targetPickups = $this->prepareTargetPickups($input))) return false;
+
+        return $this->targetPickups->count('prepaid_cash');
     }
 
     /**

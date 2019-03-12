@@ -59,7 +59,6 @@ class ReturnedShipment extends Shipment
         $shipment->package_weight = $overrides['package_weight'] ?? $returned->package_weight;
         $shipment->service_type = $overrides['service_type'] ?? "nextday";
 
-        $shipment->internal_notes = $overrides['internal_notes'] ?? "[ORIGINAL SHIPMENT NOTES]\n".$returned->internal_notes."\n[END ORIGINAL NOTES]";
         $shipment->delivery_cost_lodger = $overrides['delivery_cost_lodger'] ?? $returned->delivery_cost_lodger;
         $shipment->status_notes = $overrides['status_notes'] ?? $returned->status_notes;
 

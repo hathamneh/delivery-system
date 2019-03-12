@@ -13,6 +13,9 @@
   tbody tr td {
     padding: .5rem;
   }
+  tr.row-success {
+    background: lighten($success, 15) !important;
+  }
 }
 
 .dataTable_empty {

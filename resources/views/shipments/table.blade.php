@@ -33,7 +33,8 @@
         <tbody>
         @foreach($shipments as $shipment)
             @php /** @var \App\Shipment $shipment */ @endphp
-            <tr title="Open shipment details" data-id="{{ $shipment->id }}">
+            <tr title="Open shipment details" data-id="{{ $shipment->id }}"
+                class="{{ session('changed') && is_array(session('changed')) && in_array($shipment->id, session('changed')) ? "row-success" : "" }}">
                 <td>
                     <div class="custom-control custom-checkbox" title="@lang('common.select')">
                         <input type="checkbox" class="custom-control-input" value="{{ $shipment->id }}" id="select_{{ $shipment->id }}">

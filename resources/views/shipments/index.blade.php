@@ -64,9 +64,13 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
+
             <div class="col-12">
                 @include("shipments.table")
             </div>
         </div>
     </div>
+    @php
+        session()->forget('changed');
+    @endphp
 @endsection

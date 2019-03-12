@@ -458,11 +458,10 @@ class ShipmentController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function assignCourier(Request $request)
     {
-        $this->authorize('update');
+        if (!auth()->user()->isAdmin()) return abort(403);
 
         $request->validate([
             'courier'   => 'required|exists:couriers,id',
@@ -470,12 +469,16 @@ class ShipmentController extends Controller
         ]);
         $courier   = Courier::find($request->get('courier'));
         $shipments = $request->get('shipments', []);
+        $changed   = [];
         foreach ($shipments as $shipment_id) {
             $shipment = Shipment::find($shipment_id);
             if (is_null($shipment)) continue;
             $shipment->courier()->associate($courier);
             $shipment->push();
+            $changed[] = $shipment->id;
         }
+        session()->put('changed', $changed);
+        session()->save();
         return redirect()->route('shipments.index');
     }
 }

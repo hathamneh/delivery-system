@@ -26055,6 +26055,10 @@ table tbody td.dataTables_empty {
   padding: .5rem;
 }
 
+.shipments-table table tr.row-success, .open-account-couriers table tr.row-success {
+  background: #48d368 !important;
+}
+
 .dataTable_empty {
   padding: 22px 0;
 }

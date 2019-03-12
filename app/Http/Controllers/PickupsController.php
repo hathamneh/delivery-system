@@ -70,11 +70,11 @@ class PickupsController extends Controller
      */
     public function create()
     {
-        $couriers = Courier::all();
+        $couriers  = Courier::all();
         $addresses = Address::all();
         return view('pickups.create')->with([
             'couriers'  => $couriers,
-            'addresses'  => $addresses,
+            'addresses' => $addresses,
             'pageTitle' => trans('pickup.create')
         ]);
     }
@@ -91,12 +91,12 @@ class PickupsController extends Controller
         try {
             if ($request->has('is_guest') && $request->get('is_guest') === "1") {
                 Guest::findOrCreateByNationalId($request->get('client_national_id'), [
-                    'trade_name'    => $request->get('guest_name'),
-                    'phone_number'  => $request->get('phone_number'),
-                    'country' => $request->get('guest_country'),
-                    'city'    => $request->get('guest_city'),
-                    'address_id'    => $request->get('guest_address_id'),
-                    'address_detailed'    => $request->get('guest_address_detailed'),
+                    'trade_name'       => $request->get('guest_name'),
+                    'phone_number'     => $request->get('phone_number'),
+                    'country'          => $request->get('guest_country'),
+                    'city'             => $request->get('guest_city'),
+                    'address_id'       => $request->get('guest_address_id'),
+                    'address_detailed' => $request->get('guest_address_detailed'),
                 ]);
             } else {
                 $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
@@ -149,12 +149,13 @@ class PickupsController extends Controller
      */
     public function edit(Request $request, Pickup $pickup)
     {
-
-        $couriers = Courier::all();
+        $addresses = Address::all();
+        $couriers  = Courier::all();
         $pickup->load('shipments');
         return view('pickups.edit')->with([
-            'pickup'   => $pickup,
-            'couriers' => $couriers
+            'pickup'    => $pickup,
+            'addresses' => $addresses,
+            'couriers'  => $couriers
         ]);
     }
 
@@ -231,7 +232,7 @@ class PickupsController extends Controller
                 $pickup->available_time_end   = $endDate;
                 break;
             case "collected":
-                if($request->get('prepaid_cash') !== $pickup->prepaid_cash)
+                if ($request->get('prepaid_cash') !== $pickup->prepaid_cash)
                     return back()->withErrors([
                         "Prepaid cash provided is wrong!"
                     ]);

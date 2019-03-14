@@ -185,6 +185,17 @@ class Pickup extends Model
 
     public function statusContext($context = null)
     {
+        if(is_null($this->courier))
+            switch ($context) {
+                case 'card':
+                    return "border-warning";
+                case 'text':
+                    return '<small><i class="fa-clock"></i> <span>' . trans("pickup.statuses.{$this->pickupStatus->name}") . '</span>' .
+                        (!is_null($this->status_note) ? ' - ' . $this->status_note : '') .
+                        '</small>';
+                default:
+                    return "warning";
+            }
         switch ($this->pickupStatus->name) {
             case "collected":
                 switch ($context) {
@@ -212,7 +223,7 @@ class Pickup extends Model
                         return "";
                     case 'text':
                         return '<small><i class="fa-clock"></i> <span>' . trans("pickup.statuses.{$this->pickupStatus->name}") . '</span>' .
-                            ' - ' . $this->status_note .
+                            (!is_null($this->status_note) ? ' - ' . $this->status_note : '') .
                             '</small>';
                     default:
                         return "";

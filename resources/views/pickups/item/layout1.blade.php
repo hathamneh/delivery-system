@@ -20,8 +20,12 @@
 </span>
 <br>
 <span class="text-muted">
-    @lang('courier.single'): <b><a
-                href="{{ route('couriers.show', ['courier'=>$pickup->courier->id]) }}">{{ $pickup->courier->name }}</a></b>
+    @lang('courier.single'):
+    @if(is_null($pickup->courier))
+        <small class="badge badge-warning">-- None --</small>
+    @else
+        <b><a href="{{ route('couriers.show', ['courier'=>$pickup->courier->id]) }}">{{ $pickup->courier->name }}</a></b>
+    @endif
     |
     @lang('pickup.identifier'): <b>{{ $pickup->identifier }}</b>
 </span>
@@ -53,7 +57,7 @@
                     <i class="fa-truck"></i> @lang('courier.phone'):
                 </span>
                 <span class="meta-value">
-                    {{ $pickup->courier->phone_number }}
+                    {{ optional($pickup->courier)->phone_number }}
                 </span>
             </li>
         @endif

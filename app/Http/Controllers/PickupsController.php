@@ -101,7 +101,6 @@ class PickupsController extends Controller
             } else {
                 $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
             }
-            $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
 
         } catch (\Exception $exception) {
             logger($exception->getTraceAsString());

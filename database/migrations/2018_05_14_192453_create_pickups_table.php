@@ -17,7 +17,7 @@ class CreatePickupsTable extends Migration
             $table->increments('id');
             $table->string('identifier');
             $table->unsignedInteger("client_account_number")->nullable();
-            $table->unsignedInteger("courier_id");
+            $table->unsignedInteger("courier_id")->nullable();
             $table->unsignedInteger("expected_packages_number");
             $table->unsignedInteger('actual_packages_number')->nullable();
             $table->double("pickup_fees")->default(0)->nullable();

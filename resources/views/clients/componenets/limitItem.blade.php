@@ -5,7 +5,7 @@
 
 <div class="form-group">
     <label for="{{ $name }}_value" class="font-weight-bold">@lang('client.'.$name)</label>
-    <input type="number" name="{{ $name }}[value]" id="{{ $name }}_value" step="any"
+    <input type="number" name="{{ $name }}[value]" id="{{ $name }}_value" step="any" required
            class="form-control" value="{{ old($name . '.value') ?? $limit->value ?? 0 }}">
     <small class="form-text text-muted">{!! $help !!}</small>
 </div>

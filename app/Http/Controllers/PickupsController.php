@@ -38,10 +38,7 @@ class PickupsController extends Controller
 
         $pickups   = Pickup::latest('available_time_start');
         $startDate = $endDate = false;
-        if (Auth::user()->isCourier()) {
-            $pickups = Pickup::latest('available_time_start');
-            $pickups->today()->where('courier_id', Auth::user()->courier->id);
-        } elseif ($request->has('start') && $request->has('end')) {
+        if ($request->has('start') && $request->has('end')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
             $endDate   = Carbon::createFromTimestamp($request->get('end'));
             $pickups->whereDate('available_time_start', '>=', $startDate)->whereDate('available_time_end', '<=', $endDate);

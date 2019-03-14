@@ -249,6 +249,7 @@ class Pickup extends Model
     public static function routes()
     {
         Route::put('pickups/{pickup}/actions', "PickupsController@actions")->name('pickups.actions');
+        Route::put('pickups/{pickup}/assign', "PickupsController@assignCourier")->name('pickups.assign');
         Route::resource('pickups', "PickupsController");
     }
 }

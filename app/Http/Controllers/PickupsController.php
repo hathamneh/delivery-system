@@ -244,6 +244,24 @@ class PickupsController extends Controller
         return back();
     }
 
+    /**
+     * @param Pickup $pickup
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function assignCourier(Pickup $pickup, Request $request)
+    {
+        if (!auth()->user()->isAdmin()) abort(403);
+        $request->validate([
+            'courier' => 'required|exists:couriers,id'
+        ]);
+        $courier = Courier::find($request->get('courier'));
+        $pickup->courier()->associate($courier);
+        $pickup->push();
+
+        return back();
+    }
+
     public static function statusesOptions(Collection $statuses)
     {
         $completed = $setAvailableTime = $setAddress = $select = $notesRequired = [];
@@ -264,4 +282,5 @@ class PickupsController extends Controller
             'select'           => $select,
         ];
     }
+
 }

@@ -170,6 +170,7 @@ return [
     'toggle_courier_cashed' => "Toggle Courier Cashed",
 
     'assignCourier' => "<i class='fa fa-truck mr-2'></i> Assign Courier",
+    'assignCourierTitle' => "Assign Courier to Shipment",
 
     'reference' => "Reference",
 ];

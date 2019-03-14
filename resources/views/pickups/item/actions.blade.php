@@ -101,3 +101,35 @@
 
     @endcomponent
 @endif
+
+<form action="{{ route('pickups.assign', $pickup) }}" method="POST" id="assignCourierForm-{{ $pickup->id }}">
+    @method('PUT')
+    @csrf
+    @component('bootstrap::modal',[
+            'id' => 'assignCourierModal-' . $pickup->id
+        ])
+        @slot('title')
+            @lang("pickup.assignCourierTitle")
+        @endslot
+        <div class="form-group">
+            <label for="courier">@lang('courier.single')</label>
+            @component('couriers.search-courier-input',[
+                'id' => 'courier-' . $pickup->id,
+                'name' => 'courier',
+                'placeholder' => trans('courier.single'),
+                'value' => optional($pickup->courier)->id ?? "",
+                'text' => optional($pickup->courier)->name ?? "",
+            ]) @endcomponent
+        </div>
+
+        @slot('footer')
+            <div class="d-flex flex-row-reverse w-100">
+                <button class="btn btn-primary" type="submit">@lang('shipment.assignCourier') <i
+                            class="fa fa-arrow-right"></i>
+                </button>
+                <button class="btn btn-outline-secondary mr-auto"
+                        data-dismiss="modal">@lang('common.cancel')</button>
+            </div>
+        @endslot
+    @endcomponent
+</form>

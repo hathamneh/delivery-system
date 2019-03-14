@@ -5,6 +5,12 @@
             <i class="fa-cogs"></i> @lang('common.actions')
         </button>
     @endif
+    @if(auth()->user()->isAdmin())
+        <button type="button" data-toggle="modal" data-target="#assignCourierModal-{{ $pickup->id }}"
+                class="btn btn-light btn-sm actions-btn">
+            <i class="fa-truck"></i>
+        </button>
+    @endif
     @can('update', $pickup)
         <a href="{{ route('pickups.edit', ['pickup'=> $pickup->id]) }}"
            title="@lang('pickup.edit')"

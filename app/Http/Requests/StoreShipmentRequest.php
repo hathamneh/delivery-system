@@ -34,7 +34,6 @@ class StoreShipmentRequest extends FormRequest
             'waybill' => 'required|unique:shipments|integer',
             'delivery_date' => 'required',
             'shipment_value' => 'required',
-            'courier' => 'required',
             'phone_number' => 'required',
             'address_from_zones' => 'required',
             'service_type' => [

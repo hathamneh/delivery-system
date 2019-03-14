@@ -133,7 +133,6 @@ class ShipmentController extends Controller
         // make relations
         $shipment->saveClient($clientData);
         $shipment->address()->associate(Address::findOrFail($request->get('address_from_zones')));
-        $shipment->courier()->associate(Courier::findOrFail($request->get('courier')));
         $shipment->status()->associate(Status::findOrFail($request->get('status')));
         // save form data
         $newWaybill = $request->get('waybill');
@@ -469,16 +468,12 @@ class ShipmentController extends Controller
         ]);
         $courier   = Courier::find($request->get('courier'));
         $shipments = $request->get('shipments', []);
-        $changed   = [];
         foreach ($shipments as $shipment_id) {
             $shipment = Shipment::find($shipment_id);
             if (is_null($shipment)) continue;
             $shipment->courier()->associate($courier);
             $shipment->push();
-            $changed[] = $shipment->id;
         }
-        session()->put('changed', $changed);
-        session()->save();
         return redirect()->route('shipments.index');
     }
 }

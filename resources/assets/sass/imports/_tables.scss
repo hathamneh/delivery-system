@@ -13,8 +13,14 @@
   tbody tr td {
     padding: .5rem;
   }
-  tr.row-success {
-    background: lighten($success, 15) !important;
+  tr.courier-assigned {
+    background: lighten(rgb(133, 172, 65), 35) !important;
+    &.even {
+      background: lighten(rgb(133, 172, 65), 30) !important;
+    }
+    .custom-control-label::before {
+      background-color: #fff;
+    }
   }
 }
 

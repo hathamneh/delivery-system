@@ -26055,8 +26055,16 @@ table tbody td.dataTables_empty {
   padding: .5rem;
 }
 
-.shipments-table table tr.row-success, .open-account-couriers table tr.row-success {
-  background: #48d368 !important;
+.shipments-table table tr.courier-assigned, .open-account-couriers table tr.courier-assigned {
+  background: #d6e5ba !important;
+}
+
+.shipments-table table tr.courier-assigned.even, .open-account-couriers table tr.courier-assigned.even {
+  background: #cadea8 !important;
+}
+
+.shipments-table table tr.courier-assigned .custom-control-label::before, .open-account-couriers table tr.courier-assigned .custom-control-label::before {
+  background-color: #fff;
 }
 
 .dataTable_empty {

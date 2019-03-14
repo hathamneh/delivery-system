@@ -18,7 +18,7 @@ class CreateShipmentsTable extends Migration
             $table->enum('type', ['normal', 'guest', 'returned', 'prepaid']);
 
             $table->unsignedInteger('client_account_number');
-            $table->unsignedInteger('courier_id');
+            $table->unsignedInteger('courier_id')->nullable();
 
             $table->string('waybill')->unique();
             $table->dateTime('delivery_date');

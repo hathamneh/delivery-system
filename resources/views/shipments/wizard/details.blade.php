@@ -49,20 +49,20 @@
                 </div>
                 <hr>
                 <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="courier">@lang('shipment.couriers.label') *</label>
-                        <select name="courier" id="courier" class="form-control selectpicker" data-live-search="true"
-                                data-bind="courier">
-                            <option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>
-                            @foreach($couriers as $courier)
-                                <option value="{{ $courier->id }}" data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"
-                                        {{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>
-                            @endforeach
-                        </select>
-                        <small class="text-muted form-text">
-                            @lang("shipment.couriers.help")
-                        </small>
-                    </div>
+                    {{--<div class="form-group col-sm-12">--}}
+                        {{--<label for="courier">@lang('shipment.couriers.label') *</label>--}}
+                        {{--<select name="courier" id="courier" class="form-control selectpicker" data-live-search="true"--}}
+                                {{--data-bind="courier">--}}
+                            {{--<option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>--}}
+                            {{--@foreach($couriers as $courier)--}}
+                                {{--<option value="{{ $courier->id }}" data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"--}}
+                                        {{--{{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<small class="text-muted form-text">--}}
+                            {{--@lang("shipment.couriers.help")--}}
+                        {{--</small>--}}
+                    {{--</div>--}}
                     <div class="form-group col-sm-12">
                         <label for="internal_notes">@lang("shipment.internal_notes")</label>
                         <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"

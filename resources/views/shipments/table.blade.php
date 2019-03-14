@@ -15,6 +15,7 @@
             <th>@lang('shipment.created_by')</th>
             <th>@lang('shipment.consignee_name')</th>
             <th>@lang('shipment.phone_number')</th>
+            <th>@lang('shipment.address')</th>
             <th>@lang('shipment.address_sub_text')</th>
             <th>@lang('shipment.pieces')</th>
             <th>@lang('shipment.package_weight')</th>
@@ -48,6 +49,7 @@
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">By {{ optional($shipment->createdBy)->username ?? "unspecified" }} at {{ $shipment->created_at->format("M d, Y - h:i A") }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->consignee_name }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->phone_number }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->address->name }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->address_sub_text }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->pieces }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->package_weight }}</td>

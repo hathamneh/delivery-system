@@ -13,12 +13,15 @@ return [
     'created_on' => 'Created On',
     'created_by' => 'Created By',
 
-    'track_shipment'           => "Track Your Shipment",
-    "enter_identifier"         => "Please Enter Shipment Waybill Number",
-    "detailsNote"              => "Please fill consignee's information carefully:",
-    "delivery_details"         => "Delivery Details",
-    "client_info"              => "Client Info",
-    "details"                  => "Consignee's information",
+    'track_shipment'   => "Track Your Shipment",
+    "enter_identifier" => "Please Enter Shipment Waybill Number",
+    "detailsNote"      => "Please fill consignee's information carefully:",
+    "delivery_details" => "Shipment Information",
+    "client_info"      => "Client Information",
+    "details"          => "Consignee's information",
+
+    'status_tab' => "Shipment Status & History",
+
     "service_type"             => "Service Type",
     "service_types"            => [
         "label"   => "Service Type",
@@ -142,7 +145,7 @@ return [
     "status_notes"           => "Reasons for this status",
     "extra_notes"            => "Extra Notes",
     "summery"                => "Shipment Summery",
-    "normal"               => "Normal Shipments",
+    "normal"                 => "Normal Shipments",
     "returned"               => "Returned Shipments",
     "return"                 => "Return Shipment",
     "make_returned"          => "Return this Shipment",
@@ -170,7 +173,7 @@ return [
     'toggle_client_paid'    => "Toggle Client Paid",
     'toggle_courier_cashed' => "Toggle Courier Cashed",
 
-    'assignCourier' => "<i class='fa fa-truck mr-2'></i> Assign Courier",
+    'assignCourier'      => "<i class='fa fa-truck mr-2'></i> Assign Courier",
     'assignCourierTitle' => "Assign Courier to Shipment",
 
     'reference' => "Reference",

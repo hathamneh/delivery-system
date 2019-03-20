@@ -26,6 +26,14 @@
     background-size: contain;
   }
 
+  .progress-bar {
+    transform: translate(0, -50%);
+    position: absolute;
+    height: 5px;
+    top: 50%;
+    left: 10%;
+  }
+
   .step-wrapper {
     width: 50px;
     height: 50px;
@@ -115,6 +123,10 @@
     }
   }
 
+  .progress-bar {
+    width: 40%;
+  }
+
   .step-label.processing, .step-label.in_transit {
     color: $brand;
   }
@@ -142,6 +154,10 @@
         }
       }
     }
+  }
+
+  .progress-bar {
+    width: 80%;
   }
 
   .step-label {

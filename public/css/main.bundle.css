@@ -31122,6 +31122,15 @@ a.pickup-toggle-details.collapsed i {
   background-size: contain;
 }
 
+.shipment-lifecycle .progress-bar {
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  position: absolute;
+  height: 5px;
+  top: 50%;
+  left: 10%;
+}
+
 .shipment-lifecycle .step-wrapper {
   width: 50px;
   height: 50px;
@@ -31213,6 +31222,10 @@ a.pickup-toggle-details.collapsed i {
   content: '\E9D5';
 }
 
+.status-in_transit .progress-bar {
+  width: 40%;
+}
+
 .status-in_transit .step-label.processing, .status-in_transit .step-label.in_transit {
   color: #4a89dc;
 }
@@ -31234,6 +31247,10 @@ a.pickup-toggle-details.collapsed i {
 
 .status-delivered .step-wrapper .step.processing i:before, .status-delivered .step-wrapper .step.in_transit i:before {
   content: '\E9D5';
+}
+
+.status-delivered .progress-bar {
+  width: 80%;
 }
 
 .status-delivered .step-label {

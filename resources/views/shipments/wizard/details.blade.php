@@ -47,30 +47,6 @@
                                   class="form-control">{{ isset($shipment) ? $shipment->address_sub_text : old('address_sub_text') }}</textarea>
                     </div>
                 </div>
-                <hr>
-                <div class="form-row">
-                    {{--<div class="form-group col-sm-12">--}}
-                        {{--<label for="courier">@lang('shipment.couriers.label') *</label>--}}
-                        {{--<select name="courier" id="courier" class="form-control selectpicker" data-live-search="true"--}}
-                                {{--data-bind="courier">--}}
-                            {{--<option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>--}}
-                            {{--@foreach($couriers as $courier)--}}
-                                {{--<option value="{{ $courier->id }}" data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"--}}
-                                        {{--{{ (old('courier') == $courier->id || (isset($shipment) && $shipment->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--<small class="text-muted form-text">--}}
-                            {{--@lang("shipment.couriers.help")--}}
-                        {{--</small>--}}
-                    {{--</div>--}}
-                    <div class="form-group col-sm-12">
-                        <label for="internal_notes">@lang("shipment.internal_notes")</label>
-                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"
-                                  placeholder="@lang("shipment.internal_notes")" data-bind="internal_notes"
-                                  class="form-control">{{ isset($shipment) ? $shipment->internal_notes : old('internal_notes') }}</textarea>
-                    </div>
-
-                </div>
             </div>
         </div>
         <h3 class="font-weight-bold">More</h3>
@@ -90,11 +66,7 @@
                             @lang("shipment.delivery_cost_lodger.help")
                         </small>
                     </div>
-                    <div class="col-sm-12 form-group">
-                        <label for="reference">@lang('shipment.reference')</label>
-                        <textarea name="reference" id="reference" class="form-control"
-                                  placeholder="@lang('shipment.reference')">{{ old("reference") ?? $shipment->reference ?? "" }}</textarea>
-                    </div>
+
                 </div>
             </div>
         </div>

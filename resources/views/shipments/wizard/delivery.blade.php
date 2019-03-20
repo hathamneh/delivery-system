@@ -45,42 +45,20 @@ if(isset($shipment)) {
                         <input type="number" name="shipment_value" id="shipment_value" class="form-control"
                                placeholder="@lang('shipment.shipment_value')" step="0.01" min="0" required
                                data-bind="shipment_value"
-                               value="{{ isset($shipment) ? $shipment->shipment_value : old("shipment_value") }}">
+                               value="{{ $shipment->shipment_value ?? old("shipment_value") ?? 0 }}">
                     </div>
-                    @if(!isset($shipment))
-                        <div class="form-group col-sm-6">
-                            <label for="status">@lang('shipment.initial_status') *</label>
-                            <select name="status" id="status" class="form-control selectpicker" data-live-search="true"
-                                    data-bind="status">
-                                @foreach($statuses as $status)
-                                    <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
-                                            value="{{ $status->id }}" {{ old('status') == $status->id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--<label for="status_more">@lang('shipment.status_more') *</label>--}}
-                    {{--<select name="status_more" id="status_more" class="form-control selectpicker"--}}
-                    {{--data-live-search="true">--}}
-                    {{--<option value="" disabled selected>@lang('common.select')</option>--}}
-                    {{--<option value="1">Status 1</option>--}}
-                    {{--<option value="2">Status 2</option>--}}
-                    {{--</select>--}}
-                    {{--</div>--}}
-                    <div class="col-sm-6 form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="custom_price" name="custom_price"
-                                   value="true" {{ old('custom_price') == "true" ? "checked" : "" }}>
-                            <label class="custom-control-label"
-                                   for="custom_price">@lang('shipment.custom_price')</label>
-                        </div>
-                        <input type="number" min="0" step="0.1" placeholder="@lang('shipment.total_price')"
-                               name="total_price" id="total_price"
-                               value="{{ old('total_price') }}"
-                               class="form-control" {{ old('custom_price') == "true" ? "" : "disabled" }}>
-                        <small class="form-text text-muted">@lang('shipment.custom_price_help')</small>
+                    <div class="form-group col-sm-12">
+                        <label for="internal_notes">@lang("shipment.internal_notes")</label>
+                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"
+                                  placeholder="@lang("shipment.internal_notes")" data-bind="internal_notes"
+                                  class="form-control">{{ isset($shipment) ? $shipment->internal_notes : old('internal_notes') }}</textarea>
                     </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="reference">@lang('shipment.reference')</label>
+                        <textarea name="reference" id="reference" class="form-control"
+                                  placeholder="@lang('shipment.reference')">{{ old("reference") ?? $shipment->reference ?? "" }}</textarea>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -102,7 +80,31 @@ if(isset($shipment)) {
                             @endforeach
                         </select>
                     </div>
-
+                    @if(!isset($shipment))
+                        <div class="form-group col-sm-6">
+                            <label for="status">@lang('shipment.initial_status') *</label>
+                            <select name="status" id="status" class="form-control selectpicker" data-live-search="true"
+                                    data-bind="status">
+                                @foreach($statuses as $status)
+                                    <option data-subtext="@lang("shipment.statuses.{$status->name}.description")"
+                                            value="{{ $status->id }}" {{ old('status') == $status->id ? "selected" : "" }}>@lang("shipment.statuses.{$status->name}.name")</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+                    <div class="col-sm-6 form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="custom_price" name="custom_price"
+                                   value="true" {{ old('custom_price') == "true" ? "checked" : "" }}>
+                            <label class="custom-control-label"
+                                   for="custom_price">@lang('shipment.custom_price')</label>
+                        </div>
+                        <input type="number" min="0" step="0.1" placeholder="@lang('shipment.total_price')"
+                               name="total_price" id="total_price"
+                               value="{{ old('total_price') }}"
+                               class="form-control" {{ old('custom_price') == "true" ? "" : "disabled" }}>
+                        <small class="form-text text-muted">@lang('shipment.custom_price_help')</small>
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@
                     <div class="status-{{ $shipment->status->groups[0] }}">
                         <div class="shipment-lifecycle">
                             <div class="steps-circles">
+                                <div class="progress-bar bg-primary"></div>
                                 <div class="step-wrapper">
                                     <div class="step processing"><i></i></div>
                                 </div>

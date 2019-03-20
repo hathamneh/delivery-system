@@ -212,7 +212,7 @@ class ShipmentController extends Controller
             if ($shipment instanceof ReturnedShipment)
                 $data['log'] = Activity::forSubject(Shipment::find($shipment->id))->get();
             else
-                $data['log'] = Activity::forSubject($shipment->id)->get();
+                $data['log'] = Activity::forSubject($shipment)->get();
 
         }
         return view('shipments.show', $data);

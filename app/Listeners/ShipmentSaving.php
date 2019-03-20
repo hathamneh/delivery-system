@@ -34,6 +34,7 @@ class ShipmentSaving
     public function handle(ShipmentSavingEvent $event)
     {
         $this->shipment = $event->shipment;
+        if(is_null($this->shipment->id)) return;
         $dirtyFields    = $this->shipment->getDirty();
         foreach ($dirtyFields as $dirtyField => $value) {
             if ($dirtyField === "status_id" || $dirtyField === "status_notes") {

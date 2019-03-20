@@ -110,6 +110,9 @@
                         <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
                                     href="{{ route('shipments.index') }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
+                        <li class="{{ (\Request::is('shipments?scope=normal,guest')) ? 'active' : '' }}"><a
+                                    href="{{ route('shipments.index', ['filters' => ['types' => 'normal,guest']]) }}"><i
+                                        class="fas fa-shipment"></i>@lang('shipment.normal')</a></li>
                         <li class="{{ (\Request::is('shipments?scope=returned')) ? 'active' : '' }}"><a
                                     href="{{ route('shipments.index', ['filters' => ['types' => 'returned']]) }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.returned')</a></li>

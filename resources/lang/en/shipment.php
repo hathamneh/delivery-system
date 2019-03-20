@@ -142,6 +142,7 @@ return [
     "status_notes"           => "Reasons for this status",
     "extra_notes"            => "Extra Notes",
     "summery"                => "Shipment Summery",
+    "normal"               => "Normal Shipments",
     "returned"               => "Returned Shipments",
     "return"                 => "Return Shipment",
     "make_returned"          => "Return this Shipment",

@@ -61,7 +61,7 @@
                     {{ trans("shipment.statuses.{$shipment->status->name}.name") }}
                     </div>
                 </td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->client->note_for_courier }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ optional($shipment->client)->note_for_courier }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->internal_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->external_notes }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{!! $shipment->client_paid ? '<i class="fa-check"></i>' : '<i class="fa-times"></i>' !!}</td>

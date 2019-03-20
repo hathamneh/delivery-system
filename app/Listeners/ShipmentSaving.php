@@ -37,6 +37,7 @@ class ShipmentSaving
         if ($this->shipment->isDirty("status_id")) {
             $this->logStatusChanged();
         }
+        logger($this->shipment->getDirty());
     }
 
     protected function logStatusChanged()

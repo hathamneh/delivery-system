@@ -474,6 +474,6 @@ class ShipmentController extends Controller
             $shipment->courier()->associate($courier);
             $shipment->push();
         }
-        return redirect()->route('shipments.index');
+        return back();
     }
 }

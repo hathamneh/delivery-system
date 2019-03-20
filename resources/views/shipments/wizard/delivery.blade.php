@@ -36,7 +36,7 @@ if(isset($shipment)) {
                     <div class="form-group col-sm-6">
                         <label for="pieces">@lang('shipment.pieces')</label>
                         <input type="number" name="pieces" id="pieces" class="form-control"
-                               data-bind="pieces"
+                               data-bind="pieces" step="any"
                                placeholder="@lang('shipment.pieces')"
                                value="{{ $shipment->package_weight ?? old("pieces") ?? 1 }}">
                     </div>

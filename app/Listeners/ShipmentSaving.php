@@ -34,10 +34,17 @@ class ShipmentSaving
     public function handle(ShipmentSavingEvent $event)
     {
         $this->shipment = $event->shipment;
-        if ($this->shipment->isDirty("status_id")) {
-            $this->logStatusChanged();
+        $dirtyFields    = $this->shipment->getDirty();
+        foreach ($dirtyFields as $dirtyField => $value) {
+            if ($dirtyField === "status_id" || $dirtyField === "status_notes") {
+                $this->logStatusChanged();
+            } else {
+                activity()
+                    ->performedOn($this->shipment)
+                    ->causedBy(auth()->user())
+                    ->log(trans("shipment.{$dirtyField}") . " has been changed to " . $value);
+            }
         }
-        logger($this->shipment->getDirty());
     }
 
     protected function logStatusChanged()

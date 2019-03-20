@@ -66,11 +66,17 @@ class ShipmentController extends Controller
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
         $shipments      = $shipmentsQuery->get();
 
+        $pageTitle = trans('shipment.label');
+        if ($this->shipmentFilters->filters['types'] == ['normal', 'guest'])
+            $pageTitle = trans('shipment.normal');
+        elseif ($this->shipmentFilters->filters['types'] == ['returned'])
+            $pageTitle = trans('shipment.returned');
+
         return view('shipments.index', [
             'shipments'        => $shipments,
             'filtersData'      => $this->shipmentFilters->filtersData(),
             'applied'          => $appliedFilters,
-            'pageTitle'        => trans('shipment.label') . " (" . $shipments->count() . ")",
+            'pageTitle'        => $pageTitle . " (" . $shipments->count() . ")",
             'sidebarCollapsed' => true
         ]);
     }

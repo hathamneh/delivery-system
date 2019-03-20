@@ -164,7 +164,6 @@ class PickupsController extends Controller
      */
     public function update(Request $request, Pickup $pickup)
     {
-        $pickup->courier()->associate(Courier::findOrFail($request->get('courier_id')));
         $pickup->fill($request->toArray());
         $day       = $request->get('available_day');
         $start     = $request->get('time_start');

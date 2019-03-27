@@ -1,6 +1,12 @@
 <fieldset>
     <legend><i class="fa fa-user-tie"></i> @lang("shipment.client_info")</legend>
     <div>
+        <div class="form-group mb-5">
+            <label for="waybill">@lang('shipment.waybill') *</label>
+            <input type="number" name="waybill" id="waybill" class="form-control" data-bind="waybill"
+                   required placeholder="@lang('shipment.waybill')"
+                   value="{{ $suggestedWaybill ?? $shipment->waybill }}">
+        </div>
         <h2 class="step-title font-weight-bold mb-3"><i class="fa fa-user-tie"></i> @lang("shipment.client_info")</h2>
         <div class="accordion" id="shipmentClientInfo">
             <div class="card">

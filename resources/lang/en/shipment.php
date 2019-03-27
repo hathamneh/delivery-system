@@ -17,7 +17,7 @@ return [
     "enter_identifier" => "Please Enter Shipment Waybill Number",
     "detailsNote"      => "Please fill consignee's information carefully:",
     "delivery_details" => "Shipment Information",
-    "client_info"      => "Client Information",
+    "client_info"      => "Sender's Information",
     "details"          => "Consignee's information",
 
     'status_tab' => "Shipment Status & History",
@@ -177,4 +177,6 @@ return [
     'assignCourierTitle' => "Assign Courier to Shipment",
 
     'reference' => "Reference",
+
+    'today_shipments' => "Today's Shipments",
 ];

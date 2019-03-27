@@ -65,9 +65,8 @@
                           method="post">
                         {{ csrf_field() }}
                         @include('shipments.wizard.clientInfo')
-                        @include('shipments.wizard.delivery')
                         @include('shipments.wizard.details')
-                        @include('shipments.review')
+                        @include('shipments.wizard.delivery')
                     </form>
                 </div>
             </div>

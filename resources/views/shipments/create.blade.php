@@ -37,17 +37,12 @@
                 <div class="col-md-10 mx-auto">
                     <form role="form" action="{{ route('shipments.store') }}" method="post">
                         {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="waybill">@lang('shipment.waybill') *</label>
-                            <input type="number" name="waybill" id="waybill" class="form-control" data-bind="waybill"
-                                   required placeholder="@lang('shipment.waybill')"
-                                   value="{{ $suggestedWaybill ?? $shipment->waybill }}">
-                        </div>
-                        @include('shipments.wizard.clientInfo')
-                        @include('shipments.wizard.delivery')
-                        @include('shipments.wizard.details')
 
-                        <div class="d-flex mt-4">
+                        @include('shipments.wizard.clientInfo')
+                        @include('shipments.wizard.details')
+                        @include('shipments.wizard.delivery')
+
+                        <div class="d-flex my-4">
                             <div class="ml-auto text-right">
                                 <button class="btn btn-primary btn-lg" type="submit">
                                     @lang('shipment.save')
@@ -58,7 +53,6 @@
                 </div>
             </div>
 
-        </div>
     </div>
 
 @endsection

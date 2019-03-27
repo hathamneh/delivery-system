@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> @lang("courier.edit")
+    <i class='fa-user-tie'></i> @lang("courier.edit") [{{ $courier->name }}]
 @endsection
 
 @section('content')

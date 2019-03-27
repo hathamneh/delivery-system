@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> {{ $courier->name }}
+    <i class='fa-user-tie'></i> [{{ $courier->name }}]
 @endsection
 
 @section('actionsFirst')

@@ -49,26 +49,5 @@
                 </div>
             </div>
         </div>
-        <h3 class="font-weight-bold">More</h3>
-        <input name="service_type" id="service_type" type="hidden"
-               value="{{ old('service_type') ?? $shipment->service_typ ?? 'nextday' }}">
-        <div class="card mb-2">
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="delivery_cost_lodger">@lang('shipment.delivery_cost_lodger.label') *</label>
-                        <select name="delivery_cost_lodger" id="delivery_cost_lodger" class="form-control selectpicker"
-                                data-bind="delivery_cost_lodger">
-                            <option value="client" {{ ((isset($shipment) && $shipment->delivery_cost_lodger == "client") || old('delivery_cost_lodger') == "client")? "selected" : "" }}>@lang('shipment.delivery_cost_lodger.client')</option>
-                            <option value="courier" {{ ((isset($shipment) && $shipment->delivery_cost_lodger == "courier") || old('delivery_cost_lodger') == "courier") ? "selected" : "" }}>@lang('shipment.delivery_cost_lodger.courier')</option>
-                        </select>
-                        <small class="form-text text-muted">
-                            @lang("shipment.delivery_cost_lodger.help")
-                        </small>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
 </fieldset>

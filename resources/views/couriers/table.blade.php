@@ -19,7 +19,7 @@
             <?php /** @var \App\Courier $courier */ ?>
             <tr id="client-{{ $courier->id }}" data-id="{{ $courier->id }}">
                 <td>{{ $courier->id }}</td>
-                <td>{{ $courier->name }}</td>
+                <td>[{{ $courier->name }}]</td>
                 <td>{{ $courier->user->username }}</td>
                 @if(auth()->user()->isAdmin())
                     <td>{{ $courier->password }}</td>

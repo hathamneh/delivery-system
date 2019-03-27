@@ -17,7 +17,7 @@
             <tr id="client-{{ $courier->id }}" class="{{ $courier->isOpenAccount() ? "open" : "closed" }}"
                 data-id="{{ $courier->id }}" data-href="{{ route('couriers.inventory', [$courier]) }}">
                 <td>{{ $courier->id }}</td>
-                <td>{{ $courier->name }}</td>
+                <td>[{{ $courier->name }}]</td>
                 <td>{{ $courier->user->username }}</td>
                 <td>{{ $courier->password }}</td>
                 <td>{{ $courier->phone_number }}</td>

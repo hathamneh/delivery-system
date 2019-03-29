@@ -8,9 +8,9 @@
                 @if(in_array('returned',$applied['types']) && !in_array('returned', $status->groups))
                     @continue
                 @endif
-                    <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
-                    >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})
-                    </option>
+                <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
+                >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})
+                </option>
 
             @endforeach
         </select>
@@ -31,6 +31,14 @@
                 @foreach($services as $service)
                     <option value="{{ $service->id }}" {{ $service->id === $applied['service'] ? "selected" : "" }}>{{ $service->name }}</option>
                 @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="filter_assignment">@lang('Service')</label>
+            <select name="filters[assignment]" id="filter_assignment" class="form-control">
+                <option value="all" {{ !isset($applied['assignment']) || $applied['assignment'] === 'all' ? 'selected' : '' }}>All</option>
+                <option value="assigned" {{ $applied['assignment'] === 'assigned' ? 'selected' : '' }}>Assigned Only</option>
+                <option value="not_assigned" {{ $applied['assignment'] === 'not_assigned' ? 'selected' : '' }}>Not Assigned Only</option>
             </select>
         </div>
         <input type="hidden" name="filters[scope]" value="{{ join(',', $applied['scope']) }}">

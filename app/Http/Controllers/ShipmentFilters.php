@@ -18,10 +18,11 @@ class ShipmentFilters
 {
 
     public $filters = [
-        'scope' => [],
-        'client' => '',
-        'service' => '',
-        'types' => []
+        'scope'      => [],
+        'client'     => '',
+        'service'    => '',
+        'types'      => [],
+        'assignment' => 'all'
     ];
 
     public static $appliedFilters = [];
@@ -47,7 +48,7 @@ class ShipmentFilters
     {
         if ($data) {
             $this->filters['scope'] = explode(',', $data);
-            $or = false;
+            $or                     = false;
             foreach ($this->filters['scope'] as $scope) {
                 if ($scope === "pending")
                     $shipmentsQuery = $shipmentsQuery->pending();
@@ -103,6 +104,25 @@ class ShipmentFilters
 
         $this->filters['types'] = $types;
 
+    }
+
+    /**
+     * @param Shipment $shipmentsQuery
+     * @param string [$data]
+     */
+    public function applyAssignmentFilter(&$shipmentsQuery, $data = null)
+    {
+        if ($data && in_array($data, ['all', 'assigned', 'not_assigned'])) {
+            switch ($data) {
+                case 'assigned':
+                    $shipmentsQuery->whereNotNull('courier_id');
+                    break;
+                case 'not_assigned':
+                    $shipmentsQuery->whereNull('courier_id');
+                    break;
+            }
+            $this->filters['assignment'] = $data;
+        }
     }
 
     public function filtersData(...$extend)

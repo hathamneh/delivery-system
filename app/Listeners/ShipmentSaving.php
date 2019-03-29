@@ -36,8 +36,8 @@ class ShipmentSaving
     public function handle(ShipmentSavingEvent $event)
     {
         $this->shipment = $event->shipment;
-        if(is_null($this->shipment->id)) return;
-        $dirtyFields    = $this->shipment->getDirty();
+        if (is_null($this->shipment->id)) return;
+        $dirtyFields = $this->shipment->getDirty();
         foreach ($dirtyFields as $dirtyField => $value) {
             if ($dirtyField === "status_id" || $dirtyField === "status_notes") {
                 $this->logStatusChanged();
@@ -51,21 +51,39 @@ class ShipmentSaving
         }
     }
 
+    public function logField($field, $value)
+    {
+
+        $message = $this->getFieldName($field) . " has been changed to " . $this->getValue($field, $value);
+        activity()
+            ->performedOn($this->shipment)
+            ->causedBy(auth()->user())
+            ->log($message);
+    }
+
     public function getFieldName($field)
     {
-        switch($field) {
-            case "address_id": return trans('zone.address.label');
-            case "courier_id": return trans('shipment.courier');
-            default: return trans("shipment.{$field}");
+        switch ($field) {
+            case "address_id":
+                return trans('zone.address.label');
+            case "courier_id":
+                return trans('shipment.courier');
+            default:
+                return trans("shipment.{$field}");
         }
     }
 
     public function getValue($field, $value)
     {
-        switch($field) {
-            case "address_id": return Address::find($value)->name;
-            case "courier_id": return Courier::find($value)->name;
-            default: return $value;
+        switch ($field) {
+            case "address_id":
+                return Address::find($value)->name;
+            case "courier_id":
+                return Courier::find($value)->name;
+            default:
+                if(is_bool($value))
+                    return $value ? "true" : "false";
+                return $value;
         }
     }
 

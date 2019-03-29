@@ -5,8 +5,6 @@
         <input type="hidden" name="shipments" value="">
         <div class="selection-indicator">@lang('reports.with_selected')</div>
         <div class="btn-group btn-group-sm" role="group">
-            <button type="button" class="btn btn-warning" disabled data-toggle="modal" data-target="#changeStatusModal"
-                    value="true">@lang('shipment.change_status')</button>
 
             @if(!isset($client_paid) || $client_paid == true)
                 <button name="clientPaid" type="submit" class="btn btn-light" disabled

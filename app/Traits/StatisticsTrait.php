@@ -150,7 +150,7 @@ trait StatisticsTrait
         }
         $diff = floatval($value1) - floatval($value2);
         $div  = floatval($diff) / floatval($value2);
-        return $div * 100;
+        return round($div * 100, 2);
     }
 
     /**

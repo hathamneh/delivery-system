@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Address;
 use App\Branch;
+use App\Courier;
 use App\Shipment;
 use App\Status;
 use Illuminate\Queue\InteractsWithQueue;
@@ -40,11 +42,30 @@ class ShipmentSaving
             if ($dirtyField === "status_id" || $dirtyField === "status_notes") {
                 $this->logStatusChanged();
             } else {
+
                 activity()
                     ->performedOn($this->shipment)
                     ->causedBy(auth()->user())
-                    ->log(trans("shipment.{$dirtyField}") . " has been changed to " . $value);
+                    ->log($this->getFieldName($dirtyField) . " has been changed to " . $this->getValue($dirtyField, $value));
             }
+        }
+    }
+
+    public function getFieldName($field)
+    {
+        switch($field) {
+            case "address_id": return trans('zone.address.label');
+            case "courier_id": return trans('shipment.courier');
+            default: return trans("shipment.{$field}");
+        }
+    }
+
+    public function getValue($field, $value)
+    {
+        switch($field) {
+            case "address_id": return Address::find($value)->name;
+            case "courier_id": return Courier::find($value)->name;
+            default: return $value;
         }
     }
 
@@ -52,6 +73,10 @@ class ShipmentSaving
     {
         $original = Status::find($this->shipment->getOriginal('status_id'));
         $new      = Status::find($this->shipment->status_id);
+
+        // send alert in email to notify this change
+        $this->shipment->notifyFor($new);
+
         if (is_null($new)) return;
         $activityItem = activity()
             ->performedOn($this->shipment)

@@ -28,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ShipmentCreated::class => [
             \App\Listeners\ShipmentCreated::class,
         ],
+        \App\Events\ShipmentDeleted::class => [
+            \App\Listeners\ShipmentDeleted::class,
+        ],
     ];
 
     /**

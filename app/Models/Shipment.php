@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
@@ -72,7 +73,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  */
 class Shipment extends Model
 {
-    use RevisionableTrait, SoftDeletes, GenerateWaybills;
+    use SoftDeletes, GenerateWaybills;
 
     /**
      * @var int
@@ -83,20 +84,6 @@ class Shipment extends Model
      */
     protected $waybill_prefix = "1";
 
-    /**
-     * @var bool
-     */
-    protected $revisionEnabled = true;
-    /**
-     * @var bool
-     */
-    protected $revisionCreationsEnabled = true;
-    /**
-     * @var array
-     */
-    protected $revisionFormattedFields = [
-        'delivery_date' => "datetime:d-m-Y"
-    ];
 
     /**
      * @var array
@@ -149,13 +136,6 @@ class Shipment extends Model
             $instance->createdBy()->associate(auth()->user());
         });
 
-        static::saving(function (self $instance) {
-            $changed = $instance->getDirty();
-            if (isset($changed['status_id'])) { // If status has changed
-                $newStatus = Status::find($changed['status_id']);
-                $instance->notifyFor($newStatus);
-            }
-        });
     }
 
     /**
@@ -257,9 +237,14 @@ class Shipment extends Model
         return $this->hasOne(ReturnedShipment::class, "returned_from", "id");
     }
 
-    public function isReturned()
+    public function hasReturned()
     {
         return $this->returnedIn()->exists();
+    }
+
+    public function isReturned()
+    {
+        return $this->hasReturned() && $this->isStatusGroup('delivered');
     }
 
     /**

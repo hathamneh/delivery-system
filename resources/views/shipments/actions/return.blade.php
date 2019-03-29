@@ -3,7 +3,7 @@
 <fieldset class="shipment-actions-fieldset mt-4">
     <legend><i class="fa-reply"></i> @lang('shipment.return')</legend>
     <div>
-        @if(!$shipment->isReturned() && !($shipment instanceof \App\ReturnedShipment) && $shipment->isEditable())
+        @if(!$shipment->hasReturned() && !($shipment instanceof \App\ReturnedShipment) && $shipment->isEditable())
             <p>@lang('shipment.return_notice')</p>
             <button type="button" class="btn btn-warning" data-toggle="modal"
                     data-target="#returnShipment-{{ $shipment->id }}"><i
@@ -13,8 +13,8 @@
                 <i class="fa-exclamation-triangle"></i>
                 @if($shipment instanceof \App\ReturnedShipment)
                     You cannot return a returning shipment!
-                @elseif($shipment->isReturned())
-                    This shipment is already returned.
+                @elseif($shipment->hasReturned())
+                    This shipment is already has returned shipment.
                 @else
                     The shipment cannot be returned after it is delivered.
                 @endif

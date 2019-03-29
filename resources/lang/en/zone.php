@@ -23,6 +23,7 @@ return [
         'save'            => "Save Address",
         'updated'         => "<i class='fa-check-circle2 mr-2'></i> Address updated successfully!",
         'name'            => "Address Name",
+        'label'            => "Address",
         'sameday_price'   => "Same Day Price",
         'scheduled_price' => "Next Day Price",
     ],

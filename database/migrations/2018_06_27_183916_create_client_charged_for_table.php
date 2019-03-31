@@ -16,7 +16,7 @@ class CreateClientChargedForTable extends Migration
         Schema::create('client_charged_for', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('client_id');
-            $table->unsignedInteger('status_id');
+            $table->integer('status_id');
             $table->boolean('enabled')->default(false);
             $table->enum('type', ['fixed','percentage']);
             $table->float('value');

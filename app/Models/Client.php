@@ -276,7 +276,10 @@ class Client extends Model implements Accountable, CanHaveShipment
 
     public function chargedForStatuses()
     {
-        return Status::whereIn('id', $this->chargedFor()->pluck('status_id'))->pluck('name')->toArray();
+        $ids = $this->chargedFor()->pluck('status_id')->toArray();
+        $statuses = Status::whereIn('id', $ids)->pluck('name')->toArray();
+        if(in_array('-1', $ids)) $statuses[] = 'returned';
+        return $statuses;
     }
 
 

@@ -36,8 +36,11 @@ class ClientChargedFor extends Model
 
     public function scopeByStatus(Builder $builder, $statusName)
     {
-        $status = Status::name($statusName)->first();
-        return $builder->where('status_id', $status->id);
+        if($statusName === "returned")
+            $statusId = -1;
+        else
+            $statusId = Status::name($statusName)->first()->id;
+        return $builder->where('status_id', $statusId);
     }
 
     public function scopeClientIs(Builder $query, Client $client)

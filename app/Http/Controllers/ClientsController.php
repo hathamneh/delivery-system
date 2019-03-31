@@ -301,8 +301,12 @@ class ClientsController extends Controller
         }
         foreach ($chargedForItems as $statusName => $item) {
             if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
-            $status = Status::name($statusName)->first();
-            if (is_null($status)) continue;
+            if ($statusName !== 'returned') {
+                $status = Status::name($statusName)->first();
+                if (is_null($status)) continue;
+            } else {
+                $status = -1;
+            }
             if ($client->chargedFor()->byStatus($statusName)->exists())
                 $chargedFor = $client->chargedFor()->byStatus($statusName)->first();
             else {

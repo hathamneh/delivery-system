@@ -58,6 +58,7 @@ return [
     'charged_for' => [
         'rejected' => 'Charged for rejected shipments',
         'cancelled' => 'Charged for cancelled shipments',
+        'returned' => 'Charged for returned shipments',
         'fixed_value' => 'Fixed Value',
         'percentage_value' => 'Percentage Value',
         'value' => 'Value to charge per shipment',

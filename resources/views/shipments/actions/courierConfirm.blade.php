@@ -70,11 +70,14 @@
 
         <div class="font-weight-bold mb-3 text-info">Good job! Kindly confirm COD</div>
 
-        <div class="form-group">
-            <label for="actual_paid">How much did the consignee pay ?</label>
-            <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
-                   placeholder="@lang('shipment.actual_paid')" min="{{ $shipment->cash_on_delivery }}" max="{{ $shipment->cash_on_delivery }}">
-        </div>
+        @if($shipment instanceof \App\ReturnedShipment)
+            <div class="form-group">
+                <label for="actual_paid">How much did the consignee pay ?</label>
+                <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
+                       placeholder="@lang('shipment.actual_paid')" min="{{ $shipment->cash_on_delivery }}"
+                       max="{{ $shipment->cash_on_delivery }}">
+            </div>
+        @endif
 
         <div class="form-group">
             <label for="external_notes">Do you have any notes?

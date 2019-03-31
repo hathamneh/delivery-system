@@ -355,16 +355,23 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $this->authorize('update', $shipment);
-
-        $request->validate([
-            'status'        => 'required',
-            'actual_paid'   => 'required_if:status,delivered,rejected,collected_from_office',
-            'delivery_date' => 'required_if:status,rescheduled'
-        ]);
+        $isReturned = $shipment instanceof ReturnedShipment;
+        if ($isReturned)
+            $request->validate([
+                'status'        => 'required',
+                'delivery_date' => 'required_if:status,rescheduled'
+            ]);
+        else
+            $request->validate([
+                'status'        => 'required',
+                'actual_paid'   => 'required_if:status,delivered,rejected,collected_from_office',
+                'delivery_date' => 'required_if:status,rescheduled'
+            ]);
         $status = $request->get('status');
         if ($status == "delivered") {
             $shipment->status()->associate(Status::name('delivered')->first());
-            $shipment->actual_paid_by_consignee = $request->get('actual_paid');
+            if (!$isReturned)
+                $shipment->actual_paid_by_consignee = $request->get('actual_paid');
         } else {
             $newStatus = Status::name($status)->first();
             if (!is_null($newStatus)) {
@@ -372,7 +379,8 @@ class ShipmentController extends Controller
                 if ($newStatus->name == "rescheduled") {
                     $shipment->delivery_date = Carbon::createFromFormat('d/m/Y', $request->get('delivery_date'));
                 }
-                $shipment->actual_paid_by_consignee = $request->get('actual_paid');
+                if (!$isReturned)
+                    $shipment->actual_paid_by_consignee = $request->get('actual_paid');
             }
         }
         if ($request->has('branch')) {

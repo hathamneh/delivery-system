@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group col-sm-12">
                         <label for="template">@lang('user.roles.select')</label>
-                        <select name="template" id="template" class="custom-select">
+                        <select name="template" id="template" class="custom-select" {{ $user->template->name == 'courier' || $user->template->name == 'client' ? 'disabled' : '' }}>
                             <option value="" disabled>@lang('common.select')</option>
                             @foreach($templates as $template)
                                 <option {{ optional($user->template)->id == $template->id ? "selected" : "" }}

@@ -16,6 +16,7 @@
                 <tr>
                     <th>ID</th>
                     <th>@lang('user.username')</th>
+                    <th>@lang('user.name')</th>
                     <th>@lang('user.email')</th>
                     <th>@lang('user.template')</th>
                     <th>@lang('common.actions')</th>
@@ -26,6 +27,7 @@
                     <tr id="user-{{ $user->id }}" data-id="{{ $user->id }}">
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->username }}</td>
+                        <td>{{ $user->isCourier() || $user->isClient() ? $user->display_name : '' }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->template->name ?? "" }} - {{ $user->template->description ?? "" }}</td>
                         <td>

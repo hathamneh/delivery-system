@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 
 class CouriersController extends Controller
 {
+
+    /**
+     * @var ShipmentFilters
+     */
+    private $shipmentFilters;
+
+    public function __construct()
+    {
+        $this->shipmentFilters = new ShipmentFilters();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -190,15 +201,28 @@ class CouriersController extends Controller
     {
         if (!auth()->user()->isAdmin()) abort(401, 'This action is unauthorized.');
 
+        $shipmentsQuery = $courier->shipments()->untilToday();
+
+        if ($request->has('start'))
+            $shipmentsQuery->whereDate('created_at', '>=', Carbon::createFromTimestamp($request->get('start')));
+        if ($request->has('end'))
+            $shipmentsQuery->whereDate('created_at', '<=', Carbon::createFromTimestamp($request->get('end')));
+
+        $requestFilters = $request->get('filters', []);
+        $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
+        $shipments      = $shipmentsQuery->get();
+
         $data = [
-            'shipments'        => $courier->shipments()->untilToday()->get(),
+            'shipments'        => $shipments,
             'courier'          => $courier,
             "pageHeadingClass" => "reporting-heading",
             'branches'         => Branch::all(),
             'statuses'         => $this->getStatuses(),
             'statuses_keyed'   => Status::all()->keyBy('name')->all(),
             'pageTitle'        => trans('inventory.couriers'),
-            'sidebarCollapsed' => true
+            'sidebarCollapsed' => true,
+            'filtersData'      => $this->shipmentFilters->filtersData(),
+            'applied'          => $appliedFilters,
         ];
 
         return view("couriers.inventory")->with($data);

@@ -11,6 +11,17 @@
 
 @section('actions')
     @include('reports.partials.actions', ['client_paid' => false, 'daterange' => false])
+
+    <button class="btn btn-light shipments-filter-btn dropdown-toggle" type="button" data-toggle="popover"
+            data-placement="bottom" data-html="true"
+            data-content='@include('shipments.partials.filter', $filtersData)' data-title="Filter Shipments">
+        <i class="fa-filter mr-2"></i> Filter
+    </button>
+
+    <div id="reportrange" class="btn btn-outline-secondary">
+        <i class="fa fa-calendar"></i>&nbsp;
+        <span></span> <i class="fa fa-caret-down"></i>
+    </div>
 @endsection
 
 @section('content')

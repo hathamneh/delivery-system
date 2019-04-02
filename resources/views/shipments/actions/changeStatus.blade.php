@@ -25,22 +25,25 @@
             <div id="statusNotes" class="col-sm-12" style="display: none;">
                 <div class="form-row">
 
-                    <div class="form-group col-md-6 delivered">
-                        <label for="actual_paid">How much did the consignee pay ?</label>
-                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
-                               class="form-control"
-                               required
-                               placeholder="@lang('shipment.actual_paid')" min="{{ $shipment->cash_on_delivery ?? "" }}"
-                               max="{{ $shipment->cash_on_delivery ?? "" }}">
-                    </div>
+                    @if(!($shipment instanceof \App\ReturnedShipment))
+                        <div class="form-group col-md-6 delivered">
+                            <label for="actual_paid">How much did the consignee pay ?</label>
+                            <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
+                                   class="form-control"
+                                   required
+                                   placeholder="@lang('shipment.actual_paid')"
+                                   min="{{ $shipment->cash_on_delivery ?? "" }}"
+                                   max="{{ $shipment->cash_on_delivery ?? "" }}">
+                        </div>
 
-                    <div class="form-group col-md-6 rejected collected_from_office">
-                        <label for="actual_paid">How much did the consignee pay ?</label>
-                        <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
-                               class="form-control"
-                               required
-                               placeholder="@lang('shipment.actual_paid')" min="0">
-                    </div>
+                        <div class="form-group col-md-6 rejected collected_from_office">
+                            <label for="actual_paid">How much did the consignee pay ?</label>
+                            <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"
+                                   class="form-control"
+                                   required
+                                   placeholder="@lang('shipment.actual_paid')" min="0">
+                        </div>
+                    @endif
 
                     @php $setBranchStatuses = ""; @endphp
                     @foreach($statuses as $group => $values)

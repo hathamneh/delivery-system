@@ -70,7 +70,7 @@
 
         <div class="font-weight-bold mb-3 text-info">Good job! Kindly confirm COD</div>
 
-        @if($shipment instanceof \App\ReturnedShipment)
+        @if(!($shipment instanceof \App\ReturnedShipment))
             <div class="form-group">
                 <label for="actual_paid">How much did the consignee pay ?</label>
                 <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
@@ -124,11 +124,13 @@
         <div class="step-2" id="reasonsStep2" style="display: none;">
             <div class="message font-weight-bold mb-4 text-danger">Please provide some details</div>
 
-            <div class="form-group actualPaid-input rejected">
-                <label for="actual_paid">How much did the consignee pay?</label>
-                <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
-                       placeholder="@lang('shipment.actual_paid')" min="0">
-            </div>
+            @if(!($shipment instanceof \App\ReturnedShipment))
+                <div class="form-group actualPaid-input rejected">
+                    <label for="actual_paid">How much did the consignee pay?</label>
+                    <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required
+                           placeholder="@lang('shipment.actual_paid')" min="0">
+                </div>
+            @endif
 
             @foreach($not_delivered_statuses as $status)
                 @php /** @var \App\Status $status */ @endphp

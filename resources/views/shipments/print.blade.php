@@ -82,6 +82,16 @@
                             </tr>
                             <tr>
                                 <th>
+                                    @lang('shipment.service_types.label')
+                                </th>
+                                <td>{{ trans('shipment.service_types.' . $shipment->service_type) }}</td>
+                                <th>
+                                </th>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
                                     @lang('shipment.extra_services')
                                 </th>
                                 <td colspan="3">

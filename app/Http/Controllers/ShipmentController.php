@@ -279,6 +279,7 @@ class ShipmentController extends Controller
                     $shipment->attachServices($request->get('services'));
                 }
                 $shipment->save();
+
                 return redirect()->route("shipments.edit", ['shipment' => $shipment]);
                 break;
             case "details":

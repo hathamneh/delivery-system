@@ -226,6 +226,11 @@
   max-height: 400px;
   overflow-y: auto;
 
+  &.shipment-log {
+    max-height: none;
+    height: auto;
+  }
+
   .list-group-item {
     padding-left: 2.5rem;
 

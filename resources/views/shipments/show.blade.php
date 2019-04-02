@@ -24,6 +24,10 @@
         <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'status']) }}"
            class="{{ $tab != "status" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.status_tab')</a>
         @if(auth()->user()->isAuthorized('shipments'))
+            <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'changelog']) }}"
+               class="{{ $tab != "changelog" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.changelog')</a>
+        @endif
+        @if(auth()->user()->isAuthorized('shipments'))
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'summery']) }}"
                class="{{ $tab != "summery" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.summery')</a>
         @endif
@@ -38,6 +42,7 @@
     </nav>
 
     @includeWhen($tab == "status", "shipments.tabs.status")
+    @includeWhen($tab == "changelog", "shipments.tabs.log")
     @includeWhen($tab == "summery", "shipments.tabs.summery")
     @includeWhen($tab == "edit", "shipments.tabs.edit")
     @includeWhen($tab == "actions", "shipments.tabs.actions")

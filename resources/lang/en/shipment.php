@@ -21,6 +21,7 @@ return [
     "details"          => "Consignee's information",
 
     'status_tab' => "Shipment Status & History",
+    'changelog' => "Change Log",
 
     "service_type"             => "Service Type",
     "service_types"            => [

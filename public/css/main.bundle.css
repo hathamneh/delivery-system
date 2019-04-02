@@ -31326,6 +31326,11 @@ a.pickup-toggle-details.collapsed i {
   overflow-y: auto;
 }
 
+.shipment-history.shipment-log {
+  max-height: none;
+  height: auto;
+}
+
 .shipment-history .list-group-item {
   padding-left: 2.5rem;
 }

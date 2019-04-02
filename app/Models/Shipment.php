@@ -73,7 +73,16 @@ use Venturecraft\Revisionable\RevisionableTrait;
  */
 class Shipment extends Model
 {
-    use SoftDeletes, GenerateWaybills;
+    use SoftDeletes, GenerateWaybills, RevisionableTrait;
+
+    /** Revisionable Attributes */
+    protected $revisionEnabled = true;
+    protected $historyLimit = 500;
+    protected $revisionCleanup = true;
+    protected $revisionFormattedFields = array(
+        'courier_cashed' => 'boolean:No|Yes',
+        'client_paid' => 'boolean:No|Yes',
+    );
 
     /**
      * @var int
@@ -607,7 +616,7 @@ class Shipment extends Model
             ->where('type', 'wizard|legacy');
         Route::get('shipments/{shipment}/{tab?}', "ShipmentController@show")
             ->name('shipments.show')
-            ->where('tab', 'summery|details|actions|status');
+            ->where('tab', 'summery|details|actions|status|changelog');
         Route::resource('shipments', "ShipmentController")->except(['create', 'show']);
 
         Route::put('shipments/{shipment}/return', "ShipmentController@makeReturn")->name('shipments.return');

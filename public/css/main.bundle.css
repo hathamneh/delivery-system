@@ -39727,4 +39727,8 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
   display: inline-block;
 }
 
+.note-popover {
+  display: none;
+}
+
 /*# sourceMappingURL=main.bundle.css.map*/

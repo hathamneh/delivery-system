@@ -200,6 +200,7 @@ class Client extends Model implements Accountable, CanHaveShipment
 
     public function setSecondaryEmailsAttribute($value)
     {
+
         if (is_null($value) || empty(trim($value))) {
             $this->secondary_emails = "";
         } else {
@@ -209,7 +210,7 @@ class Client extends Model implements Accountable, CanHaveShipment
                 if (filter_var(trim($email), FILTER_VALIDATE_EMAIL))
                     $validated[] = trim($email);
             }
-            $this->secondary_emails = implode(',', $validated);
+            $this->attributes['secondary_emails'] = implode(',', $validated);
         }
     }
 

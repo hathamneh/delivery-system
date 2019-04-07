@@ -5,7 +5,9 @@ namespace App;
 use App\Http\Controllers\ShipmentFilters;
 use App\Notifications\CancelledShipment;
 use App\Notifications\ConsigneeRescheduled;
+use App\Notifications\FailedShipment;
 use App\Notifications\NotAvailableConsignee;
+use App\Notifications\OfficeCollection;
 use App\Notifications\RejectedShipment;
 use App\Traits\GenerateWaybills;
 use Carbon\Carbon;
@@ -602,6 +604,12 @@ class Shipment extends Model
                 break;
             case "cancelled":
                 $this->client->notify(new CancelledShipment($this));
+                break;
+            case "failed":
+                $this->client->notify(new FailedShipment($this));
+                break;
+            case "collect_from_office":
+                $this->client->notify(new OfficeCollection($this));
                 break;
         }
     }

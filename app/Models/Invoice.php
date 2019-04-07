@@ -2,15 +2,19 @@
 
 namespace App;
 
+use App\Exports\InvoiceExport;
 use App\Interfaces\Accountable;
+use App\Notifications\InvoiceNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
+ * @property int id
  * @property Carbon until
  * @property Carbon from
  * @property Accountable target
@@ -51,6 +55,18 @@ class Invoice extends Model
         'until',
         'decision_date'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::created(function (Invoice $instance) {
+            if ($instance->target instanceof Client) {
+                if (Excel::store(new InvoiceExport($instance), "invoices/invoice-{$instance->id}.xls"))
+                    $instance->target->notify(new InvoiceNotification($instance));
+            }
+        });
+    }
 
     /**
      * @param $value

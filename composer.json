@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "mariuzzo/laravel-js-localization": "^1.4",
         "petercoles/multilingual-country-list": "^1.2",
         "spatie/laravel-activitylog": "^2.8",

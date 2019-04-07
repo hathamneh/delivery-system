@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Courier;
+use App\Exports\InvoiceExport;
 use App\Guest;
 use App\Http\Middleware\IsAdmin;
 use App\Invoice;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountingController extends Controller
 {
@@ -79,7 +81,6 @@ class AccountingController extends Controller
         ]);
         $invoice->period = $request->get('period');
         $invoice->save();
-
         return redirect()->route('accounting.invoice', [$invoice]);
     }
 

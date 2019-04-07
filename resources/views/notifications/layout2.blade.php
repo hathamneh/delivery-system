@@ -11,16 +11,8 @@
     {{-- Subcopy --}}
     @slot('subcopy')
         @component('mail::subcopy')
-            Customer Happiness Department,<br>
+            Accounting Department,<br>
             Kangaroo Delivery
-            <br>
-            <br>
-            <small style="color: #909090;">
-                Disclaimer:
-                The information contained in this e-mail and its attachments is confidential and may be privileged.
-                If you have received this email by mistake or are not the intended recipient please delete it and inform
-                us immediately.
-            </small>
             @endcomponent
             @endslot
 

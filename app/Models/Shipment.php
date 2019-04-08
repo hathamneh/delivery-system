@@ -128,6 +128,7 @@ class Shipment extends Model
         'client_paid',
         'reference',
         'is_guest',
+        'branch_id'
     ];
 
     protected $dispatchesEvents = [

@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('branches/{branch}', "BranchController@destroy")->name('branches.destroy');
 
     Route::get('emails', "MailingController@index")->name('emails.index');
+    Route::post('emails', "MailingController@broadcast")->name('emails.broadcast');
 
     Route::prefix('ajax')->group(function () {
         Route::get('notifications/all', 'NotificationsController@index');

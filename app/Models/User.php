@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
  * @property Collection unreadNotifications
  * @property string api_token
  * @method Builder notifications()
+ * @method static self clients()
+ * @method static self couriers()
  *
  * @mixin Builder
  */
@@ -48,6 +50,18 @@ class User extends Authenticatable
     public function template()
     {
         return $this->belongsTo(UserTemplate::class, 'user_template_id');
+    }
+
+    public function scopeClients(Builder $query)
+    {
+        $clientTemplate = UserTemplate::where('name', '=', 'client')->first()->id;
+        return $query->where('user_template_id', '=', $clientTemplate);
+    }
+
+    public function scopeCouriers(Builder $query)
+    {
+        $courierTemplate = UserTemplate::where('name', '=', 'courier')->first()->id;
+        return $query->where('user_template_id', '=', $courierTemplate);
     }
 
     /**

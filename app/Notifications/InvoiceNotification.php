@@ -52,7 +52,7 @@ class InvoiceNotification extends Notification
         if(!Storage::disk('local')->exists("invoices/invoice-{$this->invoice->id}.xls")) return;
 
         $mail = new MailMessage;
-        $mail->subject("Invoice - Kangaroo Delivery")
+        $mail->subject("Invoice - {$notifiable->account_number}")
             ->markdown('notifications.mail', [
                 'tmpl'     => 'invoice',
                 'client'   => $notifiable,

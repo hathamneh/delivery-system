@@ -1,3 +1,1 @@
-require('summernote')
-
-$('#mailEditor').summernote();
+//

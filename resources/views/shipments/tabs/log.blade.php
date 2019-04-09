@@ -6,7 +6,7 @@
             @php /** @var \Venturecraft\Revisionable\Revision $history */ @endphp
             <li class="list-group-item">
                 <small class="history-date">{{ $history->created_at->toDayDateTimeString() }}</small>
-                {!! $history->userResponsible() instanceof App\User ? '<small>By '.$history->userResponsible()->username . '</small>' : '' !!}
+                {!! $history->userResponsible() instanceof App\User ? '<small>By '.$history->userResponsible()->display_name . '</small>' : '' !!}
                 <div class="font-weight-bold py-2">
                     @if($history->key == 'created_at' && !$history->old_value)
                         Shipment has been created

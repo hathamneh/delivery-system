@@ -25,7 +25,7 @@
             <div id="statusNotes" class="col-sm-12" style="display: none;">
                 <div class="form-row">
 
-                    @if(!($shipment instanceof \App\ReturnedShipment))
+                    @if(!isset($shipment) || !($shipment instanceof \App\ReturnedShipment))
                         <div class="form-group col-md-6 delivered">
                             <label for="actual_paid">How much did the consignee pay ?</label>
                             <input type="number" data-type="number" step="any" name="actual_paid" id="actual_paid"

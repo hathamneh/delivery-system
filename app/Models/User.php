@@ -129,11 +129,21 @@ class User extends Authenticatable
     public function getDisplayNameAttribute()
     {
         if ($this->isClient())
-            return $this->client->trade_name;
+            return $this->client->name . " ({$this->client->trade_name})";
         elseif ($this->isCourier())
             return $this->courier->name;
         else
             return $this->username;
+    }
+
+    public function getThePasswordAttribute()
+    {
+        if ($this->isClient())
+            return $this->client->password;
+        elseif ($this->isCourier())
+            return $this->courier->password;
+        else
+            return "-- HIDDEN --";
     }
 
     /**

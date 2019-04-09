@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="table-responsive py-2 px-1">
             <table class="table dataTable">
                 <thead>
@@ -18,6 +18,7 @@
                     <th>@lang('user.username')</th>
                     <th>@lang('user.name')</th>
                     <th>@lang('user.email')</th>
+                    <th>@lang('user.password')</th>
                     <th>@lang('user.template')</th>
                     <th>@lang('common.actions')</th>
                 </tr>
@@ -29,6 +30,7 @@
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->isCourier() || $user->isClient() ? $user->display_name : '' }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->the_password }}</td>
                         <td>{{ $user->template->name ?? "" }} - {{ $user->template->description ?? "" }}</td>
                         <td>
                             <div class="d-flex">

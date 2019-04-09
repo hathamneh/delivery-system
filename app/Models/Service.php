@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
  * Class Service
  * @package App
  *
+ * @property int id
  * @property string name
  * @property double price
  * @property Collection shipments

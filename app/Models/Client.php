@@ -398,6 +398,7 @@ class Client extends Model implements Accountable, CanHaveShipment
         // clients custom services
         Route::get('clients/{client}/services', "ClientServicesController@index")->name('clients.services.index');
         Route::post('clients/{client}/services/{service}', "ClientServicesController@store")->name('clients.services.store');
+        Route::put('clients/{client}/services/{service}', "ClientServicesController@update")->name('clients.services.update');
 
         // clients custom zones
         Route::post('clients/{client}/zones', "ClientZonesController@store")->name('clients.zones.store');

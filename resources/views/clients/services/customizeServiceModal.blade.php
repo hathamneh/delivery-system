@@ -5,8 +5,9 @@
         Customize <b>{{ $service->name }}</b> only for <b>{{ $client->name }}</b>
     @endslot
 
-    <form action="{{ route('clients.services.store', [$client, $service]) }}" method="post">
+    <form action="{{ route('clients.services.'.($custom ? 'update':'store'), [$client, $service]) }}" method="post">
         {{ csrf_field() }}
+        {{ $custom ? method_field('put') : "" }}
 
         <div class="form-group">
             <label for="price">New Custom Price</label>

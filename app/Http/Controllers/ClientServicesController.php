@@ -15,9 +15,9 @@ class ClientServicesController extends Controller
         /** @var Client $client */
         $client = Client::find(\request('client'));
         View::share([
-            "pageTitle"   => !is_null($client) ? "{$client->trade_name} - Custom Services" : "Custom Services",
-            'tab'         => 'services',
-            'client'      => $client,
+            "pageTitle"      => !is_null($client) ? "{$client->trade_name} - Custom Services" : "Custom Services",
+            'tab'            => 'services',
+            'client'         => $client,
             'shipmentsCount' => !is_null($client) ? $client->shipments()->count() : 0,
             'pickupsCount'   => !is_null($client) ? $client->pickups()->count() : 0,
             'services'       => Service::all(),
@@ -48,7 +48,7 @@ class ClientServicesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Client $client
      * @param Service $service
      * @return \Illuminate\Http\Response
@@ -56,7 +56,7 @@ class ClientServicesController extends Controller
     public function store(Request $request, Client $client, Service $service)
     {
         $newPrice = $request->get('price', false);
-        if($newPrice) {
+        if ($newPrice) {
             $client->customServices()->attach($service->id, ['price' => $newPrice]);
         }
         return redirect()->route('clients.services.index', [$client]);
@@ -65,7 +65,7 @@ class ClientServicesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param \App\Service $service
      * @return \Illuminate\Http\Response
      */
     public function show(Service $service)
@@ -76,7 +76,7 @@ class ClientServicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param \App\Service $service
      * @return \Illuminate\Http\Response
      */
     public function edit(Service $service)
@@ -87,19 +87,24 @@ class ClientServicesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Service  $service
+     * @param \Illuminate\Http\Request $request
+     * @param Client $client
+     * @param \App\Service $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Client $client, Service $service)
     {
-        //
+        $newPrice = $request->get('price', false);
+        if ($newPrice) {
+            $client->customServices()->sync([$service->id => ['price' => $newPrice]]);
+        }
+        return redirect()->route('clients.services.index', [$client]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Service  $service
+     * @param \App\Service $service
      * @return \Illuminate\Http\Response
      */
     public function destroy(Service $service)

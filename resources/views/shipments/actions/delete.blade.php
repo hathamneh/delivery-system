@@ -15,7 +15,7 @@
         @else
             <div class="alert alert-light">
                 <i class="fa-exclamation-triangle"></i>
-                The shipment cannot be deleted after it is delivered.
+                The shipment cannot be deleted in its current state.
             </div>
         @endif
     </div>

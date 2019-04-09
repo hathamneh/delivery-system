@@ -47,7 +47,7 @@
                 <div class="alert alert-light text-center py-4">
                     <i class="fa-exclamation-triangle mb-4 d-inline-block" style="font-size: 2rem"></i>
                     <br>
-                    The shipment cannot be edited after it is delivered.
+                    The shipment cannot be edited in its current state.
                 </div>
             </div>
         @endif

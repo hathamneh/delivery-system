@@ -576,7 +576,7 @@ class Shipment extends Model
      */
     public function isEditable()
     {
-        return !$this->status()->whereIn('name', ['delivered'])->exists();
+        return !$this->status()->whereIn('name', ['delivered'])->exists() && !$this->hasReturned();
     }
 
     /**

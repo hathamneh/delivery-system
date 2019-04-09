@@ -22,9 +22,7 @@ class PickupsController extends Controller
 
     public function __construct()
     {
-        View::share([
-            'pageTitle' => trans('pickup.label')
-        ]);
+
     }
 
     /**
@@ -50,14 +48,18 @@ class PickupsController extends Controller
 
         $statuses = PickupStatus::all();
 
-        return view('pickups.index')->with([
+        $data = [
             'pickups'         => $pickups->simplePaginate(),
             'startDate'       => $startDate,
             'endDate'         => $endDate,
             's'               => $s,
             'statuses'        => $statuses,
             'statusesOptions' => self::statusesOptions($statuses),
-        ]);
+        ];
+
+        $data['pageTitle'] = $request->get('today') === "1" ? "Today's Pickups" : trans('pickup.label');
+
+        return view('pickups.index')->with($data);
     }
 
     /**
@@ -79,7 +81,7 @@ class PickupsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -128,7 +130,7 @@ class PickupsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pickup $pickup
+     * @param \App\Pickup $pickup
      * @return \Illuminate\Http\Response
      */
     public function show(Pickup $pickup)
@@ -140,7 +142,7 @@ class PickupsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Request $request
-     * @param  \App\Pickup $pickup
+     * @param \App\Pickup $pickup
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, Pickup $pickup)
@@ -158,8 +160,8 @@ class PickupsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Pickup $pickup
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Pickup $pickup
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Pickup $pickup)
@@ -181,7 +183,7 @@ class PickupsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pickup $pickup
+     * @param \App\Pickup $pickup
      * @return \Illuminate\Http\Response
      */
     public function destroy(Pickup $pickup)

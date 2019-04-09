@@ -81,16 +81,16 @@
                                 class="fa fa-angle-down arrow"></span></a>
                     <ul class="children collapse">
                         @if(auth()->user()->isAdmin())
-                            <li class="{{ (\Request::route()->getName() == 'pickups.index') ? 'active' : '' }}"><a
+                            <li class="{{ (\Request::route()->getName() == 'pickups.index') && !request()->has('today') ? 'active' : '' }}"><a
                                         href="{{ route('pickups.index') }}"><i
                                             class="fas fa-shopping-bag"></i>
                                     {{ trans('pickup.all') }}
                                 </a>
                             </li>
                         @endif
-                        <li class="{{ request()->is('pickups?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}">
+                        <li class="{{ (\Request::route()->getName() == 'pickups.index')  && request()->get('today') === "1" ? ' active' : '' }}">
                             <a
-                                    href="{{ route('pickups.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp]) }}"><i
+                                    href="{{ route('pickups.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp, 'today' => true]) }}"><i
                                         class="fas fa-shopping-bag"></i>@lang('pickup.today_pickups')</a>
                         </li>
 
@@ -112,7 +112,7 @@
                                         class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
                         <li class="{{ request()->is('shipments?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}">
                             <a
-                                    href="{{ route('shipments.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp]) }}"><i
+                                    href="{{ route('shipments.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp, 'today' => true]) }}"><i
                                         class="fas fa-shipment"></i>@lang('shipment.today_shipments')</a>
                         </li>
                         <li class="{{ (\Request::is('shipments?scope=normal,guest')) ? 'active' : '' }}"><a

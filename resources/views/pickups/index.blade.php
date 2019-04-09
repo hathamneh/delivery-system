@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-shopping-bag'></i> @lang("pickup.label")
+    <i class='fa-shopping-bag'></i> {{ $pageTitle }}
 @endsection
 
 @section('actionsFirst')

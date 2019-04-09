@@ -1,5 +1,7 @@
 <?php
 
+use App\Client;
+use App\PaymentMethod;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodsSeeder extends Seeder
@@ -11,6 +13,7 @@ class PaymentMethodsSeeder extends Seeder
         'bank_transfer',
         'exchange_shop_transfer',
         'zain_cash',
+        'cash_from_office'
     ];
 
     /**
@@ -20,12 +23,11 @@ class PaymentMethodsSeeder extends Seeder
      */
     public function run()
     {
+        PaymentMethod::truncate();
+
         $paymentMethods = [];
         foreach ($this->paymentMethods as $paymentMethod) {
-            $paymentMethods[] = \App\PaymentMethod::create(['name' => $paymentMethod])->id;
-        }
-        foreach (\App\Client::all() as $client) {
-            $client->paymentMethods()->sync($paymentMethods);
+            $paymentMethods[] = PaymentMethod::create(['name' => $paymentMethod])->id;
         }
     }
 }

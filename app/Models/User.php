@@ -189,6 +189,11 @@ class User extends Authenticatable
         return strtolower($string);
     }
 
+    public function identifiableName()
+    {
+        return $this->username;
+    }
+
     public static function routes()
     {
         Route::resource('users/roles', "UserTemplatesController");

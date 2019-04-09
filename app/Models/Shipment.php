@@ -85,6 +85,9 @@ class Shipment extends Model
         'courier_cashed' => 'boolean:No|Yes',
         'client_paid' => 'boolean:No|Yes',
     );
+    protected $dontKeepRevisionOf = [
+        'created_by',
+    ];
 
     /**
      * @var int

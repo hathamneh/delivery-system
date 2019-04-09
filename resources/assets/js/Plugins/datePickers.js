@@ -100,7 +100,7 @@ let dateRangeLocale = {
                 locale: {
                     format: "DD/MM/YYYY"
                 },
-                minDate: moment(),
+                // minDate: moment(),
                 drops: drops
             });
         })

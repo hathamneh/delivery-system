@@ -34,7 +34,8 @@
                         <small class="form-control-feedback text-danger">This must match the value agreed on with the
                             customer.
                         </small>
-                        <input type="number" data-type="number" step="any" name="prepaid_cash" id="prepaid_cash" class="form-control"
+                        <input type="number" data-type="number" step="any" name="prepaid_cash" id="prepaid_cash"
+                               class="form-control"
                                required
                                placeholder="Please enter a value" min="{{ $pickup->prepaid_cash }}"
                                max="{{ $pickup->prepaid_cash }}">
@@ -133,3 +134,6 @@
         @endslot
     @endcomponent
 </form>
+
+
+@include('pickups.item.history')

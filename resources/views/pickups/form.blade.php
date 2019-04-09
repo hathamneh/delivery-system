@@ -180,19 +180,19 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
             </div>
 
             <div class="form-group col-sm-6">
-                <label for="available_time">@lang('pickup.available_time')</label>
+                <label for="available_day">@lang('pickup.available_time')</label>
                 <input type="text" name="available_day" id="available_day"
                        value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
                        class="form-control datetimepicker">
             </div>
             <div class="form-group col-sm-3 col-6">
-                <label for="available_time">From:</label>
+                <label for="time_start">From:</label>
                 <input type="text" name="time_start" id="time_start"
                        value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
                        class="form-control timepicker">
             </div>
             <div class="form-group col-sm-3 col-6">
-                <label for="available_time">To:</label>
+                <label for="time_end">To:</label>
                 <input type="text" name="time_end" id="time_end"
                        value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
                        class="form-control timepicker">

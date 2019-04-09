@@ -46,4 +46,9 @@ class PickupStatus extends Model
             return $builder->whereIn('name', $name, $boolean, $not);
         return $builder->where('name', $not ? '!=' : '=', $name, $boolean);
     }
+
+    public function identifiableName()
+    {
+        return trans("pickup.statuses.{$this->name}");
+    }
 }

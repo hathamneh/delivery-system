@@ -47,7 +47,10 @@ class Pickup extends Model
     protected $revisionEnabled = true;
     protected $revisionCleanup = true;
     protected $historyLimit    = 75; // Stop tracking revisions after 75 changes have been made.
-
+    protected $revisionFormattedFields = [
+        'available_time_start' => 'datetime:d/m/Y g:i A',
+        'available_time_end' => 'datetime:d/m/Y g:i A',
+    ];
 
     protected $dates = ['deleted_at', 'available_time_start', 'available_time_end'];
 
@@ -180,7 +183,7 @@ class Pickup extends Model
 
     public function getAvailableDayAttribute()
     {
-        return $this->available_time_start->format('j/n/Y');
+        return $this->available_time_start->format('d/m/Y');
     }
 
     public function statusContext($context = null)

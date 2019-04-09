@@ -7,8 +7,12 @@
     @endif
     @if(auth()->user()->isAdmin())
         <button type="button" data-toggle="modal" data-target="#assignCourierModal-{{ $pickup->id }}"
-                class="btn btn-light btn-sm actions-btn">
+                class="btn btn-light btn-sm actions-btn" data-toggle-tooltip title="@lang('pickup.assignCourierTitle')">
             <i class="fa-truck"></i>
+        </button>
+        <button type="button" data-toggle="modal" data-target="#pickupHistory-{{ $pickup->id }}"
+                class="btn btn-light btn-sm actions-btn" data-toggle-tooltip title="@lang('pickup.history')">
+            <i class="fa-history"></i>
         </button>
     @endif
     @can('update', $pickup)

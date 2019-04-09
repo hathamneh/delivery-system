@@ -389,6 +389,11 @@ class Client extends Model implements Accountable, CanHaveShipment
         return $statement[0]->Auto_increment;
     }
 
+    public function identifiableName()
+    {
+        return $this->name;
+    }
+
     public static function routes()
     {
         Route::get('clients/create', "ClientsController@create")->name('clients.create');

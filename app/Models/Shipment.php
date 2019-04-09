@@ -78,14 +78,14 @@ class Shipment extends Model
     use SoftDeletes, GenerateWaybills, RevisionableTrait;
 
     /** Revisionable Attributes */
-    protected $revisionEnabled = true;
-    protected $historyLimit = 500;
-    protected $revisionCleanup = true;
+    protected $revisionEnabled         = true;
+    protected $historyLimit            = 500;
+    protected $revisionCleanup         = true;
     protected $revisionFormattedFields = array(
         'courier_cashed' => 'boolean:No|Yes',
-        'client_paid' => 'boolean:No|Yes',
+        'client_paid'    => 'boolean:No|Yes',
     );
-    protected $dontKeepRevisionOf = [
+    protected $dontKeepRevisionOf      = [
         'created_by',
     ];
 
@@ -534,6 +534,10 @@ class Shipment extends Model
         foreach ($services as $service) {
             if (!$service instanceof Service) $service = Service::findOrFail($service);
             $syncData[$service->id] = ['price' => $service->price];
+            activity()
+                ->performedOn($this)
+                ->causedBy(auth()->user())
+                ->log("Service `{$service->name}` has been added to this shipment.");
         }
         return $this->services()->sync($syncData);
     }

@@ -10,7 +10,7 @@ class ReturnedShipment extends Shipment
 
     protected $table = "shipments";
     protected $waybill_prefix = "3";
-    protected static $waybill_type = "returned";
+    public static $waybill_type = "returned";
 
     public static function boot()
     {

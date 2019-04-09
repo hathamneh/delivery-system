@@ -262,6 +262,11 @@ class Shipment extends Model
         return $this->hasReturned() && $this->isStatusGroup('delivered');
     }
 
+    public function isReturnedShipment()
+    {
+        return $this->type === ReturnedShipment::$waybill_type;
+    }
+
     /**
      * @param Builder $query
      * @param array $type

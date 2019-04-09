@@ -1,6 +1,19 @@
 @php /** @var \App\Shipment $shipment */ @endphp
 <div class="container">
     <div class="row mt-4" data-id="{{ $shipment->id }}">
+
+        @if ($errors->any())
+            <div class="col-md-7 mx-auto">
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
         <div class="mx-auto col-md-9">
 
             @if(auth()->user()->isCourier() && auth()->user()->can('update', $shipment))

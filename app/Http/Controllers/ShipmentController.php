@@ -358,7 +358,7 @@ class ShipmentController extends Controller
     public function updateDelivery(Request $request, Shipment $shipment)
     {
         $this->authorize('update', $shipment);
-        $isReturned = $shipment instanceof ReturnedShipment;
+        $isReturned = $shipment->isReturnedShipment();
         if ($isReturned)
             $request->validate([
                 'status'        => 'required',

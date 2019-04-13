@@ -58,11 +58,11 @@ class ShipmentController extends Controller
 
         if ($request->has('start')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
-            $shipmentsQuery->whereDate('created_at', '>=', $startDate);
+            $shipmentsQuery->whereDate('delivery_date', '>=', $startDate);
         }
         if ($request->has('end')) {
             $endDate   = Carbon::createFromTimestamp($request->get('end'));
-            $shipmentsQuery->whereDate('created_at', '<=', $endDate);
+            $shipmentsQuery->whereDate('delivery_date', '<=', $endDate);
         }
 
 

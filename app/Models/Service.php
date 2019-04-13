@@ -40,7 +40,7 @@ class Service extends Model
 
     public function hasShipment(Shipment $shipment)
     {
-        return $this->shipments()->exists($shipment->id);
+        return $this->shipments()->where('shipment_id', $shipment->id)->exists();
     }
 
     public function customFor(CanHaveShipment $client)

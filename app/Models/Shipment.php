@@ -50,6 +50,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property double services_cost
  * @property double delivery_cost
  * @property double base_charge
+ * @property double extra_charges
  * @property double actual_paid_by_consignee
  * @property string internal_notes
  * @property string external_notes
@@ -61,6 +62,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property Branch branch
  * @property Carbon created_at
  * @property User createdBy
+ * @property ReturnedShipment returned_in
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
  * @method static self statusGroups(array $status_groups)
@@ -502,10 +504,34 @@ class Shipment extends Model
 
     public function getNetAmountAttribute()
     {
-        if ($this->statusIs(["rejected", 'cancelled'])) {
-            return abs($this->delivery_cost - $this->actual_paid_by_consignee);
+        $net = $this->delivery_cost;
+        if ($this->statusIs(["rejected", 'cancelled']) || $this->isReturnedShipment()) {
+            $net += $this->extra_charges;
+            return abs($net - $this->actual_paid_by_consignee);
         }
-        return $this->delivery_cost;
+        return $net;
+    }
+
+    public function getExtraChargesAttribute()
+    {
+        $statusName = $this->status->name;
+        if ($this->isReturnedShipment()) {
+            $statusName = 'returned';
+        }
+        $isChargedFor = $this->client->isChargedFor($statusName);
+        if (!is_null($isChargedFor) && $isChargedFor) {
+            /** @var ClientChargedFor $charged */
+            $charged = $this->client->chargedFor()->byStatus($statusName)->first();
+
+            if ($this->isReturnedShipment()) {
+                $originalShipment = ReturnedShipment::find($this->id)->returnedFrom;
+                $originalStatus   = $originalShipment->status->name;
+                if (isset($charged->options[$originalStatus]) && $charged->options[$originalStatus] === true)
+                    return $charged->compute($this->delivery_cost);
+            } else
+                return $charged->compute($this->delivery_cost);
+        }
+        return 0;
     }
 
     public function getCashOnDeliveryAttribute()

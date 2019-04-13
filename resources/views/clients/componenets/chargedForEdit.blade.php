@@ -48,6 +48,21 @@ if(!is_null($cf)) {
                    name="chargedFor[{{ $status }}][value]" id="charged_{{ $status }}_value"
                    value="{{  optional($cf)->value ?? old('chargedFor.'.$status.'.value') ?? $defaultValue }}">
         </div>
-
     </div>
+    @if($status == 'returned')
+        <div class="form-group pl-3">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" id="charged_{{ $status }}_rejected" name="chargedFor[{{ $status }}][rejected]"
+                       class="custom-control-input" {{ $data['returnedChargeOn']['rejected'] ? 'checked' : "" }}>
+                <label for="charged_{{ $status }}_rejected"
+                       class="custom-control-label">Charged if the original rejected</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" id="charged_{{ $status }}_cancelled" name="chargedFor[{{ $status }}][cancelled]"
+                       class="custom-control-input" {{ $data['returnedChargeOn']['cancelled'] ? 'checked' : "" }}>
+                <label for="charged_{{ $status }}_cancelled"
+                       class="custom-control-label">Charged if the original cancelled</label>
+            </div>
+        </div>
+    @endif
 </fieldset>

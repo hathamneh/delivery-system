@@ -72,7 +72,7 @@ class ClientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreClientRequest $request)
@@ -168,14 +168,21 @@ class ClientsController extends Controller
             'section'        => $section,
             'shipmentsCount' => $client->shipments()->count(),
             'pickupsCount'   => $client->pickups()->count(),
+            'chargedForData' => []
         ];
+        if ($section === 'accounting') {
+            $data['chargedForData']['returnedChargeOn'] = ClientChargedFor::byStatus('returned')->first()->options ?? [
+                    'rejected'  => false,
+                    'cancelled' => false,
+                ];
+        }
         return view('clients.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Client $client
      * @param string $section
      * @return Response
@@ -219,7 +226,7 @@ class ClientsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Client $client
+     * @param Client $client
      * @return \Illuminate\Http\Response
      */
     public function destroy(Client $client)
@@ -300,7 +307,8 @@ class ClientsController extends Controller
             }
         }
         foreach ($chargedForItems as $statusName => $item) {
-            if (!is_array($item) || !empty(array_diff(['enabled', 'value', 'type'], array_keys($item)))) continue;
+            $fields = ['enabled', 'value', 'type'];
+            if (!is_array($item) || !empty(array_diff($fields, array_keys($item)))) continue;
             if ($statusName !== 'returned') {
                 $status = Status::name($statusName)->first();
                 if (is_null($status)) continue;
@@ -317,6 +325,14 @@ class ClientsController extends Controller
             $chargedFor->enabled = $item['enabled'] == "on";
             $chargedFor->type    = $item['type'];
             $chargedFor->value   = $item['value'];
+            if ($statusName == 'returned') {
+                $options             = [
+                    'rejected'  => isset($item['rejected']),
+                    'cancelled' => isset($item['cancelled']),
+                ];
+                $chargedFor->options = $options;
+            }
+
             $chargedFor->save();
         }
 

@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Venturecraft\Revisionable\RevisionableTrait;
 
+/**
+ * Class ReturnedShipment
+ * @package App
+ *
+ * @property Shipment returned_from
+ */
 class ReturnedShipment extends Shipment
 {
     use RevisionableTrait;

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $enabled
  * @property string $type
  * @property mixed value
+ * @property array options
  * @method static self byStatus(string $string)
  * @method static self clientIs(Client $client)
  * @mixin Builder
@@ -23,6 +24,10 @@ class ClientChargedFor extends Model
 {
 
     protected $table = "client_charged_for";
+
+    protected $casts = [
+        'options' => 'array'
+    ];
 
     public function client()
     {

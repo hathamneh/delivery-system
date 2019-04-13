@@ -14,6 +14,7 @@ use App\ClientLimit;
 use App\Guest;
 use App\Invoice;
 use App\Pickup;
+use App\ReturnedShipment;
 use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -53,7 +54,7 @@ trait ClientAccounting
 
         // ( CONFLICT ) shipments
         $shipments = clone $this->targetShipments;
-        $shipments = $shipments->statusIn(['rejected', 'cancelled'])->lodger('client')->get();
+        $shipments = $shipments->statusIn(['rejected', 'cancelled'])->orWhere('type', ReturnedShipment::$waybill_type)->lodger('client')->get();
         $charged   = [];
         foreach (['rejected', 'cancelled', 'returned'] as $item) {
             $isChargedFor = $this->isChargedFor($item);
@@ -65,8 +66,23 @@ trait ClientAccounting
         foreach ($shipments as $shipment) {
             /** @var  Shipment $shipment */
             $status = $shipment->status->name;
+            if ($shipment->isReturnedShipment())
+                $status = 'returned';
+
             if ($charged[$status]) {
-                $sum += $charged[$status]->compute($shipment->delivery_cost);
+                $charges = 0;
+                if (!$shipment->isReturnedShipment())
+                    $charges = $charged[$status]->compute($shipment->delivery_cost);
+                else {
+                    $originalShipment = ReturnedShipment::find($shipment->id)->returnedFrom;
+                    $originalStatus   = $originalShipment->status->name;
+                    logger($originalShipment);
+                    logger($originalStatus);
+                    if (isset($charged[$status]->options[$originalStatus]) && $charged[$status]->options[$originalStatus] === true)
+                        $charges = $charged[$status]->compute($shipment->delivery_cost);
+                }
+                $sum += $charges;
+
             }
         }
 

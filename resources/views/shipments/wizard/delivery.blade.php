@@ -96,14 +96,14 @@ if(isset($shipment)) {
                     <div class="col-sm-6 form-group">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="custom_price" name="custom_price"
-                                   value="true" {{ old('custom_price') == "true" ? "checked" : "" }}>
+                                   value="true" {{ old('custom_price') == "true" || (isset($shipment) && !is_null($shipment->total_price)) ? "checked" : "" }}>
                             <label class="custom-control-label"
                                    for="custom_price">@lang('shipment.custom_price')</label>
                         </div>
                         <input type="number" min="0" step="0.1" placeholder="@lang('shipment.total_price')"
                                name="total_price" id="total_price"
-                               value="{{ old('total_price') }}"
-                               class="form-control" {{ old('custom_price') == "true" ? "" : "disabled" }}>
+                               value="{{ old('total_price') ?? $shipment->total_price ?? "" }}"
+                               class="form-control" {{ old('custom_price') == "true" || (isset($shipment) && !is_null($shipment->total_price)) ? "" : "disabled" }}>
                         <small class="form-text text-muted">@lang('shipment.custom_price_help')</small>
                     </div>
                 </div>

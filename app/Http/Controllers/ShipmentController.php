@@ -278,6 +278,9 @@ class ShipmentController extends Controller
             case "delivery":
                 $this->addShipmentDetails($shipment, $request);
                 $this->addDeliveryDetails($shipment, $request);
+                if ($request->get('custom_price', false)) {
+                    $shipment->total_price = $request->get('total_price');
+                }
                 if ($request->has('services')) {
                     $shipment->attachServices($request->get('services'));
                 }

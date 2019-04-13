@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -530,16 +531,40 @@ class Shipment extends Model
      */
     public function attachServices($services)
     {
-        $syncData = [];
+        $syncData    = [];
+        $oldServices = $this->services()->pluck('id');
         foreach ($services as $service) {
             if (!$service instanceof Service) $service = Service::findOrFail($service);
             $syncData[$service->id] = ['price' => $service->price];
-            activity()
-                ->performedOn($this)
-                ->causedBy(auth()->user())
-                ->log("Service `{$service->name}` has been added to this shipment.");
+            if (!$oldServices->contains($service->id))
+                $this->logServiceChange($service, true);
         }
+        foreach ($oldServices->diff(array_keys($syncData)) as $deletedServiceId) {
+            $deletedService = Service::find($deletedServiceId);
+            $this->logServiceChange($deletedService, false);
+        }
+
         return $this->services()->sync($syncData);
+    }
+
+    private function logServiceChange($service, $new)
+    {
+        $data = [
+            'revisionable_type' => self::class,
+            'revisionable_id'   => $this->id,
+            'user_id'           => auth()->id(),
+            'key'               => 'extra_services',
+            'old_value'         => '',
+            'new_value'         => '',
+            'created_at'        => now(),
+            'updated_at'        => now()
+        ];
+        if ($new) {
+            $data['new_value'] = $service->name;
+        } else {
+            $data['old_value'] = $service->name;
+        }
+        DB::table('revisions')->insert($data);
     }
 
     /**

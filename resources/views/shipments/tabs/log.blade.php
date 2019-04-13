@@ -8,8 +8,15 @@
                 <small class="history-date">{{ $history->created_at->toDayDateTimeString() }}</small>
                 {!! $history->userResponsible() instanceof App\User ? '<small>By '.$history->userResponsible()->display_name . '</small>' : '' !!}
                 <div class="font-weight-bold py-2">
-                    @if($history->key == 'created_at' && !$history->old_value)
+                    @if($history->key === 'created_at' && !$history->old_value)
                         Shipment has been created
+                    @elseif($history->key === 'extra_services')
+                        @if(!empty($history->old_value))
+                            `{{ $history->oldValue() }}` has been removed from {{ trans('shipment.'.$history->fieldName()) }}
+                        @endif
+                        @if(!empty($history->new_value))
+                            `{{ $history->newValue() }}` has been added to {{ trans('shipment.'.$history->fieldName()) }}
+                        @endif
                     @else
                         {{ trans('shipment.'.$history->fieldName()) }} from `<u>{{ $history->oldValue() }}</u>`
                         to `<u>{{ $history->newValue() }}</u>`

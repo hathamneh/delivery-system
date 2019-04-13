@@ -1,6 +1,6 @@
 @php /** @var \App\Shipment $shipment */
 if(isset($shipment)) {
-    $deliveryDateValue = $shipment->delivery_date->format("d-m-Y") ;
+    $deliveryDateValue = $shipment->delivery_date->format("d/m/Y");
 } elseif(isset($suggestedDeliveryDate)) {
     $deliveryDateValue = $suggestedDeliveryDate;
 } else {

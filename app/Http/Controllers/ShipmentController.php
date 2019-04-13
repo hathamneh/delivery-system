@@ -71,7 +71,7 @@ class ShipmentController extends Controller
             $pageTitle = trans('shipment.normal');
         elseif ($this->shipmentFilters->filters['types'] == ['returned'])
             $pageTitle = trans('shipment.returned');
-        elseif($request->get('today') === '1')
+        elseif ($request->get('today') === '1')
             $pageTitle = trans('shipment.today_shipments');
 
         return view('shipments.index', [
@@ -263,7 +263,7 @@ class ShipmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Shipment $shipment
      * @param string $tab
      * @return \Illuminate\Http\Response
@@ -277,6 +277,7 @@ class ShipmentController extends Controller
         switch ($tab) {
             case "delivery":
                 $this->addShipmentDetails($shipment, $request);
+                $this->addDeliveryDetails($shipment, $request);
                 if ($request->has('services')) {
                     $shipment->attachServices($request->get('services'));
                 }
@@ -427,7 +428,7 @@ class ShipmentController extends Controller
     {
         if ($request->has('delivery_date')) {
             $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
-            if ($newDeliveryDate != $shipment->delivery_date)
+            if ($shipment->delivery_date->diffInDays($newDeliveryDate) !== 0)
                 $shipment->delivery_date = $newDeliveryDate;
         }
         if ($request->has('package_weight'))

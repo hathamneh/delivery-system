@@ -68,9 +68,8 @@
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
-        <div class="font-weight-bold mb-3 text-info">Good job! Kindly confirm COD</div>
-
         @if(!($shipment instanceof \App\ReturnedShipment))
+            <div class="font-weight-bold mb-3 text-info">Good job! Kindly confirm COD</div>
             <div class="form-group">
                 <label for="actual_paid">How much did the consignee pay ?</label>
                 <input type="number" step="any" name="actual_paid" id="actual_paid" class="form-control" required

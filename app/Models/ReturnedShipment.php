@@ -2,15 +2,19 @@
 
 namespace App;
 
+use App\Events\ShipmentSaving;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class ReturnedShipment extends Shipment
 {
+    use RevisionableTrait;
 
     protected     $table          = "shipments";
     protected     $waybill_prefix = "3";
     public static $waybill_type   = "returned";
+
 
     public static function boot()
     {

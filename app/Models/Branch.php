@@ -51,5 +51,9 @@ class Branch extends Model
         return $this->hasMany(Shipment::class);
     }
 
+    public function identifiableName()
+    {
+        return $this->name;
+    }
 
 }

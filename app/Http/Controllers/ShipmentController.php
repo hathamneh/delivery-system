@@ -220,6 +220,12 @@ class ShipmentController extends Controller
             else
                 $data['log'] = Activity::forSubject($shipment)->get();
 
+        } elseif ($tab == "changelog") {
+            if ($shipment instanceof ReturnedShipment)
+                $data['revisionHistory'] = Shipment::find($shipment->id)->revisionHistory;
+            else
+                $data['revisionHistory'] = $shipment->revisionHistory;
+
         }
         return view('shipments.show', $data);
     }

@@ -178,6 +178,7 @@ return [
     'assignCourierTitle' => "Assign Courier to Shipment",
 
     'reference' => "Reference",
+    'branch' => 'Branch',
 
     'today_shipments' => "Today's Shipments",
 ];

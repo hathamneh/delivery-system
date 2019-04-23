@@ -50,7 +50,13 @@ class ShipmentController extends Controller
         $user = Auth::user();
 
         if ($user->isCourier())
-            $shipmentsQuery = $user->courier->shipments()->untilToday();
+            $shipmentsQuery = $user->courier->shipments()->where(function ($query) {
+                $query->statusGroups(['delivered'], 'and', true)->untilToday();
+            })->orWhere(function ($query) {
+                $query->statusGroups(['delivered'])
+                    ->whereDate('delivery_date', '>=', now()->startOfDay())
+                    ->whereDate('delivery_date', '<=', now()->endOfDay());
+            });
         elseif ($user->isClient())
             $shipmentsQuery = $user->client->shipments();
         else
@@ -61,7 +67,7 @@ class ShipmentController extends Controller
             $shipmentsQuery->whereDate('delivery_date', '>=', $startDate);
         }
         if ($request->has('end')) {
-            $endDate   = Carbon::createFromTimestamp($request->get('end'));
+            $endDate = Carbon::createFromTimestamp($request->get('end'));
             $shipmentsQuery->whereDate('delivery_date', '<=', $endDate);
         }
 

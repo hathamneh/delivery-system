@@ -391,9 +391,11 @@ class Shipment extends Model
      * @param string $boolean
      * @return Builder
      */
-    public function scopeStatusGroups(Builder $query, array $status_groups, string $boolean = 'and')
+    public function scopeStatusGroups(Builder $query, array $status_groups, string $boolean = 'and', bool $not = false)
     {
         $status_ids = Status::group($status_groups)->pluck('id');
+        if ($not)
+            return $query->whereNotIn('status_id', $status_ids, $boolean);
         return $query->whereIn('status_id', $status_ids, $boolean);
     }
 

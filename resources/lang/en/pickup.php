@@ -64,7 +64,7 @@ return [
     'internal_notes'            => "Notes for courier",
     'external_notes'            => "Courier Notes",
     'address'                   => "Address",
-    'prepaid_cash'              => 'Cash to be collected from client',
+    'prepaid_cash'              => 'Cash on pick up',
 
     'assignCourierTitle' => "Assign Courier to Pickup"
 ];

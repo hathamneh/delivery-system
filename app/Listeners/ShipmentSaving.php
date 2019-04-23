@@ -64,7 +64,7 @@ class ShipmentSaving
                 $activityItem->log("Shipment is received to company office in {$branch}" . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "out_for_delivery":
-                $activityItem->log('Shipment is now out for delivery' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
+                $activityItem->log('Shipment is out for delivery' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "not_available":
                 $activityItem->log('Attempting delivery but consignee is not available' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));

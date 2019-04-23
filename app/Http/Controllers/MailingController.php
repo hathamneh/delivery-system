@@ -64,9 +64,9 @@ class MailingController extends Controller
             'broadcast_body'    => 'required'
         ]);
         if($request->get('broadcast_for') === "clients")
-            $recipients = User::clients()->get();
+            $recipients = User::clients()->whereNotNull('email')->get();
         elseif($request->get('broadcast_for') === "couriers")
-            $recipients = User::couriers()->get();
+            $recipients = User::couriers()->whereNotNull('email')->get();
         else
             return back();
 

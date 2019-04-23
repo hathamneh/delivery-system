@@ -215,10 +215,12 @@ class ShipmentController extends Controller
             $data['returned_statuses']      = Status::whereIn('name', ['rejected', 'cancelled'])->get();
             $data['branches']               = Branch::all();
         } elseif ($tab == "status") {
-            if ($shipment instanceof ReturnedShipment)
+//            dd(Activity::forSubject($shipment)->get(), Activity::forSubject(Shipment::find($shipment->id))->get());
+            if ($shipment instanceof ReturnedShipment) {
                 $data['log'] = Activity::forSubject(Shipment::find($shipment->id))->get();
-            else
+            } else {
                 $data['log'] = Activity::forSubject($shipment)->get();
+            }
 
         } elseif ($tab == "changelog") {
             if ($shipment instanceof ReturnedShipment)

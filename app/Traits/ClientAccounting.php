@@ -64,7 +64,7 @@ trait ClientAccounting
                 $charged[$item] = false;
         }
         foreach ($shipments as $shipment) {
-            /** @var  Shipment $shipment */
+            /** @var Shipment $shipment */
             $status = $shipment->status->name;
             if ($shipment->isReturnedShipment())
                 $status = 'returned';

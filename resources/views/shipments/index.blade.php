@@ -10,49 +10,52 @@
 
 @section('actions')
 
-    <form action="{{ route('shipments.assignCourier') }}" method="POST" id="assignCourierForm">
-        @method('PUT')
-        @csrf
-        @component('bootstrap::modal',[
-                'id' => 'assignCourierModal'
-            ])
-            @slot('title')
-                @lang("shipment.assignCourierTitle")
-            @endslot
-            <div class="form-group">
-                <label for="courier">@lang('courier.single')</label>
-                @component('couriers.search-courier-input',[
-                    'name' => 'courier',
-                    'placeholder' => trans('courier.single'),
-                    'value' => "",
-                    'text' => "",
-                ]) @endcomponent
-            </div>
-
-            @slot('footer')
-                <div class="d-flex flex-row-reverse w-100">
-                    <button class="btn btn-primary" type="submit">@lang('shipment.assignCourier') <i
-                                class="fa fa-arrow-right"></i>
-                    </button>
-                    <button class="btn btn-outline-secondary mr-auto"
-                            data-dismiss="modal">@lang('common.cancel')</button>
+    @if(auth()->user()->isAdmin())
+        <form action="{{ route('shipments.assignCourier') }}" method="POST" id="assignCourierForm">
+            @method('PUT')
+            @csrf
+            @component('bootstrap::modal',[
+                    'id' => 'assignCourierModal'
+                ])
+                @slot('title')
+                    @lang("shipment.assignCourierTitle")
+                @endslot
+                <div class="form-group">
+                    <label for="courier">@lang('courier.single')</label>
+                    @component('couriers.search-courier-input',[
+                        'name' => 'courier',
+                        'placeholder' => trans('courier.single'),
+                        'value' => "",
+                        'text' => "",
+                    ]) @endcomponent
                 </div>
-            @endslot
-        @endcomponent
-    </form>
-    <button type="button" class="btn btn-secondary" data-toggle="modal"
-            data-target="#assignCourierModal" disabled>@lang('shipment.assignCourier')</button>
 
+                @slot('footer')
+                    <div class="d-flex flex-row-reverse w-100">
+                        <button class="btn btn-primary" type="submit">@lang('shipment.assignCourier') <i
+                                    class="fa fa-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary mr-auto"
+                                data-dismiss="modal">@lang('common.cancel')</button>
+                    </div>
+                @endslot
+            @endcomponent
+        </form>
+        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                data-target="#assignCourierModal" disabled>@lang('shipment.assignCourier')</button>
+
+    @endif
     <button class="btn btn-light shipments-filter-btn dropdown-toggle" type="button" data-toggle="popover"
             data-placement="bottom" data-html="true"
             data-content='@include('shipments.partials.filter', $filtersData)' data-title="Filter Shipments">
         <i class="fa-filter mr-2"></i> Filter
     </button>
-
-    <div id="reportrange" class="btn btn-outline-secondary">
-        <i class="fa fa-calendar"></i>&nbsp;
-        <span></span> <i class="fa fa-caret-down"></i>
-    </div>
+    @if(auth()->user()->isAdmin())
+        <div id="reportrange" class="btn btn-outline-secondary">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    @endif
 
     @can('create', \App\Shipment::class)
         <a href="{{ route('shipments.create') }}" class="btn btn-info"><i

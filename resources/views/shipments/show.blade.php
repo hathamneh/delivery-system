@@ -9,14 +9,21 @@
 @section('pageTitle')
     <i class='fa-shipment'></i> @lang("shipment.single"): {{ $shipment->waybill }}
     @if($shipment instanceof \App\ReturnedShipment)
-        <small class="text-muted"> - to return <a href="{{ route('shipments.show', [$shipment->returnedFrom]) }}">{{ $shipment->returnedFrom->waybill }}</a></small>
+        <small class="text-muted"> - to return <a
+                    href="{{ route('shipments.show', [$shipment->returnedFrom]) }}">{{ $shipment->returnedFrom->waybill }}</a>
+        </small>
     @elseif(!is_null($shipment->returnedIn))
-        <small class="text-muted"> - to be returned in <a href="{{ route('shipments.show', [$shipment->returnedIn]) }}">{{ $shipment->returnedIn->waybill }}</a></small>
+        <small class="text-muted"> - to be returned in <a
+                    href="{{ route('shipments.show', [$shipment->returnedIn]) }}">{{ $shipment->returnedIn->waybill }}</a>
+        </small>
     @endif
 @endsection
 
 @section('actions')
-    <a href="{{ route('shipments.print', [$shipment]) }}" class="btn btn-outline-secondary"><i class="fa-print"></i> Print</a>
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('shipments.print', [$shipment]) }}" class="btn btn-outline-secondary"><i class="fa-print"></i>
+            Print</a>
+    @endif
 @endsection
 
 @section('content')
@@ -25,7 +32,8 @@
            class="{{ $tab != "status" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.status_tab')</a>
         @if(auth()->user()->isAuthorized('shipments'))
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'changelog']) }}"
-               class="{{ $tab != "changelog" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.changelog')</a>
+               class="{{ $tab != "changelog" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.changelog')
+            </a>
         @endif
         @if(auth()->user()->isAuthorized('shipments'))
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'summery']) }}"

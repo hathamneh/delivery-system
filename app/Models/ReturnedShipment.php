@@ -72,7 +72,7 @@ class ReturnedShipment extends Shipment
         $shipment->status_notes         = $overrides['status_notes'] ?? $returned->status_notes;
 
         $shipment->pieces         = $overrides['pieces'] ?? $returned->pieces;
-        $shipment->shipment_value = $overrides['shipment_value'] ?? $returned->shipment_value;
+        $shipment->shipment_value = 0;// $overrides['shipment_value'] ?? $returned->shipment_value;
         $shipment->gatherPriceInformation();
 
         $shipment->returnedFrom()->associate($returned);

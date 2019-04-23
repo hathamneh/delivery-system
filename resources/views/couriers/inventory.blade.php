@@ -6,7 +6,7 @@
 @endsection
 
 @section('pageTitle')
-    <i class='fa-user-tie'></i> {{ $courier->name }} Inventory
+    <i class='fa-user-tie'></i> [{{ $courier->name }}] Inventory
 @endsection
 
 @section('actions')

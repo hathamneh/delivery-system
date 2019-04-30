@@ -44,7 +44,7 @@
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->pieces }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->package_weight }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ fnumber($shipment->shipment_value) }}</td>
-                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->services->pluck('name')->implode(',') }}</td>
+                <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">{{ $shipment->services->pluck('short_name')->implode(', ') }}</td>
                 <td data-href="{{ route('shipments.show', ['shipment' => $shipment->id]) }}">
                     <div data-toggle="tooltip" title="{{ trans("shipment.statuses.{$shipment->status->name}.description") }}">
                         {{ trans("shipment.statuses.{$shipment->status->name}.name") }}

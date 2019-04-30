@@ -101,7 +101,6 @@ function ajaxSelect2() {
 
         var $courierSelect = $("select.select2-courier");
         $courierSelect.each(function () {
-            console.log(this);
             var $this = $(this);
             $this.select2({
                 theme: 'bootstrap4',

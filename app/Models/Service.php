@@ -50,6 +50,12 @@ class Service extends Model
         return null;
     }
 
+    public function getShortNameAttribute()
+    {
+        preg_match_all("/\(([^\(]*)\)/", $this->name, $matches);
+        return $matches[1][0];
+    }
+
     public static function routes()
     {
         Route::resource('services', "ServicesController");

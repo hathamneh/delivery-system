@@ -118,10 +118,10 @@ import axios from 'axios';
         });
     }
 
-    let pickupStates = document.querySelector('.pickup-statuses select[name="status"]');
-    if (pickupStates) {
-        pickupStates.addEventListener('change', e => {
-            let target = pickupStates.closest('.pickup-actions-form').querySelector('.step-2');
+    let pickupStates = document.querySelectorAll('.pickup-statuses select[name="status"]');
+    if (pickupStates.length) {
+        pickupStates.forEach(pickupState => pickupState.addEventListener('change', e => {
+            let target = pickupState.closest('.pickup-actions-form').querySelector('.step-2');
             if (!target) return;
             let selectedStatus = e.target.value;
             target.style.display = "block";
@@ -144,7 +144,7 @@ import axios from 'axios';
                 }
             })
 
-        });
+        }));
     }
 
 })(jQuery);

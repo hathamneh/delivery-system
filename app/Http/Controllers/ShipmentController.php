@@ -449,7 +449,7 @@ class ShipmentController extends Controller
     {
         if ($request->has('delivery_date')) {
             $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
-            if ($shipment->delivery_date->diffInDays($newDeliveryDate) !== 0)
+            if (is_null($shipment->delivery_date) || $shipment->delivery_date->diffInDays($newDeliveryDate) !== 0)
                 $shipment->delivery_date = $newDeliveryDate;
         }
         if ($request->has('package_weight'))

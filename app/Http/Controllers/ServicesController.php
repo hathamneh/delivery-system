@@ -98,6 +98,10 @@ class ServicesController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        try {
+            $service->delete();
+        } catch (\Exception $e) {}
+
+        return back();
     }
 }

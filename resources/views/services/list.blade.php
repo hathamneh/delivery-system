@@ -16,12 +16,18 @@
                         <div class="btn-group">
                             <a href="{{ route('services.edit', [$service]) }}"
                                class="btn btn-sm btn-secondary"
-                               data-toggle="tooltip" title="@lang('service.edit')"><i
+                            data-toggle="tooltip" title="@lang('service.edit')"><i
                                         class="fa-edit"></i></a>
-                            <a href="{{ route('services.edit', [$service]) }}"
-                               class="btn btn-sm btn-danger"
-                               data-toggle="tooltip" title="@lang('service.delete')"><i
-                                        class="fa-trash"></i></a>
+                            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteService-{{ $service->id }}"
+                                    data-toggle-tooltip title="@lang('service.delete')"><i
+                                        class="fa-trash"></i></button>
+                            @can('delete', $service)
+                                @component('layouts.components.deleteItem', [
+                                                    'name' => 'service',
+                                                    'id' => $service->id,
+                                                    'action' => route('services.destroy', [$service])
+                                                ])@endcomponent
+                            @endcan
                         </div>
                     </div>
                 </div>

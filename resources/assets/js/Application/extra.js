@@ -161,12 +161,17 @@ import moment from 'moment';
     }
 
     function shipmentServiceAutoSelect($services) {
+        const featuredServices = {};
+        $services.find('option').each(function () {
+            if($(this).text().includes('COD')) featuredServices['cod'] = $(this).val();
+            if($(this).text().includes('PCC')) featuredServices['pcc'] = $(this).val();
+        })
         $("input#shipment_value").on('change', function () {
             let val = $(this).val();
             if(val !== '' && val > 0) {
-                $services.selectpicker('val', 1);
+                $services.selectpicker('val', featuredServices['cod']);
             } else if(val !== '' && val < 0) {
-                $services.selectpicker('val', 4);
+                $services.selectpicker('val', featuredServices['pcc']);
             } else {
                 $services.selectpicker('deselectAll');
             }

@@ -44,7 +44,7 @@ if(isset($shipment)) {
                     <div class="form-group col-sm-6">
                         <label for="shipment_value">@lang('shipment.shipment_value')</label>
                         <input type="number" name="shipment_value" id="shipment_value" class="form-control"
-                               placeholder="@lang('shipment.shipment_value')" step="0.01" min="0" required
+                               placeholder="@lang('shipment.shipment_value')" step="0.01" required
                                data-bind="shipment_value" {{ isset($shipment) && $shipment->isReturnedShipment() ? 'disabled' : '' }}
                                value="{{ $shipment->shipment_value ?? old("shipment_value") ?? 0 }}">
                     </div>

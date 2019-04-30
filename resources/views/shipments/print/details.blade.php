@@ -1,3 +1,5 @@
+@php /** @var \App\Shipment $shipment */ @endphp
+
 <table class="table table-bordered">
     <tr>
         <th style="vertical-align: middle;">
@@ -87,21 +89,23 @@
         </th>
         <td>{{ $shipment->status->identifiableName() }}</td>
         <th>
+            @lang('shipment.status_notes')
+        </th>
+        <td>
+            {{ $shipment->status_notes }}
+        </td>
+    </tr>
+    <tr>
+        <th>
             @lang('shipment.custom_price')
         </th>
         <td>
             {{ is_null($shipment->total_price) ? trans('common.no') : (trans('common.yes') . ' ( '.$shipment->total_price .' )') }}
         </td>
-    </tr>
-    <tr>
         <th>
             @lang('shipment.service_types.label')
         </th>
         <td>{{ trans('shipment.service_types.' . $shipment->service_type) }}</td>
-        <th>
-        </th>
-        <td>
-        </td>
     </tr>
     <tr>
         <th>

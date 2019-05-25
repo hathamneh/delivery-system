@@ -70,7 +70,8 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                                         disabled {{ old('shipment_client.address_id') ?: "selected" }}>@lang('common.select')</option>
                                 @foreach($addresses as $address)
                                     <option value="{{ $address->id }}" data-subtext="{{ $address->zone->name }}"
-                                            {{ old('shipment_client.address_id') == $address->id || $pickup->client->address->id == $address->id ? "selected" : "" }}>{{ $address->name }}</option>
+                                            {{ old('shipment_client.address_id') == $address->id || ($pickup->client->address &&
+                                            $pickup->client->address->id == $address->id) ? "selected" : "" }}>{{ $address->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -205,15 +206,15 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
     <div class="card-body">
         <div class="form-row">
             {{--<div class="form-group col-sm-12">--}}
-                {{--<label for="courier_id">@lang('pickup.courier')</label>--}}
-                {{--<select name="courier_id" id="courier_id" class="form-control selectpicker" data-live-search="true"--}}
-                        {{--required>--}}
-                    {{--<option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>--}}
-                    {{--@foreach($couriers as $courier)--}}
-                        {{--<option data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"--}}
-                                {{--value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($pickup) && $pickup->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>--}}
-                    {{--@endforeach--}}
-                {{--</select>--}}
+            {{--<label for="courier_id">@lang('pickup.courier')</label>--}}
+            {{--<select name="courier_id" id="courier_id" class="form-control selectpicker" data-live-search="true"--}}
+            {{--required>--}}
+            {{--<option value="" disabled {{ old('courier') ?: "selected" }}>@lang('common.select')</option>--}}
+            {{--@foreach($couriers as $courier)--}}
+            {{--<option data-subtext="{{ $courier->zones->pluck('name')->implode(', ') }}"--}}
+            {{--value="{{ $courier->id }}" {{ (old('courier') == $courier->id || (isset($pickup) && $pickup->courier->id == $courier->id)) ? "selected" : "" }}>{{ $courier->name }}</option>--}}
+            {{--@endforeach--}}
+            {{--</select>--}}
             {{--</div>--}}
 
             <div class="form-group col-sm-6">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
@@ -124,6 +125,16 @@ class User extends Authenticatable
     public function notes()
     {
         return $this->hasMany(Note::class);
+    }
+
+    public function readNotes()
+    {
+        return $this->belongsToMany(Note::class);
+    }
+
+    public function hasUnreadNotes()
+    {
+        return Note::typePublic()->count() > $this->readNotes()->count();
     }
 
     public function getDisplayNameAttribute()

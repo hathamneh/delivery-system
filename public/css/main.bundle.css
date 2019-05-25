@@ -40024,4 +40024,68 @@ body:not(.sidebar-top):not(.fixed-sidebar):not(.sidebar-collapsed) .sidebar:befo
   display: none;
 }
 
+.notification-dot {
+  position: relative;
+}
+
+.notification-dot::after {
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #82121d;
+  border: 4px solid #c70b1d;
+  border-radius: 30px;
+  -webkit-animation: pulse 0.75s infinite;
+          animation: pulse 0.75s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 3.2px #c70b1d;
+            box-shadow: 0 0 0 3.2px #c70b1d;
+  }
+  25% {
+    -webkit-box-shadow: 0 0 0 0.8px #c70b1d;
+            box-shadow: 0 0 0 0.8px #c70b1d;
+  }
+  50% {
+    -webkit-box-shadow: 0 0 0 6px #c70b1d;
+            box-shadow: 0 0 0 6px #c70b1d;
+  }
+  75% {
+    -webkit-box-shadow: 0 0 0 3.2px #c70b1d;
+            box-shadow: 0 0 0 3.2px #c70b1d;
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 4.8px #c70b1d;
+            box-shadow: 0 0 0 4.8px #c70b1d;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 3.2px #c70b1d;
+            box-shadow: 0 0 0 3.2px #c70b1d;
+  }
+  25% {
+    -webkit-box-shadow: 0 0 0 0.8px #c70b1d;
+            box-shadow: 0 0 0 0.8px #c70b1d;
+  }
+  50% {
+    -webkit-box-shadow: 0 0 0 6px #c70b1d;
+            box-shadow: 0 0 0 6px #c70b1d;
+  }
+  75% {
+    -webkit-box-shadow: 0 0 0 3.2px #c70b1d;
+            box-shadow: 0 0 0 3.2px #c70b1d;
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 4.8px #c70b1d;
+            box-shadow: 0 0 0 4.8px #c70b1d;
+  }
+}
+
 /*# sourceMappingURL=main.bundle.css.map*/

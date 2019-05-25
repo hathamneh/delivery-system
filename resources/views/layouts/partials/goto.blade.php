@@ -44,7 +44,7 @@
             </a>
         @endif
             @can('index', \App\Note::class)
-            <a href="{{ route('notes.index') }}" class="quick-link">
+            <a href="{{ route('notes.index') }}" class="quick-link {{ !$hasUnreadNotes ? '' : 'notification-dot' }}">
                 <div class="row">
                     <div class="icon">
                         <i class="fa fa-sticky-note bg-pink"></i>

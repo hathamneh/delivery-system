@@ -4,7 +4,7 @@
     <div class="form-row">
         @foreach(['rejected', 'cancelled', 'returned'] as $status)
         <div class="col-md-6">
-            @component('clients.componenets.chargedForEdit', ['client'=>$client ?? null, 'status' => $status, 'data' => $chargedForData]) @endcomponent
+            @component('clients.componenets.chargedForEdit', ['client'=>$client ?? null, 'status' => $status, 'data' => $chargedForData ?? null]) @endcomponent
         </div>
         @endforeach
     </div>

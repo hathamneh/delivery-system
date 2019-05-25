@@ -145,3 +145,30 @@ $simple-line-font-path: "/fonts/vendor/simple-line-icons/";
 .note-popover {
   display: none;
 }
+
+$border-size: 4px;
+$border-color: #c70b1d;
+
+.notification-dot {
+  position: relative;
+  &::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #82121d;
+    border: $border-size solid $border-color;
+    border-radius: 30px;
+    animation: pulse 0.75s infinite;
+  }
+}
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 #{$border-size * 0.8} $border-color; }
+  25%  { box-shadow: 0 0 0 #{$border-size * 0.2} $border-color; }
+  50%  { box-shadow: 0 0 0 #{$border-size * 1.5} $border-color; }
+  75%  { box-shadow: 0 0 0 #{$border-size * 0.8} $border-color; }
+  100% { box-shadow: 0 0 0 #{$border-size * 1.2} $border-color; }
+}

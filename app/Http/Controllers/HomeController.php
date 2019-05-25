@@ -6,6 +6,7 @@ use App\Client;
 use App\Courier;
 use App\Pickup;
 use App\Shipment;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -33,10 +34,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->isAdmin())
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user->isAdmin())
             $data =  $this->adminStats();
-        elseif (Auth::user()->isCourier())
+        elseif ($user->isCourier())
             $data = $this->courierData();
+        $data['hasUnreadNotes'] = $user->hasUnreadNotes();
         return view('home')->with($data);
     }
 

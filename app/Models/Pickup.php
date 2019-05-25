@@ -162,7 +162,7 @@ class Pickup extends Model
 
     public function getClientNameAttribute()
     {
-        return $this->attributes['client_name'] ?? $this->client->trade_name;
+        return $this->attributes['client_name'] ?? $this->client->trade_name ?? '';
     }
 
     public function getAvailableDateTimeAttribute()

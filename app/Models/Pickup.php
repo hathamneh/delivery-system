@@ -73,7 +73,9 @@ class Pickup extends Model
         'client_national_id',
         'is_guest',
         'prepaid_cash',
-        'status_note'
+        'status_note',
+        'guest_country',
+        'guest_city',
     ];
 
     protected $dispatchesEvents        = [

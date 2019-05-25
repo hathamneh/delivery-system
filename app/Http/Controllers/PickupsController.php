@@ -106,6 +106,7 @@ class PickupsController extends Controller
             return $exception->getMessage();
         }
 
+        dd($request->toArray());
         $pickup->fill($request->toArray());
 
         $day                          = $request->get('available_day');
@@ -166,6 +167,18 @@ class PickupsController extends Controller
      */
     public function update(Request $request, Pickup $pickup)
     {
+        if ($request->has('is_guest') && $request->get('is_guest') === "1") {
+            Guest::findOrCreateByNationalId($request->get('client_national_id'), [
+                'trade_name'       => $request->get('guest_name'),
+                'phone_number'     => $request->get('phone_number'),
+                'country'          => $request->get('guest_country'),
+                'city'             => $request->get('guest_city'),
+                'address_id'       => $request->get('guest_address_id'),
+                'address_detailed' => $request->get('guest_address_detailed'),
+            ]);
+        } else {
+            $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
+        }
         $pickup->fill($request->toArray());
         $day       = $request->get('available_day');
         $start     = $request->get('time_start');

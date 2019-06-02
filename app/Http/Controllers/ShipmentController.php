@@ -435,7 +435,7 @@ class ShipmentController extends Controller
      */
     public function destroy(Shipment $shipment)
     {
-        $this->authorize('destroy', $shipment);
+        $this->authorize('delete', $shipment);
 
         try {
             $shipment->delete();

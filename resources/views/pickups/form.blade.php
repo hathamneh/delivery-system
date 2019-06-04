@@ -64,7 +64,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                     <div class="form-group col-6" {!! $is_guest ?: 'style="display:none;"' !!}>
                         <label for="guest_clientAddress" class="mr-2">@lang('client.address')</label>
                         <div class="flex-fill">
-                            <select name="guest_address_id" id="guest_clientAddress" class="form-control selectpicker"
+                            <select name="guest_address_id" id="guest_clientAddress" class="form-control selectpicker" required
                                     data-live-search="true" {{ $is_guest ?: "disabled" }}>
                                 <option value=""
                                         disabled {{ old('shipment_client.address_id') ?: "selected" }}>@lang('common.select')</option>
@@ -188,13 +188,13 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
             </div>
             <div class="form-group col-sm-3 col-6">
                 <label for="time_start">From:</label>
-                <input type="text" name="time_start" id="time_start"
+                <input type="text" name="time_start" id="time_start" required
                        value="{{ isset($pickup) ? $pickup->time_start : old('available_time') }}"
                        class="form-control timepicker">
             </div>
             <div class="form-group col-sm-3 col-6">
                 <label for="time_end">To:</label>
-                <input type="text" name="time_end" id="time_end"
+                <input type="text" name="time_end" id="time_end" required
                        value="{{ isset($pickup) ? $pickup->time_end : old('available_time') }}"
                        class="form-control timepicker">
             </div>

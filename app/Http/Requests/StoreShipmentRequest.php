@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +15,7 @@ class StoreShipmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->isAuthorized('shipments', Role::UT_CREATE);
     }
 
     /**

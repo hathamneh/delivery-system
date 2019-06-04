@@ -6,6 +6,7 @@ use App\Address;
 use App\Client;
 use App\Courier;
 use App\Guest;
+use App\Http\Requests\PickupCreateRequest;
 use App\Pickup;
 use App\PickupStatus;
 use App\Shipment;
@@ -81,10 +82,10 @@ class PickupsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param PickupCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PickupCreateRequest $request)
     {
         $pickup = new Pickup;
         try {
@@ -106,8 +107,9 @@ class PickupsController extends Controller
             return $exception->getMessage();
         }
 
-        dd($request->toArray());
         $pickup->fill($request->toArray());
+
+        $pickup->pickupStatus()->associate(PickupStatus::name('created')->first());
 
         $day                          = $request->get('available_day');
         $start                        = $request->get('time_start');

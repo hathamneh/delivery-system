@@ -1,5 +1,6 @@
 <?php
 
+use App\PickupStatus;
 use Illuminate\Database\Seeder;
 
 class PickupStatusesSeeder extends Seeder
@@ -12,15 +13,18 @@ class PickupStatusesSeeder extends Seeder
     public function run()
     {
 
-        \App\PickupStatus::truncate();
+        PickupStatus::truncate();
 
-        \App\PickupStatus::create([
+        PickupStatus::create([
+            'name'    => "created",
+        ]);
+        PickupStatus::create([
             'name'    => "ready",
             'options' => [
                 'set_available_time' => true
             ],
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "rescheduled",
             'options' => [
                 'select'             => [
@@ -30,10 +34,10 @@ class PickupStatusesSeeder extends Seeder
                 'set_address'        => true
             ]
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name' => "pass_to_office",
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "rejected",
             'options' => [
                 'select' => [
@@ -48,7 +52,7 @@ class PickupStatusesSeeder extends Seeder
                 ]
             ]
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "cancelled",
             'options' => [
                 'select'         => [
@@ -61,7 +65,7 @@ class PickupStatusesSeeder extends Seeder
                 'notes_required' => true
             ]
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "not_available",
             'options' => [
                 'select' => [
@@ -78,7 +82,7 @@ class PickupStatusesSeeder extends Seeder
                 ],
             ]
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "failed",
             'options' => [
                 'select' => [
@@ -89,7 +93,7 @@ class PickupStatusesSeeder extends Seeder
                 ],
             ]
         ]);
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name'    => "on_hold",
             'options' => [
                 'select' => [
@@ -101,7 +105,7 @@ class PickupStatusesSeeder extends Seeder
             ]
         ]);
 
-        \App\PickupStatus::create([
+        PickupStatus::create([
             'name' => "collected",
             'options' => [
                 'prepaid_cash'    => true,

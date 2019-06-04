@@ -185,8 +185,6 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment, $tab = "status")
     {
-        $this->authorize('view', $shipment);
-
         /** @var User $user */
         $user     = auth()->user();
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;

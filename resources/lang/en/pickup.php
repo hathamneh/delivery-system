@@ -18,12 +18,13 @@ return [
     'declined'  => 'Declined',
     'cancelled' => 'Cancelled',
 
-    'pickup_status' => 'Pickup Status',
-    'status_note'   => 'Status Notes',
+    'pickup_status'        => 'Pickup Status',
+    'status_note'          => 'Status Notes',
     'available_time_start' => 'Available Time Start',
-    'available_time_end' => 'Available Time End',
+    'available_time_end'   => 'Available Time End',
 
     'statuses' => [
+        "created"        => "Pickup Created",
         "collected"      => "Collected",
         "ready"          => "Ready for collection",
         "rescheduled"    => "Rescheduled",

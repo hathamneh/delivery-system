@@ -30,7 +30,7 @@
     <nav class="nav inner-nav">
         <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'status']) }}"
            class="{{ $tab != "status" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.status_tab')</a>
-        @if(auth()->user()->isAuthorized('shipments'))
+        @if(auth()->user()->isAdmin())
             <a href="{{ route('shipments.show', ['shipment'=>$shipment->id, 'tab'=>'changelog']) }}"
                class="{{ $tab != "changelog" ?: "active" }}"><i class="fa-info-circle"></i> @lang('shipment.changelog')
             </a>

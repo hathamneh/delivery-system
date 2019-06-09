@@ -37,14 +37,14 @@
                                 <a href="{{ route('users.edit', ['user'=>$user->id]) }}"
                                    class="btn btn-light btn-sm" title="@lang('user.edit')">
                                     <i class="fa fa-edit"></i></a>
-                                <form class="delete-form" action="{{ route('users.destroy', ['user' => $user->id]) }}"
-                                      method="post">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                </form>
                                 <button class="btn btn-light btn-sm" title="@lang('user.delete')" type="button"
-                                        data-delete="{{ $user->id }}" data-toggle="tooltip"><i class="fa fa-trash"></i>
+                                        data-toggle="tooltip" data-target="#deleteCourier-{{ $courier->id }}"><i class="fa fa-trash"></i>
                                 </button>
+                                @component('layouts.components.deleteItem', [
+                                    'name' => 'user',
+                                    'id' => $user->id,
+                                    'action' => route('couriers.destroy', [$user])
+                                ])@endcomponent
                             </div>
                         </td>
                     </tr>

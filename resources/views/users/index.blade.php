@@ -37,8 +37,8 @@
                                 <a href="{{ route('users.edit', ['user'=>$user->id]) }}"
                                    class="btn btn-light btn-sm" title="@lang('user.edit')">
                                     <i class="fa fa-edit"></i></a>
-                                <button class="btn btn-light btn-sm" title="@lang('user.delete')" type="button"
-                                        data-toggle="tooltip" data-target="#deleteUser-{{ $user->id }}"><i class="fa fa-trash"></i>
+                                <button class="btn btn-light btn-sm" title="@lang('user.delete')" type="button" data-toggle-tooltip
+                                        data-toggle="modal" data-target="#deleteUser-{{ $user->id }}"><i class="fa fa-trash"></i>
                                 </button>
                                 @component('layouts.components.deleteItem', [
                                     'name' => 'user',

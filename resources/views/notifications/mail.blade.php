@@ -1,4 +1,4 @@
-@extends('notifications.layout')
+@extends('notifications.layout' . (isset($layout) ? $layout : ''))
 
 @section('body')
 @includeIf("notifications.markdown." . $tmpl)

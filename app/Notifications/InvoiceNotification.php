@@ -56,7 +56,8 @@ class InvoiceNotification extends Notification
             ->markdown('notifications.mail', [
                 'tmpl'     => 'invoice',
                 'client'   => $notifiable,
-                'invoice' => $this->invoice
+                'invoice' => $this->invoice,
+                'layout' => '2'
             ])
             ->attach(storage_path("app/invoices/invoice-{$this->invoice->id}.xls"));
 

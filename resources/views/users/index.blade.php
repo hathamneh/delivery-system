@@ -43,7 +43,7 @@
                                 @component('layouts.components.deleteItem', [
                                     'name' => 'user',
                                     'id' => $user->id,
-                                    'action' => route('couriers.destroy', [$user])
+                                    'action' => route('users.destroy', [$user])
                                 ])@endcomponent
                             </div>
                         </td>

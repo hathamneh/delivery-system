@@ -51,6 +51,15 @@ class Courier extends Model implements Accountable
         'notes',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function(self $instance) {
+            $instance->user->delete();
+        });
+    }
+
     public function scopeHaveSmiley($query)
     {
         $thirtyDaysBefore        = date("d-m-Y", strtotime("- 30 days"));

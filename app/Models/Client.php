@@ -123,6 +123,10 @@ class Client extends Model implements Accountable, CanHaveShipment
         static::created(function (self $client) {
             $client->notify(new ClientCreated());
         });
+
+        static::deleting(function(self $instance) {
+            $instance->user->delete();
+        });
     }
 
     public function getAddressAttribute()

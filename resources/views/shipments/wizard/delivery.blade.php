@@ -24,7 +24,7 @@ if(isset($shipment)) {
                         <label for="deliveryDate">@lang('shipment.delivery_date') *</label>
                         <input type="text" name="delivery_date" id="delivery_date" class="form-control datetimepicker"
                                required placeholder="@lang('shipment.deliveryDate')" data-bind="delivery_date"
-                               value="{{ $deliveryDateValue }}">
+                               value="{{ $deliveryDateValue }}" data-new="{{ isset($shipment) ? "false" : "true" }}">
                     </div>
 
                     <div class="form-group col-sm-6">

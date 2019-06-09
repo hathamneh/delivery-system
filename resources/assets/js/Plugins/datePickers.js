@@ -94,15 +94,18 @@ let dateRangeLocale = {
         });
         $('.datetimepicker').each(function () {
             let drops = $(this).data('drp-drops') || "down"
-            $(this).daterangepicker({
+            let args = {
                 singleDatePicker: true,
                 showDropdowns: true,
                 locale: {
                     format: "DD/MM/YYYY"
                 },
-                // minDate: moment(),
                 drops: drops
-            });
+            };
+            if($(this).data('new') === true) {
+                args['minDate'] = moment();
+            }
+            $(this).daterangepicker(args);
         })
     }
 

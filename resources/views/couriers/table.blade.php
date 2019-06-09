@@ -47,28 +47,11 @@
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    <form class="delete-form"
-                          action="{{ route('couriers.destroy', ['courier' => $courier->id]) }}"
-                          method="post">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                    </form>
-                    @component('bootstrap::modal',[
-                        'id' => 'deleteCourier-'.$courier->id
-                    ])
-                        @slot('title')
-                            Delete this Courier?
-                        @endslot
-                        This is irreversible, all his information will be deleted permanently!
-                        @slot('footer')
-                            <button class="btn btn-outline-secondary"
-                                    data-dismiss="modal">@lang('common.cancel')</button>
-                            <button class="btn btn-danger ml-auto" type="button"
-                                    data-delete="{{ $courier->id }}"><i
-                                        class="fa fa-trash"></i> @lang('courier.delete')
-                            </button>
-                        @endslot
-                    @endcomponent
+                    @component('layouts.components.deleteItem', [
+                        'name' => 'courier',
+                        'id' => $pickup->id,
+                        'action' => route('couriers.destroy', [$courier])
+                    ])@endcomponent
                 </td>
             </tr>
         @endforeach

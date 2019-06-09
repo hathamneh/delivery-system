@@ -7,6 +7,7 @@ return [
     'new' => 'New User',
     'edit' => 'Edit User',
     'save' => 'Save User',
+    'delete' => 'Delete User',
     '_save' => [
         'username' => 'Save Username',
         'password' => 'Save Password',

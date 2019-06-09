@@ -65,7 +65,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property ReturnedShipment returned_in
  * @method static self statusIn(array $statuses, $boolean = 'and')
  * @method static self statusIs(string $status)
- * @method static self statusGroups(array $status_groups)
+ * @method static self statusGroups(array $status_groups, string $boolean = 'and', bool $not = false)
  * @method static self lodger(string $lodger)
  * @method static self unpaid()
  * @method static self pending()
@@ -389,6 +389,7 @@ class Shipment extends Model
      * @param Builder $query
      * @param array $status_groups
      * @param string $boolean
+     * @param bool $not
      * @return Builder
      */
     public function scopeStatusGroups(Builder $query, array $status_groups, string $boolean = 'and', bool $not = false)

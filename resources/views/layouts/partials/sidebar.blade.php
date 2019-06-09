@@ -81,7 +81,8 @@
                                 class="fa fa-angle-down arrow"></span></a>
                     <ul class="children collapse">
                         @if(auth()->user()->isAdmin())
-                            <li class="{{ (\Request::route()->getName() == 'pickups.index') && !request()->has('today') ? 'active' : '' }}"><a
+                            <li class="{{ (\Request::route()->getName() == 'pickups.index') && !request()->has('today') ? 'active' : '' }}">
+                                <a
                                         href="{{ route('pickups.index') }}"><i
                                             class="fas fa-shopping-bag"></i>
                                     {{ trans('pickup.all') }}
@@ -107,9 +108,11 @@
                                 class="fas fa-shipment"></i><span>@lang('shipment.label')</span><span
                                 class="fa fa-angle-down arrow"></span></a>
                     <ul class="children collapse">
-                        <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
-                                    href="{{ route('shipments.index') }}"><i
-                                        class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
+                        @if(!auth()->user()->isCourier())
+                            <li class="{{ (\Request::route()->getName() == 'shipments.index') ? 'active' : '' }}"><a
+                                        href="{{ route('shipments.index') }}"><i
+                                            class="fas fa-shipment"></i>@lang('shipment.all')</a></li>
+                        @endif
                         <li class="{{ request()->is('shipments?start='.now()->startOfDay()->timestamp.'&end='.now()->endOfDay()->timestamp) ? ' active' : '' }}">
                             <a
                                     href="{{ route('shipments.index', ['start' => now()->startOfDay()->timestamp, 'end' => now()->endOfDay()->timestamp, 'today' => true]) }}"><i

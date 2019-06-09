@@ -13,6 +13,7 @@ use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -29,7 +30,8 @@ class PickupsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -66,7 +68,7 @@ class PickupsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -83,7 +85,7 @@ class PickupsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param PickupCreateRequest $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(PickupCreateRequest $request)
     {
@@ -134,7 +136,7 @@ class PickupsController extends Controller
      * Display the specified resource.
      *
      * @param \App\Pickup $pickup
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Pickup $pickup)
     {
@@ -146,7 +148,7 @@ class PickupsController extends Controller
      *
      * @param Request $request
      * @param \App\Pickup $pickup
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Request $request, Pickup $pickup)
     {
@@ -165,7 +167,7 @@ class PickupsController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Pickup $pickup
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Pickup $pickup)
     {
@@ -199,7 +201,7 @@ class PickupsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Pickup $pickup
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Pickup $pickup)
     {
@@ -213,7 +215,7 @@ class PickupsController extends Controller
     /**
      * @param Request $request
      * @param Pickup $pickup
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function actions(Request $request, Pickup $pickup)
     {

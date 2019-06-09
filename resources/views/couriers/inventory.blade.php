@@ -17,6 +17,8 @@
             data-content='@include('shipments.partials.filter', $filtersData)' data-title="Filter Shipments">
         <i class="fa-filter mr-2"></i> Filter
     </button>
+    <a href="javascript:" onclick="window.print()" class="btn btn-light d-print-none"><i
+                class="fa-print mr-2"></i> @lang('common.print')</a>
 
     <div id="reportrange" class="btn btn-outline-secondary">
         <i class="fa fa-calendar"></i>&nbsp;

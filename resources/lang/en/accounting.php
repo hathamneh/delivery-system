@@ -13,7 +13,7 @@ return [
     'service_type'    => 'Service Type',
     'weight'          => 'Weight',
     'pieces'          => 'Pcs.',
-    'shipment_value'  => 'Shipment Value',
+    'shipment_value'  => 'COD Value',
     'collected_value' => 'Collected',
     'base_charge'     => 'Base Charge',
     'extra_fees'     => 'Ex. Fees',

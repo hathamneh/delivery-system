@@ -57,7 +57,7 @@ return [
     'waybill'                  => "Waybill number",
     'delivery_date'            => "Delivery Date",
     'package_weight'           => "Package Weight (KG)",
-    'shipment_value'           => "Shipment Value",
+    'shipment_value'           => "COD Value",
     'delivery_cost'            => "Delivery Cost",
     'actual_paid'              => "Paid By Consignee",
     'actual_paid_by_consignee' => "Paid By Consignee",

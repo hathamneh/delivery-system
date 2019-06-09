@@ -49,7 +49,7 @@
                     </div>
                     @component('layouts.components.deleteItem', [
                         'name' => 'courier',
-                        'id' => $pickup->id,
+                        'id' => $courier->id,
                         'action' => route('couriers.destroy', [$courier])
                     ])@endcomponent
                 </td>

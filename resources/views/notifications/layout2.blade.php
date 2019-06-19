@@ -11,8 +11,8 @@
     {{-- Subcopy --}}
     @slot('subcopy')
         @component('mail::subcopy')
-            Accounting Department,<br>
-            Kangaroo Delivery
+            Sincerely Yours<br>
+            Accounting department
             <br>
             <br>
             <small style="color: #909090;">

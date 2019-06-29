@@ -92,7 +92,7 @@ class PickupsController extends Controller
         $pickup = new Pickup;
         try {
             if ($request->has('is_guest') && $request->get('is_guest') === "1") {
-                Guest::findOrCreateByNationalId($request->get('client_national_id'), [
+                $guest = Guest::findOrCreateByNationalId($request->get('client_national_id'), [
                     'trade_name'       => $request->get('guest_name'),
                     'phone_number'     => $request->get('phone_number'),
                     'country'          => $request->get('guest_country'),
@@ -100,6 +100,7 @@ class PickupsController extends Controller
                     'address_id'       => $request->get('guest_address_id'),
                     'address_detailed' => $request->get('guest_address_detailed'),
                 ]);
+                $pickup->guest()->associate($guest);
             } else {
                 $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
             }
@@ -172,7 +173,7 @@ class PickupsController extends Controller
     public function update(Request $request, Pickup $pickup)
     {
         if ($request->has('is_guest') && $request->get('is_guest') === "1") {
-            Guest::findOrCreateByNationalId($request->get('client_national_id'), [
+            $guest = Guest::findOrCreateByNationalId($request->get('client_national_id'), [
                 'trade_name'       => $request->get('guest_name'),
                 'phone_number'     => $request->get('phone_number'),
                 'country'          => $request->get('guest_country'),
@@ -180,6 +181,7 @@ class PickupsController extends Controller
                 'address_id'       => $request->get('guest_address_id'),
                 'address_detailed' => $request->get('guest_address_detailed'),
             ]);
+            $pickup->guest()->associate($guest);
         } else {
             $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
         }

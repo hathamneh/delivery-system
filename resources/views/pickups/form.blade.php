@@ -70,7 +70,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                                         disabled {{ old('shipment_client.address_id') ?: "selected" }}>@lang('common.select')</option>
                                 @foreach($addresses as $address)
                                     <option value="{{ $address->id }}" data-subtext="{{ $address->zone->name }}"
-                                            {{ old('shipment_client.address_id') == $address->id || (isset($pickup) && $is_guest &&
+                                            {{ old('shipment_client.address_id') == $address->id || (isset($pickup) && $is_guest && !is_null($pickup->guest) &&
                                             $pickup->guest->address->id == $address->id) ? "selected" : "" }}>{{ $address->name }}</option>
                                 @endforeach
                             </select>

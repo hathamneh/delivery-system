@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Route;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -24,6 +25,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property PickupStatus pickupStatus
  * @property string phone_number
  * @property Client client
+ * @property Guest guest
  * @property Courier courier
  * @property string identifier
  * @property integer id
@@ -93,6 +95,14 @@ class Pickup extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_account_number', 'account_number');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function guest()
+    {
+        return $this->belongsTo(Guest::class, 'client_account_number', 'id');
     }
 
     public function PickupStatus()

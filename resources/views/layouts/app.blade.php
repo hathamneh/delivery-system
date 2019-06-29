@@ -78,5 +78,4 @@
 
     @yield('beforeBody')
 
-
 @endsection

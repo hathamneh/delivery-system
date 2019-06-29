@@ -56,7 +56,7 @@ class ShipmentController extends Controller
                 $query->statusGroups(['delivered'])
                     ->whereDate('delivery_date', '>=', now()->startOfDay())
                     ->whereDate('delivery_date', '<=', now()->endOfDay());
-            });
+            })->orderBy('address_id');
         elseif ($user->isClient())
             $shipmentsQuery = $user->client->shipments();
         else

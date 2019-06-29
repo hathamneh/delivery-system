@@ -111,3 +111,10 @@
         </div>
     </div>
 @endsection
+
+@section("beforeBody")
+    <script src="/js/summernote-bs4.min.js"></script>
+    <script>
+        $('#mailEditor').summernote();
+    </script>
+@endsection

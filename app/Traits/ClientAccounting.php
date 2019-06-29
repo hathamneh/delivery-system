@@ -55,7 +55,7 @@ trait ClientAccounting
         // ( CONFLICT ) shipments
         $shipments = clone $this->targetShipments;
         $shipments = $shipments->statusIn(['rejected', 'cancelled'])->orWhere('type', ReturnedShipment::$waybill_type)->lodger('client')->get();
-        $charged   = [];
+        $charged = [];
         foreach (['rejected', 'cancelled', 'returned'] as $item) {
             $isChargedFor = $this->isChargedFor($item);
             if ($this instanceof Client && !is_null($isChargedFor) && $isChargedFor)
@@ -75,9 +75,7 @@ trait ClientAccounting
                     $charges = $charged[$status]->compute($shipment->delivery_cost);
                 else {
                     $originalShipment = ReturnedShipment::find($shipment->id)->returnedFrom;
-                    $originalStatus   = $originalShipment->status->name;
-                    logger($originalShipment);
-                    logger($originalStatus);
+                    $originalStatus = $originalShipment->status->name;
                     if (isset($charged[$status]->options[$originalStatus]) && $charged[$status]->options[$originalStatus] === true)
                         $charges = $charged[$status]->compute($shipment->delivery_cost);
                 }
@@ -100,8 +98,12 @@ trait ClientAccounting
         // prepare the shipments we want to work with, exit if no valid shipments
         if (is_null($this->targetShipments) && !($this->targetShipments = $this->prepareTargetShipments($input))) return false;
 
-        $sum += $this->targetShipments->statusIs("delivered")->orWhere(function (Builder $query) {
-            return $query->statusIn(["rejected", "cancelled"])->lodger('client');
+        $shipments = clone $this->targetShipments;
+
+        $sum += $shipments->where(function ($mainQuery) {
+            $mainQuery->statusIs("delivered")->orWhere(function (Builder $query) {
+                return $query->statusIn(["rejected", "cancelled"])->lodger('client');
+            });
         })->sum('actual_paid_by_consignee');
 
         return $sum;
@@ -123,7 +125,7 @@ trait ClientAccounting
 
     public function extraTermsApplied($input)
     {
-        $minimumDeliveryCostCheck      = $this->minimumDeliveryCostCheck($input) ?? 0;
+        $minimumDeliveryCostCheck = $this->minimumDeliveryCostCheck($input) ?? 0;
         $maximumReturnedShipmentsCheck = $this->maximumReturnedShipmentsCheck($input) ?? 0;
         return $minimumDeliveryCostCheck + $maximumReturnedShipmentsCheck;
     }
@@ -148,9 +150,9 @@ trait ClientAccounting
         $limit = $this->limits()->where('name', 'min_delivery_cost')->first();
         if ($limit->value == 0) return false;
 
-        $shipments                = $this->targetShipments->whereDate('created_at', '>=', now()->startOfMonth())->get();
-        $totals                   = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
-        $counts                   = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
+        $shipments = $this->targetShipments->whereDate('created_at', '>=', now()->startOfMonth())->get();
+        $totals = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
+        $counts = ['delivered' => 0, 'cancelled' => 0, 'rejected' => 0];
         $totalDeliveryCostInMonth = $shipments->reduce(function ($total, Shipment $current) use ($counts, $totals) {
             if ($current->isStatusGroup('delivered')) {
                 $counts['delivered']++;

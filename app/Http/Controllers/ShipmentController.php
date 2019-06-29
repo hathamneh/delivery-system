@@ -327,6 +327,7 @@ class ShipmentController extends Controller
                     $shipment->delivery_date = $newDeliveryDate;
                 }
                 $shipment->status_notes = $request->get('status_notes');
+                dd($shipment->toArray());
                 $shipment->save();
                 return redirect()->route("shipments.show", ['shipment' => $shipment, 'tab' => 'actions']);
                 break;
@@ -417,6 +418,7 @@ class ShipmentController extends Controller
                 $status_notes .= strtoupper(trans("shipment.statuses_options.$name")) . ": " . $value . "\n";
             }
         }
+        $status_notes             .= $request->get('status_notes');
         $status_notes             .= $request->get('external_notes');
         $shipment->status_notes   = $status_notes;
         $shipment->external_notes = $status_notes;

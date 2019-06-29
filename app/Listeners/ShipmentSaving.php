@@ -44,7 +44,7 @@ class ShipmentSaving
 
     protected function logStatusChanged()
     {
-        $original = Status::find($this->shipment->getOriginal('status_id'));
+//        $original = Status::find($this->shipment->getOriginal('status_id'));
         $new      = Status::find($this->shipment->status_id);
 
         // send alert in email to notify this change
@@ -57,7 +57,7 @@ class ShipmentSaving
         $extraNotes   = $this->shipment->status_notes;
         switch ($new->name) {
             case "picked_up":
-                $activityItem->log('Shipment picked up');
+                $activityItem->log('Shipment picked up' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "received":
                 $branch = Branch::find($this->shipment->branch_id)->name ?? "";

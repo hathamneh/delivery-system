@@ -10,8 +10,12 @@
                 </div>
                 <div class="card-footer">
                     <div class="service-links">
-                        @if($service->shipmentsCount())
-                            <a href="{{ route('shipments.index', ['service' => $service->id]) }}" class="service-shipments btn btn-sm">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</a>
+                        @php $count = $service->shipmentsCount(); @endphp
+                        @if($count)
+                            <a href="{{ route('shipments.index', ['filters' => ['service' => $service->id]]) }}"
+                               class="service-shipments btn btn-sm">
+                                {{ trans_choice('shipment.shipments',$count, ['value'=>$count]) }}
+                            </a>
                         @endif
                         <div class="btn-group">
                             <a href="{{ route('services.edit', [$service]) }}"

@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="filter_assignment">@lang('Service')</label>
+                <label for="filter_assignment">@lang('Assignment')</label>
                 <select name="filters[assignment]" id="filter_assignment" class="form-control">
                     <option value="all" {{ !isset($applied['assignment']) || $applied['assignment'] === 'all' ? 'selected' : '' }}>
                         All

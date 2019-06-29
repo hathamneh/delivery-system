@@ -21,11 +21,14 @@
                 </div>
                 <div class="card-footer">
                     <div class="service-links">
-                        @if($service->shipmentsCount())
-                            <small
-                               class="service-shipments p-1">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</small>
+                        @php $count = $service->shipmentsCount($client); @endphp
+                        @if($count)
+                            <a href="{{ route('shipments.index', ['filters' => ['client' => $client->account_number, 'service' => $service->id]]) }}"
+                               class="service-shipments btn btn-sm">
+                                {{ trans_choice('shipment.shipments',$count, ['value'=>$count]) }}
+                            </a>
                         @else
-                            <small class="service-shipments p-1">{{ trans_choice('shipment.shipments',$service->shipmentsCount(), ['value'=>$service->shipmentsCount()]) }}</small>
+                            <small class="service-shipments p-1">{{ trans_choice('shipment.shipments',$count, ['value'=>$count]) }}</small>
                         @endif
                             <button class="btn btn-outline-warning" data-toggle="modal"
                                     data-target="#customizeService-{{ $service->id }}"><i class="fa-edit mr-2"></i> Customize</button>

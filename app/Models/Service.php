@@ -33,9 +33,12 @@ class Service extends Model
         return $this->belongsToMany(Shipment::class);
     }
 
-    public function shipmentsCount()
+    public function shipmentsCount(Client $client = null)
     {
-        return $this->shipments->count();
+        if(is_null($client)) {
+            return $this->shipments->count();
+        }
+        return $this->shipments()->where('client_account_number', $client->account_number)->count();
     }
 
     public function hasShipment(Shipment $shipment)

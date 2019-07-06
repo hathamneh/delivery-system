@@ -201,7 +201,7 @@ class CouriersController extends Controller
     {
         if (!auth()->user()->isAdmin()) abort(401, 'This action is unauthorized.');
 
-        $shipmentsQuery = $courier->shipments()->untilToday();
+        $shipmentsQuery = $courier->shipments()->untilToday()->orderBy('address_id');
 
         if ($request->has('start'))
             $shipmentsQuery->whereDate('created_at', '>=', Carbon::createFromTimestamp($request->get('start')));

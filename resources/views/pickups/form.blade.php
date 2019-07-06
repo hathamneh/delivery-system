@@ -18,7 +18,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                     'name' => "client_account_number",
                     'value' => $pickup->client->account_number ?? old('client_account_number'),
                     'placeholder' => trans('pickup.client_account_number'),
-                    'disabled' => isset($pickup)
+                    'disabled' => $is_guest
                 ]) @endcomponent
             </div>
             <div class="form-group col-sm-12">

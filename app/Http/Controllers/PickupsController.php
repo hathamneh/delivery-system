@@ -182,7 +182,7 @@ class PickupsController extends Controller
             ]);
             $pickup->guest()->associate($guest);
         } else {
-            $pickup->client()->associate(Client::find($request->get('client_account_number')));
+            $pickup->client()->associate(Client::findOrFail($request->get('client_account_number')));
         }
         $pickup->fill($request->toArray());
         $day       = $request->get('available_day');

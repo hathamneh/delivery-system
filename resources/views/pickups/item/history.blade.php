@@ -37,7 +37,7 @@
                                         @if(auth()->user()->isAdmin())
                                             <small>By {{ optional($activity->causer)->display_name }}</small>
                                         @endif
-                                        <div class="font-weight-bold py-2">{{ $activity->description }}</div>
+                                        <div class="font-weight-bold py-2">{!! $activity->description !!}</div>
                                     </li>
                                 @endforeach
                             </ul>

@@ -51,7 +51,7 @@
                         <label for="available_day-{{ $pickup->id }}">@lang('pickup.available_time')</label>
                         <input type="text" data-type="text" name="available_day" id="available_day-{{ $pickup->id }}"
                                value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
-                               class="form-control datetimepicker">
+                               class="form-control datetimepicker" data-new="true">
                     </div>
                     <div class="form-group col-6 {{ implode(' ', $statusesOptions['setAvailableTime']) }}">
                         <label for="time_start-{{ $pickup->id }}">From:</label>

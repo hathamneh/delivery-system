@@ -37,7 +37,7 @@ class ShipmentSaving
     {
         $this->shipment = $event->shipment;
         if (is_null($this->shipment->id)) return;
-        if ($this->shipment->isDirty('status_id') || $this->shipment->isDirty('status_notes')) {
+        if ($this->shipment->isDirty(['status_id', 'status_notes'])) {
             $this->logStatusChanged();
         }
     }
@@ -45,7 +45,7 @@ class ShipmentSaving
     protected function logStatusChanged()
     {
 //        $original = Status::find($this->shipment->getOriginal('status_id'));
-        $new      = Status::find($this->shipment->status_id);
+        $new = Status::find($this->shipment->status_id);
 
         // send alert in email to notify this change
         $this->shipment->notifyFor($new);
@@ -54,7 +54,7 @@ class ShipmentSaving
         $activityItem = activity()
             ->performedOn($this->shipment)
             ->causedBy(auth()->user());
-        $extraNotes   = $this->shipment->status_notes;
+        $extraNotes = $this->shipment->status_notes;
         switch ($new->name) {
             case "picked_up":
                 $activityItem->log('Shipment picked up' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));

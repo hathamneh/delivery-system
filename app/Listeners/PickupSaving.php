@@ -36,7 +36,7 @@ class PickupSaving
         if(is_null($this->pickup->identifier))
             $this->pickup->generateIdentifier();
 
-        if ($this->pickup->isDirty("pickup_status_id")) {
+        if ($this->pickup->isDirty(["pickup_status_id", 'available_time_start', 'available_time_end'])) {
             $this->logStatusChanged();
         }
     }
@@ -49,14 +49,14 @@ class PickupSaving
         $activityItem = activity()
             ->performedOn($this->pickup)
             ->causedBy(auth()->user());
-        $extraNotes   = $this->pickup->status_note;
+        $extraNotes   = $this->pickup->status_note . (!empty($this->pickup->notes_external) ? ".<br>Courier Notes: " . $this->pickup->notes_external : "");
 
         switch ($new->name) {
             case "ready":
                 $activityItem->log('Pickup is ready' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "rescheduled":
-                $activityItem->log('Pick up time has been rescheduled to ' . $this->pickup->available_time . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
+                $activityItem->log('Pick up time has been rescheduled to ' . $this->pickup->available_date_time . (!empty($extraNotes) ? ", {$extraNotes}" : ""));
                 break;
             case "pass_to_office":
                 $activityItem->log('Client will pass the pickup to the office' . (!empty($extraNotes) ? ", {$extraNotes}" : ""));

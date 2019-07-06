@@ -106,7 +106,6 @@ class PickupsController extends Controller
             }
 
         } catch (\Exception $exception) {
-            logger($exception->getTraceAsString());
             return $exception->getMessage();
         }
 
@@ -236,7 +235,7 @@ class PickupsController extends Controller
         $pickup->actual_packages_number = null;
         switch ($status->name) {
             case "rescheduled":
-                $pickup->status_note = $request->get('rescheduled_by', "");
+                $pickup->status_note .= $request->get('rescheduled_by', "");
             case "ready":
                 $day       = $request->get('available_day');
                 $start     = $request->get('time_start');

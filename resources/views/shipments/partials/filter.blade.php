@@ -8,8 +8,8 @@
                 @if(in_array('returned',$applied['types']) && !in_array('returned', $status->groups))
                     @continue
                 @endif
-                <option value="{{ $status->name }}" {{ in_array($status->name,$applied['scope']) ? "selected" : "" }}
-                >@lang("shipment.statuses.{$status->name}.name") ({{ $status->shipments()->count() }})
+                <option value="{{ $status->name }}" {{ in_array($status->name, $applied['scope']) ? "selected" : "" }}
+                >@lang("shipment.statuses.{$status->name}.name") ({{ $status->s_count }})
                 </option>
 
             @endforeach

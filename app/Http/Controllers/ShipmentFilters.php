@@ -25,6 +25,9 @@ class ShipmentFilters
         'assignment' => 'all'
     ];
 
+    private $startDate;
+    private $endDate;
+
     public static $appliedFilters = [];
 
     public function applyFilters(&$shipmentsQuery, $appliedFilters)
@@ -125,10 +128,41 @@ class ShipmentFilters
         }
     }
 
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @param mixed $endDate
+     */
+    public function setEndDate($endDate): void
+    {
+        $this->endDate = $endDate;
+    }
+
+    protected function getStatuses()
+    {
+        $query = DB::table('shipments')
+            ->join('statuses', 'shipments.status_id', '=', 'statuses.id')
+            ->select(['statuses.name', 'statuses.groups', DB::raw('count(shipments.id) as s_count')])
+            ->groupBy('shipments.status_id');
+        if(!is_null($this->startDate)) {
+            $query->whereDate('shipments.delivery_date', '>=', $this->startDate);
+        }
+        if(!is_null($this->endDate)) {
+            $query->whereDate('shipments.delivery_date', '<=', $this->endDate);
+        }
+        return $query->get();
+    }
+
     public function filtersData(...$extend)
     {
         $out = [
-            'statuses' => Status::all(),
+            'statuses' => $this->getStatuses(),
             'services' => Service::all(),
         ];
         if (count($extend))

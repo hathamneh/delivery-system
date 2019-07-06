@@ -65,12 +65,13 @@ class ShipmentController extends Controller
         if ($request->has('start')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
             $shipmentsQuery->whereDate('delivery_date', '>=', $startDate);
+            $this->shipmentFilters->setStartDate($startDate);
         }
         if ($request->has('end')) {
             $endDate = Carbon::createFromTimestamp($request->get('end'));
             $shipmentsQuery->whereDate('delivery_date', '<=', $endDate);
+            $this->shipmentFilters->setEndDate($endDate);
         }
-
 
         $requestFilters = $request->get('filters', []);
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);

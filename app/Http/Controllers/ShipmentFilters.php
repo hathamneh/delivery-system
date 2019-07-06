@@ -149,7 +149,7 @@ class ShipmentFilters
         $query = DB::table('shipments')
             ->join('statuses', 'shipments.status_id', '=', 'statuses.id')
             ->select(['statuses.name', 'statuses.groups', DB::raw('count(shipments.id) as s_count')])
-            ->groupBy('statuses.name');
+            ->groupBy('statuses.name', 'statuses.groups');
         if(!is_null($this->startDate)) {
             $query->whereDate('shipments.delivery_date', '>=', $this->startDate);
         }

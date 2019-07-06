@@ -50,7 +50,7 @@ if(isset($shipment)) {
                     </div>
                     <div class="form-group col-sm-12">
                         <label for="internal_notes">@lang("shipment.internal_notes")</label>
-                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3" {{ isset($shipment) && $shipment->isReturnedShipment() ? 'disabled' : '' }}
+                        <textarea name="internal_notes" id="internal_notes" cols="30" rows="3"
                                   placeholder="@lang("shipment.internal_notes")" data-bind="internal_notes"
                                   class="form-control">{{ isset($shipment) ? $shipment->internal_notes : old('internal_notes') }}</textarea>
                     </div>

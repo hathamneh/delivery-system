@@ -49,7 +49,7 @@ class PickupSaving
         $activityItem = activity()
             ->performedOn($this->pickup)
             ->causedBy(auth()->user());
-        $extraNotes   = $this->pickup->status_note . (!empty($this->pickup->notes_external) ? ".<br>Courier Notes: " . $this->pickup->notes_external : "");
+        $extraNotes   = $this->pickup->status_note . (!empty($this->pickup->notes_external) ? ". (" . $this->pickup->notes_external . ")" : "");
 
         switch ($new->name) {
             case "ready":

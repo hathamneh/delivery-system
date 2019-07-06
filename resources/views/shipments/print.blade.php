@@ -12,11 +12,14 @@
                         <div class="d-flex justify-content-between p-3 align-items-center">
 
                             <div class="invoice-logo" style="flex: 1;">
-                                <img src="/images/logo-fullxhdpi.png" alt="Logo" style="height: 60px;">
+                                <img src="/images/logo-fullxhdpi.png" alt="Logo" style="height: 80px;">
                             </div>
                             <div class="text-center" style="flex: 2;">
                                 @if($shipment->isReturnedShipment())
-                                    <h1>Return Shipment Details</h1>
+                                    <h1>
+                                        Return Shipment
+                                    </h1>
+
                                 @else
                                     <h1>Shipment Details</h1>
                                 @endif
@@ -35,12 +38,10 @@
                     <td colspan="2">
                         @if($shipment->isReturnedShipment())
                             <div class="mt-3 px-3 border-left border-secondary">
-                                <div class="mb-3 text-center"><b><u>Return Shipment Waybill</u></b></div>
-                                @component('shipments.print.details', ['shipment' => $shipment]) @endcomponent
+                                @component('shipments.print.returned-details', ['shipment' => $shipment]) @endcomponent
                             </div>
-                            <br>
+                            <hr style="border-width: 3px;">
                             <div class="mt-3 px-3 border-left border-secondary">
-                                <div class="mb-3 text-center"><b><u>Original Shipment Waybill</u></b></div>
                                 @component('shipments.print.details', ['shipment' => \App\ReturnedShipment::find($shipment->id)->returnedFrom]) @endcomponent
                             </div>
                         @else

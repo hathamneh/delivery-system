@@ -19,7 +19,6 @@
                                     <h1>
                                         Return Shipment
                                     </h1>
-
                                 @else
                                     <h1>Shipment Details</h1>
                                 @endif

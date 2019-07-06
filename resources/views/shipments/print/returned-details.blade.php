@@ -10,7 +10,11 @@
     <tr>
         <td colspan="4" class="divider"><i class="fa-user-tie"></i> Sender's Information</td>
     </tr>
-    @include('shipments.print.sender-kangaroo')
+    <tr>
+        <td colspan="4">
+            <div class="mx-4 my-2">Kangaroo returned shipments</div>
+        </td>
+    </tr>
     <tr>
         <td class="divider" colspan="4">
             <i class="fa-truck"></i> Consignee's information
@@ -73,7 +77,7 @@
         <th>
             @lang('shipment.pieces')
         </th>
-        <td>{{ $shipment->pieces }}</td>
+        <td>{{ \App\ReturnedShipment::find($shipment->id)->returnedFrom->pieces }}</td>
         <th>
             @lang('shipment.reference')
         </th>

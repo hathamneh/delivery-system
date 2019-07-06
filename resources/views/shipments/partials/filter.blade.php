@@ -5,7 +5,7 @@
                 data-placeholder="Choose status">
             @foreach($statuses as $status)
                 @php /** @var \App\Status $status */ @endphp
-                @if(in_array('returned',$applied['types']) && !in_array('returned', $status->groups))
+                @if(in_array('returned',$applied['types']) && !in_array('returned', json_decode($status->groups)))
                     @continue
                 @endif
                 <option value="{{ $status->name }}" {{ in_array($status->name, $applied['scope']) ? "selected" : "" }}

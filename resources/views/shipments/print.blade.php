@@ -36,13 +36,7 @@
                 <tr>
                     <td colspan="2">
                         @if($shipment->isReturnedShipment())
-                            <div class="mt-3 px-3 border-left border-secondary">
-                                @component('shipments.print.returned-details', ['shipment' => $shipment]) @endcomponent
-                            </div>
-                            <hr style="border-width: 3px;">
-                            <div class="mt-3 px-3 border-left border-secondary">
-                                @component('shipments.print.details', ['shipment' => \App\ReturnedShipment::find($shipment->id)->returnedFrom]) @endcomponent
-                            </div>
+                            @component('shipments.print.returned-details', ['shipment' => $shipment]) @endcomponent
                         @else
                             @component('shipments.print.details', ['shipment' => $shipment]) @endcomponent
                         @endif

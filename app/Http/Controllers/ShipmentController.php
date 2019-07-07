@@ -75,7 +75,7 @@ class ShipmentController extends Controller
 
         $requestFilters = $request->get('filters', []);
         $appliedFilters = $this->shipmentFilters->applyFilters($shipmentsQuery, $requestFilters);
-        $shipments      = $shipmentsQuery->get();
+        $shipments = $shipmentsQuery->get();
 
         $pageTitle = trans('shipment.all');
         if ($this->shipmentFilters->filters['types'] == ['normal', 'guest'])
@@ -90,7 +90,7 @@ class ShipmentController extends Controller
             'filtersData'      => $this->shipmentFilters->filtersData(),
             'applied'          => $appliedFilters,
             'pageTitle'        => $pageTitle . " (" . $shipments->count() . ")",
-            'sidebarCollapsed' => true
+            'sidebarCollapsed' => true,
         ]);
     }
 
@@ -105,20 +105,20 @@ class ShipmentController extends Controller
     {
         $this->authorize('create', Shipment::class);
 
-        $suggestedWaybill      = (new Shipment)->generateNextWaybill();
+        $suggestedWaybill = (new Shipment)->generateNextWaybill();
         $suggestedDeliveryDate = $this->suggestedDeliveryDate();
-        $statuses              = Status::whereIn('name', ['picked_up', 'received'])->get();
-        $couriers              = Courier::all();
-        $addresses             = Address::all();
-        $services              = Service::all();
-        $data                  = [
+        $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
+        $couriers = Courier::all();
+        $addresses = Address::all();
+        $services = Service::all();
+        $data = [
             'statuses'              => $statuses,
             'suggestedWaybill'      => $suggestedWaybill['waybill'],
             'suggestedDeliveryDate' => $suggestedDeliveryDate->format('d/m/Y'),
             'couriers'              => $couriers,
             'addresses'             => $addresses,
             'services'              => $services,
-            'pageTitle'             => trans('shipment.new')
+            'pageTitle'             => trans('shipment.new'),
         ];
         switch ($type) {
             case "legacy":
@@ -142,7 +142,7 @@ class ShipmentController extends Controller
         $this->authorize('create', Shipment::class);
 
         $suggestedWaybill = (new Shipment)->generateNextWaybill();
-        $clientData       = $request->get('shipment_client');
+        $clientData = $request->get('shipment_client');
 
         $shipment = new Shipment;
         if ($clientData['type'] == 'guest') {
@@ -187,9 +187,9 @@ class ShipmentController extends Controller
     public function show(Shipment $shipment, $tab = "status")
     {
         /** @var User $user */
-        $user     = auth()->user();
+        $user = auth()->user();
         $shipment = $shipment->type == "returned" ? ReturnedShipment::find($shipment->id) : $shipment;
-        $data     = [
+        $data = [
             'shipment'  => $shipment->load('status'),
             'tab'       => $tab,
             'pageTitle' => trans('shipment.info'),
@@ -197,18 +197,18 @@ class ShipmentController extends Controller
         if ($tab == "actions") {
             $processing = ["processing"];
             $in_transit = ["in_transit"];
-            $delivered  = ["delivered"];
+            $delivered = ["delivered"];
             if ($user->isCourier()) {
                 $processing[] = "courier";
                 $in_transit[] = "courier";
-                $delivered[]  = "courier";
+                $delivered[] = "courier";
             }
             if ($shipment->type == "returned") {
                 $processing[] = "returned";
                 $in_transit[] = "returned";
-                $delivered[]  = "returned";
+                $delivered[] = "returned";
             }
-            $data['statuses']     = [
+            $data['statuses'] = [
                 'processing' => Status::group($processing)->get(),
                 'in_transit' => Status::group($in_transit)->get(),
                 'delivered'  => Status::group($delivered)->get(),
@@ -217,8 +217,8 @@ class ShipmentController extends Controller
             if ($user->isCourier())
                 $notDeliveredStatuses->whereJsonContains("groups", ['courier']);
             $data['not_delivered_statuses'] = $notDeliveredStatuses->get();
-            $data['returned_statuses']      = Status::whereIn('name', ['rejected', 'cancelled'])->get();
-            $data['branches']               = Branch::all();
+            $data['returned_statuses'] = Status::whereIn('name', ['rejected', 'cancelled'])->get();
+            $data['branches'] = Branch::all();
         } elseif ($tab == "status") {
 //            dd(Activity::forSubject($shipment)->get(), Activity::forSubject(Shipment::find($shipment->id))->get());
             if ($shipment instanceof ReturnedShipment) {
@@ -247,7 +247,7 @@ class ShipmentController extends Controller
         $this->authorize('view', $shipment);
 
         return view('shipments.print')->with([
-            'shipment' => $shipment
+            'shipment' => $shipment,
         ]);
     }
 
@@ -262,10 +262,10 @@ class ShipmentController extends Controller
     {
         $this->authorize('update', $shipment);
 
-        $statuses  = Status::whereIn('name', ['picked_up', 'received'])->get();
-        $couriers  = Courier::all();
+        $statuses = Status::whereIn('name', ['picked_up', 'received'])->get();
+        $couriers = Courier::all();
         $addresses = Address::all();
-        $services  = Service::all();
+        $services = Service::all();
         return view('shipments.show', [
             'shipment'  => $shipment,
             'tab'       => 'edit',
@@ -273,7 +273,7 @@ class ShipmentController extends Controller
             'couriers'  => $couriers,
             'addresses' => $addresses,
             'services'  => $services,
-            'pageTitle' => trans('shipment.edit')
+            'pageTitle' => trans('shipment.edit'),
         ]);
     }
 
@@ -324,7 +324,7 @@ class ShipmentController extends Controller
                 $status = Status::name($request->get('status'))->first();
                 $shipment->status()->associate($status);
                 if ($status->name = 'consignee_rescheduled') {
-                    $newDeliveryDate         = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
+                    $newDeliveryDate = Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'));
                     $shipment->delivery_date = $newDeliveryDate;
                 }
                 $shipment->status_notes = $request->get('status_notes');
@@ -349,10 +349,10 @@ class ShipmentController extends Controller
         $this->authorize('update', $shipment);
 
         $request->validate([
-            "status" => "required,exists:statuses,name"
+            "status" => "required,exists:statuses,name",
         ]);
-        $new    = ReturnedShipment::createFrom($shipment, [
-            'delivery_date' => Carbon::createFromFormat("d/m/Y", $request->get('delivery_date'))
+        $new = ReturnedShipment::createFrom($shipment, [
+            'delivery_date' => Carbon::createFromFormat("d/m/Y", $request->get('delivery_date')),
         ]);
         $status = Status::name($request->get('original_status'))->first();
         $shipment->status()->associate($status);
@@ -363,8 +363,8 @@ class ShipmentController extends Controller
                 $status_notes .= strtoupper(trans("shipment.statuses_options.$name")) . ": " . $value . "\n";
             }
         }
-        $status_notes             .= $request->get('external_notes');
-        $shipment->status_notes   = $status_notes;
+        $status_notes .= $request->get('external_notes');
+        $shipment->status_notes = $status_notes;
         $shipment->external_notes = $status_notes;
         $shipment->save();
 
@@ -384,13 +384,13 @@ class ShipmentController extends Controller
         if ($isReturned)
             $request->validate([
                 'status'        => 'required',
-                'delivery_date' => 'required_if:status,rescheduled'
+                'delivery_date' => 'required_if:status,rescheduled',
             ]);
         else
             $request->validate([
                 'status'        => 'required',
                 'actual_paid'   => 'required_if:status,delivered,rejected,collected_from_office',
-                'delivery_date' => 'required_if:status,rescheduled'
+                'delivery_date' => 'required_if:status,rescheduled',
             ]);
         $status = $request->get('status');
         if ($status == "delivered") {
@@ -419,10 +419,10 @@ class ShipmentController extends Controller
                 $status_notes .= strtoupper(trans("shipment.statuses_options.$name")) . ": " . $value . "\n";
             }
         }
-        $status_notes             .= $request->get('status_notes');
-        $status_notes             .= $request->get('external_notes');
-        $shipment->status_notes   = "(" . $status_notes . ")";
-        $shipment->external_notes = "(" . $status_notes . ")";
+        $status_notes .= "(" . $request->get('status_notes');
+        $status_notes .= $request->get('external_notes') . ")";
+        $shipment->status_notes = $status_notes;
+        $shipment->external_notes = $status_notes;
         $shipment->save();
         return back();
     }
@@ -487,7 +487,7 @@ class ShipmentController extends Controller
     public function suggestedDeliveryDate()
     {
         Carbon::setWeekendDays([
-            Carbon::FRIDAY
+            Carbon::FRIDAY,
         ]);
         return now()->nextWeekday();
     }
@@ -508,9 +508,9 @@ class ShipmentController extends Controller
 
         $request->validate([
             'courier'   => 'required|exists:couriers,id',
-            'shipments' => 'required|array'
+            'shipments' => 'required|array',
         ]);
-        $courier   = Courier::find($request->get('courier'));
+        $courier = Courier::find($request->get('courier'));
         $shipments = $request->get('shipments', []);
         foreach ($shipments as $shipment_id) {
             $shipment = Shipment::find($shipment_id);

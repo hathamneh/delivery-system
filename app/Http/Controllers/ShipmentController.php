@@ -420,7 +420,7 @@ class ShipmentController extends Controller
             }
         }
         $status_notes             .= $request->get('status_notes');
-        $status_notes             .= "(" . $request->get('external_notes') . ")";
+        $status_notes             .= !empty($request->get('external_notes')) ? "(" . $request->get('external_notes') . ")" : "";
         $shipment->status_notes   = $status_notes;
         $shipment->external_notes = $status_notes;
         $shipment->save();

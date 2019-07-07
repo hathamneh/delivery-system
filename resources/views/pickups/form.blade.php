@@ -184,7 +184,7 @@ $is_guest = (isset($pickup) && $pickup->is_guest) || old('is_guest') == 'true';
                 <label for="available_day">@lang('pickup.available_time')</label>
                 <input type="text" name="available_day" id="available_day"
                        value="{{ isset($pickup) ? $pickup->available_day : old('available_time') }}"
-                       class="form-control datetimepicker">
+                       class="form-control datetimepicker" data-new="true">
             </div>
             <div class="form-group col-sm-3 col-6">
                 <label for="time_start">From:</label>

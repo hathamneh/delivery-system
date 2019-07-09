@@ -61,7 +61,6 @@ class ShipmentController extends Controller
             $shipmentsQuery = $user->client->shipments();
         else
             $shipmentsQuery = Shipment::query();
-        $startDate = $endDate = false;
         if ($request->has('start')) {
             $startDate = Carbon::createFromTimestamp($request->get('start'));
             $shipmentsQuery->whereDate('delivery_date', '>=', $startDate);
@@ -91,8 +90,8 @@ class ShipmentController extends Controller
             'applied'          => $appliedFilters,
             'pageTitle'        => $pageTitle . " (" . $shipments->count() . ")",
             'sidebarCollapsed' => true,
-            'startDate'        => $startDate,
-            'endDate'          => $endDate
+            'startDate'        => $request->get('start', false),
+            'endDate'          => $request->get('end', false)
         ]);
     }
 

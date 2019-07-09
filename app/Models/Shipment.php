@@ -228,6 +228,7 @@ class Shipment extends Model
     public function getAddressAttribute()
     {
         $address = $this->address()->first();
+        if(is_null($address)) return null;
         $custom  = $address->customFor($this->client);
         if (!is_null($custom))
             return $custom;

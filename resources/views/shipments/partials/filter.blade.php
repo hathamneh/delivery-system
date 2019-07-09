@@ -16,6 +16,8 @@
         </select>
     </div>
     <form action="{{ request()->getRequestUri() }}" method="get">
+        <input type="hidden" name="start" value="{{ $startDate }}">
+        <input type="hidden" name="end" value="{{ $endDate }}">
         @if(auth()->user()->isAdmin())
             @if(!isset($client))
                 <div class="form-group">

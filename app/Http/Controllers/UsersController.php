@@ -23,7 +23,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('template');
+        $users = User::with('template')->where('username', '!=', 'root');
         if ($request->has('template')) {
             $users->where('user_template_id', $request->get('template'));
         }

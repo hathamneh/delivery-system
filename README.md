@@ -1,5 +1,5 @@
-# kangaroo-v2
-Kangaroo Delivery Version 2
+# Delivery System
+Delivery system built with laravel framework
 
 ---
 
